@@ -7,27 +7,24 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
-import "Tonic.TonicBars.Menu.Panels.Controls.TriggersPanel";
-import "Tonic.TonicBars.Menu.Panels.Controls.InventoryPanel";
-import "Tonic.TonicBars.Menu.Panels.Controls.ColorPanel";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
+import "MyysticBars.TonicBars.Menu.Panels.Controls.TriggersPanel";
+import "MyysticBars.TonicBars.Menu.Panels.Controls.InventoryPanel";
+import "MyysticBars.TonicBars.Menu.Panels.Controls.ColorPanel";
 
-InventoryMenu = class( Tonic.UI.AutoListBox );
+InventoryMenu = class( MyysticBars.UI.AutoListBox );
 
 buttonWidth = 90;
 selectionWidth = 160;
 selectionHeight = 20;
 
 function InventoryMenu:Constructor()
-	Tonic.UI.AutoListBox.Constructor( self );
-
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	MyysticBars.UI.AutoListBox.Constructor( self );
 	
 	self:SetOrientation( Turbine.UI.Orientation.Vertical );
 
-	self.utils = Tonic.UI.MenuUtils();
+	self.utils = MyysticBars.UI.MenuUtils();
 	
 	-- Quickslots Menu
 	self.utils:AddCategoryBox(self, LOCALESTRINGS.InventoryMenu["Inventory Bars"]);
@@ -36,13 +33,16 @@ function InventoryMenu:Constructor()
 
 	self.utils:AddLabelBox( self, LOCALESTRINGS.QuickslotsMenu["Editing Settings for Bar:"], selectionWidth + 100, selectionHeight );
 
-	self.barList = Tonic.UI.ComboBox();
+	self.barList = MyysticBars.UI.ComboBox();
 	self.barList:SetSize( 200, 20 );
 	self.barList:SetParent( self );
     self.barList.SelectedIndexChanged = function(sender, args)
-		local settings = self.settingsService:GetSettings();
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+		local settings = settingsService:GetSettings();
 		settings.selectedBar = tonumber(args.selection);
-		self.barService:RefreshBars();
+		barService:RefreshBars();
 	end
 	self:AddItem( self.barList );
 	
@@ -67,25 +67,27 @@ function InventoryMenu:AddSettings()
 	self.utils:AddLabelBox( self.settingsBox, "", 50, selectionHeight );
 
 	-----------------------   GENERAL  0000000000000000000000000000
-	self.generalPanel = Tonic.TonicBars.Menu.Panels.Controls.GeneralPanel( self.settingsBox );
+	self.generalPanel = MyysticBars.TonicBars.Menu.Panels.Controls.GeneralPanel( self.settingsBox );
 
 	-----------------------   INVENTORY  0000000000000000000000000000
-	self.inventoryPanel = Tonic.TonicBars.Menu.Panels.Controls.InventoryPanel( self.settingsBox );
+	self.inventoryPanel = MyysticBars.TonicBars.Menu.Panels.Controls.InventoryPanel( self.settingsBox );
 
 	-----------------------   TRIGGERS  0000000000000000000000000000
-	self.tp = Tonic.TonicBars.Menu.Panels.Controls.TriggersPanel( self.settingsBox );
+	self.tp = MyysticBars.TonicBars.Menu.Panels.Controls.TriggersPanel( self.settingsBox );
 
 	-----------------------   CLASS BUFF TRIGGERS  0000000000000000000000000000
-	self.slotsPanel = Tonic.TonicBars.Menu.Panels.Controls.SlotsPanel( self.settingsBox, true );
+	self.slotsPanel = MyysticBars.TonicBars.Menu.Panels.Controls.SlotsPanel( self.settingsBox, true );
 
 	-----------------------   COLOR TRIGGERS  0000000000000000000000000000
-	self.colorPanel = Tonic.TonicBars.Menu.Panels.Controls.ColorPanel( self.settingsBox );
+	self.colorPanel = MyysticBars.TonicBars.Menu.Panels.Controls.ColorPanel( self.settingsBox );
 end
 
 function InventoryMenu:DisplaySettings( showQuickslots )
 	self.settingsBox:SetVisible( showQuickslots );
 	
-	local localBarSettings = self.settingsService:GetBarSettings( self.barList:GetSelection() );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( self.barList:GetSelection() );
+
 	if ( localBarSettings.events == nil ) then
 		localBarSettings.events = { };
 	end
@@ -102,7 +104,9 @@ function InventoryMenu:SetColors( barSettings )
 end
 
 function InventoryMenu:AddCommandsBar()
-	self.qsCommandsBox = Tonic.UI.AutoListBox();
+
+	
+	self.qsCommandsBox = MyysticBars.UI.AutoListBox();
 	self.qsCommandsBox:SetParent( self );
 	self.qsCommandsBox:SetBackColor( unselectedColor );
 	self.qsCommandsBox:SetOrientation( Turbine.UI.Orientation.Vertical );
@@ -113,7 +117,8 @@ function InventoryMenu:AddCommandsBar()
 	addButton:SetText( LOCALESTRINGS.InventoryMenu["Add Tabbed Bar"] );
 	addButton:SetSize( buttonWidth + 50, selectionHeight );
 	addButton.MouseClick = function( sender, args )
-		local barid = self.barService:Add( TABBED_INV_BAR );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local barid = barService:Add( TABBED_INV_BAR );
 		self:RefreshComboBox( barid );
 	end
 	self.addbox:AddItem( addButton );
@@ -122,7 +127,7 @@ function InventoryMenu:AddCommandsBar()
 --	addButton:SetText( LOCALESTRINGS.InventoryMenu["Add Windowed Bar"] );
 --	addButton:SetSize( buttonWidth + 60, selectionHeight );
 --	addButton.MouseClick = function( sender, args )
---		local barid = self.barService:Add( WINDOW_INV_BAR );
+--		local barid = barService:Add( WINDOW_INV_BAR );
 --		self:RefreshComboBox( barid );
 --	end
 --	self.addbox:AddItem( addButton );
@@ -133,7 +138,8 @@ function InventoryMenu:AddCommandsBar()
 	removeButton:SetSize( buttonWidth, selectionHeight );
 
 	removeButton.MouseClick = function( sender, args )
-		self.barService:Remove( tonumber( self.barList:GetSelection() ) );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		barService:Remove( tonumber( self.barList:GetSelection() ) );
 		self.barList:RemoveItem( self.barList:GetSelection() );
 	end
 	self.otherbox:AddItem( removeButton );
@@ -142,8 +148,11 @@ function InventoryMenu:AddCommandsBar()
 	copyButton:SetText( LOCALESTRINGS.QuickslotsMenu["Copy"] );
 	copyButton:SetSize( buttonWidth, selectionHeight );
 	copyButton.MouseClick = function( sender, args )
-		local barSettings = self.settingsService:GetBarSettings( tonumber( self.barList:GetSelection()) );
-		local barid = self.barService:Copy( tonumber( self.barList:GetSelection()), barSettings.barType );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+		local barSettings = settingsService:GetBarSettings( tonumber( self.barList:GetSelection()) );
+		local barid = barService:Copy( tonumber( self.barList:GetSelection()), barSettings.barType );
 		self.barList:AddItem( barid, barid );
 	end
 	self.otherbox:AddItem( copyButton );
@@ -152,7 +161,8 @@ function InventoryMenu:AddCommandsBar()
 	resetButton:SetText( LOCALESTRINGS.QuickslotsMenu["Reset"] );
 	resetButton:SetSize( buttonWidth + 10, selectionHeight );
 	resetButton.MouseClick = function( sender, args )
-		self.barService:Reset( tonumber( self.barList:GetSelection() ) );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		barService:Reset( tonumber( self.barList:GetSelection() ) );
 	end
 	self.otherbox:AddItem( resetButton );
 	
@@ -166,7 +176,9 @@ function InventoryMenu:GetSelection()
 end
 
 function InventoryMenu:ClearSelection()
-	local settings = self.settingsService:GetSettings();
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+	local settings = settingsService:GetSettings();
 	settings.selectedBar = 0;
 	self.settingsBox:SetVisible( false );
 	self.barList:SetSelection();
@@ -177,8 +189,10 @@ function InventoryMenu:EnableTriggers( enabled )
 end
 
 function InventoryMenu:RefreshComboBox( barid )
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	self.barList:Clear();
-	for key, value in opairs (self.settingsService:GetBars( TABBED_INV_BAR )) do
+	for key, value in opairs (settingsService:GetBars( TABBED_INV_BAR )) do
 		local found = false;
 		for i = 1, self.barList:GetItemCount() do
 			if ( self.barList:GetItem(i) == key) then
@@ -187,14 +201,14 @@ function InventoryMenu:RefreshComboBox( barid )
 		end
 		if ( found == false ) then
 			local text = key;
-			local barSettings = self.settingsService:GetBarSettings( key );
+			local barSettings = settingsService:GetBarSettings( key );
 			if ( barSettings.barName ~= nil ) then
 				text = barSettings.barName;
 			end
 			self.barList:AddItem( text, key );
 		end
 	end
-	for key, value in opairs (self.settingsService:GetBars( WINDOW_INV_BAR )) do
+	for key, value in opairs (settingsService:GetBars( WINDOW_INV_BAR )) do
 		local found = false;
 		for i = 1, self.barList:GetItemCount() do
 			if ( self.barList:GetItem(i) == key) then
@@ -203,7 +217,7 @@ function InventoryMenu:RefreshComboBox( barid )
 		end
 		if ( found == false ) then
 			local text = key;
-			local barSettings = self.settingsService:GetBarSettings( key );
+			local barSettings = settingsService:GetBarSettings( key );
 			if ( barSettings.barName ~= nil ) then
 				text = barSettings.barName;
 			end

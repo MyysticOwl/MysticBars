@@ -14,12 +14,9 @@ tabSize = 14;
 function Tab:Constructor( window )
 	Turbine.UI.Window.Constructor( self );
 
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-
 	self.targetWindow = window;
 	self.hidden = false;
 
-	--self:SetParent( self.targetWindow );
 	self:SetSize( self.targetWindow:GetWidth(), tabSize );
 	self:SetPosition( math.max( self.targetWindow:GetLeft(), 0 ), math.max( self.targetWindow:GetTop() - tabSize, 0 ) );
 	self:SetBackColor( Turbine.UI.Color(1,1,1,1)  );
@@ -61,13 +58,15 @@ function Tab:SetHidden( hide )
 end
 
 function Tab:Refresh()
-	local settings = self.settingsService:GetSettings();	
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();	
+
 	if ( settings.barMode == NORMAL_MODE or self.hidden == true ) then
 		self:SetVisible( false );
 	else
 		self:SetVisible( true );
 	end
-	local barSettings = self.settingsService:GetBarSettings( self.targetWindow.id );
+	local barSettings = settingsService:GetBarSettings( self.targetWindow.id );
 	local title = barSettings.barName;
 	if ( barSettings.barName == nil or barSettings.barName == "" ) then
 		title = "Bar:" .. self.targetWindow.id;

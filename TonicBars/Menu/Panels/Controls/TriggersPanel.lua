@@ -7,20 +7,19 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
 
 TriggersPanel = class();
 
 function TriggersPanel:Constructor( panel )
-	self.eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
 
-	self.utils = Tonic.UI.MenuUtils();
+	self.utils = MyysticBars.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, LOCALESTRINGS.QuickslotsMenu["Triggers"]);
 
-	self.triggerList = Tonic.UI.CheckedComboBox();
+	self.triggerList = MyysticBars.UI.CheckedComboBox();
 	self.triggerList:SetSize( 300, 20 );
 	self.triggerList:SetParent( panel );
 	panel:AddItem( self.triggerList );
@@ -37,7 +36,7 @@ function TriggersPanel:Constructor( panel )
 	self.triggerList:AddItem( LOCALESTRINGS.QuickslotsDisplay["Alt Pressed"], { "events", "isAlt" } );
 	self.triggerList:AddItem( LOCALESTRINGS.QuickslotsDisplay["Shift Pressed"], { "events", "isShift" } );
 
-	local events = self.eventService:GetRegisteredEvents();
+	local events = eventService:GetRegisteredEvents();
 	for key, value in pairs (events.categories) do
 		self.triggerList:AddItem( value.description, { "events", "categories", key } );
 	end
@@ -63,7 +62,8 @@ function TriggersPanel:Constructor( panel )
 end
 
 function TriggersPanel:DisplaySettings()
-	local localBarSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( menu:GetSelection() );
 	if ( localBarSettings.events == nil ) then
 		localBarSettings.events = { };
 	end

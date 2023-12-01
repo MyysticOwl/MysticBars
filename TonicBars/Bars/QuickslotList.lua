@@ -12,9 +12,6 @@ QuickslotList = class( Turbine.UI.Control );
 function QuickslotList:Constructor( bid )
 	Turbine.UI.Control.Constructor( self );
 
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-
 	self.id = bid;
 	
 	self.quickslots = { };
@@ -36,7 +33,9 @@ end
 function QuickslotList:Refresh( showAllQuickslots, lockQuickslots )
 	self:RefreshQuickslots();
 
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
+
 	for key, value in pairs (self.quickslots) do
 		local shortcut = value:GetShortcut();
 		if (showAllQuickslots == false and shortcut:GetData() == "" and shortcut:GetType() == 0) then
@@ -63,7 +62,9 @@ function QuickslotList:Refresh( showAllQuickslots, lockQuickslots )
 end
 
 function QuickslotList:RefreshQuickslots()
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
+
 	self.loading = true;
 	
 	if ( self.extensions ~= nil ) then
@@ -73,12 +74,14 @@ function QuickslotList:RefreshQuickslots()
 					local id = self.extensions[ key ].bar:GetID();
 					self.extensions[ key ].quickslot = nil;
 					self.extensions[ key ] = nil;
-					self.barService:Remove( id );
+
+					local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+					barService:Remove( id );
 				end
 			end
 		end
 	end
-		
+
 	for i = barSettings.quickslotCount + 1, self.count, 1 do
 		self.quickslots[i]:SetVisible( false );
 		self.quickslots[i]:SetParent( nil );
@@ -96,32 +99,35 @@ function QuickslotList:RefreshQuickslots()
 		self.quickslots[i]:SetUseOnRightClick( true );
 
 		self.quickslots[i].DragDrop = function( sender, args )
-			if ( self.barService ~= nil and self.barService:Alive( self.id ) ) then
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+			if ( barService ~= nil and barService:Alive( self.id ) ) then
 				
-				local bars = self.barService.GetBars();
-				if ( self.barService.originItem ~= nil and self.barService.performingDrop == nil ) then
-					self.barService.performingDrop = true;
-					local origindata = self.barService.originData;
-					local origintype = self.barService.originType;
-					local originitem = self.barService.originItem;
-					local originbar = self.barService.originBar;
-					local newdata = self.barService.newData;
-					local newtype = self.barService.newType;
-					local newitem = self.barService.newItem;
+				local bars = barService.GetBars();
+				if ( barService.originItem ~= nil and barService.performingDrop == nil ) then
+					barService.performingDrop = true;
+					local origindata = barService.originData;
+					local origintype = barService.originType;
+					local originitem = barService.originItem;
+					local originbar = barService.originBar;
+					local newdata = barService.newData;
+					local newtype = barService.newType;
+					local newitem = barService.newItem;
 	
 	--				Turbine.Shell.WriteLine( "originItem:" .. originitem .. " originBar:" .. originbar .. " origindata:" .. origindata );
 	--				Turbine.Shell.WriteLine( "newItem:" .. newitem .. " newBar:" .. self.id .. " newdata:" .. newdata );
 	
-					self.barService.originData = nil;
-					self.barService.originType = nil;
-					self.barService.originItem = nil;
-					self.barService.originBar = nil;
-					self.barService.newData = nil;
-					self.barService.newType = nil;
-					self.barService.newItem = nil;
+					barService.originData = nil;
+					barService.originType = nil;
+					barService.originItem = nil;
+					barService.originBar = nil;
+					barService.newData = nil;
+					barService.newType = nil;
+					barService.newItem = nil;
 					
-					local barSettings = self.settingsService:GetBarSettings( self.id );
-					local barSettings2 = self.settingsService:GetBarSettings( originbar );
+					local barSettings = settingsService:GetBarSettings( self.id );
+					local barSettings2 = settingsService:GetBarSettings( originbar );
 	
 					if (barSettings2.locked ~= true and barSettings.locked ~= true) then
 						local shortcut = Turbine.UI.Lotro.Shortcut( origintype, origindata );
@@ -136,57 +142,67 @@ function QuickslotList:RefreshQuickslots()
 					end
 					
 					if ( self.isClearingQuickslots == false and self.loading == false) then
-						self.settingsService:SaveQuickslots( barSettings, self.quickslots, false );
-						self.settingsService:SaveQuickslots( barSettings2, bars[originbar].quickslotList.quickslots );
+						settingsService:SaveQuickslots( barSettings, self.quickslots, false );
+						settingsService:SaveQuickslots( barSettings2, bars[originbar].quickslotList.quickslots );
 					end
 
-					self.barService.performingDrop = nil;
-					self.barService.ActiveObject = nil;
+					barService.performingDrop = nil;
+					barService.ActiveObject = nil;
 				elseif ( self.isClearingQuickslots == false and self.loading == false) then
-					self.settingsService:SaveQuickslots( barSettings, self.quickslots, false );
+					settingsService:SaveQuickslots( barSettings, self.quickslots, false );
 				end
 			end
 		end
 
 		self.quickslots[i].DragEnter = function( sender, args )
-			if ( self.barService ~= nil ) then
-				self.barService.newData = self.quickslots[sender.index]:GetShortcut():GetData();
-				self.barService.newType = self.quickslots[sender.index]:GetShortcut():GetType();
-				self.barService.newItem = sender.index;
---			Turbine.Shell.WriteLine( "DE sender:" .. sender.index .. " on bar:" .. self.id .. " data:" .. self.barService.newData );
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+			if ( barService ~= nil ) then
+				barService.newData = self.quickslots[sender.index]:GetShortcut():GetData();
+				barService.newType = self.quickslots[sender.index]:GetShortcut():GetType();
+				barService.newItem = sender.index;
+--			Turbine.Shell.WriteLine( "DE sender:" .. sender.index .. " on bar:" .. self.id .. " data:" .. barService.newData );
 			end
 		end
 		self.quickslots[i].DragLeave = function( sender, args )
-			if ( self.barService ~= nil and sender.index == self.barService.originItem and self.id == self.barService.originBar) then
-				self.quickslots[self.barService.originItem]:SetShortcut( nil );
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+			if ( barService ~= nil and sender.index == barService.originItem and self.id == barService.originBar) then
+				self.quickslots[barService.originItem]:SetShortcut( nil );
 	
 				if ( self.isClearingQuickslots == false and self.loading == false) then
-					local barSettings = self.settingsService:GetBarSettings( self.id );
-					self.settingsService:SaveQuickslots( barSettings, self.quickslots );
+					local barSettings = settingsService:GetBarSettings( self.id );
+					settingsService:SaveQuickslots( barSettings, self.quickslots );
 				end
-				self.quickslots[self.barService.originItem]:SetVisible( true );
+				self.quickslots[barService.originItem]:SetVisible( true );
 			end
 		end
 
 		self.quickslots[i].MouseDown = function( sender, args )
-			if ( self.barService ~= nil ) then
-				self.barService.originData = self.quickslots[sender.index]:GetShortcut():GetData();
-				self.barService.originType = self.quickslots[sender.index]:GetShortcut():GetType();
-				self.barService.originItem = sender.index;
-				self.barService.originBar = self.id;
---				Turbine.Shell.WriteLine( "MouseDown " .. sender.index .. " on bar:" .. self.id .. " data:" .. self.barService.originData );
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+			if ( barService ~= nil ) then
+				barService.originData = self.quickslots[sender.index]:GetShortcut():GetData();
+				barService.originType = self.quickslots[sender.index]:GetShortcut():GetType();
+				barService.originItem = sender.index;
+				barService.originBar = self.id;
+--				Turbine.Shell.WriteLine( "MouseDown " .. sender.index .. " on bar:" .. self.id .. " data:" .. barService.originData );
 			end
 		end
 		self.quickslots[i].MouseClick = function( sender,args )
-			local settings = self.settingsService:GetSettings();
-			local bSettings = self.settingsService:GetBarSettings( self.id );
-			if ( self.barService ~= nil and self.barService:Alive( self.id ) and args.Button == 2 and settings.barMode == EXTENSION_MODE) then
-				local barid = self.barService:Add( EXTENSIONBAR, self.id, sender.index );
-				self.barService:ShowExtensionBarMenu( barid );
-				self.barService:UpdateBarExtensions();
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+			local settings = settingsService:GetSettings();
+			local bSettings = settingsService:GetBarSettings( self.id );
+			if ( barService ~= nil and barService:Alive( self.id ) and args.Button == 2 and settings.barMode == EXTENSION_MODE) then
+				local barid = barService:Add( EXTENSIONBAR, self.id, sender.index );
+				barService:ShowExtensionBarMenu( barid );
+				barService:UpdateBarExtensions();
 				menu:Refresh();
-			elseif( self.barService ~= nil and self.barService:Alive( self.id ) and args.Button == 1 and settings.barMode == NORMAL_MODE and bSettings.onMouseOver == ROLL_UP_SELECTION ) then
-				local thebars = self.barService:GetBars();
+			elseif( barService ~= nil and barService:Alive( self.id ) and args.Button == 1 and settings.barMode == NORMAL_MODE and bSettings.onMouseOver == ROLL_UP_SELECTION ) then
+				local thebars = barService:GetBars();
 				thebars[self.id]:RollupSelection( thebars[self.id], sender.index );
 			end
 		end
@@ -229,12 +245,15 @@ function QuickslotList:SetupExtensionSlot( bars, index )
 		self.extensions = bars;
 		
 		self.quickslots[ index ].MouseEnter = function(sender,args)
-			if ( self.barService ~= nil and self.barService:Alive( self.id ) and self.entered == false ) then
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+			if ( barService ~= nil and barService:Alive( self.id ) and self.entered == false ) then
 				self.entered = true;
 				for key, value in pairs (self.extensions) do
-					local barSettings = self.settingsService:GetBarSettings( value.bar.id );
+					local barSettings = settingsService:GetBarSettings( value.bar.id );
 					if ( value.quickslot == index ) then
-						local thebars = self.barService:GetBars();
+						local thebars = barService:GetBars();
 						if ( barSettings.onMouseOver == SHOW_EXTENSIONS or barSettings.onMouseOver == ROLL_UP_SELECTION ) then
 							value.bar:Show( true );
 						elseif ( barSettings.onMouseOver == SELECT_RANDOM_SHORTCUT ) then
@@ -248,9 +267,12 @@ function QuickslotList:SetupExtensionSlot( bars, index )
 		end
 
 		self.quickslots[ index ].MouseLeave = function(sender,args)
-			if ( self.barService ~= nil and self.barService:Alive( self.id ) and self.entered == true ) then
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+			if ( barService ~= nil and barService:Alive( self.id ) and self.entered == true ) then
 				for key, value in pairs (self.extensions) do
-					local barSettings = self.settingsService:GetBarSettings( value.bar );
+					local barSettings = settingsService:GetBarSettings( value.bar );
 					if ( value.quickslot == index and (barSettings.onMouseOver == SHOW_EXTENSIONS or barSettings.onMouseOver == ROLL_UP_SELECTION) ) then
 						value.bar:Show( false );
 					end

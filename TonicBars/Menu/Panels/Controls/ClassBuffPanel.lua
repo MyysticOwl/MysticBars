@@ -7,24 +7,22 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
 
 ClassBuffPanel = class();
 
 function ClassBuffPanel:Constructor( panel )
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-	self.playerService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.PlayerService);
-	self.playerClass = self.playerService.playerClass;
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+	local playerClass = playerService.playerClass;
 
-	self.utils = Tonic.UI.MenuUtils();
+	self.utils = MyysticBars.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, LOCALESTRINGS.QuickslotsMenu["Class Triggers"]);
 
 	self.utils:AddLabelBox( panel, LOCALESTRINGS.ClassTriggerType["Triggered When:"], 120, selectionHeight );
-	self.triggerList = Tonic.UI.ComboBox();
+	self.triggerList = MyysticBars.UI.ComboBox();
 	self.triggerList:SetSize( 200, 20 );
 	self.triggerList:SetParent( panel );
 	self.triggerList:AddItem( LOCALESTRINGS.ClassTriggerType["Buffs Active"], 1 );
@@ -33,23 +31,26 @@ function ClassBuffPanel:Constructor( panel )
 
 	self.fadeOpacityNum1 = self.utils:AddLabelBox( panel, "", 50, selectionHeight );
 
-	local events = self.eventService:GetRegisteredEvents();
+	local events = eventService:GetRegisteredEvents();
 	self.eventCheckboxes = { };
 	local count = 0;
 	local box = nil;
 
 	self.utils:AddLabelBox( panel, LOCALESTRINGS.QuickslotsMenu["Buffs"], 120, selectionHeight );
-	self.buffList = Tonic.UI.CheckedComboBox();
+	self.buffList = MyysticBars.UI.CheckedComboBox();
 	self.buffList:SetSize( 300, 20 );
 	self.buffList:SetParent( panel );
 	panel:AddItem( self.buffList );
 
 	local box13 = self.utils:AddAutoListBox( panel, Turbine.UI.Orientation.Vertical, 0, 0, 0, 0 );
-	if ( player:GetClass() == Turbine.Gameplay.Class.Burglar ) then
-	elseif ( player:GetClass() == Turbine.Gameplay.Class.Champion ) then
+	if ( playerClass == Turbine.Gameplay.Class.Burglar ) then
+	elseif ( playerClass == Turbine.Gameplay.Class.Champion ) then
 		self.eventCheckboxes[CHAMPION_FERVOR] = self.utils:AddCheckBox( box13, LOCALESTRINGS.ClassTriggers["Fervor between:"], selectionWidth + 15, selectionHeight );
 		self.eventCheckboxes[CHAMPION_FERVOR].CheckedCallback = function( sender, args )
-			local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+			local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 			if ( self.eventCheckboxes[CHAMPION_FERVOR].IsChecked ) then
 				if ( barSettings.events == nil ) then
 					barSettings.events = { }; 
@@ -69,8 +70,8 @@ function ClassBuffPanel:Constructor( panel )
 				barSettings.events.classRange[CHAMPION_FERVOR].minValue = nil;
 				barSettings.events.classRange[CHAMPION_FERVOR] = nil;
 			end
-			if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-				self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+			if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+				settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 			end
 		end
 		box = self.utils:AddAutoListBox( box13, Turbine.UI.Orientation.Horizontal, 0, 0, 0, 0 );
@@ -87,10 +88,13 @@ function ClassBuffPanel:Constructor( panel )
 		box:AddItem( boxSet1 );
 		box:AddItem( boxSet2 );
 		box13:AddItem( box );
-	elseif ( player:GetClass() == Turbine.Gameplay.Class.RuneKeeper ) then
+	elseif ( playerClass == Turbine.Gameplay.Class.RuneKeeper ) then
 		self.eventCheckboxes[RK_ATTUNEMENT] = self.utils:AddCheckBox( box13, LOCALESTRINGS.ClassTriggers["Attunement between:"], selectionWidth + 15, selectionHeight );
 		self.eventCheckboxes[RK_ATTUNEMENT].CheckedCallback = function( sender, args )
-			local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+			local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 			if ( self.eventCheckboxes[RK_ATTUNEMENT].IsChecked ) then
 				if ( barSettings.events == nil ) then
 					barSettings.events = { }; 
@@ -110,8 +114,8 @@ function ClassBuffPanel:Constructor( panel )
 				barSettings.events.classRange[RK_ATTUNEMENT].minValue = nil;
 				barSettings.events.classRange[RK_ATTUNEMENT] = nil;
 			end
-			if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-				self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+			if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+				settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 			end
 		end
 		self.utils:AddLabelBox( box13, LOCALESTRINGS.QuickslotsMenu["Attunement is set with: 10 is Balanced, Lower numbers are Battle and Higher numbers are Healing"], 50, selectionHeight );
@@ -130,10 +134,13 @@ function ClassBuffPanel:Constructor( panel )
 		box:AddItem( boxSet1 );
 		box:AddItem( boxSet2 );
 		box13:AddItem( box );
-	elseif ( player:GetClass() == Turbine.Gameplay.Class.Hunter ) then
+	elseif ( playerClass == Turbine.Gameplay.Class.Hunter ) then
 		self.eventCheckboxes[HUNTER_FOCUS] = self.utils:AddCheckBox( box13, LOCALESTRINGS.ClassTriggers["Focus between:"], selectionWidth + 15, selectionHeight );
 		self.eventCheckboxes[HUNTER_FOCUS].CheckedCallback = function( sender, args )
-			local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+			local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 			if ( self.eventCheckboxes[HUNTER_FOCUS].IsChecked ) then
 				if ( barSettings.events == nil ) then
 					barSettings.events = { }; 
@@ -154,8 +161,8 @@ function ClassBuffPanel:Constructor( panel )
 				barSettings.events.classRange[HUNTER_FOCUS] = nil;
 
 			end
-			if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-				self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+			if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+				settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 			end
 		end
 		box = self.utils:AddAutoListBox( box13, Turbine.UI.Orientation.Horizontal, 0, 0, 0, 0 );
@@ -178,14 +185,21 @@ function ClassBuffPanel:Constructor( panel )
 end
 
 function ClassBuffPanel:DisplaySettings()
-	
-	local localBarSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( menu:GetSelection() );
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+	local playerClass = playerService.playerClass;
+
 	if ( localBarSettings.events == nil ) then
 		localBarSettings.events = { };
 	end
 
     self.buffList.SelectedIndexChanged = function(sender, args)
-		local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 		local selections = self.buffList:GetSelections();
 		if ( selections ~= nil ) then
 			-- ALWAYS RESET THE CATEGORIES
@@ -195,31 +209,35 @@ function ClassBuffPanel:DisplaySettings()
 					barSettings.events.effects[value] = true;
 				end
 			end
-			if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-				self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+			if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+				settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 			end
-			-- local inventoryService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.InventoryService);
+			-- local inventoryService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.InventoryService);
 			--inventoryManager:NotifyClients();
 		end
 	end
 	self.buffList:Clear();
-	local events = self.eventService:GetRegisteredEvents();
-	if ( events.classes ~= nil and events.classes[ self.playerClass ] ~= nil and events.classes[ self.playerClass ].effects ~= nil ) then
-		for key, value in opairs( events.classes[ self.playerClass ].effects ) do
+
+	local events = eventService:GetRegisteredEvents();
+	if ( events.classes ~= nil and events.classes[ playerClass ] ~= nil and events.classes[ playerClass ].effects ~= nil ) then
+		for key, value in opairs( events.classes[ playerClass ].effects ) do
 			self.buffList:AddItem( value.description, value );
 		end
 	end
 	self.buffList:SetSelections( localBarSettings.events.effects );
 
     self.triggerList.SelectedIndexChanged = function(sender, args)
-		local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 		if ( self.triggerList:GetSelection() == 1 ) then
 			barSettings.events.triggerOnClassBuffActive = true;
 		else
 			barSettings.events.triggerOnClassBuffActive = false;
 		end
-		if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-			self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+		if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+			settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 		end
 	end
 	if ( localBarSettings.events.triggerOnClassBuffActive ) then

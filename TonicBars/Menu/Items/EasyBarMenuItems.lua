@@ -7,22 +7,22 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.Utils.Class";
-import "Tonic.UI.CheckBox";
-import "Tonic.UI.ComboBox";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
-import "Tonic.TonicBars.Menu.Items.MainMenuItems";
-import "Tonic.TonicBars.Menu.Panels.Bars.BarMenuPanel";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.UI.CheckBox";
+import "MyysticBars.UI.ComboBox";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
+import "MyysticBars.TonicBars.Menu.Items.MainMenuItems";
+import "MyysticBars.TonicBars.Menu.Panels.Bars.BarMenuPanel";
 
 EasyBarMenuItems = class();
 
-EasyBarMenuItems.panel = Tonic.TonicBars.Menu.Panels.Bars.BarMenuPanel();
-EasyBarMenuItems.menuItems = Tonic.TonicBars.Menu.Items.MainMenuItems();
-EasyBarMenuItems.utils = Tonic.UI.MenuUtils();
+EasyBarMenuItems.panel = MyysticBars.TonicBars.Menu.Panels.Bars.BarMenuPanel();
+EasyBarMenuItems.menuItems = MyysticBars.TonicBars.Menu.Items.MainMenuItems();
+EasyBarMenuItems.utils = MyysticBars.UI.MenuUtils();
 
 function EasyBarMenuItems:Constructor(mainMenu, parent)
-	self.configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	self.configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	self:Refresh(mainMenu, parent);
 end

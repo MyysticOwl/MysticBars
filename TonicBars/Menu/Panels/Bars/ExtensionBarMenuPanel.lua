@@ -5,14 +5,14 @@
 -- RESPECT!
 
 import "Turbine";
-import "Tonic.Utils.Class";
-import "Tonic.UI.MenuUtils";
-import "Tonic.TonicBars.Menu.Panels.Controls.ExtensionGeneralPanel"
-import "Tonic.TonicBars.Menu.Panels.Controls.PredefinedExtensionPanel"
+import "MyysticBars.Utils.Class";
+import "MyysticBars.UI.MenuUtils";
+import "MyysticBars.TonicBars.Menu.Panels.Controls.ExtensionGeneralPanel"
+import "MyysticBars.TonicBars.Menu.Panels.Controls.PredefinedExtensionPanel"
 
 ExtensionBarMenuPanel = class();
 
-ExtensionBarMenuPanel.utils = Tonic.UI.MenuUtils();
+ExtensionBarMenuPanel.utils = MyysticBars.UI.MenuUtils();
 
 function ExtensionBarMenuPanel:Draw(context)
 	menu.contentBox:ClearItems();
@@ -20,13 +20,13 @@ function ExtensionBarMenuPanel:Draw(context)
 	self.utils:AddCategoryBox(menu.contentBox, context.barName);
 
 	-----------------------   GENERAL  0000000000000000000000000000
-	self.generalPanel = Tonic.TonicBars.Menu.Panels.Controls.ExtensionGeneralPanel( menu.contentBox, menu );
+	self.generalPanel = MyysticBars.TonicBars.Menu.Panels.Controls.ExtensionGeneralPanel( menu.contentBox, menu );
 	-----------------------   SLOTS	  0000000000000000000000000000
-	self.slotsPanel = Tonic.TonicBars.Menu.Panels.Controls.SlotsPanel( menu.contentBox, false, nil, menu );
+	self.slotsPanel = MyysticBars.TonicBars.Menu.Panels.Controls.SlotsPanel( menu.contentBox, false, nil, menu );
 	-----------------------   SLOTS	  0000000000000000000000000000
-	self.predefinedPanel = Tonic.TonicBars.Menu.Panels.Controls.PredefinedExtensionPanel( menu.contentBox, menu );
+	self.predefinedPanel = MyysticBars.TonicBars.Menu.Panels.Controls.PredefinedExtensionPanel( menu.contentBox, menu );
 	-----------------------   COLOR  0000000000000000000000000000
-	self.colorPanel = Tonic.TonicBars.Menu.Panels.Controls.ColorPanel( menu.contentBox, menu );
+	self.colorPanel = MyysticBars.TonicBars.Menu.Panels.Controls.ColorPanel( menu.contentBox, menu );
 
 	self:DisplaySettings();
 end

@@ -7,18 +7,15 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
 
 SlotsPanel = class();
 
 function SlotsPanel:Constructor( panel, RowColumnBased, sizeOption, mainMenu )
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-
 	menu = mainMenu;
 	self.RowColumnBased = RowColumnBased;
-	self.utils = Tonic.UI.MenuUtils();
+	self.utils = MyysticBars.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, LOCALESTRINGS.QuickslotsMenu["Quick Slots"]);
 
@@ -40,7 +37,7 @@ function SlotsPanel:Constructor( panel, RowColumnBased, sizeOption, mainMenu )
 	else
 		self.extSb = self.utils:AddScrollBar( box2b, 1, 1, 50, 200, selectionHeight + 20, nil, LOCALESTRINGS.ExtensionsMenu["Count:"] );
 		self.utils:CreateScrollBarCallback( self.extSb, { "quickslotCount" }, nil, nil, function(sender,args)
-			local inventoryService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.InventoryService);
+			local inventoryService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.InventoryService);
 			inventoryService:NotifyClients();
 		end );
 		box2a:AddItem( box2b );
@@ -57,8 +54,11 @@ function SlotsPanel:Constructor( panel, RowColumnBased, sizeOption, mainMenu )
 	local box6b = self.utils:AddAutoListBox( box6a, Turbine.UI.Orientation.Horizontal );
 
 	self.sizeSB = self.utils:AddScrollBar( box6b, 36, 0, 99, 200, selectionHeight + 20, nil, LOCALESTRINGS.QuickslotsMenu["Size:"] );
+
 	self.utils:CreateScrollBarCallback( self.sizeSB, { "quickslotSize" }, nil, nil, function(sender,args)
-		self.barService:RefreshBars();
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		barService:RefreshBars();
 	end );
 
 	box6a:AddItem( box6b );
@@ -66,28 +66,35 @@ function SlotsPanel:Constructor( panel, RowColumnBased, sizeOption, mainMenu )
 end
 
 function SlotsPanel:DisplaySettings()
-	local localBarSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( menu:GetSelection() );
 
 	if ( self.RowColumnBased == true ) then
 		self.sb.ValueChanged = function( sender, args )
-			local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+			local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 			barSettings.quickslotRows = self.sb:GetValue();
 			barSettings.quickslotCount = barSettings.quickslotRows * barSettings.quickslotColumns;
-			if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-				self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+			if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+				settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 			end
-			local inventoryService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.InventoryService);
+			local inventoryService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.InventoryService);
 			inventoryService:NotifyClients();
 		end	
 		self.sb:SetValue( localBarSettings.quickslotRows );
 		self.sb2.ValueChanged = function( sender, args )
-			local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+			local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 			barSettings.quickslotColumns = self.sb2:GetValue();
 			barSettings.quickslotCount = barSettings.quickslotRows * barSettings.quickslotColumns;
-			if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-				self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+			if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+				settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 			end
-			local inventoryService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.InventoryService);
+			local inventoryService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.InventoryService);
 			inventoryService:NotifyClients();
 		end	
 		self.sb2:SetValue( localBarSettings.quickslotColumns );

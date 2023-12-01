@@ -6,33 +6,39 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "Tonic.Utils.Class";
-import "Tonic.Utils.Table";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.Utils.Table";
 
 StatEvents = class( Turbine.Object  );
 
 function StatEvents:Constructor( regEvents )
-	self.eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
-	self.playerService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.PlayerService);
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
 	self.registeredEvents = regEvents;
 	
-	self.eventService:AddCallback( self.playerService.player, "MoraleChanged", function( sender, args )
-		local value = self.playerService.player:GetMorale() / self.playerService.player:GetMaxMorale();
+	eventService:AddCallback( playerService.player, "MoraleChanged", function( sender, args )
+		local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+		local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+
+		local value = playerService.player:GetMorale() / playerService.player:GetMaxMorale();
 		if ( value ~= 1 ) then
 			self.registeredEvents.healthTriggerActive = value;
 		else
 			self.registeredEvents.healthTriggerActive = nil;
 		end
-		self.eventService:NotifyClients();
+		eventService:NotifyClients();
 	end);
-	self.eventService:AddCallback( self.playerService.player, "PowerChanged", function( sender, args )
-		local value = self.playerService.player:GetPower() / self.playerService.player:GetMaxPower();
+	eventService:AddCallback( playerService.player, "PowerChanged", function( sender, args )
+		local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+		local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+
+		local value = playerService.player:GetPower() / playerService.player:GetMaxPower();
 		if ( value ~= 1 ) then
 			self.registeredEvents.powerTriggerActive = value;
 		else
 			self.registeredEvents.powerTriggerActive = nil;
 		end
-		self.eventService:NotifyClients();
+		eventService:NotifyClients();
 	end);
 end
 

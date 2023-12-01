@@ -5,16 +5,16 @@
 -- RESPECT!
 
 import "Turbine";
-import "Tonic.Utils.Class";
-import "Tonic.UI.MenuUtils";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.UI.MenuUtils";
 
 ManageBarsMenuPanel = class();
 
 function ManageBarsMenuPanel:Draw()
 	menu.contentBox:ClearItems();
 
-	local title = Tonic.UI.AutoListBox();
-	local utils = Tonic.UI.MenuUtils();
+	local title = MyysticBars.UI.AutoListBox();
+	local utils = MyysticBars.UI.MenuUtils();
 
 	utils:AddCategoryBox(title, LOCALESTRINGS.EasyBarMenu["Create Bars Quickly"]);
 	utils:AddLabelBox( title, LOCALESTRINGS.EasyBarMenu["This menu is used to create complicated bars, very easily. Often getting everything setup on your bar takes a lot of time. Hopefully this helps you get where you want to go easier."], selectionWidth + 250, selectionHeight + 20 );

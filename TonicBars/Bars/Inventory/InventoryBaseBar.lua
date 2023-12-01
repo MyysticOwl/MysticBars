@@ -4,39 +4,43 @@
 --
 -- RESPECT!
 
-import "Tonic.Utils.Class";
-import "Tonic.UI.Window";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.UI.Window";
 
-InventoryBaseBar = class( Tonic.TonicBars.Bars.BaseBar );
+InventoryBaseBar = class( MyysticBars.TonicBars.Bars.BaseBar );
 
 function InventoryBaseBar:Constructor()
-	Tonic.TonicBars.Bars.BaseBar.Constructor( self );
-
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
-	self.inventoryService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.InventoryService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	MyysticBars.TonicBars.Bars.BaseBar.Constructor( self );
 
 	self.faded = true;
 	self.isVisible = true;
 
 	self.MouseEnter = function(sender,args)
-		local barSettings = self.settingsService:GetBarSettings( self.id );
-		if ( self.barService ~= nil and self.barService:Alive( self.id ) and barSettings.useFading == true ) then
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+		local barSettings = settingsService:GetBarSettings( self.id );
+		if ( barService ~= nil and barService:Alive( self.id ) and barSettings.useFading == true ) then
 			self.faded = false;
 			self:Refresh();
 		end
 	end
 	self.MouseLeave = function(sender,args)
-		local barSettings = self.settingsService:GetBarSettings( self.id );
-		if ( self.barService ~= nil and self.barService:Alive( self.id ) and barSettings.useFading == true ) then
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+		local barSettings = settingsService:GetBarSettings( self.id );
+		if ( barService ~= nil and barService:Alive( self.id ) and barSettings.useFading == true ) then
 			self.faded = true;
 			self:Refresh();
 		end
 	end
 	self.PositionChanged = function( sender, args )
-		local settings = self.settingsService:GetSettings();
-		local barSettings = self.settingsService:GetBarSettings( self.id );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+		local settings = settingsService:GetSettings();
+		local barSettings = settingsService:GetBarSettings( self.id );
 		if ( settings.barMode ~= NORMAL_MODE or ( dragBarAvailable and self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then
 			local x,y = self:GetPosition();
 
@@ -46,14 +50,17 @@ function InventoryBaseBar:Constructor()
 			barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
 			barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
 
-			if ( self.barService ~= nil and self.barService:Alive( self.id ) ) then
-				self.settingsService:SetBarSettings( self.id, barSettings );
+			if ( barService ~= nil and barService:Alive( self.id ) ) then
+				settingsService:SetBarSettings( self.id, barSettings );
 			end
 		end
 	end
 	self.MouseDown = function( sender, args )
-		if ( self.barService ~= nil and self.barService:Alive( self.id ) == true ) then
-			local settings = self.settingsService:GetSettings();
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+		if ( barService ~= nil and barService:Alive( self.id ) == true ) then
+			local settings = settingsService:GetSettings();
 			if ( settings.barMode ~= NORMAL_MODE ) then
 				if ( args.Button == Turbine.UI.MouseButton.Left ) then
 					self.dragStartX = args.X;
@@ -65,15 +72,21 @@ function InventoryBaseBar:Constructor()
 		end
 	end
 	self.MouseMove = function( sender, args )
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local settings = settingsService:GetSettings();
+
 		local left, top = self:GetPosition();
-		local settings = self.settingsService:GetSettings();
-		if ( self.barService ~= nil and self.barService:Alive( self.id ) and settings.barMode ~= NORMAL_MODE and self.dragging ) then
+
+		if ( barService ~= nil and barService:Alive( self.id ) and settings.barMode ~= NORMAL_MODE and self.dragging ) then
 			self:SetPosition( left + ( args.X - self.dragStartX ), top + ( args.Y - self.dragStartY ) );
 			self.dragged = true;
 		end
 	end
 	self.MouseUp = function( sender, args )
-		if ( self.barService ~= nil and self.barService:Alive( self.id ) == true and args.Button == Turbine.UI.MouseButton.Left ) then
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		if ( barService ~= nil and barService:Alive( self.id ) == true and args.Button == Turbine.UI.MouseButton.Left ) then
 			self.dragging = false;
 		  
 			if( self.dragged ) then
@@ -99,14 +112,17 @@ function InventoryBaseBar:Constructor()
 		end
 	end
 
-	self.eventService:RegisterForEvents( self, self.id );
-	self.inventoryService:RegisterForEvents( self, self.id );
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+	local inventoryService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.InventoryService);
+	eventService:RegisterForEvents( self, self.id );
+	inventoryService:RegisterForEvents( self, self.id );
 end
 
 function InventoryBaseBar:Create()
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
 
-	self.quickslotList = ItemList( self.id );
+	self.quickslotList = MyysticBars.TonicBars.Bars.ItemList( self.id );
 	self.quickslotList:SetParent( self );
 	
 	self.qsCreated = true;
@@ -118,8 +134,10 @@ function InventoryBaseBar:SetBGColor( color )
 end
 
 function InventoryBaseBar:Refresh()
-	Tonic.TonicBars.Bars.BaseBar.Refresh( self );
-	self.eventService:NotifyClients();
+	MyysticBars.TonicBars.Bars.BaseBar.Refresh( self );
+	
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+	eventService:NotifyClients();
 end
 
 function InventoryBaseBar:ClearQuickslots()
@@ -134,8 +152,9 @@ end
 --
 -- It is recommended to call: "eventService:NotifyClients();" if needed.
 function InventoryBaseBar:DetermineVisiblity( eventValue, force )
-	local settings = self.settingsService:GetSettings();
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();
+	local barSettings = settingsService:GetBarSettings( self.id );
 
 	if ( settings.barMode == NORMAL_MODE ) then
 		local visible = false;

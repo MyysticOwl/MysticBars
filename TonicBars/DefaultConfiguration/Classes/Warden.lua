@@ -7,7 +7,7 @@
 WardenClass = class();
 
 function WardenClass:Constructor()
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:RegisterBarCreator( "Stances", 	"Stance", self.Stance );
 	configurationService:RegisterBarCreator( "Travel", 		"Travel", self.Travel );
@@ -19,7 +19,7 @@ function WardenClass:Constructor()
 end
 
 function WardenClass:Stance( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Stance", 10, 1, 3, 240, 300 );
 	configurationService:SetBuffTriggerOptions( false, false );
@@ -34,7 +34,7 @@ function WardenClass:Stance( override )
 end
 
 function WardenClass:Travel( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Travel", 26, 1, 4, 240, 350 );
 	configurationService:AddShortcut( 1, "0x70014798", 6, 26 );
@@ -44,7 +44,7 @@ function WardenClass:Travel( override )
 end
 
 function WardenClass:Javelin( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Javelins", 1, 1, 4, 240, 400 );
 	configurationService:AddShortcut( 1, "0x700105C5", 6, 1 );
@@ -54,7 +54,7 @@ function WardenClass:Javelin( override )
 end
 
 function WardenClass:Recovery( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 	
 	configurationService:CreateBar( override, "Recovery", 10, 1, 2, 240, 450 );
 	configurationService:AddShortcut( 1, "0x70016A0A", 6, 10 );
@@ -62,7 +62,7 @@ function WardenClass:Recovery( override )
 end
 
 function WardenClass:March( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "March", 14, 1, 2, 240, 500 );
 	configurationService:AddShortcut( 1, "0x700105CC", 6, 14 );
@@ -70,7 +70,7 @@ function WardenClass:March( override )
 end
 
 function WardenClass:Charge( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Charge", 10, 1, 1, 240, 550 );
 	configurationService:SetBuffTriggerOptions( true, false );

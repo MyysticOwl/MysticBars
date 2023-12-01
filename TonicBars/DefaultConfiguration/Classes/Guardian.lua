@@ -7,7 +7,7 @@
 GuardianClass = class();
 
 function GuardianClass:Constructor()
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:RegisterBarCreator( "Stances", 			"Stance", 		self.Stance );
 	configurationService:RegisterBarCreator( "Overpower Skills", 	"Overpower",	self.Overpower );
@@ -17,7 +17,7 @@ function GuardianClass:Constructor()
 end
 
 function GuardianClass:Stance( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Stance", 4, 1, 3, 240, 300 );
 	configurationService:SetBuffTriggerOptions( false, false );
@@ -32,7 +32,7 @@ function GuardianClass:Stance( override )
 end
 
 function GuardianClass:Overpower( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Overpower", 30, 1, 2, 240, 350 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -42,7 +42,7 @@ function GuardianClass:Overpower( override )
 end
 
 function GuardianClass:Parry( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Parry", 8, 1, 4, 240, 400 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -55,7 +55,7 @@ function GuardianClass:Parry( override )
 end
 
 function GuardianClass:Block( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 	
 	configurationService:CreateBar( override, "Block", 2, 1, 4, 240, 450 );
 	configurationService:SetBuffTriggerOptions( true, false );

@@ -35,11 +35,11 @@ function ComboBox:Constructor()
     self.arrow:SetSize(16, 16);
     self.arrow:SetZOrder(20);
     self.arrow:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-    self.arrow:SetBackground("Tonic/UI/Resources/dropdown_arrow_closed.tga");
+    self.arrow:SetBackground("MyysticBars/UI/Resources/dropdown_arrow_closed.tga");
     self.arrow:SetMouseVisible(false);
     
     -- drop down window
-    self.dropDownWindow = Tonic.UI.AutoListBox();
+    self.dropDownWindow = MyysticBars.UI.AutoListBox();
     self.dropDownWindow:SetBackColor(ComboBox.DisabledColor);
     self.dropDownWindow:SetZOrder(30);
     self.dropDownWindow:SetVisible(false);
@@ -73,7 +73,7 @@ function ComboBox:MouseEnter(args)
     self.label:SetForeColor(ComboBox.ItemColor);
     self.label:SetText(self.label:GetText());
 
-    self.arrow:SetBackground("Tonic/UI/Resources/dropdown_arrow_"..(self.dropped and "open_rollover" or "closed_rollover")..".tga");
+    self.arrow:SetBackground("MyysticBars/UI/Resources/dropdown_arrow_"..(self.dropped and "open_rollover" or "closed_rollover")..".tga");
 end
 
 function ComboBox:MouseLeave(args)
@@ -87,7 +87,7 @@ function ComboBox:MouseLeave(args)
     end
     self.label:SetText(self.label:GetText());
 
-    self.arrow:SetBackground("Tonic/UI/Resources/dropdown_arrow_"..(self.dropped and "open" or "closed")..".tga");
+    self.arrow:SetBackground("MyysticBars/UI/Resources/dropdown_arrow_"..(self.dropped and "open" or "closed")..".tga");
 end
 
 function ComboBox:MouseClick(args)
@@ -247,11 +247,11 @@ function ComboBox:SetEnabled(enabled)
     Turbine.UI.Control.SetEnabled(self, enabled);
     if (enabled) then
         self.label:SetForeColor(ComboBox.ItemColor);
-        self.arrow:SetBackground("Tonic/UI/Resources/dropdown_arrow_closed.tga");
+        self.arrow:SetBackground("MyysticBars/UI/Resources/dropdown_arrow_closed.tga");
     else
         self:CloseDropDown();
         self.label:SetForeColor(ComboBox.DisabledColor);
-        self.arrow:SetBackground("Tonic/UI/Resources/dropdown_arrow_closed_ghosted.tga");
+        self.arrow:SetBackground("MyysticBars/UI/Resources/dropdown_arrow_closed_ghosted.tga");
     end
 end
 
@@ -267,7 +267,7 @@ function ComboBox:ShowDropDown()
     if ((itemCount > 0) and not (self.dropped)) then
         self.dropped = true;
         self.label:SetForeColor(ComboBox.SelectionColor);
-        self.arrow:SetBackground("Tonic/UI/Resources/dropdown_arrow_open_rollover.tga");
+        self.arrow:SetBackground("MyysticBars/UI/Resources/dropdown_arrow_open_rollover.tga");
         local width, height = self:GetSize();
         --width = width + 10;
         
@@ -310,6 +310,6 @@ function ComboBox:CloseDropDown()
         self.dropped = false;
         self.dropDownWindow:SetVisible(false);
         self.label:SetForeColor(ComboBox.ItemColor);
-        self.arrow:SetBackground("Tonic/UI/Resources/dropdown_arrow_closed_rollover.tga");
+        self.arrow:SetBackground("MyysticBars/UI/Resources/dropdown_arrow_closed_rollover.tga");
     end
 end

@@ -4,8 +4,8 @@
 --
 -- RESPECT!
 
-import "Tonic.TonicBars.Bars.QuickslotList";
-import "Tonic.TonicBars.Bars.ItemList";
+import "MyysticBars.TonicBars.Bars.QuickslotList";
+import "MyysticBars.TonicBars.Bars.ItemList";
 
 dragBarAvailable = pcall( function(sender,args)
 	import "Deusdictum.UI.DragBar";
@@ -16,9 +16,9 @@ BaseBar = class( Turbine.UI.Window );
 function BaseBar:Constructor()
 	Turbine.UI.Window.Constructor( self );
 
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
 
-	local bSettings = self.settingsService:GetBarSettings( self.id );
 	self.dragged = false;
 	self.qsCreated = false;
 	self.isSelectedOnMainMenu = false;
@@ -27,12 +27,12 @@ function BaseBar:Constructor()
 
 	self:SetMouseVisible( true );
 	self:SetAllowDrop( true );
-	self:SetPosition( bSettings.x, bSettings.y );
-
+	self:SetPosition( barSettings.x, barSettings.y );
+ 
 	self:Create();
-	if ( dragBarAvailable == true and bSettings.barType ~= EXTENSIONBAR ) then
-		local title = bSettings.barName;
-		if ( bSettings.barName == nil or bSettings.barName == "" ) then
+	if ( dragBarAvailable == true and barSettings.barType ~= EXTENSIONBAR ) then
+		local title = barSettings.barName;
+		if ( barSettings.barName == nil or barSettings.barName == "" ) then
 			title = "Bar:" .. self.id;
 		end
 		self.DragBar = Deusdictum.UI.DragBar( self, title, true );
@@ -57,7 +57,8 @@ function BaseBar:PositionChanged( sender, args )
 end
 
 function BaseBar:Create()
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
 
 	self.quickslotList:SetParent( self );
 	self.quickslotList:SetMaxItemsPerLine( barSettings.quickslotColumns );
@@ -73,8 +74,9 @@ function BaseBar:ClearQuickslots()
 end
 
 function BaseBar:Refresh()
-	local settings = self.settingsService:GetSettings();
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();
+	local barSettings = settingsService:GetBarSettings( self.id );
 	if ( settings.barMode == NORMAL_MODE ) then
 		if ( self.faded ) then
 			self:SetOpacity( barSettings.fadeOpacity );
@@ -110,7 +112,8 @@ function BaseBar:Refresh()
 end
 
 function BaseBar:SetMenuBackColor( selected, barMode )
-	local settings = self.settingsService:GetSettings();
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();
 	if ( selected ) then
 		self:SetOpacity( 0.6 );
 	end

@@ -7,7 +7,7 @@
 MinstrelClass = class();
 
 function MinstrelClass:Constructor()
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:RegisterBarCreator( "War-Speech Skills", 		"War-speech", 		self.WarSpeech );
 	configurationService:RegisterBarCreator( "Stances", 				"Stances", 			self.Stances );
@@ -18,7 +18,7 @@ function MinstrelClass:Constructor()
 end
 
 function MinstrelClass:WarSpeech( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "War-speech", 14, 1, 3, 240, 300 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -29,7 +29,7 @@ function MinstrelClass:WarSpeech( override )
 end
 
 function MinstrelClass:Stances( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Stances", 10, 1, 2, 240, 350 );
 	configurationService:AddShortcut( 2, "0x7000B699", 6, 10 );
@@ -37,7 +37,7 @@ function MinstrelClass:Stances( override )
 end
 
 function MinstrelClass:Coda( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Coda", 1, 1, 1, 240, 400 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -46,7 +46,7 @@ function MinstrelClass:Coda( override )
 end
 
 function MinstrelClass:Anthems( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Anthems", 6, 1, 6, 240, 450 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -60,7 +60,7 @@ function MinstrelClass:Anthems( override )
 end
 
 function MinstrelClass:Scribe( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Scribe Stance", 30, 1, 3, 240, 500 );
 	configurationService:SetBuffTriggerOptions( true, false );

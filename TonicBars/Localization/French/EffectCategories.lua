@@ -3,7 +3,7 @@
 -- Permission can be atained by contacting MyysticOwl at: TonicBars@gmail.com
 --
 -- RESPECT!
-local eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
+local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
 
 eventService:RegisterCategory( "Maladie", Turbine.Gameplay.EffectCategory.Disease );
 eventService:RegisterCategory( "Peur", 	Turbine.Gameplay.EffectCategory.Fear );

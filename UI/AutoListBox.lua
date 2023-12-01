@@ -5,7 +5,7 @@
 
 import "Turbine";
 import "Turbine.UI";
-import "Tonic.Utils.Class";
+import "MyysticBars.Utils.Class";
 
 AutoListBox = class( Turbine.UI.ListBox );
 

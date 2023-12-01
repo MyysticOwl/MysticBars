@@ -7,13 +7,13 @@
 BrawlerClass = class();
 
 function BrawlerClass:Constructor()
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 	configurationService:RegisterBarCreator( "Battle Flow 3+", 	"Battle Flow 3+", self.BattleFlow3 );
 	configurationService:ConstructBars();
 end
 
 function BrawlerClass:BattleFlow3( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Battle Flow 3+", 1, 6, 3, 240, 350 );
 	configurationService:SetBuffTriggerOptions( true, false );

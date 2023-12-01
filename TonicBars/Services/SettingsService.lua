@@ -5,17 +5,14 @@
 -- RESPECT!
 
 import "Turbine";
-import "Tonic.Utils.Class";
-import "Tonic.Utils.Service";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.Utils.Service";
 import "Turbine.Gameplay";
-import "Tonic.Utils.TableDeepCopy";
+import "MyysticBars.Utils.TableDeepCopy";
 
-SettingsService = class( Tonic.Utils.Service );
+SettingsService = class( MyysticBars.Utils.Service );
 
 function SettingsService:Constructor()
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.playerService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.PlayerService);
-
 	self.PARTIAL = 1;
 	self.ALL = 2;
 	self.BAR = 3;
@@ -47,6 +44,8 @@ function SettingsService:GetSettings()
 end
 
 function SettingsService:LoadSettings( profile )
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+
 	if ( profile == nil ) then
 		self.profiles = Turbine.PluginData.Load( Turbine.DataScope.Server, "TonicBarSettings", function(args) end);
 	else
@@ -56,10 +55,10 @@ function SettingsService:LoadSettings( profile )
 		self.profiles = { };
 	end
 
-	local playerSettings = self.profiles[ self.playerService.player:GetName() ];
+	local playerSettings = self.profiles[ playerService.player:GetName() ];
 	if ( playerSettings == nil ) then
-		self.profiles[ self.playerService.player:GetName() ] = { };
-		playerSettings = self.profiles[ self.playerService.player:GetName() ];
+		self.profiles[ playerService.player:GetName() ] = { };
+		playerSettings = self.profiles[ playerService.player:GetName() ];
 	end
 
 	if ( Turbine.Engine:GetLocale() == "de" or Turbine.Engine:GetLocale() == "fr" ) then
@@ -91,18 +90,20 @@ function SettingsService:LoadSettings( profile )
 end
 
 function SettingsService:SaveSettings( profile )
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+
 	if ( Turbine.Engine:GetLocale() == "de" or Turbine.Engine:GetLocale() == "fr" ) then
 		local temp = { };
 		if ( profile == nil ) then
 			self:deepcopySaveConvertInts( self.settings, temp );
-			self.profiles[ self.playerService.player:GetName() ] = temp;
+			self.profiles[ playerService.player:GetName() ] = temp;
 		else
 			self:deepcopySaveConvertInts( profile, temp );
 			Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", temp, function () end);
 		end
 	else
 		if ( profile == nil ) then
-			self.profiles[ self.playerService.player:GetName() ] = self.settings;
+			self.profiles[ playerService.player:GetName() ] = self.settings;
 		else
 			Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", profile, function () end);
 		end
@@ -228,12 +229,14 @@ function SettingsService:GetBarSettings( barid )
 end
 
 function SettingsService:SetBarSettings(barid, bar, doNotRefresh)
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
 	if ( barid ~= nil ) then
 		self.settings.bars[barid] = bar;
 
 		self:SaveSettings();
-		if ( doNotRefresh == nil and self.barService ~= nil ) then
-			self.barService:RefreshBars();
+		if ( doNotRefresh == nil and barService ~= nil ) then
+			barService:RefreshBars();
 		end
 	end
 end
@@ -414,41 +417,48 @@ function SettingsService:GetProfileBars( profile )
 end
 
 function SettingsService:ResetAllBars()
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
 	self:SaveSettings();
 	if ( self.settings.bars == nil ) then
 		self.settings.bars = { };
 	end
-	self.barService:Construct( self.settings.bars, true );
+	barService:Construct( self.settings.bars, true );
 
-	local inventoryService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.InventoryService);
+	local inventoryService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.InventoryService);
 	inventoryService:NotifyClients();
 end
 
 
 function SettingsService:CopyProfile( profileToCopy, copyType, barid, myBar )
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+
 	if ( barid == nil ) then
 		return;
 	end
 
-	self.profiles[ self.playerService.player:GetName() ] = self.settings;
-	for key, value in opairs (self.barService:GetBars()) do
-		self.barService:Remove( key, false );
+	self.profiles[ playerService.player:GetName() ] = self.settings;
+	for key, value in opairs (barService:GetBars()) do
+		barService:Remove( key, false );
 	end
 	self:CopyBars(profileToCopy, copyType, barid, myBar);
 
-	self.settings = self.profiles[ self.playerService.player:GetName() ];
+	self.settings = self.profiles[ playerService.player:GetName() ];
 	self:ResetAllBars();
 end
 
 function SettingsService:CopyBars(profileToCopy, copyType, barid, myBar)
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+
 	local realProfile = nil;
 	local copyProfile = nil;
 	if ( myBar == true ) then
-		realProfile = self.profiles[ self.playerService.player:GetName() ];
+		realProfile = self.profiles[ playerService.player:GetName() ];
 		copyProfile = self.profiles[ profileToCopy ];
 	else
 		realProfile = self.profiles[ profileToCopy ]; 
-		copyProfile = self.profiles[ self.playerService.player:GetName() ];
+		copyProfile = self.profiles[ playerService.player:GetName() ];
 	end
 
 	self:CreatePath( copyProfile );

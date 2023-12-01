@@ -8,7 +8,6 @@ Localizer = class();
 
 function Localizer:Constructor()
 	STRING = { };
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
 end
 
 function Localizer:Register( path, location, value )
@@ -23,7 +22,8 @@ function Localizer:GetStrings()
 end
 
 function Localizer:LoadLocalizedEvents()
-	local settings = self.settingsService:GetSettings();
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();
 	if ( settings.menuLanguage == nil ) then
 		self.language = Turbine.Engine:GetLocale();
 	else
@@ -31,46 +31,46 @@ function Localizer:LoadLocalizedEvents()
 	end
 	if ( self.language == "de" ) then
 		-- ADD CLASS EFFECT REGIRATIONS HERE!!
-		import "Tonic.TonicBars.Localization.German.MenuStrings";
-		import "Tonic.TonicBars.Localization.German.EffectCategories"
-		import "Tonic.TonicBars.Localization.German.Brawler"
-		import "Tonic.TonicBars.Localization.German.Burglar"
-		import "Tonic.TonicBars.Localization.German.LoreMaster"
-		import "Tonic.TonicBars.Localization.German.Warden"
-		import "Tonic.TonicBars.Localization.German.Captain"
-		import "Tonic.TonicBars.Localization.German.Hunter"
-		import "Tonic.TonicBars.Localization.German.Champion"
-		import "Tonic.TonicBars.Localization.German.Guardian"
-		import "Tonic.TonicBars.Localization.German.RuneKeeper"
-		import "Tonic.TonicBars.Localization.German.Minstrel"
+		import "MyysticBars.TonicBars.Localization.German.MenuStrings";
+		import "MyysticBars.TonicBars.Localization.German.EffectCategories"
+		import "MyysticBars.TonicBars.Localization.German.Brawler"
+		import "MyysticBars.TonicBars.Localization.German.Burglar"
+		import "MyysticBars.TonicBars.Localization.German.LoreMaster"
+		import "MyysticBars.TonicBars.Localization.German.Warden"
+		import "MyysticBars.TonicBars.Localization.German.Captain"
+		import "MyysticBars.TonicBars.Localization.German.Hunter"
+		import "MyysticBars.TonicBars.Localization.German.Champion"
+		import "MyysticBars.TonicBars.Localization.German.Guardian"
+		import "MyysticBars.TonicBars.Localization.German.RuneKeeper"
+		import "MyysticBars.TonicBars.Localization.German.Minstrel"
 	elseif( self.language == "fr" ) then
 		-- ADD CLASS EFFECT REGIRATIONS HERE!!
-		import "Tonic.TonicBars.Localization.French.MenuStrings";
-		import "Tonic.TonicBars.Localization.French.EffectCategories"
-		import "Tonic.TonicBars.Localization.French.Brawler"
-		import "Tonic.TonicBars.Localization.French.Burglar"
-		import "Tonic.TonicBars.Localization.French.LoreMaster"
-		import "Tonic.TonicBars.Localization.French.Warden"
-		import "Tonic.TonicBars.Localization.French.Captain"
-		import "Tonic.TonicBars.Localization.French.Hunter"
-		import "Tonic.TonicBars.Localization.French.Champion"
-		import "Tonic.TonicBars.Localization.French.Guardian"
-		import "Tonic.TonicBars.Localization.French.RuneKeeper"
-		import "Tonic.TonicBars.Localization.French.Minstrel"
+		import "MyysticBars.TonicBars.Localization.French.MenuStrings";
+		import "MyysticBars.TonicBars.Localization.French.EffectCategories"
+		import "MyysticBars.TonicBars.Localization.French.Brawler"
+		import "MyysticBars.TonicBars.Localization.French.Burglar"
+		import "MyysticBars.TonicBars.Localization.French.LoreMaster"
+		import "MyysticBars.TonicBars.Localization.French.Warden"
+		import "MyysticBars.TonicBars.Localization.French.Captain"
+		import "MyysticBars.TonicBars.Localization.French.Hunter"
+		import "MyysticBars.TonicBars.Localization.French.Champion"
+		import "MyysticBars.TonicBars.Localization.French.Guardian"
+		import "MyysticBars.TonicBars.Localization.French.RuneKeeper"
+		import "MyysticBars.TonicBars.Localization.French.Minstrel"
 	else
 		-- ADD CLASS EFFECT REGIRATIONS HERE!!
-		import "Tonic.TonicBars.Localization.English.MenuStrings";
-		import "Tonic.TonicBars.Localization.English.EffectCategories"
-		import "Tonic.TonicBars.Localization.English.Brawler"
-		import "Tonic.TonicBars.Localization.English.Burglar"
-		import "Tonic.TonicBars.Localization.English.LoreMaster"
-		import "Tonic.TonicBars.Localization.English.Warden"
-		import "Tonic.TonicBars.Localization.English.Captain"
-		import "Tonic.TonicBars.Localization.English.Hunter"
-		import "Tonic.TonicBars.Localization.English.Champion"
-		import "Tonic.TonicBars.Localization.English.Guardian"
-		import "Tonic.TonicBars.Localization.English.RuneKeeper"
-		import "Tonic.TonicBars.Localization.English.Minstrel"
+		import "MyysticBars.TonicBars.Localization.English.MenuStrings";
+		import "MyysticBars.TonicBars.Localization.English.EffectCategories"
+		import "MyysticBars.TonicBars.Localization.English.Brawler"
+		import "MyysticBars.TonicBars.Localization.English.Burglar"
+		import "MyysticBars.TonicBars.Localization.English.LoreMaster"
+		import "MyysticBars.TonicBars.Localization.English.Warden"
+		import "MyysticBars.TonicBars.Localization.English.Captain"
+		import "MyysticBars.TonicBars.Localization.English.Hunter"
+		import "MyysticBars.TonicBars.Localization.English.Champion"
+		import "MyysticBars.TonicBars.Localization.English.Guardian"
+		import "MyysticBars.TonicBars.Localization.English.RuneKeeper"
+		import "MyysticBars.TonicBars.Localization.English.Minstrel"
 	end
 end
 

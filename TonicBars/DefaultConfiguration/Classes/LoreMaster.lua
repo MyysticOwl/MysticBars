@@ -10,7 +10,7 @@ function LoreMasterClass:Constructor()
 end
 
 function LoreMasterClass:Constructor()
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:RegisterBarCreator( "Warding", 			"Warding", 		self.Warding );
 	configurationService:RegisterBarCreator( "Sign of the Wild", 	"Wild", 		self.Wild );
@@ -20,7 +20,7 @@ function LoreMasterClass:Constructor()
 end
 
 function LoreMasterClass:Warding( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Warding", 26, 1, 3, 240, 300 );
 	configurationService:AddShortcut( 1, "0x7000B625", 6, 26 );
@@ -29,7 +29,7 @@ function LoreMasterClass:Warding( override )
 end
 
 function LoreMasterClass:Wild( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Wild", 11, 1, 2, 240, 350 );
 	configurationService:AddShortcut( 1, "0x7000312B", 6, 11 );
@@ -38,7 +38,7 @@ function LoreMasterClass:Wild( override )
 end
 
 function LoreMasterClass:SoPower( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "SoPower", 1, 1, 4, 240, 400 );
 	configurationService:AddShortcut( 1, "0x70003EBB", 6, 1 );
@@ -49,7 +49,7 @@ function LoreMasterClass:SoPower( override )
 end
 
 function LoreMasterClass:Lore( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Lore", 12, 1, 6, 240, 450 );
 	configurationService:AddShortcut( 1, "0x70003EBE", 6, 12 );

@@ -4,43 +4,45 @@
 --
 -- RESPECT!
 
-import "Tonic.Utils.Class";
-import "Tonic.UI.Window";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.UI.Window";
 
-WindowBar = class( Tonic.TonicBars.Bars.Inventory.InventoryBaseBar );
+WindowBar = class( MyysticBars.TonicBars.Bars.Inventory.InventoryBaseBar );
 
 function WindowBar:Constructor( barid )
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
 
 	self.id = barid;
-	self.mainWindow = Tonic.UI.Window();
+	self.mainWindow = MyysticBars.UI.Window();
 
 	self.watchSizeChanges = false;
 	self.changingSizes = false;
 	
-	local thebarSettings = self.settingsService:GetBarSettings( self.id );
+	local thebarSettings = settingsService:GetBarSettings( self.id );
 	if ( thebarSettings.barType ~= WINDOW_INV_BAR ) then
 		thebarSettings.barType = WINDOW_INV_BAR;
 		thebarSettings.quickslotRows = 2;
 		thebarSettings.quickslotColumns = 4;
 		thebarSettings.quickslotCount = 12;
 		thebarSettings.visible = false;
-		self.settingsService:SetBarSettings( self.id, thebarSettings );
+		settingsService:SetBarSettings( self.id, thebarSettings );
 	end
 
 	Turbine.Shell.WriteLine( "LOADED WindowBar" );
 
-	Tonic.TonicBars.Bars.Inventory.InventoryBaseBar.Constructor( self );
+	MyysticBars.TonicBars.Bars.Inventory.InventoryBaseBar.Constructor( self );
 
 	self:SetParent( self.mainWindow );
 	self.mainWindow:SetPosition( thebarSettings.x, thebarSettings.y );
 	self:SetPosition( 0, 0 );
 
 	self.mainWindow.SizeChanged = function(sender,args)
-		if ( self.barService:Alive( self.id ) and self.changingSizes == false ) then
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+		if ( barService:Alive( self.id ) and self.changingSizes == false ) then
 			self.changingSizes = true;
-			local barSettings = self.settingsService:GetBarSettings( self.id );
+			local barSettings = settingsService:GetBarSettings( self.id );
 			local originalCols = barSettings.quickslotColumns;
 			local originalRows = barSettings.quickslotRows;
 
@@ -49,7 +51,7 @@ function WindowBar:Constructor( barid )
 			barSettings.quickslotCount = barSettings.quickslotRows * barSettings.quickslotColumns;
 			if ( self.watchSizeChanges and (originalCols ~= barSettings.quickslotColumns or originalRows ~= barSettings.quickslotRows) ) then
 				self.quickslotList:SetMaxItemsPerLine( barSettings.quickslotColumns );
-				self.settingsService:SetBarSettings( self.id, barSettings );
+				settingsService:SetBarSettings( self.id, barSettings );
 				self:SetSize( self.quickslotList:GetWidth(), self.quickslotList:GetHeight() );
 			end
 			self.changingSizes = false;
@@ -58,26 +60,35 @@ function WindowBar:Constructor( barid )
 	self.mainWindow.MouseEnter = self.MouseEnter;
 	self.mainWindow.MouseLeave = self.MouseLeave;
 	self.mainWindow.PositionChanged = function( sender, args )
-		local settings = self.settingsService:GetSettings();
-		local barSettings = self.settingsService:GetBarSettings( self.id );
-		if ( self.barService:Alive( self.id ) and settings.barMode ~= NORMAL_MODE ) then
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local settings = settingsService:GetSettings();
+		local barSettings = settingsService:GetBarSettings( self.id );
+
+		if ( barService:Alive( self.id ) and settings.barMode ~= NORMAL_MODE ) then
 			local x,y = self.mainWindow:GetPosition();
 			barSettings.x = x;
 			barSettings.y = y;
-			self.settingsService:SetBarSettings( self.id, barSettings );
+			settingsService:SetBarSettings( self.id, barSettings );
 		end
 	end
 	self.mainWindow.MouseDown = self.MouseDown;
 	self.mainWindow.MouseMove = function( sender, args )
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local settings = settingsService:GetSettings();
+
 		local left, top = self:GetPosition();
-		local settings = self.settingsService:GetSettings();
-		if ( self.barService:Alive( self.id ) and settings.barMode ~= NORMAL_MODE and self.dragging ) then
+
+		if ( barService:Alive( self.id ) and settings.barMode ~= NORMAL_MODE and self.dragging ) then
 			self.mainWindow:SetPosition( left + ( args.X - self.dragStartX ), top + ( args.Y - self.dragStartY ) );
 			self.dragged = true;
 		end
 	end
 	self.mainWindow.MouseUp = function( sender, args )
-		if ( self.barService:Alive( self.id ) == true and args.Button == Turbine.UI.MouseButton.Left ) then
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		if ( barService:Alive( self.id ) == true and args.Button == Turbine.UI.MouseButton.Left ) then
 			self.dragging = false;
 		  
 			if( self.dragged ) then
@@ -107,14 +118,16 @@ function WindowBar:Constructor( barid )
 end
 
 function WindowBar:Create()
-	Tonic.TonicBars.Bars.Inventory.InventoryBaseBar.Create( self );
+	MyysticBars.TonicBars.Bars.Inventory.InventoryBaseBar.Create( self );
 	self.mainWindow:SetSize( self.quickslotList:GetWidth() + 24, self.quickslotList:GetHeight() + 55 );
 	self.watchSizeChanges = true;
 end
 
 function WindowBar:Refresh()
-	Tonic.TonicBars.Bars.Inventory.InventoryBaseBar.Refresh( self );
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	MyysticBars.TonicBars.Bars.Inventory.InventoryBaseBar.Refresh( self );
+
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
 	self:SetPosition( 10, 41 );
 end
 
@@ -131,8 +144,9 @@ end
 --
 -- It is recommended to call: "eventService:NotifyClients();" if needed.
 function WindowBar:DetermineVisiblity( eventValue, force )
-	local settings = self.settingsService:GetSettings();
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();
+	local barSettings = settingsService:GetBarSettings( self.id );
 
 	if ( settings.barMode == NORMAL_MODE ) then
 		local visible = false;
@@ -170,6 +184,6 @@ function WindowBar:InventoryPressed()
 end
 
 function WindowBar:SetMenuBackColor( selected )
-	Tonic.TonicBars.Bars.BaseBar.SetMenuBackColor( self, selected, INVENTORY_MODE );
+	MyysticBars.TonicBars.Bars.BaseBar.SetMenuBackColor( self, selected, INVENTORY_MODE );
 	self:SetBackColor( Turbine.UI.Color(1,0,0,0) );
 end

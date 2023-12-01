@@ -7,7 +7,7 @@
 ChampionClass = class();
 
 function ChampionClass:Constructor()
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:RegisterBarCreator( "Stances", 	 "Stance",	self.Stance );
 	configurationService:RegisterBarCreator( "Tier1 Skills", "Tier1", 	self.Tier1 );
@@ -19,7 +19,7 @@ function ChampionClass:Constructor()
 end
 
 function ChampionClass:Stance( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Stance", 4, 1, 3, 240, 300 );
 	configurationService:SetBuffTriggerOptions( false, false );
@@ -34,7 +34,7 @@ function ChampionClass:Stance( override )
 end
 
 function ChampionClass:Tier1( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Tier1", 18, 1, 3, 240, 350 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -46,7 +46,7 @@ function ChampionClass:Tier1( override )
 end
 
 function ChampionClass:Tier2( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Tier2", 4, 1, 4, 240, 400 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -59,7 +59,7 @@ function ChampionClass:Tier2( override )
 end
 
 function ChampionClass:Tier3( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Tier3", 14, 1, 2, 240, 450 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -70,7 +70,7 @@ function ChampionClass:Tier3( override )
 end
 
 function ChampionClass:Tier4( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Tier4", 6, 1, 4, 240, 500 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -83,7 +83,7 @@ function ChampionClass:Tier4( override )
 end
 
 function ChampionClass:Tier5( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Tier5", 6, 1, 2, 240, 550 );
 	configurationService:SetBuffTriggerOptions( true, false );

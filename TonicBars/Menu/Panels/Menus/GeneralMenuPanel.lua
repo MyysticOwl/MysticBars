@@ -5,28 +5,24 @@
 -- RESPECT!
 
 import "Turbine";
-import "Tonic.Utils.Class";
-import "Tonic.UI.MenuUtils";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.UI.MenuUtils";
 
 GeneralMenuPanel = class( Turbine.Object );
 
-GeneralMenuPanel.utils = Tonic.UI.MenuUtils();
-
-function GeneralMenuPanel:Constructor()
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-end
+GeneralMenuPanel.utils = MyysticBars.UI.MenuUtils();
 
 function GeneralMenuPanel:Draw(context)
 	menu.contentBox:ClearItems();
 	
-	local settingsBox = Tonic.UI.AutoListBox();
+	local settingsBox = MyysticBars.UI.AutoListBox();
 
 	self.utils:AddCategoryBox(settingsBox, LOCALESTRINGS.GeneralMenu["General Settings"]);
 
 	if ( realClassSet == nil ) then
 		self.utils:AddLabelBox( settingsBox, LOCALESTRINGS.GeneralMenu["Plugin can't determine your class, please select the correct one:"], selectionWidth + 200, selectionHeight + 10 );
 
-		self.classList = Tonic.UI.ComboBox();
+		self.classList = MyysticBars.UI.ComboBox();
 		self.classList:SetSize( 200, 20 );
 		self.classList:SetParent( settingsBox );
 		self.classList:AddItem( LOCALESTRINGS.ClassNames["Guardian"], 		23 );
@@ -47,7 +43,7 @@ function GeneralMenuPanel:Draw(context)
 
 	self.utils:AddCategoryBox(settingsBox, LOCALESTRINGS.GeneralMenu["Languages"]);
 
-	self.languageList = Tonic.UI.ComboBox();
+	self.languageList = MyysticBars.UI.ComboBox();
 	self.languageList:SetSize( 200, 20 );
 	self.languageList:SetParent( settingsBox );
 	self.languageList:AddItem( LOCALESTRINGS.GeneralMenu["English"], "en" );
@@ -70,7 +66,7 @@ function GeneralMenuPanel:AddSettings(settingsBox)
 
 	self.utils:AddLabelBox( settingsBox, LOCALESTRINGS.GeneralMenu["Profiles"], selectionWidth + 200, selectionHeight + 25 );
 
-	self.profileList = Tonic.UI.ComboBox();
+	self.profileList = MyysticBars.UI.ComboBox();
 	self.profileList:SetSize( 200, 20 );
 	self.profileList:SetParent( settingsBox );
 	settingsBox:AddItem( self.profileList );
@@ -78,13 +74,13 @@ function GeneralMenuPanel:AddSettings(settingsBox)
 	self.utils:AddLabelBox( settingsBox, "", 0, 15 );
 	self.utils:AddLabelBox( settingsBox, LOCALESTRINGS.GeneralMenu["Take"], selectionWidth + 200, selectionHeight );
 
-	self.theirBarList = Tonic.UI.ComboBox();
+	self.theirBarList = MyysticBars.UI.ComboBox();
 	self.theirBarList:SetSize( 200, 20 );
 	self.theirBarList:SetParent( settingsBox );
 	settingsBox:AddItem( self.theirBarList );
 
 	self.utils:AddLabelBox( settingsBox, LOCALESTRINGS.GeneralMenu["Give"], selectionWidth + 200, selectionHeight );
-	self.myBarList = Tonic.UI.ComboBox();
+	self.myBarList = MyysticBars.UI.ComboBox();
 	self.myBarList:SetSize( 200, 20 );
 	self.myBarList:SetParent( settingsBox );
 	settingsBox:AddItem( self.myBarList );
@@ -94,14 +90,16 @@ function GeneralMenuPanel:AddSettings(settingsBox)
 	noShortcutButton:SetText( LOCALESTRINGS.GeneralMenu["Without Icons"] );
 	noShortcutButton:SetSize( buttonWidth + 75, selectionHeight );
 	noShortcutButton.MouseClick = function( sender, args )
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 		local profile = self.profileList:GetSelection();
 		local theirBar = self.theirBarList:GetSelection();
 		local myBar = self.myBarList:GetSelection();
 		if ( profile ~= nil and theirBar ~= nil and theirBar ~= "" ) then
-			self.settingsService:CopyProfile( profile, self.settingsService.PARTIAL, theirBar, false );
+			settingsService:CopyProfile( profile, settingsService.PARTIAL, theirBar, false );
 		elseif ( profile ~= nil and myBar ~= nil and myBar ~= "" ) then
 			self.utils:AddLabelBox( settingsBox, "", 0, 15 );
-			self.settingsService:CopyProfile( profile, self.settingsService.PARTIAL, myBar, true );
+			settingsService:CopyProfile( profile, settingsService.PARTIAL, myBar, true );
 		end
 	end
 	box1:AddItem( noShortcutButton );
@@ -110,13 +108,15 @@ function GeneralMenuPanel:AddSettings(settingsBox)
 	shortcutButton:SetText( LOCALESTRINGS.GeneralMenu["With Icons"] );
 	shortcutButton:SetSize( buttonWidth + 75, selectionHeight );
 	shortcutButton.MouseClick = function( sender, args )
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 		local profile = self.profileList:GetSelection();
 		local theirBar = self.theirBarList:GetSelection();
 		local myBar = self.myBarList:GetSelection();
 		if ( profile ~= nil and theirBar ~= nil and theirBar ~= "" ) then
-			self.settingsService:CopyProfile( profile, self.settingsService.ALL, theirBar, false );
+			settingsService:CopyProfile( profile, settingsService.ALL, theirBar, false );
 		elseif ( profile ~= nil and myBar ~= nil and myBar ~= "" ) then
-			self.settingsService:CopyProfile( profile, self.settingsService.ALL, myBar, true );
+			settingsService:CopyProfile( profile, settingsService.ALL, myBar, true );
 		end
 	end
 	box1:AddItem( shortcutButton );
@@ -164,8 +164,10 @@ function GeneralMenuPanel:ChangeProfileVisibilty()
 end
 
 function GeneralMenuPanel:RefreshComboBox()
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	self.profileList:Clear();
-	for key, value in opairs (self.settingsService:GetProfiles() ) do
+	for key, value in opairs (settingsService:GetProfiles() ) do
 		local found = false;
 		if ( player:GetName() == key ) then
 			found = true;
@@ -183,9 +185,11 @@ function GeneralMenuPanel:RefreshComboBox()
 end
 
 function GeneralMenuPanel:RefreshTheirProfileBars()
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	self.theirBarList:Clear();
 	self.theirBarList:AddItem( "", "" );
-	for key, value in opairs (self.settingsService:GetProfileBars(self.profileList:GetSelection()) ) do
+	for key, value in opairs (settingsService:GetProfileBars(self.profileList:GetSelection()) ) do
 		local found = false;
 		if ( player:GetName() == key ) then
 			found = true;
@@ -206,9 +210,11 @@ function GeneralMenuPanel:RefreshTheirProfileBars()
 end
 
 function GeneralMenuPanel:RefreshMyProfileBars()
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	self.myBarList:Clear();
 	self.myBarList:AddItem( "", "" );
-	for key, value in opairs (self.settingsService:GetBars() ) do
+	for key, value in opairs (settingsService:GetBars() ) do
 		local found = false;
 		if ( player:GetName() == key ) then
 			found = true;

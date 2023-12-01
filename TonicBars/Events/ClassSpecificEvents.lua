@@ -6,81 +6,83 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "Tonic.Utils.Class";
-import "Tonic.Utils.Table";
-import "Tonic.Utils.TableDump"
+import "MyysticBars.Utils.Class";
+import "MyysticBars.Utils.Table";
+import "MyysticBars.Utils.TableDump"
 
 ClassSpecificEvents = class( Turbine.Object  );
 
 function ClassSpecificEvents:Constructor( regEvents )
-	self.eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
-	self.playerService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.PlayerService);
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
 
 	self.test = {1,2,3,4,5};
 	self.registeredEvents = regEvents;
-	local att = self.playerService.playerClassAttributes;
+	local att = playerService.playerClassAttributes;
 	if ( self.registeredEvents.classRange == nil ) then
 		self.registeredEvents.classRange = { };
 	end
 
-	-- local dump = Tonic.Utils.TableDump()
+	-- local dump = MyysticBars.Utils.TableDump()
 	-- dump.Dump(getmetatable(Turbine.UI.Lotro.LotroUIElement));
 
-	if ( self.playerService.player:GetClass() == Turbine.Gameplay.Class.Burglar ) then
-		-- self.eventService.AddCallback( self, att, "StanceChanged", function( sender, args )
+	if ( playerService.player:GetClass() == Turbine.Gameplay.Class.Burglar ) then
+		-- eventService.AddCallback( self, att, "StanceChanged", function( sender, args )
 		-- 	Turbine.Shell.WriteLine( "BURG STANCE!!" );
-		-- 	self.eventService:NotifyClients();
+		-- 	eventService:NotifyClients();
 		-- end);
---		self.eventService.AddCallback( self, att, "IsCriticalTier1Changed", function( sender, args )
+--		eventService.AddCallback( self, att, "IsCriticalTier1Changed", function( sender, args )
 --			Turbine.Shell.WriteLine( "Tier1" );
 ----			self.registeredEvents.classRange[ LOCALESTRINGS.ClassTriggers["Crit Tier1"] ] = att:IsCriticalTier1Available();
---			self.eventService:NotifyClients();
+--			eventService:NotifyClients();
 --		end);
---		self.eventService.AddCallback( self, att, "IsCriticalTier2Changed", function( sender, args )
+--		eventService.AddCallback( self, att, "IsCriticalTier2Changed", function( sender, args )
 --			Turbine.Shell.WriteLine( "Tier2" );
 ----			self.registeredEvents.classRange[ LOCALESTRINGS.ClassTriggers["Crit Tier2"] ] = att:IsCriticalTier2Available();
---			self.eventService:NotifyClients();
+--			eventService:NotifyClients();
 --		end);
---		self.eventService.AddCallback( self, att, "IsCriticalTier3Changed", function( sender, args )
+--		eventService.AddCallback( self, att, "IsCriticalTier3Changed", function( sender, args )
 --			Turbine.Shell.WriteLine( "Tier3" );
 ----			self.registeredEvents.classRange[ LOCALESTRINGS.ClassTriggers["Crit Tier3"] ] = att:IsCriticalTier3Available();
---			self.eventService:NotifyClients();
+--			eventService:NotifyClients();
 --		end);
-	elseif ( self.playerService.player:GetClass() == Turbine.Gameplay.Class.Champion ) then
+	elseif ( playerService.player:GetClass() == Turbine.Gameplay.Class.Champion ) then
 		self.registeredEvents.classRange[ CHAMPION_FERVOR ] = att:GetFervor();
-		self.eventService:AddCallback( att, "FervorChanged", function( sender, args )
+		eventService:AddCallback( att, "FervorChanged", function( sender, args )
 			self.registeredEvents.classRange[ CHAMPION_FERVOR ] = att:GetFervor();
-			self.eventService:NotifyClients();
+			eventService:NotifyClients();
 		end);
-	elseif ( self.playerService.player:GetClass() == Turbine.Gameplay.Class.RuneKeeper ) then
+	elseif ( playerService.player:GetClass() == Turbine.Gameplay.Class.RuneKeeper ) then
 		self.registeredEvents.classRange[ RK_ATTUNEMENT ] = att:GetAttunement();
-		self.eventService:AddCallback( att, "AttunementChanged", function( sender, args )
+		eventService:AddCallback( att, "AttunementChanged", function( sender, args )
 			self.registeredEvents.classRange[ RK_ATTUNEMENT ] = att:GetAttunement();
-			self.eventService:NotifyClients();
+			eventService:NotifyClients();
 		end);
-		-- self.eventService.AddCallback( self, att, "IsChargedChanged", function( sender, args )
+		-- eventService.AddCallback( self, att, "IsChargedChanged", function( sender, args )
 			-- self.registeredEvents.classRange[ LOCALESTRINGS.ClassTriggers["Charged"] ] = att:IsCharged();
-			-- self.eventService:NotifyClients();
+			-- eventService:NotifyClients();
 		-- end);
-	elseif ( self.playerService.player:GetClass() == Turbine.Gameplay.Class.Hunter ) then
+	elseif ( playerService.player:GetClass() == Turbine.Gameplay.Class.Hunter ) then
 		self.registeredEvents.classRange[ HUNTER_FOCUS ] = att:GetFocus();
-		self.eventService:AddCallback( att, "FocusChanged", function( sender, args )
+		eventService:AddCallback( att, "FocusChanged", function( sender, args )
 			self.registeredEvents.classRange[ HUNTER_FOCUS ] = att:GetFocus();
-			self.eventService:NotifyClients();
+			eventService:NotifyClients();
 		end);
-	elseif ( self.playerService.player:GetClass() == Turbine.Gameplay.Class.Minstrel ) then
-		self.eventService:AddCallback( att, "StanceChanged", function( sender, args )
+	elseif ( playerService.player:GetClass() == Turbine.Gameplay.Class.Minstrel ) then
+		eventService:AddCallback( att, "StanceChanged", function( sender, args )
 --			Turbine.Shell.WriteLine( "MINSTREL STANCE!!" );
-			self.eventService:NotifyClients();
+			eventService:NotifyClients();
 		end);
 	end
-	self.eventService:NotifyClients();
+	eventService:NotifyClients();
 end
 
 function ClassSpecificEvents:CheckVisibility( barSettings )
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+
 	local visible = false;
-	if ( self.playerService.player:GetClass() == Turbine.Gameplay.Class.Minstrel ) then
-		local att = self.playerService.player:GetClassAttributes();
+	if ( playerService.player:GetClass() == Turbine.Gameplay.Class.Minstrel ) then
+		local att = playerService.player:GetClassAttributes();
 		if ( barSettings.events ~= nil and barSettings.events.effects ~= nil ) then
 			if ( (att:IsSerenadeTier1Available() and barSettings.events.effects[ "Ballad Tier 1" ] ~= nil) or
 				 (att:IsSerenadeTier2Available() and barSettings.events.effects[ "Ballad Tier 2" ] ~= nil) or

@@ -3,7 +3,7 @@
 -- Permission can be atained by contacting MyysticOwl at: TonicBars@gmail.com
 --
 -- RESPECT!
-local eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
+local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
 
 -- 							English Skill Name -- Description shown on Menus -- Acutal Skill Name must match BUFF name exactly -- Class Name
 eventService:RegisterEffect( "Ballad Tier 1",				'Ballade Stufe 1', 					'Ballade, Stufe 1', 					Turbine.Gameplay.Class.Minstrel );

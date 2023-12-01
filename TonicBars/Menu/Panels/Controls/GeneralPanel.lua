@@ -7,16 +7,13 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
 
 GeneralPanel = class();
 
 function GeneralPanel:Constructor( panel )
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-
-	self.utils = Tonic.UI.MenuUtils();
+	self.utils = MyysticBars.UI.MenuUtils();
 
 	local box0 = self.utils:AddAutoListBox( panel, Turbine.UI.Orientation.Horizontal, 0, 0, 0, 0 );
 
@@ -28,10 +25,13 @@ function GeneralPanel:Constructor( panel )
 		nameButton:SetText( LOCALESTRINGS.QuickslotsMenu["Set"] );
 		nameButton:SetSize( buttonWidth, selectionHeight );
 		nameButton.MouseClick = function( sender, args )
-			local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+			local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 			barSettings.barName = self.barName:GetText();
-			if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-				self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+			if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+				settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 			end
 			menu:Refresh();
 		end
@@ -45,7 +45,7 @@ function GeneralPanel:Constructor( panel )
 	self.utils:CreateCheckBoxCallback( self.barLockedCheckBox, { "locked" } );
 
 	self.utils:AddLabelBox( panel, LOCALESTRINGS.QuickslotsMenu["Bar Visibility?"], 120, selectionHeight );
-	self.visibilityList = Tonic.UI.ComboBox();
+	self.visibilityList = MyysticBars.UI.ComboBox();
 	self.visibilityList:SetSize( 200, 20 );
 	self.visibilityList:SetParent( panel );
 	self.visibilityList:AddItem( LOCALESTRINGS.QuickslotVisibility["Always"], 1 );
@@ -55,25 +55,32 @@ function GeneralPanel:Constructor( panel )
 end
 
 function GeneralPanel:DisplaySettings()
-	local localBarSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( menu:GetSelection() );
 	self.barName.FocusLost = function(sender, args)
-		local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 		barSettings.barName = self.barName:GetText();
-		if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-			self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+		if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+			settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 		end
 	end
 	self.barName:SetText( localBarSettings.barName );
 
     self.visibilityList.SelectedIndexChanged = function(sender, args)
-		local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 		if ( self.visibilityList:GetSelection() == 1 ) then
 			barSettings.visible = true;
 		else
 			barSettings.visible = false;
 		end
-		if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-			self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+		if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+			settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 		end
 
 		menu:EnableTriggers( not barSettings.visible );

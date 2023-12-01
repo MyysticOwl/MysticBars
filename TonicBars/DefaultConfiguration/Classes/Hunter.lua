@@ -13,7 +13,7 @@
 HunterClass = class();
 
 function HunterClass:Constructor()
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:RegisterBarCreator( "Stances", 			"Stance", self.Stance );
 	configurationService:RegisterBarCreator( "Focus >= 3 Skills", 	"3 Focus", self.Focus3 );
@@ -23,7 +23,7 @@ function HunterClass:Constructor()
 end
 
 function HunterClass:Stance( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 	
 	configurationService:CreateBar( override, "Stance", 6, 1, 4, 240, 300 );
 	configurationService:SetBuffTriggerOptions( false, false );
@@ -40,7 +40,7 @@ function HunterClass:Stance( override )
 end
 
 function HunterClass:Focus3( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "3 Focus", 2, 1, 4, 240, 350 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -52,7 +52,7 @@ function HunterClass:Focus3( override )
 end
 
 function HunterClass:Focus6( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "6 Focus", 30, 1, 2, 240, 400 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -63,7 +63,7 @@ function HunterClass:Focus6( override )
 end
 
 function HunterClass:FindThePath( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Find The Path", 14, 1, 1, 240, 450 );
 	configurationService:SetBuffTriggerOptions( false, false );

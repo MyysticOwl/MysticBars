@@ -6,12 +6,12 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.Utils.Class";
-import "Tonic.Utils.Table";
-import "Tonic.UI.CheckBox";
-import "Tonic.UI.ComboBox";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.Slider";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.Utils.Table";
+import "MyysticBars.UI.CheckBox";
+import "MyysticBars.UI.ComboBox";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.Slider";
 
 MenuUtils = class( Turbine.Object );
 
@@ -66,7 +66,7 @@ MenuUtils.Verdana14 = Turbine.UI.Lotro.Font.Verdana14;
 MenuUtils.Verdana16 = Turbine.UI.Lotro.Font.Verdana16;
 MenuUtils.Arial12 = Turbine.UI.Lotro.Font.Arial12;
 
-RESOURCEDIR = "Tonic/UI/Resources/"
+RESOURCEDIR = "MyysticBars/UI/Resources/"
 
 MenuUtils.ICONEXPANDALL = 0x4100027B;-- 16x16
 MenuUtils.ICONEXPANDALLOVER = 0x4100027C;-- 16x16
@@ -80,10 +80,10 @@ MenuUtils.ICONCHECKEDEMPTY = Turbine.UI.Graphic(RESOURCEDIR .. "checkbox_02_empt
 function MenuUtils:AddAutoListBox( parentBox, orientation, width, height, top, left, thebgcolor )
 	local box;
 	if ( x ~= nil ) then
-		box = Tonic.UI.AutoListBox(width, height);
+		box = MyysticBars.UI.AutoListBox(width, height);
 		box:SetPosition(top,left);
 	else
-		box = Tonic.UI.AutoListBox();
+		box = MyysticBars.UI.AutoListBox();
 	end
 	box:SetZOrder(10);
 	box:SetParent( parentBox );
@@ -307,7 +307,7 @@ function MenuUtils:AddItem(node)
 end
 
 function MenuUtils:AddCheckBox( parentBox, text, x, y, thebgcolor )
-	local cb = Tonic.UI.CheckBox();
+	local cb = MyysticBars.UI.CheckBox();
 	cb:SetParent( parentBox );
 	cb:SetText( text );
 	cb:SetBackColor( unselectedColor );
@@ -322,7 +322,7 @@ function MenuUtils:AddCheckBox( parentBox, text, x, y, thebgcolor )
 end
 
 function MenuUtils:CreateCheckBoxCallback( control, commandTable, callbackFunction )
-	local settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
 
 	control.CheckedCallback = function( sender, args )
 		local barId = tonumber( settingsService:GetSettings().selectedBar);
@@ -341,7 +341,7 @@ function MenuUtils:CreateCheckBoxCallback( control, commandTable, callbackFuncti
 end
 
 function MenuUtils:AddScrollBar( parentBox, value, minVal, maxVal, x, y, thebgcolor, text )
-	local sb = Tonic.UI.Slider();
+	local sb = MyysticBars.UI.Slider();
 	sb:SetParent( parentBox );
 	sb:SetSize( x, y );
 	sb:SetText(text);
@@ -359,7 +359,7 @@ function MenuUtils:AddScrollBar( parentBox, value, minVal, maxVal, x, y, thebgco
 end
 
 function MenuUtils:CreateScrollBarCallback( control, commandTable, add, divide, callbackFunction )
-	local settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
 
 	control.ValueChanged = function( sender, args )
 		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );

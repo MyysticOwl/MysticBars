@@ -7,35 +7,35 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.Utils.Class";
-import "Tonic.Utils.TableDump";
-import "Tonic.UI.CheckBox";
-import "Tonic.UI.ComboBox";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
-import "Tonic.TonicBars.Menu.Panels.Bars.BarMenuPanel";
-import "Tonic.TonicBars.Menu.Panels.Bars.ExtensionBarMenuPanel";
-import "Tonic.TonicBars.Menu.Panels.Menus.ExtensionsMenuPanel"
+import "MyysticBars.Utils.Class";
+import "MyysticBars.Utils.TableDump";
+import "MyysticBars.UI.CheckBox";
+import "MyysticBars.UI.ComboBox";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
+import "MyysticBars.TonicBars.Menu.Panels.Bars.BarMenuPanel";
+import "MyysticBars.TonicBars.Menu.Panels.Bars.ExtensionBarMenuPanel";
+import "MyysticBars.TonicBars.Menu.Panels.Menus.ExtensionsMenuPanel"
 
 ManageBarsMenuItems = class();
 
-ManageBarsMenuItems.panel = Tonic.TonicBars.Menu.Panels.Bars.BarMenuPanel();
-ManageBarsMenuItems.menuItems = Tonic.TonicBars.Menu.Items.MainMenuItems();
-ManageBarsMenuItems.extensionsPanel = Tonic.TonicBars.Menu.Panels.Menus.ExtensionsMenuPanel();
-ManageBarsMenuItems.extensionsBarPanel = Tonic.TonicBars.Menu.Panels.Bars.ExtensionBarMenuPanel();
-ManageBarsMenuItems.utils = Tonic.UI.MenuUtils();
+ManageBarsMenuItems.panel = MyysticBars.TonicBars.Menu.Panels.Bars.BarMenuPanel();
+ManageBarsMenuItems.menuItems = MyysticBars.TonicBars.Menu.Items.MainMenuItems();
+ManageBarsMenuItems.extensionsPanel = MyysticBars.TonicBars.Menu.Panels.Menus.ExtensionsMenuPanel();
+ManageBarsMenuItems.extensionsBarPanel = MyysticBars.TonicBars.Menu.Panels.Bars.ExtensionBarMenuPanel();
+ManageBarsMenuItems.utils = MyysticBars.UI.MenuUtils();
 
 function ManageBarsMenuItems:Constructor(mainMenu, parent)
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-
 	self:Refresh(mainMenu, parent)
 end
 
 function ManageBarsMenuItems:Refresh(mainMenu, parent)
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	menu = mainMenu;
 
-	local bars = self.settingsService:GetBars( QUICKSLOTBAR );
-	local extensions = self.settingsService:GetBars( EXTENSIONBAR );
+	local bars = settingsService:GetBars( QUICKSLOTBAR );
+	local extensions = settingsService:GetBars( EXTENSIONBAR );
 	for key, value in pairs (bars) do
 		local context = self.menuItems:CreateIfExistsCheckedBarItem(parent, mainMenu, self.panel, key, value);
 

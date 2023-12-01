@@ -1,5 +1,5 @@
 
-import "Tonic.Utils.Class";
+import "MyysticBars.Utils.Class";
 
 local EventMetatable;
 local EventInfo;

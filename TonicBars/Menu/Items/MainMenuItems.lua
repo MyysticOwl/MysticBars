@@ -7,19 +7,19 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.Utils.Class";
-import "Tonic.UI.CheckBox";
-import "Tonic.UI.ComboBox";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
-import "Tonic.TonicBars.Bars.Quickslots.TypeHelper";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.UI.CheckBox";
+import "MyysticBars.UI.ComboBox";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
+import "MyysticBars.TonicBars.Bars.Quickslots.TypeHelper";
 
 MainMenuItems = class();
 
-MainMenuItems.utils = Tonic.UI.MenuUtils();
+MainMenuItems.utils = MyysticBars.UI.MenuUtils();
 
 function MainMenuItems:CreateNewBarItem(parent, mainMenu)
-	local barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
 
 	local context = { ["parent"] = parent, ["width"] = parent:GetWidth() };
 	self.utils:AddCheckedTreeViewItem(parent, "Add New Bar", context, false);
@@ -37,7 +37,7 @@ function MainMenuItems:CreateNewBarItem(parent, mainMenu)
 end
 
 function MainMenuItems:CreateNewExtensionItem(parent, panel)
-	local settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
 
 	local context = { ["parent"] = parent, ["width"] = parent:GetWidth() };
 	self.utils:AddCheckedTreeViewItem(parent, "Extensions Mode?", context, false);
@@ -92,7 +92,7 @@ function MainMenuItems:CreateIfExistsCheckedBarItem(parent, mainMenu, panel, bar
 end
 
 function MainMenuItems:CreateCheckedBarItem(parent, mainMenu, panel, barId, value)
-	local barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
 
 	local context = self:NewContext(parent, barId, self:GetBarName(barId, value), parent:GetWidth() );
 	local node = self.utils:AddCheckedTreeViewItem(parent, context["barName"], context, false);
@@ -108,12 +108,12 @@ function MainMenuItems:CreateCheckedBarItem(parent, mainMenu, panel, barId, valu
 		else
 			value.callback( self, true );
 
-			local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+			local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 			configurationService:Save();
 			barService:LoadQuickslots();
 			barService:RefreshBars();
 
-			local inventoryService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.InventoryService);
+			local inventoryService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.InventoryService);
 			inventoryService:NotifyClients();
 		end
 
@@ -147,7 +147,7 @@ function MainMenuItems:CreateCheckedBarItem(parent, mainMenu, panel, barId, valu
 end
 
 function MainMenuItems:CreateExpandedBarItem(parent, mainMenu, panel, barId, value)
-	local barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
 
 	local context = self:NewContext(parent, barId, self:GetBarName(barId, value), parent:GetWidth());
 	local node = self.utils:AddExpandTreeViewItem(parent, context["barName"], context, panel);
@@ -197,8 +197,8 @@ function MainMenuItems:Exists(context)
 end
 
 function MainMenuItems:SetSelected(context)
-	local barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	local settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
 
 	if (context ~= nil and context["id"] ~= nil) then
 --		Turbine.Shell.WriteLine("Setting Selected: " .. context["id"])
@@ -267,7 +267,7 @@ function MainMenuItems:GetBarName(barId, bar)
 end
 
 function MainMenuItems:GetBarMatch(context)
-	local settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
 
 	for key, value in opairs (settingsService:GetBars()) do
 		if (value.barName == context["barName"] and value.barName ~=nil) then

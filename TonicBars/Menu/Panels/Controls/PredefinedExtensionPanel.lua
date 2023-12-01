@@ -7,23 +7,21 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
 
 PredefinedExtensionPanel = class();
 
 function PredefinedExtensionPanel:Constructor( panel, mainMenu )
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-
 	menu = mainMenu;
-	self.utils = Tonic.UI.MenuUtils();
+	self.utils = MyysticBars.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, LOCALESTRINGS.ExtensionsMenu["Predefined Extensions"]);
 
 
 	self.utils:AddLabelBox( panel, LOCALESTRINGS.ExtensionsMenu["This will change shortcuts on the current bar perminately!!!!"], selectionWidth + 150, selectionHeight + 10 );
 
-	self.typeList = Tonic.UI.ComboBox();
+	self.typeList = MyysticBars.UI.ComboBox();
 	self.typeList:SetSize( 200, 20 );
 	self.typeList:SetParent( panel );
 	self.typeList:AddItem( LOCALESTRINGS.ExtensionTypes["Hunters Travel"], 	HUNTER_TRAVEL_TYPE );
@@ -46,8 +44,10 @@ end
 
 function PredefinedExtensionPanel:DisplaySettings()
     self.typeList.SelectedIndexChanged = function(sender, args)
-		local hte = Tonic.TonicBars.Bars.Quickslots.TypeHelper();
-		local theBars = self.barService.GetBars();
+		local hte = MyysticBars.TonicBars.Bars.Quickslots.TypeHelper();
+
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local theBars = barService.GetBars();
 		local selection = menu:GetSelection();
 
 		if ( self.typeList:GetSelection() == HUNTER_TRAVEL_TYPE ) then

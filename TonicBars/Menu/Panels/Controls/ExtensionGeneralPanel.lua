@@ -7,17 +7,14 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
 
 ExtensionGeneralPanel = class();
 
 function ExtensionGeneralPanel:Constructor( panel, mainMenu )
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-
 	menu = mainMenu;
-	self.utils = Tonic.UI.MenuUtils();
+	self.utils = MyysticBars.UI.MenuUtils();
 
 	self.utils:AddLabelBox( panel, "", 50, selectionHeight );
 
@@ -33,11 +30,14 @@ function ExtensionGeneralPanel:Constructor( panel, mainMenu )
 	nameButton:SetText( LOCALESTRINGS.ExtensionsMenu["Set"] );
 	nameButton:SetSize( buttonWidth, selectionHeight );
 	nameButton.MouseClick = function( sender, args )
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 		local selection = menu:GetSelection();
-		local barSettings = self.settingsService:GetBarSettings( selection );
-		if ( barSettings.barName ~= self.barName:GetText() and self.barService  ~= nil and self.barService:Alive( menu:GetSelection() )) then
+		local barSettings = settingsService:GetBarSettings( selection );
+		if ( barSettings.barName ~= self.barName:GetText() and barService  ~= nil and barService:Alive( menu:GetSelection() )) then
 			barSettings.barName = self.barName:GetText();
-			self.settingsService:SetBarSettings( selection, barSettings );
+			settingsService:SetBarSettings( selection, barSettings );
 			menu:Refresh();
 		end
 	end
@@ -47,7 +47,7 @@ function ExtensionGeneralPanel:Constructor( panel, mainMenu )
 
 	self.utils:AddLabelBox( panel, LOCALESTRINGS.ExtensionsMenu["Orientation:"], selectionWidth + 100, selectionHeight + 5 );
 
-	self.orientationList = Tonic.UI.ComboBox();
+	self.orientationList = MyysticBars.UI.ComboBox();
 	self.orientationList:SetSize( 200, 20 );
 	self.orientationList:SetParent( panel );
 	self.orientationList:AddItem( LOCALESTRINGS.Orientation["Left"],  "Left" );
@@ -58,7 +58,7 @@ function ExtensionGeneralPanel:Constructor( panel, mainMenu )
 
 	self.utils:AddLabelBox( panel, LOCALESTRINGS.ExtensionsMenu["When attached quickslot is Moused Over:"], selectionWidth + 200, selectionHeight + 5 );
 
-	self.mousedOverList = Tonic.UI.ComboBox();
+	self.mousedOverList = MyysticBars.UI.ComboBox();
 	self.mousedOverList:SetSize( 200, 20 );
 	self.mousedOverList:SetParent( panel );
 	self.mousedOverList:AddItem( LOCALESTRINGS.ExtensionRule["Show Extension(s)"], SHOW_EXTENSIONS );
@@ -69,7 +69,7 @@ function ExtensionGeneralPanel:Constructor( panel, mainMenu )
 
 	self.utils:AddLabelBox( panel, LOCALESTRINGS.ExtensionsMenu["Stop displaying extension when:"], selectionWidth + 200, selectionHeight + 5 );
 
-	self.removalList = Tonic.UI.ComboBox();
+	self.removalList = MyysticBars.UI.ComboBox();
 	self.removalList:SetSize( 200, 20 );
 	self.removalList:SetParent( panel );
 	self.removalList:AddItem( LOCALESTRINGS.ExtensionRemoval["Mouse Leaves Bar"], 1 );
@@ -81,31 +81,41 @@ function ExtensionGeneralPanel:Constructor( panel, mainMenu )
 end
 
 function ExtensionGeneralPanel:DisplaySettings()
-	local localBarSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( menu:GetSelection() );
 
     self.orientationList.SelectedIndexChanged = function(sender, args)
-		local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+	
 		barSettings.orientation = self.orientationList:GetSelection();
-		if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-			self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+		if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+			settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 		end
 	end
 	self.orientationList:SetSelection( localBarSettings.orientation );
 
     self.mousedOverList.SelectedIndexChanged = function(sender, args)
-		local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 		barSettings.onMouseOver = self.mousedOverList:GetSelection();
-		if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-			self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+		if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+			settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 		end
 	end
 	self.mousedOverList:SetSelection( localBarSettings.onMouseOver );
 
     self.removalList.SelectedIndexChanged = function(sender, args)
-		local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 		barSettings.barTermination = self.removalList:GetSelection();
-		if ( self.barService  ~= nil and self.barService:Alive( menu:GetSelection() ) ) then
-			self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+		if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+			settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 		end
 	end
 	self.removalList:SetSelection( localBarSettings.barTermination );

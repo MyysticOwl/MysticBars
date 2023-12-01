@@ -7,21 +7,21 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.Utils.Class";
-import "Tonic.Utils.Table";
-import "Tonic.UI.CheckBox";
-import "Tonic.UI.ComboBox";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
-import "Tonic.TonicBars.Menu.InventoryMenu";
-import "Tonic.TonicBars.Menu.AboutMenu";
-import "Tonic.TonicBars.Menu.Items.MainMenuItems";
-import "Tonic.TonicBars.Menu.Items.EasyBarMenuItems";
-import "Tonic.TonicBars.Menu.Items.ManageBarsMenuItems";
-import "Tonic.TonicBars.Menu.Panels.Menus.EasyBarMenuPanel";
-import "Tonic.TonicBars.Menu.Panels.Menus.ManageBarsMenuPanel";
-import "Tonic.TonicBars.Menu.Panels.Menus.ExtensionsMenuPanel";
-import "Tonic.TonicBars.Menu.Panels.Menus.GeneralMenuPanel";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.Utils.Table";
+import "MyysticBars.UI.CheckBox";
+import "MyysticBars.UI.ComboBox";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
+import "MyysticBars.TonicBars.Menu.InventoryMenu";
+import "MyysticBars.TonicBars.Menu.AboutMenu";
+import "MyysticBars.TonicBars.Menu.Items.MainMenuItems";
+import "MyysticBars.TonicBars.Menu.Items.EasyBarMenuItems";
+import "MyysticBars.TonicBars.Menu.Items.ManageBarsMenuItems";
+import "MyysticBars.TonicBars.Menu.Panels.Menus.EasyBarMenuPanel";
+import "MyysticBars.TonicBars.Menu.Panels.Menus.ManageBarsMenuPanel";
+import "MyysticBars.TonicBars.Menu.Panels.Menus.ExtensionsMenuPanel";
+import "MyysticBars.TonicBars.Menu.Panels.Menus.GeneralMenuPanel";
 
 windowWidth = 800;
 windowHeight = 2000;
@@ -31,11 +31,11 @@ SCREENHEIGHT = Turbine.UI.Display.GetHeight();
 
 MainMenu = class( Turbine.UI.ListBox );
 
-MainMenu.utils = Tonic.UI.MenuUtils();
+MainMenu.utils = MyysticBars.UI.MenuUtils();
 
 MainMenu.navigationWidth = 200;
 MainMenu.tree = nil;
-MainMenu.menuItems = Tonic.TonicBars.Menu.Items.MainMenuItems();
+MainMenu.menuItems = MyysticBars.TonicBars.Menu.Items.MainMenuItems();
 
 MainMenu.menus = { };
 MainMenu.menuSize = 0;
@@ -43,9 +43,6 @@ MainMenu.expandedMenus = nil;
 
 function MainMenu:Constructor()
 	Turbine.UI.ListBox.Constructor(self);
-
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
 	
 	self:SetWidth( windowWidth );
 	self:SetHeight( windowHeight );
@@ -67,7 +64,9 @@ function MainMenu:AddSelectionTypes(width)
 	editButton:SetText( LOCALESTRINGS.MainButtons["Edit Mode"] );
 	editButton:SetSize( width, selectionHeight + 50 );
 	editButton.MouseClick = function( sender, args )
-		local settings = self.settingsService:GetSettings();
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local settings = settingsService:GetSettings();
+
 		if ( settings.barMode == NORMAL_MODE and self.priorBarMode == nil ) then
 			settings.barMode = EASYBAR_MODE;
 		elseif ( settings.barMode == NORMAL_MODE and self.priorBarMode ~= nil ) then
@@ -76,7 +75,9 @@ function MainMenu:AddSelectionTypes(width)
 			self.priorBarMode = settings.barMode;
 			settings.barMode = NORMAL_MODE;
 		end
-		self.barService:RefreshBars();
+
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		barService:RefreshBars();
 
 	end
 	self.menuBox:AddItem( editButton );
@@ -108,13 +109,13 @@ function MainMenu:Refresh()
 
 	local RootNode = self.tree:GetNodes();
 
-	self:AddMenuOption(Tonic.TonicBars.Menu.Panels.Menus.EasyBarMenuPanel, Tonic.TonicBars.Menu.Items.EasyBarMenuItems, {["width"] = self.navigationWidth}, "Easy Bars", RootNode)
-	self:AddMenuOption(Tonic.TonicBars.Menu.Panels.Menus.ManageBarsMenuPanel, Tonic.TonicBars.Menu.Items.ManageBarsMenuItems, {["width"] = self.navigationWidth}, "Manage Bars", RootNode)
+	self:AddMenuOption(MyysticBars.TonicBars.Menu.Panels.Menus.EasyBarMenuPanel, MyysticBars.TonicBars.Menu.Items.EasyBarMenuItems, {["width"] = self.navigationWidth}, "Easy Bars", RootNode)
+	self:AddMenuOption(MyysticBars.TonicBars.Menu.Panels.Menus.ManageBarsMenuPanel, MyysticBars.TonicBars.Menu.Items.ManageBarsMenuItems, {["width"] = self.navigationWidth}, "Manage Bars", RootNode)
 
 	local context = {["width"] = self.navigationWidth};
 
 	self.inventoryMenuItem = self.utils:AddExpandTreeViewItem(RootNode, "Inventory Bars", context);
-	self:AddMenuOption(Tonic.TonicBars.Menu.Panels.Menus.GeneralMenuPanel, nil, {["width"] = self.navigationWidth}, "General", RootNode)
+	self:AddMenuOption(MyysticBars.TonicBars.Menu.Panels.Menus.GeneralMenuPanel, nil, {["width"] = self.navigationWidth}, "General", RootNode)
 	self.aboutMenuItem = self.utils:AddTreeViewItem(RootNode, "About", context);
 
 	self:LoadExpandedItems();
@@ -157,7 +158,8 @@ function MainMenu:LoadExpandedItems()
 end
 
 function MainMenu:GetSelection()
-	return self.settingsService:GetSettings().selectedBar;
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	return settingsService:GetSettings().selectedBar;
 end
 
 function MainMenu:EnableTriggers( enabled )

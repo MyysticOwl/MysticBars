@@ -2,12 +2,11 @@ import "Turbine";
 import "Turbine.UI";
 
 TypeHelper = class();
-function TypeHelper:Constructor()
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-end
 
 function TypeHelper:GetNewHunterTravelSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 15;
 	barSettings.barName = "Hunter Travel";
 	
@@ -26,7 +25,7 @@ function TypeHelper:GetNewHunterTravelSettings( extensionBarId, quickslotList )
 	self:MakeSettingsQuickslot( barSettings.quickslots[13], "0x70017C82" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[14], "0x7000A2C5" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[15], "0x70017C7A" );
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 	
 	self:MakeQuickslot( quickslotList.quickslots[1], "0x7000A2C1" );
 	self:MakeQuickslot( quickslotList.quickslots[2],  "0x70003F42" );
@@ -46,7 +45,9 @@ function TypeHelper:GetNewHunterTravelSettings( extensionBarId, quickslotList )
 end
 
 function TypeHelper:GetNewWardenTravelSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 8;
 	barSettings.barName = "Warden Travel";
 
@@ -58,7 +59,7 @@ function TypeHelper:GetNewWardenTravelSettings( extensionBarId, quickslotList )
 	self:MakeSettingsQuickslot( barSettings.quickslots[6], "0x70014791" );  -- Muster in Rivendell
 	self:MakeSettingsQuickslot( barSettings.quickslots[7], "0x700237D4" );  -- Muster in S�ri-Kyl�
 	self:MakeSettingsQuickslot( barSettings.quickslots[8], "0x7001819E" );  -- Muster in Twenty-First Hall
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 
 	self:MakeQuickslot( quickslotList.quickslots[1], "0x70014786" );	-- Muster in Ost Guruth
 	self:MakeQuickslot( quickslotList.quickslots[2], "0x70014798" );  -- Muster in Esteld�n
@@ -71,23 +72,26 @@ function TypeHelper:GetNewWardenTravelSettings( extensionBarId, quickslotList )
 end
 
 function TypeHelper:GetNewHousingTravelSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 2;
 	barSettings.barName = "Housing Travel";
 	
 	self:MakeSettingsQuickslot( barSettings.quickslots[1], "0x7000D046" );  -- House
 	self:MakeSettingsQuickslot( barSettings.quickslots[2], "0x7000D047" );  -- Kin
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 
 	self:MakeQuickslot( quickslotList.quickslots[1], "0x7000D046" );  -- House
 	self:MakeQuickslot( quickslotList.quickslots[2], "0x7000D047" );  -- Kin
 end
 
 function TypeHelper:GetNewReputationTravelSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 7;
 	barSettings.barName = "Housing Travel";
-
 
 	self:MakeSettingsQuickslot( barSettings.quickslots[1], "0x7001BF90" );  -- Return to Bree
 	self:MakeSettingsQuickslot( barSettings.quickslots[2], "0x70021FA2" );  -- Return to Return to Enedwaith
@@ -96,7 +100,7 @@ function TypeHelper:GetNewReputationTravelSettings( extensionBarId, quickslotLis
 	self:MakeSettingsQuickslot( barSettings.quickslots[5], "0x70023263" );  -- Return to Rivendell
 	self:MakeSettingsQuickslot( barSettings.quickslots[6], "0x70023262" );  -- Return to Shire
 	self:MakeSettingsQuickslot( barSettings.quickslots[7], "0x7001BF91" );  -- Return to Thorin's
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 
 	self:MakeQuickslot( quickslotList.quickslots[1], "0x7001BF90" );  -- Return to Bree
 	self:MakeQuickslot( quickslotList.quickslots[2], "0x70021FA2" );  -- Return to Return to Enedwaith
@@ -108,7 +112,9 @@ function TypeHelper:GetNewReputationTravelSettings( extensionBarId, quickslotLis
 end
 
 function TypeHelper:GetNewLMCombatPetsSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 6;
 	barSettings.barName = "LM Combat Pets";
 	
@@ -118,7 +124,7 @@ function TypeHelper:GetNewLMCombatPetsSettings( extensionBarId, quickslotList )
 	self:MakeSettingsQuickslot( barSettings.quickslots[4], "0x70000FB2" );  -- Eagle
 	self:MakeSettingsQuickslot( barSettings.quickslots[5], "0x7000F530" );  -- Saber Tooth
 	self:MakeSettingsQuickslot( barSettings.quickslots[6], "0x7000F54D" );  -- Bog Guardian
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 
 	
 	self:MakeQuickslot( quickslotList.quickslots[1], "0x70003EB5" );  -- Raven
@@ -130,7 +136,9 @@ function TypeHelper:GetNewLMCombatPetsSettings( extensionBarId, quickslotList )
 end
 
 function TypeHelper:GetNewLMCosmeticPetsSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 9;
 	barSettings.barName = "LM Cosmetic Pets";
 	
@@ -144,7 +152,7 @@ function TypeHelper:GetNewLMCosmeticPetsSettings( extensionBarId, quickslotList 
 	self:MakeSettingsQuickslot( barSettings.quickslots[8], "0x7000BF78" );  -- Snake
 	self:MakeSettingsQuickslot( barSettings.quickslots[9], "0x7000BF79" );  -- Squirrel
 
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 
 	self:MakeQuickslot( quickslotList.quickslots[1], "0x7000BF8E" );  -- Turtle
 	self:MakeQuickslot( quickslotList.quickslots[2], "0x7000BF72" );  -- Bird
@@ -169,7 +177,9 @@ function TypeHelper:MakeQuickslot( actualQuickslot, data )
 end
 
 function TypeHelper:GetNewHorsesSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 15;
 	barSettings.barName = "Horses";
 	
@@ -189,7 +199,7 @@ function TypeHelper:GetNewHorsesSettings( extensionBarId, quickslotList )
 	self:MakeSettingsQuickslot( barSettings.quickslots[14],  "0x7001B4B1" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[15],  "0x70022C73" );
 
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 	
 	self:MakeQuickslot( quickslotList.quickslots[1],  "0x70022C61" );
 	self:MakeQuickslot( quickslotList.quickslots[2],  "0x7001B4D9" );
@@ -208,7 +218,9 @@ function TypeHelper:GetNewHorsesSettings( extensionBarId, quickslotList )
 	self:MakeQuickslot( quickslotList.quickslots[15],  "0x70022C73" );
 end
 function TypeHelper:GetFesHorsesSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 17;
 	barSettings.barName = "Horses2";
 	
@@ -232,7 +244,7 @@ function TypeHelper:GetFesHorsesSettings( extensionBarId, quickslotList )
 	self:MakeSettingsQuickslot( barSettings.quickslots[17],  "0x7001BFFE" );
 --	self:MakeSettingsQuickslot( barSettings.quickslots[18],  "0x7001B4C2" );
 
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 
 	self:MakeQuickslot( quickslotList.quickslots[1],  "0x7001E8EE" );
 	self:MakeQuickslot( quickslotList.quickslots[2],  "0x70020550" );
@@ -256,7 +268,9 @@ function TypeHelper:GetFesHorsesSettings( extensionBarId, quickslotList )
 end
 
 function TypeHelper:GetNewPoniesSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 15;
 	barSettings.barName = "Ponies";
 	
@@ -276,7 +290,7 @@ function TypeHelper:GetNewPoniesSettings( extensionBarId, quickslotList )
 	self:MakeSettingsQuickslot( barSettings.quickslots[14],  "0x7001B4AA" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[15],  "0x70022C73" );
 
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 	
 	self:MakeQuickslot( quickslotList.quickslots[1],  "0x70022C6C" );
 	self:MakeQuickslot( quickslotList.quickslots[2],  "0x7001B4DA" );
@@ -296,7 +310,9 @@ function TypeHelper:GetNewPoniesSettings( extensionBarId, quickslotList )
 end
 
 function TypeHelper:GetFesPoniesSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 18;
 	barSettings.barName = "Ponies2";
 	
@@ -320,7 +336,7 @@ function TypeHelper:GetFesPoniesSettings( extensionBarId, quickslotList )
 	self:MakeSettingsQuickslot( barSettings.quickslots[17],  "0x7001BFFE" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[18],  "0x7001B4C2" );
 
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 
 	self:MakeQuickslot( quickslotList.quickslots[1],  "0x7001E8F0" );
 	self:MakeQuickslot( quickslotList.quickslots[2],  "0x70020551" );
@@ -344,7 +360,9 @@ function TypeHelper:GetFesPoniesSettings( extensionBarId, quickslotList )
 end
 
 function TypeHelper:GetNewMentorSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 9;
 	barSettings.barName = "Instruments";
 	
@@ -357,7 +375,7 @@ function TypeHelper:GetNewMentorSettings( extensionBarId, quickslotList )
 	self:MakeSettingsQuickslot( barSettings.quickslots[7],  "0x7000C786" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[8],  "0x7000C788" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[9],  "0x7000C78C" );
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 	
 	self:MakeQuickslot( quickslotList.quickslots[1],  "0x7000C787" );
 	self:MakeQuickslot( quickslotList.quickslots[2],  "0x7000C789" );
@@ -371,7 +389,9 @@ function TypeHelper:GetNewMentorSettings( extensionBarId, quickslotList )
 end
 
 function TypeHelper:GetNewMinstrelDpsSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 10;
 	barSettings.barName = "Minstrel DPS";
 	
@@ -385,7 +405,7 @@ function TypeHelper:GetNewMinstrelDpsSettings( extensionBarId, quickslotList )
 	self:MakeSettingsQuickslot( barSettings.quickslots[8],  "0x7000317F" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[9],  "0x70003E80" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[10], "0x70003184" );
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 	
 	self:MakeQuickslot( quickslotList.quickslots[1],  "0x7000B697" );
 	self:MakeQuickslot( quickslotList.quickslots[2],  "0x700031A8" );
@@ -400,7 +420,9 @@ function TypeHelper:GetNewMinstrelDpsSettings( extensionBarId, quickslotList )
 end
 
 function TypeHelper:GetNewCaptainPetsSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 4;
 	barSettings.barName = "Captain pets";
 	
@@ -409,7 +431,7 @@ function TypeHelper:GetNewCaptainPetsSettings( extensionBarId, quickslotList )
 	self:MakeSettingsQuickslot( barSettings.quickslots[3],  "0x70002F1A" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[4],  "0x70002F7A" );
 
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 	
 	self:MakeQuickslot( quickslotList.quickslots[1],  "0x7000FC78" );
 	self:MakeQuickslot( quickslotList.quickslots[2],  "0x70002FAF" );
@@ -418,7 +440,9 @@ function TypeHelper:GetNewCaptainPetsSettings( extensionBarId, quickslotList )
 end
 
 function TypeHelper:GetNewChampionDpsSettings( extensionBarId, quickslotList )
-	local barSettings = self.settingsService:GetBarSettings( extensionBarId );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( extensionBarId );
+
 	barSettings.quickslotCount = 9;
 	barSettings.barName = "Champion DPS";
 	
@@ -431,7 +455,7 @@ function TypeHelper:GetNewChampionDpsSettings( extensionBarId, quickslotList )
 	self:MakeSettingsQuickslot( barSettings.quickslots[7],  "0x7000B69B" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[8],  "0x70003184" );
 	self:MakeSettingsQuickslot( barSettings.quickslots[9],  "0x7000B69A" );
-	self.settingsService:SetBarSettings( extensionBarId, barSettings );
+	settingsService:SetBarSettings( extensionBarId, barSettings );
 	
 	self:MakeQuickslot( quickslotList.quickslots[1],  "0x70003E83" );
 	self:MakeQuickslot( quickslotList.quickslots[2],  "0x7000B697" );

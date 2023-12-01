@@ -5,16 +5,16 @@
 -- RESPECT!
 
 import "Turbine";
-import "Tonic.Utils.Class";
-import "Tonic.UI.MenuUtils";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.UI.MenuUtils";
 
 ExtensionsMenuPanel = class();
 
 function ExtensionsMenuPanel:Draw()
 	menu.contentBox:ClearItems();
 
-	local title = Tonic.UI.AutoListBox();
-	local utils = Tonic.UI.MenuUtils();
+	local title = MyysticBars.UI.AutoListBox();
+	local utils = MyysticBars.UI.MenuUtils();
 
 	utils:AddCategoryBox(title, LOCALESTRINGS.ExtensionsMenu["Extensions"]);
 	utils:AddLabelBox( title, LOCALESTRINGS.ExtensionsMenu["Extensions work different than QuickBars. To add an Extension, just right click on the quickslot to extend. Then select the orientation."], selectionWidth + 250, selectionHeight + 20 );

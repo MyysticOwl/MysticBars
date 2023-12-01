@@ -5,15 +5,15 @@
 -- RESPECT!
 
 import "Turbine";
-import "Tonic.Utils.Class";
-import "Tonic.UI.MenuUtils";
-import "Tonic.TonicBars.Menu.Panels.Controls.GeneralPanel"
-import "Tonic.TonicBars.Menu.Panels.Controls.SlotsPanel"
-import "Tonic.TonicBars.Menu.Panels.Controls.ClassBuffPanel"
+import "MyysticBars.Utils.Class";
+import "MyysticBars.UI.MenuUtils";
+import "MyysticBars.TonicBars.Menu.Panels.Controls.GeneralPanel"
+import "MyysticBars.TonicBars.Menu.Panels.Controls.SlotsPanel"
+import "MyysticBars.TonicBars.Menu.Panels.Controls.ClassBuffPanel"
 
 BarMenuPanel = class();
 
-BarMenuPanel.utils = Tonic.UI.MenuUtils();
+BarMenuPanel.utils = MyysticBars.UI.MenuUtils();
 
 function BarMenuPanel:Draw(context)
 	menu.contentBox:ClearItems();
@@ -21,25 +21,25 @@ function BarMenuPanel:Draw(context)
 	self.utils:AddCategoryBox(menu.contentBox, context.barName);
 
 	-----------------------   GENERAL  0000000000000000000000000000
-	self.generalPanel = Tonic.TonicBars.Menu.Panels.Controls.GeneralPanel( menu.contentBox );
+	self.generalPanel = MyysticBars.TonicBars.Menu.Panels.Controls.GeneralPanel( menu.contentBox );
 
 	-----------------------   SLOTS	  0000000000000000000000000000
-	self.slotsPanel = Tonic.TonicBars.Menu.Panels.Controls.SlotsPanel( menu.contentBox, true );
+	self.slotsPanel = MyysticBars.TonicBars.Menu.Panels.Controls.SlotsPanel( menu.contentBox, true );
 
 	-----------------------   COLOR  0000000000000000000000000000
-	self.colorPanel = Tonic.TonicBars.Menu.Panels.Controls.ColorPanel( menu.contentBox );
+	self.colorPanel = MyysticBars.TonicBars.Menu.Panels.Controls.ColorPanel( menu.contentBox );
 
 	-----------------------   TRIGGERS  0000000000000000000000000000
-	self.tp = Tonic.TonicBars.Menu.Panels.Controls.TriggersPanel( menu.contentBox );
+	self.tp = MyysticBars.TonicBars.Menu.Panels.Controls.TriggersPanel( menu.contentBox );
 
 	-----------------------   CLASS BUFF TRIGGERS  0000000000000000000000000000
-	self.classBuffPanel = Tonic.TonicBars.Menu.Panels.Controls.ClassBuffPanel( menu.contentBox );
+	self.classBuffPanel = MyysticBars.TonicBars.Menu.Panels.Controls.ClassBuffPanel( menu.contentBox );
 
 	self:DisplaySettings();
 end
 
 function BarMenuPanel:DisplaySettings()
-	local settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
 	local localBarSettings = settingsService:GetBarSettings( menu:GetSelection() );
 	if ( localBarSettings.events == nil ) then
 		localBarSettings.events = { };

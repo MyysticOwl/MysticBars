@@ -12,10 +12,6 @@ ItemList = class( Turbine.UI.Control );
 function ItemList:Constructor( bid )
 	Turbine.UI.Control.Constructor( self );
 
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.inventoryService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.InventoryService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-
 	self.id = bid;
 	
 	self.quickslots = { };
@@ -37,9 +33,11 @@ function ItemList:SetMaxItemsPerLine( maxPerLine )
 end
 
 function ItemList:Refresh()
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
+
 	self:RefreshQuickslots();
 
-	local barSettings = self.settingsService:GetBarSettings( self.id );
 	for key, value in pairs (self.quickslots) do
 		value:SetAllowDrop( false );
 		value:SetItem( self.items[key] );
@@ -66,7 +64,9 @@ function ItemList:Refresh()
 end
 
 function ItemList:RefreshQuickslots()
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
 	self.loading = true;
 	
 	if ( self.extensions ~= nil ) then
@@ -76,7 +76,7 @@ function ItemList:RefreshQuickslots()
 					local id = self.extensions[ key ].bar:GetID();
 					self.extensions[ key ].quickslot = nil;
 					self.extensions[ key ] = nil;
-					self.barService:Remove( id );
+					barService:Remove( id );
 				end
 			end
 		end
@@ -97,10 +97,10 @@ function ItemList:RefreshQuickslots()
 			self.quickslots[i]:SetVisible( true );
 			self.quickslots[i]:SetItem( self.items[i] );
 			self.quickslots[i].MouseClick = function( sender,args )
-				local settings = self.settingsService:GetSettings();
-				if ( self.barService:Alive( self.id ) and args.Button == 2 and settings.barMode == EXTENSION_MODE) then
-					local barid = self.barService:Add( EXTENSIONBAR, self.id, i );
-					self.barService:ShowExtensionBarMenu( barid );
+				local settings = settingsService:GetSettings();
+				if ( barService:Alive( self.id ) and args.Button == 2 and settings.barMode == EXTENSION_MODE) then
+					local barid = barService:Add( EXTENSIONBAR, self.id, i );
+					barService:ShowExtensionBarMenu( barid );
 					menu:Refresh( barid );
 				end
 			end				
@@ -112,6 +112,9 @@ function ItemList:RefreshQuickslots()
 end
 
 function ItemList:ClearQuickslots()
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	self.isClearingQuickslots = true;
 	for key, value in pairs (self.quickslots) do
 		value:SetVisible( false );
@@ -127,10 +130,11 @@ function ItemList:ClearQuickslots()
 			value = nil;
 		end
 	end
-	local barSettings = self.settingsService:GetBarSettings( self.id );
-	if ( self.barService  ~= nil and self.barService:Alive( self.id ) ) then
+	local barSettings = settingsService:GetBarSettings( self.id );
+	
+	if ( barService  ~= nil and barService:Alive( self.id ) ) then
 		self.currentIemCount = 0;
-		self.settingsService:SetBarSettings( self.id, barSettings )
+		settingsService:SetBarSettings( self.id, barSettings )
 	end
 	self.isClearingQuickslots = false;
 end
@@ -147,16 +151,21 @@ function ItemList:GetQuickslotLocation( index )
 end
 
 function ItemList:SetupExtensionSlot( bars, index )
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	if ( index <= self.count ) then
 		self.extensions = bars;
 		
 		self.quickslots[ index ].MouseEnter = function(sender,args)
-			if ( self.barService:Alive( self.id ) and self.entered == false ) then
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+			if ( barService:Alive( self.id ) and self.entered == false ) then
 				self.entered = true;
 				for key, value in pairs (self.extensions) do
-					local barSettings = self.settingsService:GetBarSettings( value.bar.id );
+					local barSettings = settingsService:GetBarSettings( value.bar.id );
 					if ( value.quickslot == index ) then
-						local thebars = self.barService:GetBars();
+						local thebars = barService:GetBars();
 						if ( barSettings.onMouseOver == SHOW_EXTENSIONS or barSettings.onMouseOver == ROLL_UP_SELECTION ) then
 							value.bar:Show( true );
 						elseif ( barSettings.onMouseOver == SELECT_RANDOM_SHORTCUT ) then
@@ -170,9 +179,11 @@ function ItemList:SetupExtensionSlot( bars, index )
 		end
 
 		self.quickslots[ index ].MouseLeave = function(sender,args)
-			if ( self.barService:Alive( self.id ) and self.entered == true ) then
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+			if ( barService:Alive( self.id ) and self.entered == true ) then
 				for key, value in pairs (self.extensions) do
-					local barSettings = self.settingsService:GetBarSettings( value.bar );
+					local barSettings = settingsService:GetBarSettings( value.bar );
 					if ( value.quickslot == index and (barSettings.onMouseOver == SHOW_EXTENSIONS or barSettings.onMouseOver == ROLL_UP_SELECTION) ) then
 						value.bar:Show( false );
 					end
@@ -186,6 +197,9 @@ function ItemList:SetupExtensionSlot( bars, index )
 end
 
 function ItemList:AddItem( item )
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	local found = false;
 	for key, value in pairs (self.items) do
 		if ( value == item ) then
@@ -193,13 +207,14 @@ function ItemList:AddItem( item )
 		end
 	end
 	if ( found == false ) then
-		local barSettings = self.settingsService:GetBarSettings( self.id );
+		local barSettings = settingsService:GetBarSettings( self.id );
 		if ( self.currentIemCount < barSettings.quickslotCount ) then
 			self.currentIemCount = self.currentIemCount + 1;
 			self.items[self.currentIemCount] = item;
 			self.items[self.currentIemCount].QuantityChanged = function(sender,args)
-				if ( self.barService:Alive( self.id ) == true ) then
-					self.inventoryService:NotifyClients();
+				if ( barService:Alive( self.id ) == true ) then
+					local inventoryService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.InventoryService);
+					inventoryService:NotifyClients();
 				end
 			end	
 		end
@@ -207,7 +222,8 @@ function ItemList:AddItem( item )
 end
 
 function ItemList:RemoveItem( item )
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
 	local found = nil;
 	for index=1, self.currentIemCount, 1 do
 		if ( found ~= nil ) then

@@ -6,21 +6,18 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "Tonic.Utils.Class";
-import "Tonic.Utils.Service";
-import "Tonic.Utils.Table";
-import "Tonic.TonicBars.Events.BuffEvents";
-import "Tonic.TonicBars.Events.KeyEvents";
-import "Tonic.TonicBars.Events.StatEvents";
-import "Tonic.TonicBars.Events.ClassSpecificEvents";
-import "Tonic.TonicBars.Events.MiscEvents";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.Utils.Service";
+import "MyysticBars.Utils.Table";
+import "MyysticBars.TonicBars.Events.BuffEvents";
+import "MyysticBars.TonicBars.Events.KeyEvents";
+import "MyysticBars.TonicBars.Events.StatEvents";
+import "MyysticBars.TonicBars.Events.ClassSpecificEvents";
+import "MyysticBars.TonicBars.Events.MiscEvents";
 
-EventService = class( Tonic.Utils.Service );
+EventService = class( MyysticBars.Utils.Service );
 
 function EventService:Constructor()
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-
 	self.effectsRegistered = false;
 	self.currentClass = 0;
 
@@ -56,22 +53,26 @@ function EventService:UnregisterForEvents( rid )
 end
 
 function EventService:StartManager()
-	self.buffEvents = Tonic.TonicBars.Events.BuffEvents( self.registeredEvents );
-	self.keyEvents = Tonic.TonicBars.Events.KeyEvents( self.registeredEvents );
-	self.classEvents = Tonic.TonicBars.Events.ClassSpecificEvents( self.registeredEvents );
-	self.statEvents = Tonic.TonicBars.Events.StatEvents( self.registeredEvents );
-	self.miscEvents = Tonic.TonicBars.Events.MiscEvents( self.registeredEvents );
+	self.buffEvents = MyysticBars.TonicBars.Events.BuffEvents( self.registeredEvents );
+	self.keyEvents = MyysticBars.TonicBars.Events.KeyEvents( self.registeredEvents );
+	self.classEvents = MyysticBars.TonicBars.Events.ClassSpecificEvents( self.registeredEvents );
+	self.statEvents = MyysticBars.TonicBars.Events.StatEvents( self.registeredEvents );
+	self.miscEvents = MyysticBars.TonicBars.Events.MiscEvents( self.registeredEvents );
 end
 
 function EventService:NotifyClients()
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	
 	if ( self.clients == nil ) then
 		self.clients = { };
 	end
 	for key, value in pairs (self.clients) do
 		local visible = false;
 		local force = false;
-		local barSettings = self.settingsService:GetBarSettings( key );
-		if ( value ~= nil and value.registered == true and barSettings.events ~= nil and self.barService ~= nil and self.barService:Alive( key ) == true) then
+		local barSettings = settingsService:GetBarSettings( key );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		if ( value ~= nil and value.registered == true and barSettings.events ~= nil and barService ~= nil and barService:Alive( key ) == true) then
 			-- Send all Effect based events to all clients
 			visible = visible or self.buffEvents:CheckVisibility( barSettings );
 			visible = visible or self.classEvents:CheckVisibility( barSettings );

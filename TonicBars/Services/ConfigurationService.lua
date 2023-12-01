@@ -4,7 +4,7 @@
 --
 -- RESPECT!
 
-ConfigurationService = class( Tonic.Utils.Service );
+ConfigurationService = class( MyysticBars.Utils.Service );
 ConfigurationService.HEALTH = 1;
 ConfigurationService.POWER = 11;
 
@@ -13,15 +13,10 @@ ConfigurationService.ALT = 4;
 ConfigurationService.SHIFT = 5;
 
 function ConfigurationService:Constructor()
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
-	self.localizationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.LocalizationService);
-	self.playerService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.PlayerService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-	
-	self.playerClass = self.playerService.playerClass;
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
 
-	self.level = self.playerService.player:GetLevel();
+	self.level = playerService.player:GetLevel();
 	self.registeredBars = 1;
 end
 
@@ -59,17 +54,20 @@ end
 
 -- Create Quickslot Bar                           Name -      Rows - Columns - X coord - Y coord
 function ConfigurationService:CreateBar( override, name, level, rows, columns, x, y, barType )
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	if ( barType == nil ) then
 		barType = QUICKSLOTBAR;
 	end
 	if ( level == nil or self.level >= level or override ~= nil ) then
 		local foundbar = nil;
-		for key, value in pairs (self.settingsService:GetBars()) do
+		for key, value in pairs (settingsService:GetBars()) do
 			if ( value.barName == name ) then
 				foundbar = key;
 			end
 		end
-		local theSettings = self.settingsService:GetSettings();
+		local theSettings = settingsService:GetSettings();
 		local autoBarID, autoBarSettings;
 		if ( theSettings.autoCreatedBars ~= nil ) then
 			for key, value in pairs (theSettings.autoCreatedBars) do
@@ -81,13 +79,13 @@ function ConfigurationService:CreateBar( override, name, level, rows, columns, x
 		end
 		if ( override == true and foundbar ~= nil ) then
 			if ( theSettings.autoCreatedBars ~= nil and theSettings.autoCreatedBars[ foundbar ] ~= nil ) then
-				self.barService:Remove( foundbar );
+				barService:Remove( foundbar );
 				foundbar = nil;
 			end
 		end
 		if ( override ~= nil or ( autoBarID == nil and foundbar == nil ) ) then
-			self.barid = self.barService:Add( barType, autoBarID );
-			self.barSettings = self.settingsService:GetBarSettings( self.barid );
+			self.barid = barService:Add( barType, autoBarID );
+			self.barSettings = settingsService:GetBarSettings( self.barid );
 			if ( theSettings.autoCreatedBars == nil ) then
 				theSettings.autoCreatedBars = { };
 			end
@@ -110,15 +108,15 @@ function ConfigurationService:CreateBar( override, name, level, rows, columns, x
 			self.barSettings.y = y;
 		else
 			self.barid = foundbar;
-			self.barSettings = self.settingsService:GetBarSettings( self.barid );
+			self.barSettings = settingsService:GetBarSettings( self.barid );
 		end
 		if ( menu ~= nil ) then
-			theSettings = self.settingsService:GetSettings();
+			theSettings = settingsService:GetSettings();
 			local mode = theSettings.barMode;
 		
 			menu:Refresh();
 		
-			theSettings = self.settingsService:GetSettings();
+			theSettings = settingsService:GetSettings();
 			theSettings.barMode = mode;
 		end
 	else
@@ -127,9 +125,11 @@ function ConfigurationService:CreateBar( override, name, level, rows, columns, x
 end
 
 function ConfigurationService:SetBar( barid )
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	if ( barid ~= nil ) then
 		self.barid = barid;
-		self.barSettings = self.settingsService:GetBarSettings( barid );
+		self.barSettings = settingsService:GetBarSettings( barid );
 		return self.barSettings;
 	end
 end
@@ -190,6 +190,11 @@ end
 
 -- Set it to trigger on Buff                Bar ID - When to trigger
 function ConfigurationService:SetBuffTrigger( buff )
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+	local localizationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.LocalizationService);
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+	playerClass = playerService.playerClass;
+
 	if ( self.barid ~= nil ) then
 		if ( self.barSettings.events == nil ) then
 			self.barSettings.events = { };
@@ -197,9 +202,9 @@ function ConfigurationService:SetBuffTrigger( buff )
 		if ( self.barSettings.events.effects == nil ) then
 			self.barSettings.events.effects = { };
 		end
-		if ( self.localizationService:GetLanguage() ~= "en" ) then
-			local events = self.eventService:GetRegisteredEvents();
-			for key, value in pairs (events.classes[ self.playerClass ].effects) do
+		if ( localizationService:GetLanguage() ~= "en" ) then
+			local events = eventService:GetRegisteredEvents();
+			for key, value in pairs (events.classes[ playerClass ].effects) do
 				if ( value.englishSkillName == buff and self.barSettings.events.effects[buff] == nil) then
 					self.barSettings.events.effects[key] = true;	
 				end
@@ -273,7 +278,10 @@ function ConfigurationService:SetInventoryFilter( filter )
 end
 
 function ConfigurationService:Save()
-	if ( self.barid ~= nil and self.barService  ~= nil and self.barService:Alive( self.barid )) then
-		self.settingsService:SetBarSettings( self.barid, self.barSettings );
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+	if ( self.barid ~= nil and barService  ~= nil and barService:Alive( self.barid )) then
+		settingsService:SetBarSettings( self.barid, self.barSettings );
 	end
 end

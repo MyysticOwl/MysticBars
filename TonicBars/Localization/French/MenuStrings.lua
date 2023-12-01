@@ -4,7 +4,7 @@
 -- Permission can be atained by contacting MyysticOwl at: TonicBars@gmail.com
 --
 -- RESPECT!
-	local localizationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.LocalizationService);
+	local localizationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.LocalizationService);
 	-- Main Menu
 	localizationService:Register( "MainButtons", "Easy Bars", 			"Barres Rapides" );
 	localizationService:Register( "MainButtons", "Quick Slots", 		"Slots Rapides" );

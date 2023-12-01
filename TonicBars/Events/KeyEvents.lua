@@ -6,15 +6,13 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "Tonic.Utils.Class";
-import "Tonic.Utils.Table";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.Utils.Table";
 
 KeyEvents = class( Turbine.UI.Control  );
 
 function KeyEvents:Constructor( regEvents )
 	Turbine.UI.Control.Constructor( self );
-
-	self.eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
 	
 	self.registeredEvents = regEvents;
 	self:SetWantsKeyEvents( true );
@@ -48,7 +46,8 @@ function KeyEvents:Constructor( regEvents )
 		end
 
 		if ( changed ) then
-			self.eventService:NotifyClients();
+			local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+			eventService:NotifyClients();
 		end
 	end
 
@@ -78,7 +77,8 @@ function KeyEvents:Constructor( regEvents )
 		end
 
 		if ( changed ) then
-			self.eventService:NotifyClients();
+			local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+			eventService:NotifyClients();
 		end
 	end
 end

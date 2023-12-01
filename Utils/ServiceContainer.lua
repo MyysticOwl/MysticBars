@@ -1,7 +1,7 @@
 
-import "Tonic.Utils.Class";
-import "Tonic.Utils.Event";
-import "Tonic.Utils.Service";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.Utils.Event";
+import "MyysticBars.Utils.Service";
 
 --[[
 
@@ -51,7 +51,7 @@ function ServiceContainer:AddService( service, serviceType )
 		return;
 	end
 
-	if ( not service:IsA( Tonic.Utils.Service ) ) then
+	if ( not service:IsA( MyysticBars.Utils.Service ) ) then
 		error( "Attempt to register something other than a service." );
 	end
 

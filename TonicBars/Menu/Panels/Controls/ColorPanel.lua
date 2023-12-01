@@ -7,15 +7,13 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "Tonic.UI.AutoListBox";
-import "Tonic.UI.MenuUtils";
+import "MyysticBars.UI.AutoListBox";
+import "MyysticBars.UI.MenuUtils";
 
 ColorPanel = class();
 
 function ColorPanel:Constructor( panel )
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-
-	self.utils = Tonic.UI.MenuUtils();
+	self.utils = MyysticBars.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, LOCALESTRINGS.QuickslotsMenu["Background Colors"]);
 
@@ -41,7 +39,8 @@ function ColorPanel:Constructor( panel )
 end
 
 function ColorPanel:DisplaySettings()
-	local localBarSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( menu:GetSelection() );
 
 	-- COLOR SETTINGS
 	self.useBackgroundCheckBox:SetChecked( localBarSettings.useBackgroundColor );

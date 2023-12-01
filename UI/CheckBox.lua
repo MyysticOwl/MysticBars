@@ -7,7 +7,7 @@
 -- RESPECT!
 
 import "Turbine.UI";
-import "Tonic.Utils.Class";
+import "MyysticBars.Utils.Class";
 
 CheckBox = class( Turbine.UI.Control );
 function CheckBox:Constructor()
@@ -36,7 +36,7 @@ function CheckBox:Constructor()
 	self.title:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleLeft);
 	
 	function self:updateBG()
-		self.bgStr = "Tonic/UI/Resources/checkbox_02";
+		self.bgStr = "MyysticBars/UI/Resources/checkbox_02";
 		if(self.checkStr~=nil)then
 			self.bgStr=self.bgStr..self.checkStr;
 		end

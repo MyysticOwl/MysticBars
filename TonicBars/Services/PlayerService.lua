@@ -6,17 +6,17 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "Tonic.Utils.Class";
-import "Tonic.Utils.Service";
-import "Tonic.Utils.Table";
-import "Tonic.TonicBars.Events.BuffEvents";
-import "Tonic.TonicBars.Events.KeyEvents";
-import "Tonic.TonicBars.Events.StatEvents";
-import "Tonic.TonicBars.Events.ClassSpecificEvents";
-import "Tonic.TonicBars.Events.MiscEvents";
-import "Tonic.TonicBars.Services.SettingsService"
+import "MyysticBars.Utils.Class";
+import "MyysticBars.Utils.Service";
+import "MyysticBars.Utils.Table";
+import "MyysticBars.TonicBars.Events.BuffEvents";
+import "MyysticBars.TonicBars.Events.KeyEvents";
+import "MyysticBars.TonicBars.Events.StatEvents";
+import "MyysticBars.TonicBars.Events.ClassSpecificEvents";
+import "MyysticBars.TonicBars.Events.MiscEvents";
+import "MyysticBars.TonicBars.Services.SettingsService"
 
-PlayerService = class( Tonic.Utils.Service );
+PlayerService = class( MyysticBars.Utils.Service );
 
 PlayerService.player = nil
 PlayerService.playerClass = nil
@@ -39,7 +39,7 @@ end
 
 function PlayerService:Build()
 	if ( self.playerClass == nil ) then
-		local settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
 
 		local settings = settingsService:GetSettings();
 		if ( settings.playerClass == nil ) then

@@ -1,31 +1,32 @@
--- Created by MyysticOwlself.eventService
+-- Created by MyysticOwlself.eventServicesettingsService
 -- The use of this code requires the permission of the author.
 -- Permission can be atained by contacting MyysticOwl at: TonicBars@gmail.com
 --
 -- RESPECT!
 
-import "Tonic.Utils.Class";
-import "Tonic.TonicBars.Bars.Decorator.Tab"
+import "MyysticBars.Utils.Class";
+import "MyysticBars.TonicBars.Bars.Decorator.Tab"
 
-QuickslotBar = class( Tonic.TonicBars.Bars.BaseBar );
+QuickslotBar = class( MyysticBars.TonicBars.Bars.BaseBar );
 
 function QuickslotBar:Constructor( barid )
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
 
 	self.id = barid;
-	Tonic.TonicBars.Bars.BaseBar.Constructor( self );
-
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	MyysticBars.TonicBars.Bars.BaseBar.Constructor( self );
 
 	self.quickslotList.loading = true;
-	self.settingsService:LoadQuickslots( barSettings, self.quickslotList.quickslots );
+	settingsService:LoadQuickslots( barSettings, self.quickslotList.quickslots );
 	self.quickslotList.loading = false;
 
 	if ( barSettings.barType ~= QUICKSLOTBAR ) then
 		barSettings.barType = QUICKSLOTBAR;
-		if ( self.barService ~= nil and self.barService:Alive( self.id ) ) then
-			self.settingsService:SetBarSettings( self.id, barSettings );
+
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		if ( barService ~= nil and barService:Alive( self.id ) ) then
+			settingsService:SetBarSettings( self.id, barSettings );
 		end
 	end
 
@@ -33,43 +34,60 @@ function QuickslotBar:Constructor( barid )
 	self.isVisible = true;
 
 	self.MouseEnter = function(sender,args)
-		local barSettings = self.settingsService:GetBarSettings( self.id );
-		if ( self.barService:Alive( self.id ) and barSettings.useFading == true ) then
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings( self.id );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		if ( barService:Alive( self.id ) and barSettings.useFading == true ) then
 			self.faded = false;
 			self:Refresh();
 		end
 	end
 	self.MouseLeave = function(sender,args)
-		local barSettings = self.settingsService:GetBarSettings( self.id );
-		if ( self.barService:Alive( self.id ) and barSettings.useFading == true ) then
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings( self.id );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		if ( barService:Alive( self.id ) and barSettings.useFading == true ) then
 			self.faded = true;
 			self:Refresh();
 		end
 	end
 	self.MouseDown = function( sender, args )
-		if ( self.barService:Alive( self.id ) == true ) then
-			local settings = self.settingsService:GetSettings();
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		if ( barService:Alive( self.id ) == true ) then
+			local settings = settingsService:GetSettings();
 			if ( settings.barMode ~= NORMAL_MODE ) then
 				if ( args.Button == Turbine.UI.MouseButton.Left ) then
 					self.dragStartX = args.X;
 					self.dragStartY = args.Y;
 					self.dragging = true;
 					self.dragged = false;
+					-- local barSettings = settingsService:GetBarSettings( self.id );
+					-- Turbine.Shell.WriteLine("MouseDown: " .. self.id )
 				end
 			end
 		end
 	end
 	self.MouseMove = function( sender, args )
 		local left, top = self:GetPosition();
-		local settings = self.settingsService:GetSettings();
-		if ( self.barService:Alive( self.id ) and settings.barMode ~= NORMAL_MODE and self.dragging ) then
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local settings = settingsService:GetSettings();
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		if ( barService:Alive( self.id ) and settings.barMode ~= NORMAL_MODE and self.dragging ) then
 			self:SetPosition( left + ( args.X - self.dragStartX ), top + ( args.Y - self.dragStartY ) );
 			self.dragged = true;
-			self.barService:UpdateBarExtensions();
+			-- Turbine.Shell.WriteLine("MouseMove: " .. self.id )
+			barService:UpdateBarExtensions();
 		end
 	end
 	self.MouseUp = function( sender, args )
-		if ( self.barService:Alive( self.id ) == true and args.Button == Turbine.UI.MouseButton.Left ) then
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		if ( barService:Alive( self.id ) == true and args.Button == Turbine.UI.MouseButton.Left ) then
 			self.dragging = false;
 
 			if( self.dragged ) then
@@ -97,13 +115,16 @@ function QuickslotBar:Constructor( barid )
 
 	self:UpdateBarExtensions();
 
-	local eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService)
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService)
 	eventService:RegisterForEvents( self, self.id );
 end
 
 function QuickslotBar:PositionChanged( sender, args )
-	local settings = self.settingsService:GetSettings();
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();
+	local barSettings = settingsService:GetBarSettings( self.id );
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
 	if ( settings.barMode ~= NORMAL_MODE or ( dragBarAvailable and self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then
 		local x,y = self:GetPosition();
 
@@ -112,24 +133,26 @@ function QuickslotBar:PositionChanged( sender, args )
 
 		barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
 		barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
-		if ( self.barService ~= nil and self.barService:Alive( self.id ) ) then
-			self.settingsService:SetBarSettings( self.id, barSettings );
-			self.barService:UpdateBarExtensions();
+
+		if ( barService ~= nil and barService:Alive( self.id ) ) then
+			settingsService:SetBarSettings( self.id, barSettings );
+			barService:UpdateBarExtensions();
 		end
 	end
 end
 
 function QuickslotBar:Create()
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
 
-	self.quickslotList = Tonic.TonicBars.Bars.QuickslotList( self.id );
+	self.quickslotList = MyysticBars.TonicBars.Bars.QuickslotList( self.id );
 	self.quickslotList:SetParent( self );
 
 	local title = barSettings.barName;
 	if ( barSettings.barName == nil or barSettings.barName == "" ) then
 		title = "Bar:" .. self.id;
 	end
-	self.tab = Tonic.TonicBars.Bars.Decorator.Tab( self, title );
+	self.tab = MyysticBars.TonicBars.Bars.Decorator.Tab( self, title );
 
 	self.qsCreated = true;
 	self:Refresh();
@@ -150,10 +173,10 @@ function QuickslotBar:SetBGColor( color )
 end
 
 function QuickslotBar:Refresh()
-	Tonic.TonicBars.Bars.BaseBar.Refresh( self );
+	MyysticBars.TonicBars.Bars.BaseBar.Refresh( self );
 	self.tab:Refresh();
 
-	local eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService)
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService)
 	eventService:NotifyClients();
 end
 
@@ -162,8 +185,9 @@ end
 --
 -- It is recommended to call: "eventService:NotifyClients();" if needed.
 function QuickslotBar:DetermineVisiblity( eventValue, force )
-	local settings = self.settingsService:GetSettings();
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();
+	local barSettings = settingsService:GetBarSettings( self.id );
 
 	if ( settings.barMode == NORMAL_MODE ) then
 		local visible = false;
@@ -185,7 +209,9 @@ function QuickslotBar:ClearQuickslots( removed )
 	self.quickslotList:ClearQuickslots();
 	if ( self.extensionBars ~= nil and removed ~= nil ) then
 		for key, value in pairs (self.extensionBars) do
-			self.barService:Remove( self.extensionBars[ key ].bar:GetID() );
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+			barService:Remove( self.extensionBars[ key ].bar:GetID() );
 			self.extensionBars[ key ].bar = nil;
 			self.extensionBars[ key ] = nil;
 		end
@@ -193,7 +219,8 @@ function QuickslotBar:ClearQuickslots( removed )
 end
 
 function QuickslotBar:UpdateBarExtensions()
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
 	if ( self.extensionBars == nil ) then
 		return;
 	end
@@ -205,16 +232,20 @@ function QuickslotBar:UpdateBarExtensions()
 end
 
 function QuickslotBar:RegisterBarExtension( extBar, index, extensionBarID )
-	local attachedbarSettings = self.settingsService:GetBarSettings( extensionBarID );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local attachedbarSettings = settingsService:GetBarSettings( extensionBarID );
 	if ( attachedbarSettings.connectionQuickslotID ~= index or attachedbarSettings.connectionBarID ~= self.id ) then
 		attachedbarSettings.connectionQuickslotID = index;
 		attachedbarSettings.connectionBarID = self.id;
-		if ( self.barService  ~= nil and self.barService:Alive( self.id ) ) then
-			self.settingsService:SetBarSettings( extensionBarID, attachedbarSettings );
+
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		if ( barService  ~= nil and barService:Alive( self.id ) ) then
+			settingsService:SetBarSettings( extensionBarID, attachedbarSettings );
 		end
 	end
 
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local barSettings = settingsService:GetBarSettings( self.id );
 	if ( self.nextExtension == nil ) then
 		self.nextExtension = 1;
 	end
@@ -236,7 +267,7 @@ function QuickslotBar:RegisterBarExtension( extBar, index, extensionBarID )
 end
 
 function QuickslotBar:SetMenuBackColor( selected, barMode )
-	Tonic.TonicBars.Bars.BaseBar.SetMenuBackColor( self, selected, QUICKSLOT_MODE );
+	MyysticBars.TonicBars.Bars.BaseBar.SetMenuBackColor( self, selected, QUICKSLOT_MODE );
 	if ( barMode == QUICKSLOT_MODE ) then
 		self:SetBackColor( Turbine.UI.Color(1,0,1,0) );
 		self.tab:SetBackColor( Turbine.UI.Color(1,0,1,0) );

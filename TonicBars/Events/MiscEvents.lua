@@ -6,22 +6,22 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "Tonic.Utils.Class";
+import "MyysticBars.Utils.Class";
 
 MiscEvents = class( Turbine.Object  );
 
 function MiscEvents:Constructor( regEvents )
-	self.eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
-	self.playerService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.PlayerService);
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
 	self.registeredEvents = regEvents;
 
-	self.eventService:AddCallback( self.playerService.player, "InCombatChanged", function( sender, args )
-		if ( self.playerService.player:IsInCombat() ) then
+	eventService:AddCallback( playerService.player, "InCombatChanged", function( sender, args )
+		if ( playerService.player:IsInCombat() ) then
 			self.registeredEvents.playerInCombat = true;
 		else
 			self.registeredEvents.playerInCombat = false;
 		end
-		self.eventService:NotifyClients();
+		eventService:NotifyClients();
 	end);
 	
 -- 1: __index
@@ -47,8 +47,11 @@ function MiscEvents:Constructor( regEvents )
 --    20: GetTurnRate
 --  2: __metatable
 	
-	self.eventService:AddCallback( self.playerService.player, "MountChanged", function( sender, args )
-		local mount = self.playerService.player:GetMount();
+	eventService:AddCallback( playerService.player, "MountChanged", function( sender, args )
+		local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+		local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+		
+		local mount = playerService.player:GetMount();
 		if ( mount == nil ) then
 			self.registeredEvents.playerMounted = false;
 			self.registeredEvents.playerCombatMounted = false;
@@ -58,7 +61,7 @@ function MiscEvents:Constructor( regEvents )
 				self.registeredEvents.playerCombatMounted = true;
 		    end
 		end
-		self.eventService:NotifyClients();
+		eventService:NotifyClients();
 	end);
 end
 

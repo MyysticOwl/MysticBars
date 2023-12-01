@@ -7,7 +7,7 @@
 RuneKeeperClass = class();
 
 function RuneKeeperClass:Constructor()
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:RegisterBarCreator( "Restoration Skill", 			"Restoration", 	self.Restoration );
 	configurationService:RegisterBarCreator( "DPS Attonement Skill", 		"Attun 1-10", 	self.Attun110 );
@@ -22,7 +22,7 @@ function RuneKeeperClass:Constructor()
 end
 
 function RuneKeeperClass:Restoration( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Restoration", 4, 1, 1, 240, 350 );
 	configurationService:SetBuffTriggerOptions( false, false );
@@ -33,7 +33,7 @@ function RuneKeeperClass:Restoration( override )
 end
 
 function RuneKeeperClass:Attun7( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Attun 7", 2, 5, 1, 468, 300 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -46,7 +46,7 @@ function RuneKeeperClass:Attun7( override )
 end
 
 function RuneKeeperClass:Attun4( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Attun 4", 24, 6, 1, 429, 300 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -60,7 +60,7 @@ function RuneKeeperClass:Attun4( override )
 end
 
 function RuneKeeperClass:Attun1( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Attun 1", 20, 3, 1, 387, 300 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -71,7 +71,7 @@ function RuneKeeperClass:Attun1( override )
 end
 
 function RuneKeeperClass:Attun1019( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Attun 10-19", 1, 1, 1, 508, 336 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -80,7 +80,7 @@ function RuneKeeperClass:Attun1019( override )
 end
 
 function RuneKeeperClass:Attun13( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Attun 13", 12, 2, 1, 547, 300 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -90,7 +90,7 @@ function RuneKeeperClass:Attun13( override )
 end
 
 function RuneKeeperClass:Attun16( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Attun 16", 18, 3, 1, 585, 300 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -101,7 +101,7 @@ function RuneKeeperClass:Attun16( override )
 end
 
 function RuneKeeperClass:Attun19( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Attun 19", 41, 3, 1, 623, 300 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -112,7 +112,7 @@ function RuneKeeperClass:Attun19( override )
 end
 
 function RuneKeeperClass:Attun110( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Attun 1-10", 1, 1, 1, 508, 300 );
 	configurationService:SetBuffTriggerOptions( true, false );

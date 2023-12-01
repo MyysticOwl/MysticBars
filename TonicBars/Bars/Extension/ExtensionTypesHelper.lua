@@ -1,11 +1,10 @@
 
 TypeHelper = class();
-function TypeHelper:Constructor()
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-end
 
 function TypeHelper:GetNewHunterTravelSettings( eBar )
-	local barSettings = self.settingsService:GetBarSettings( eBar );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+	local barSettings = settingsService:GetBarSettings( eBar );
 	barSettings.quickslotCount = 15;
 	barSettings.barName = "Hunter Travel";
 	

@@ -7,14 +7,14 @@
 Skirmish = class();
 
 function Skirmish:Constructor()
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:RegisterBarCreator( "Skirmishes", "Skirmishes", self.Skirmish );
 	configurationService:ConstructBars();
 end
 
 function Skirmish:Skirmish( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Skirmishes", 20, 1, 1, 170, 300 );
 	configurationService:SetBuffTriggerOptions( true, false );

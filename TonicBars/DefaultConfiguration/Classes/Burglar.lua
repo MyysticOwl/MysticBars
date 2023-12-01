@@ -7,7 +7,7 @@
 BurglarClass = class();
 
 function BurglarClass:Constructor()
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:RegisterBarCreator( "Tier1 Skills", 	"Tier1", self.Tier1 );
 	configurationService:RegisterBarCreator( "Tier2 Skills", 	"Tier2", self.Tier2 );
@@ -20,7 +20,7 @@ function BurglarClass:Constructor()
 end
 
 function BurglarClass:Tier1( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Tier1", 2, 1, 1, 240, 300 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -29,14 +29,14 @@ function BurglarClass:Tier1( override )
 end
 
 function BurglarClass:Tier2( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Tier2", 24, 1, 1, 240, 350 );
 	configurationService:AddShortcut( 1, "0x70003F0C", 6, 24 );
 end
 
 function BurglarClass:Tier3( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Tier3", 56, 1, 3, 240, 400 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -47,7 +47,7 @@ function BurglarClass:Tier3( override )
 end
 
 function BurglarClass:Tricks( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Tricks", 8, 1, 4, 240, 450 );
 	configurationService:AddShortcut( 1, "0x700031FA", 6, 8 );
@@ -57,7 +57,7 @@ function BurglarClass:Tricks( override )
 end
 
 function BurglarClass:TrickRemovals( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "TrickRemovals", 20, 1, 2, 240, 500 );
 	configurationService:AddShortcut( 1, "0x70015A04", 6, 20 );
@@ -66,7 +66,7 @@ function BurglarClass:TrickRemovals( override )
 end
 
 function BurglarClass:Mischief( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Mischief", 30, 1, 2, 240, 550 );
 	configurationService:SetBuffTriggerOptions( true, false );
@@ -76,7 +76,7 @@ function BurglarClass:Mischief( override )
 end
 
 function BurglarClass:KnockedDown( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "KnockedDown", 32, 1, 1, 240, 600 );
 	configurationService:SetBuffTriggerOptions( true, false );

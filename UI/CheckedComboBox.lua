@@ -1,18 +1,17 @@
 import "Turbine.UI"
-import "Tonic.UI.ComboBox";
-import "Tonic.UI.MenuUtils";
+import "MyysticBars.UI.ComboBox";
+import "MyysticBars.UI.MenuUtils";
 
-CheckedComboBox = class(Tonic.UI.ComboBox);
+CheckedComboBox = class(MyysticBars.UI.ComboBox);
 
 function CheckedComboBox:Constructor()
-    Tonic.UI.ComboBox.Constructor(self);
+    MyysticBars.UI.ComboBox.Constructor(self);
 
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-
-    self.utils = Tonic.UI.MenuUtils();
+    self.utils = MyysticBars.UI.MenuUtils();
 
     self.SelectedIndexChanged = function(sender, args)
-		local barSettings = self.settingsService:GetBarSettings( menu:GetSelection() );
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
 		for i = 1, self.listBox:GetItemCount() do
 			local item = self.listBox:GetItem(i);
 			if ( item.IsChecked == true ) then
@@ -20,7 +19,7 @@ function CheckedComboBox:Constructor()
 			else
 				self.utils:BuildItemFromCommandTable( barSettings, item.value, nil );
 			end
-			self.settingsService:SetBarSettings( menu:GetSelection(), barSettings );
+			settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 		end
 	end
 end
@@ -40,7 +39,7 @@ end
 function CheckedComboBox:AddItem(text, value)
     local width, height = self.listBox:GetSize();
 
-    local listItem = Tonic.UI.CheckBox();
+    local listItem = MyysticBars.UI.CheckBox();
     listItem:SetSize(width, 20);
     listItem:SetText(text);
 

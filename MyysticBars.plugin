@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <Plugin>
 	<Information>
-		<Name>TonicBars2</Name>
+		<Name>TonicBars</Name>
 		<Author>MyysticOwl</Author>
 		<Version>v3.0.1</Version>
-		<Image>Tonic/TonicBars/Resources/Tonic2.tga</Image>
+		<Image>MyysticBars/TonicBars/Resources/Tonic2.tga</Image>
 		<Description>The concept is a Bar (quickbar) manager.
-TonicBars will allow you to create Easy Bars, Quickslot Bars and Inventory Bars and manage different attributes for them.
+MyysticBars (previously TonicBars) will allow you to create Easy Bars, Quickslot Bars and Inventory Bars and manage different attributes for them.
 
 Organize skills, items, mounts, pets, and more onto Quick-Bars for easy access.
 
@@ -23,6 +23,6 @@ Trigger those bars to display under certain circumstances.
      Health/Power Drops below some Percentage
 		</Description>
 	</Information>
-	<Package>Tonic.TonicBars.Main</Package>
+	<Package>MyysticBars.TonicBars.Main</Package>
 	<Configuration Apartment="TonicBars"></Configuration>
 </Plugin>

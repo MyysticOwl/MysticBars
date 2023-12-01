@@ -6,17 +6,12 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "Tonic.Utils.Class";
-import "Tonic.Utils.Service";
+import "MyysticBars.Utils.Class";
+import "MyysticBars.Utils.Service";
 
-InventoryService = class( Tonic.Utils.Service );
+InventoryService = class( MyysticBars.Utils.Service );
 
 function InventoryService:Constructor()
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
-	self.playerService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.PlayerService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-
 	self.ADD = 1;
 	self.REMOVE = 2;
 	
@@ -54,11 +49,16 @@ function InventoryService:NotifyClients( type, specificItem )
 	if ( self.clients == nil ) then
 		self.clients = { };
 	end
-	local backpack = self.playerService.player:GetBackpack();
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+	local backpack = playerService.player:GetBackpack();
+
 	for key, value in pairs (self.clients) do
 		local visible = false;
-		local barSettings = self.settingsService:GetBarSettings( key );
-		if ( value ~= nil and value.registered == true and self.barService:Alive( key ) == true ) then
+		local barSettings = settingsService:GetBarSettings( key );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+		if ( barService ~= null and value ~= nil and value.registered == true and barService:Alive( key ) == true ) then
 			local qlist = value.bar:GetQuickslotList();
 			if ( qlist ~= nil and ( type == self.ADD or specificItem == nil) ) then
 				qlist:ClearQuickslots();
@@ -113,11 +113,14 @@ function InventoryService:GetRegisteredEvents()
 end
 
 function InventoryService:RegisterForBackpackCallbacks()
-	local backpack = self.playerService.player:GetBackpack();
-	self.eventService.AddCallback( self, backpack, "ItemAdded", function( sender, args )
+	local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
+	local playerService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.PlayerService);
+	local backpack = playerService.player:GetBackpack();
+
+	eventService.AddCallback( self, backpack, "ItemAdded", function( sender, args )
 		self:NotifyClients( self.ADD, args.Item );
 	end);
-	self.eventService.AddCallback( self, backpack, "ItemRemoved", function( sender, args )
+	eventService.AddCallback( self, backpack, "ItemRemoved", function( sender, args )
 		self:NotifyClients( self.REMOVE, args.Item );
 	end);
 end

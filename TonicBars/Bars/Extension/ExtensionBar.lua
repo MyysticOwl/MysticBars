@@ -3,15 +3,14 @@
 -- in respect for borrowing said authors code.
 -- RESPECT!
 
-ExtensionBar = class( Tonic.TonicBars.Bars.BaseBar );
+ExtensionBar = class( MyysticBars.TonicBars.Bars.BaseBar );
 
 function ExtensionBar:Constructor( barid )
-	self.barService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.BarService);
-	self.settingsService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.SettingsService);
-	
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
+
 	self.id = barid;
 
-	local barSettings = self.settingsService:GetBarSettings( self.id );
 	local changedBarSettings = false;
 	self.faded = false;
 	if ( barSettings.barType ~= EXTENSIONBAR or barSettings.locked ~= true ) then
@@ -31,14 +30,14 @@ function ExtensionBar:Constructor( barid )
 	self.keepVisible = false;
 	self.cycleCount = 0;
 	
-	Tonic.TonicBars.Bars.BaseBar.Constructor( self );
+	MyysticBars.TonicBars.Bars.BaseBar.Constructor( self );
 
 	self.quickslotList.loading = true;
-	self.settingsService:LoadQuickslots( barSettings, self.quickslotList.quickslots );
+	settingsService:LoadQuickslots( barSettings, self.quickslotList.quickslots );
 	self.quickslotList.loading = false;
 
 	if ( changedBarSettings ) then
-		self.settingsService:SetBarSettings( self.id, barSettings );
+		settingsService:SetBarSettings( self.id, barSettings );
 	else
 		self:Refresh();
 	end
@@ -47,8 +46,8 @@ function ExtensionBar:Constructor( barid )
 end
 
 function ExtensionBar:Create()
-	self.quickslotList = QuickslotList( self.id );
-	Tonic.TonicBars.Bars.BaseBar.Create( self );
+	self.quickslotList = MyysticBars.TonicBars.Bars.QuickslotList( self.id );
+	MyysticBars.TonicBars.Bars.BaseBar.Create( self );
 end
 
 function ExtensionBar:CheckMakeVisible()
@@ -58,12 +57,14 @@ function ExtensionBar:CheckMakeVisible()
 end
 
 function ExtensionBar:Show( visible )
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	if ( visible ) then
 		self:SetWantsUpdates( false );
 		self.count = 0;
 	end
 
-	local settings = self.settingsService:GetSettings();
+	local settings = settingsService:GetSettings();
 	if ( self.keepVisible == true or ( self.keepVisible == false and visible and settings.barMode == NORMAL_MODE) ) then
 		self.wasVisible = true;
 		self.visible = visible;
@@ -72,8 +73,10 @@ function ExtensionBar:Show( visible )
 			self.keepVisible = true;
 		end
 		self.MouseLeave = function(sender,args)
-			if ( self.barService:Alive( self.id ) ) then
-				local barSettings = self.settingsService:GetBarSettings( self.id );
+			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+			
+			if ( barService:Alive( self.id ) ) then
+				local barSettings = settingsService:GetBarSettings( self.id );
 				if ( barSettings.barTermination ~= 2 ) then
 					self.keepVisible = false;
 				end
@@ -88,7 +91,7 @@ function ExtensionBar:Show( visible )
 				self.MouseEnter = nil;
 				self:SetVisible( false );
 			else
-				local barSettings = self.settingsService:GetBarSettings( self.id );
+				local barSettings = settingsService:GetBarSettings( self.id );
 				if ( self.count >= 10 and barSettings.barTermination == 2 and player:IsInCombat() == false ) then
 					self.keepVisible = false;
 				end
@@ -113,8 +116,11 @@ function ExtensionBar:Setup( pX, pY )
 end
 
 function ExtensionBar:SetupPosition( refresh )
-	if ( self.barService  ~= nil and self.barService:Alive( self.id ) ) then
-		local barSettings = self.settingsService:GetBarSettings( self.id );
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+	if ( barService  ~= nil and barService:Alive( self.id ) ) then
+		local barSettings = settingsService:GetBarSettings( self.id );
 		local changedBarSettings = false;
 		if ( self.created == true ) then
 			if ( barSettings.orientation == "Left" ) then
@@ -144,7 +150,7 @@ function ExtensionBar:SetupPosition( refresh )
 			end
 		end
 		if ( changedBarSettings ) then
-			self.settingsService:SetBarSettings( self.id, barSettings, true );
+			settingsService:SetBarSettings( self.id, barSettings, true );
 		else
 			if ( refresh == nil ) then
 				self:Refresh();
@@ -163,7 +169,7 @@ end
 
 function ExtensionBar:Refresh()
 	self:SetupPosition( false );
-	Tonic.TonicBars.Bars.BaseBar.Refresh( self );
+	MyysticBars.TonicBars.Bars.BaseBar.Refresh( self );
 	self:SetupPosition( false );
 end
 
@@ -205,22 +211,28 @@ function ExtensionBar:SetOrientation( orientation )
 	if ( orientation == nil or (orientation ~= "Left" and orientation ~= "Right" and orientation ~= "Up" and orientation ~= "Down") ) then
 		return nil
 	else
-		local barSettings = self.settingsService:GetBarSettings( self.id );
-		if ( orientation ~= barSettings.orientation and self.barService  ~= nil and self.barService:Alive( self.id ) ) then
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+		local barSettings = settingsService:GetBarSettings( self.id );
+
+		if ( orientation ~= barSettings.orientation and barService  ~= nil and barService:Alive( self.id ) ) then
 			barSettings.orientation = orientation;
-			self.settingsService:SetBarSettings( self.id, barSettings );
+			settingsService:SetBarSettings( self.id, barSettings );
 		else
 			self:Refresh();
 		end
 		self:SetupPosition();
-		--self.barService:UpdateBarExtensions();
+		--barService:UpdateBarExtensions();
 		return 1;
 	end
 end
 
 function ExtensionBar:SelectRandomShortcut( parentBar, quickslotToReplace )
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
 	local i = 0;
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local barSettings = settingsService:GetBarSettings( self.id );
 	for key, value in pairs ( barSettings.quickslots ) do
 		i = i + 1;
 	end
@@ -237,7 +249,9 @@ function ExtensionBar:SelectRandomShortcut( parentBar, quickslotToReplace )
 end
 
 function ExtensionBar:CycleShortcut( parentBar, quickslotToReplace, args )
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+	local barSettings = settingsService:GetBarSettings( self.id );
 	self.cycleCount = (self.cycleCount + 1) % (barSettings.quickslotCount + 1);	  -- 0 - quickslot count will return 1 minus the number we want because LUA is 1 based.
 	if ( self.cycleCount == 0 ) then
 		self.cycleCount = 1;
@@ -252,8 +266,11 @@ end
 function ExtensionBar:RollupSelection( parentBar, indexToUse )
 	local quickslot = self:GetQuickslotList().quickslots[ indexToUse ];
 	if ( quickslot ~= nil and quickslot:GetShortcut() ~= nil ) then
-		local theBars = self.barService:GetBars();
-		local barSettings = self.settingsService:GetBarSettings( self.id );
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+		local theBars = barService:GetBars();
+		local barSettings = settingsService:GetBarSettings( self.id );
 		local parentQuickslot = theBars[ barSettings.connectionBarID ]:GetQuickslotList().quickslots[ barSettings.connectionQuickslotID ];		
 		parentQuickslot:SetShortcut( quickslot:GetShortcut() );
 		return;
@@ -261,7 +278,9 @@ function ExtensionBar:RollupSelection( parentBar, indexToUse )
 end
 
 function ExtensionBar:FindNthQuickslot( selection )
-	local barSettings = self.settingsService:GetBarSettings( self.id );
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+
+	local barSettings = settingsService:GetBarSettings( self.id );
 	for key2, value2 in pairs ( barSettings.quickslots ) do
 		if ( selection - 1 <= 0 ) then
 			return self:GetQuickslotList().quickslots[ key2 ];
@@ -273,6 +292,6 @@ function ExtensionBar:FindNthQuickslot( selection )
 end
 
 function ExtensionBar:SetMenuBackColor( selected, barMode )
-	Tonic.TonicBars.Bars.BaseBar.SetMenuBackColor( self, selected, EXTENSION_MODE );
+	MyysticBars.TonicBars.Bars.BaseBar.SetMenuBackColor( self, selected, EXTENSION_MODE );
 	self:SetBackColor( Turbine.UI.Color(1,1,1,0) );
 end

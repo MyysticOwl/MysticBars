@@ -7,7 +7,7 @@
 Potions = class();
 
 function Potions:Constructor()
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:RegisterBarCreator( "Athelas", "Athelas", self.Health, true );
 	configurationService:RegisterBarCreator( "Celebrant", "Celebrant", self.Power, true );
@@ -16,7 +16,7 @@ function Potions:Constructor()
 end
 
 function Potions:Health( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Athelas", 1, 1, 4, 300, 250, TABBED_INV_BAR );
 	configurationService:SetTrigger( configurationService.HEALTH, 30 );
@@ -24,7 +24,7 @@ function Potions:Health( override )
 end
 
 function Potions:Power( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Celebrant", 1, 1, 4, 300, 350, TABBED_INV_BAR );
 	configurationService:SetTrigger( configurationService.POWER, 30 );
@@ -32,7 +32,7 @@ function Potions:Power( override )
 end
 
 function Potions:GeneralEffects( override )
-	local configurationService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.ConfigurationService);
+	local configurationService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.ConfigurationService);
 
 	configurationService:CreateBar( override, "Draughts/Salves", 1, 1, 4, 300, 450, TABBED_INV_BAR );
 	configurationService:SetBuffTriggerOptions( true, false );

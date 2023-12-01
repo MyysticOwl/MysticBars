@@ -4,7 +4,7 @@
 --
 -- RESPECT!
 
-local eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
+local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
 
 --              			English Skill Name		-- Description shown on Menus -- Acutal Skill Name must match BUFF name exactly -- Class Name
 eventService:RegisterEffect( nil, "Critical Response", 	"Critical Response", 				Turbine.Gameplay.Class.Burglar );

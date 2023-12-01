@@ -5,7 +5,7 @@
 -- RESPECT!
 
 Brawler = 215;
-local eventService = SERVICE_CONTAINER:GetService(Tonic.TonicBars.Services.EventService);
+local eventService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService);
 
 --              			English Skill Name		-- Description shown on Menus -- Acutal Skill Name must match BUFF name exactly -- Class Name
 eventService:RegisterEffect( nil, "Battle Flow 1", 	"Battle Flow 1", 				Brawler );
