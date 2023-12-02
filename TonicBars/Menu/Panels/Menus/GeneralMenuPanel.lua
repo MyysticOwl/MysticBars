@@ -8,6 +8,10 @@ import "Turbine";
 import "MyysticBars.Utils.Class";
 import "MyysticBars.UI.MenuUtils";
 
+buttonWidth = 90;
+selectionWidth = 160;
+selectionHeight = 20;
+
 GeneralMenuPanel = class( Turbine.Object );
 
 GeneralMenuPanel.utils = MyysticBars.UI.MenuUtils();
@@ -36,6 +40,7 @@ function GeneralMenuPanel:Draw(context)
 		self.classList:AddItem( LOCALESTRINGS.ClassNames["Warden"], 		194 );
 		self.classList:AddItem( LOCALESTRINGS.ClassNames["Beorning"], 		214 );
 		self.classList:AddItem( LOCALESTRINGS.ClassNames["Brawler"], 		215 );
+		self.classList:AddItem( LOCALESTRINGS.ClassNames["Mariner"], 		216 );
 		settingsBox:AddItem( self.classList );
 	end
 

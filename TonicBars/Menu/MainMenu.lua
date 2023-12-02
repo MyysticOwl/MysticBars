@@ -13,18 +13,22 @@ import "MyysticBars.UI.CheckBox";
 import "MyysticBars.UI.ComboBox";
 import "MyysticBars.UI.AutoListBox";
 import "MyysticBars.UI.MenuUtils";
-import "MyysticBars.TonicBars.Menu.InventoryMenu";
 import "MyysticBars.TonicBars.Menu.AboutMenu";
 import "MyysticBars.TonicBars.Menu.Items.MainMenuItems";
 import "MyysticBars.TonicBars.Menu.Items.EasyBarMenuItems";
 import "MyysticBars.TonicBars.Menu.Items.ManageBarsMenuItems";
+import "MyysticBars.TonicBars.Menu.Items.InventoryBarsMenuItems";
 import "MyysticBars.TonicBars.Menu.Panels.Menus.EasyBarMenuPanel";
 import "MyysticBars.TonicBars.Menu.Panels.Menus.ManageBarsMenuPanel";
+import "MyysticBars.TonicBars.Menu.Panels.Menus.InventoryBarMenuPanel";
 import "MyysticBars.TonicBars.Menu.Panels.Menus.ExtensionsMenuPanel";
 import "MyysticBars.TonicBars.Menu.Panels.Menus.GeneralMenuPanel";
 
 windowWidth = 800;
 windowHeight = 2000;
+
+selectionWidth = 160;
+selectionHeight = 20;
 
 SCREENWIDTH = Turbine.UI.Display.GetWidth();
 SCREENHEIGHT = Turbine.UI.Display.GetHeight();
@@ -109,12 +113,12 @@ function MainMenu:Refresh()
 
 	local RootNode = self.tree:GetNodes();
 
-	self:AddMenuOption(MyysticBars.TonicBars.Menu.Panels.Menus.EasyBarMenuPanel, MyysticBars.TonicBars.Menu.Items.EasyBarMenuItems, {["width"] = self.navigationWidth}, "Easy Bars", RootNode)
-	self:AddMenuOption(MyysticBars.TonicBars.Menu.Panels.Menus.ManageBarsMenuPanel, MyysticBars.TonicBars.Menu.Items.ManageBarsMenuItems, {["width"] = self.navigationWidth}, "Manage Bars", RootNode)
+	self:AddMenuOption(MyysticBars.TonicBars.Menu.Panels.Menus.EasyBarMenuPanel, MyysticBars.TonicBars.Menu.Items.EasyBarMenuItems, {["width"] = self.navigationWidth}, "Easy Bars", RootNode);
+	self:AddMenuOption(MyysticBars.TonicBars.Menu.Panels.Menus.ManageBarsMenuPanel, MyysticBars.TonicBars.Menu.Items.ManageBarsMenuItems, {["width"] = self.navigationWidth}, "Manage Bars", RootNode);
+	self:AddMenuOption(MyysticBars.TonicBars.Menu.Panels.Menus.InventoryBarMenuPanel, MyysticBars.TonicBars.Menu.Items.InventoryBarsMenuItems, {["width"] = self.navigationWidth}, "Inventory Bars", RootNode);
 
 	local context = {["width"] = self.navigationWidth};
 
-	self.inventoryMenuItem = self.utils:AddExpandTreeViewItem(RootNode, "Inventory Bars", context);
 	self:AddMenuOption(MyysticBars.TonicBars.Menu.Panels.Menus.GeneralMenuPanel, nil, {["width"] = self.navigationWidth}, "General", RootNode)
 	self.aboutMenuItem = self.utils:AddTreeViewItem(RootNode, "About", context);
 

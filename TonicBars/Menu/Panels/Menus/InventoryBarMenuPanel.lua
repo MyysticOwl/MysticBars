@@ -8,16 +8,16 @@ import "Turbine";
 import "MyysticBars.Utils.Class";
 import "MyysticBars.UI.MenuUtils";
 
-ManageBarsMenuPanel = class();
+InventoryBarMenuPanel = class();
 
-function ManageBarsMenuPanel:Draw()
+function InventoryBarMenuPanel:Draw()
 	menu.contentBox:ClearItems();
 
 	local title = MyysticBars.UI.AutoListBox();
 	local utils = MyysticBars.UI.MenuUtils();
 
-	utils:AddCategoryBox(title, LOCALESTRINGS.ManageBarsMenu["Manage Bars"]);
-	utils:AddLabelBox( title, LOCALESTRINGS.ManageBarsMenu["This menu is used to create complicated bars, very easily. Often getting everything setup on your bar takes a lot of time. Hopefully this helps you get where you want to go easier."], selectionWidth + 250, selectionHeight + 20 );
+	utils:AddCategoryBox(title, LOCALESTRINGS.InventoryMenu["Inventory Bars"]);
+	utils:AddLabelBox( title, LOCALESTRINGS.InventoryMenu["Click Add Bar to start using tonic bars or select an Windowed Bar to edit."], selectionWidth + 250, selectionHeight + 20 );
 
 	menu.contentBox:AddItem( title );
 end

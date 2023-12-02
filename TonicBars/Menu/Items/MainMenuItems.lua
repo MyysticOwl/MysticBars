@@ -36,6 +36,43 @@ function MainMenuItems:CreateNewBarItem(parent, mainMenu)
 	end
 end
 
+function MainMenuItems:CreateNewTabInventoryBarItem(parent, mainMenu)
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+	local context = { ["parent"] = parent, ["width"] = parent:GetWidth() };
+	self.utils:AddCheckedTreeViewItem(parent, "Add Tabbed Bar", context, false);
+	self:SetCheckedIcon(context, false);
+
+	context["icon"].MouseClick = function(sender,args)
+		local barId = barService:Add( TABBED_INV_BAR );
+		self:SetSelected({["id"] = barId});
+		barService:RefreshBars();
+
+		if (mainMenu ~= nil) then
+			mainMenu:Refresh();
+		end
+	end
+end
+
+function MainMenuItems:CreateNewWindowInventoryBarItem(parent, mainMenu)
+	local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+
+	local context = { ["parent"] = parent, ["width"] = parent:GetWidth() };
+	self.utils:AddCheckedTreeViewItem(parent, "Add Windowed Bar", context, false);
+	self:SetCheckedIcon(context, false);
+
+	context["icon"].MouseClick = function(sender,args)
+		local barId = barService:Add( WINDOW_INV_BAR );
+		self:SetSelected({["id"] = barId});
+		barService:RefreshBars();
+
+		if (mainMenu ~= nil) then
+			mainMenu:Refresh();
+		end
+	end
+end
+
+
 function MainMenuItems:CreateNewExtensionItem(parent, panel)
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
 
@@ -253,6 +290,10 @@ function MainMenuItems:NewContext(parent, barId, barName, width)
 end
 
 function MainMenuItems:GetBarName(barId, bar)
+	if (bar == nil) then
+		return ""
+	end
+
 	local text = bar.barName;
 	if (text == nil) then
 		if (bar.barname ~= nil) then

@@ -17,25 +17,25 @@ function GeneralPanel:Constructor( panel )
 
 	local box0 = self.utils:AddAutoListBox( panel, Turbine.UI.Orientation.Horizontal, 0, 0, 0, 0 );
 
-		self.utils:AddLabelBox( box0, LOCALESTRINGS.QuickslotsMenu["Name:"], 80, selectionHeight );
+	self.utils:AddLabelBox( box0, LOCALESTRINGS.QuickslotsMenu["Name:"], 80, selectionHeight );
 
-		self.barName = self.utils:AddTextBox(box0, "", selectionWidth, selectionHeight + 10 );
+	self.barName = self.utils:AddTextBox(box0, "", selectionWidth, selectionHeight + 10 );
 
-		local nameButton = Turbine.UI.Lotro.Button();
-		nameButton:SetText( LOCALESTRINGS.QuickslotsMenu["Set"] );
-		nameButton:SetSize( buttonWidth, selectionHeight );
-		nameButton.MouseClick = function( sender, args )
-			local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
-			local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
-			local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
+	local nameButton = Turbine.UI.Lotro.Button();
+	nameButton:SetText( LOCALESTRINGS.QuickslotsMenu["Set"] );
+	nameButton:SetSize( buttonWidth, selectionHeight );
+	nameButton.MouseClick = function( sender, args )
+		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
 
-			barSettings.barName = self.barName:GetText();
-			if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
-				settingsService:SetBarSettings( menu:GetSelection(), barSettings );
-			end
-			menu:Refresh();
+		barSettings.barName = self.barName:GetText();
+		if ( barService  ~= nil and barService:Alive( menu:GetSelection() ) ) then
+			settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 		end
-		box0:AddItem( nameButton );
+		menu:Refresh();
+	end
+	box0:AddItem( nameButton );
 
 	panel:AddItem( box0 );
 

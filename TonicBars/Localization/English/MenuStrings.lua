@@ -13,7 +13,7 @@
 	localizationService:Register( "MainButtons", "Extensions Bars", 	"Extensions Bars" );
 	localizationService:Register( "MainButtons", "General Settings", 	"General Settings" );
 	localizationService:Register( "MainButtons", "About TonicBars", 	"About TonicBars" );
-	localizationService:Register( "MainButtons", "Inventory Bars", 	"Inventory Bars" );
+	localizationService:Register( "MainButtons", "Inventory Bars", 		"Inventory Bars" );
 	
 	-- About
 	localizationService:Register( "AboutMenu", "Thank you everyone for trying TonicBars. This enjoyable experience is brought to you by MyysticOwl!", "Thank you everyone for trying TonicBars. This enjoyable experience is brought to you by MyysticOwl!" );
@@ -27,6 +27,9 @@
 	localizationService:Register( "EasyBarMenu", "This menu is used to create complicated bars, very easily. Often getting everything setup on your bar takes a lot of time. Hopefully this helps you get where you want to go easier.", "This menu is used to create complicated bars, very easily. Often getting everything setup on your bar takes a lot of time. Hopefully this helps you get where you want to go easier." );
 	localizationService:Register( "EasyBarMenu", "Class Based Bars", "Class Based Bars" );
 	localizationService:Register( "EasyBarMenu", "Remove", "Remove" );
+
+	localizationService:Register( "ManageBarsMenu", "Manage Bars", "Manage Bars" );
+	localizationService:Register( "ManageBarsMenu", "This menu is used to create complicated bars, very easily. Often getting everything setup on your bar takes a lot of time. Hopefully this helps you get where you want to go easier.", "This menu is used to create complicated bars, very easily. Often getting everything setup on your bar takes a lot of time. Hopefully this helps you get where you want to go easier." );
 
 	-- Extensions
 	localizationService:Register( "ExtensionsMenu", "Extensions", "Extensions" );

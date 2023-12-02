@@ -85,13 +85,16 @@ function InventoryPanel:Constructor( panel )
 end
 
 function InventoryPanel:DisplaySettings()
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
 	local localBarSettings = settingsService:GetBarSettings( menu:GetSelection() );
+
 	if ( localBarSettings.events == nil ) then
 		localBarSettings.events = { };
 	end
 	if ( localBarSettings.events.inventory == nil ) then
 		localBarSettings.events.inventory = { };
 	end
+
     self.nameList.SelectedIndexChanged = function(sender, args)
 		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
 		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
@@ -113,13 +116,21 @@ function InventoryPanel:DisplaySettings()
 			inventoryService:NotifyClients();
 		end
 	end
+
 	self.nameList:Clear();
+
 	if ( localBarSettings.events ~= nil and localBarSettings.events.inventory ~= nil and localBarSettings.events.inventory.nameFilters ~= nil ) then
 		for key, value in opairs( localBarSettings.events.inventory.nameFilters ) do
 			self.nameList:AddItem( key, key );
 		end
 	end
 	self.nameList:SetSelections( localBarSettings.events.inventory.nameFilters );
+
+	self.visibilityList:Clear();
+
+	for key, value in opairs( Turbine.Gameplay.ItemCategory ) do
+		self.visibilityList:AddItem( key, value );		
+	end
 
     self.visibilityList.SelectedIndexChanged = function(sender, args)
 		local barService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.BarService);
@@ -143,6 +154,7 @@ function InventoryPanel:DisplaySettings()
 		end
 	end
 	self.visibilityList:SetSelections( localBarSettings.events.inventory.categories );
+
 	self.countCheckBox:SetChecked( localBarSettings.events.inventory.useCount );
 	if ( localBarSettings.events.inventory.quantity ~= nil ) then
 		self.countSB:SetValue( localBarSettings.events.inventory.quantity );

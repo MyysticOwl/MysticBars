@@ -79,7 +79,9 @@ function CheckedComboBox:SetSelections( valueTable, useValue )
 		for key, value in  opairs( valueTable ) do
 			for i = 1, self.listBox:GetItemCount() do
 				local item = self.listBox:GetItem(i);
-				if (item:GetText() == key or item.value[#item.value] == key or ( useValue ~= nil and item.value[#item.value] == value ) ) then
+
+				--  item.value[#item.value] == key
+				if (item:GetText() == key or ( useValue ~= nil and item.value[#item.value] == value ) ) then
 					item:SetChecked( true );
 					self:FireEvent();
 					break;
