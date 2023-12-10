@@ -69,6 +69,8 @@ function MainConfig:CheckConfiguration()
 		MyysticBars.TonicBars.DefaultConfiguration.Classes.MinstrelClass();
 	elseif ( playerClass == Turbine.Gameplay.Class.RuneKeeper ) then
 		MyysticBars.TonicBars.DefaultConfiguration.Classes.RuneKeeperClass();
+	elseif ( playerClass == Turbine.Gameplay.Class.Warden ) then
+		MyysticBars.TonicBars.DefaultConfiguration.Classes.WardenClass();
 	elseif ( playerClass == Turbine.Gameplay.Class.Beorning ) then
 		-- MyysticBars.TonicBars.DefaultConfiguration.Classes.WardenClass();
 	elseif ( playerClass == self.Brawler ) then

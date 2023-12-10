@@ -89,7 +89,7 @@ end
 function BuffEvents:CheckVisibility( barSettings )
 	local visible = false;
 	-- Send all Effect based events to all clients
-	if (barSettings.events.effects ~= nil ) then
+	if (barSettings.events.effects ~= nil and self.registeredEvents.classes[ playerClass ] ~= nil and self.registeredEvents.classes[ playerClass ].effects ~= nil ) then
 		if ( barSettings.events.triggerOnClassBuffActive == true ) then
 			for key2, value2 in pairs (self.registeredEvents.classes[ playerClass ].effects) do
 				if ( value2 ~= nil and value2.count > 0 and barSettings.events.effects[ key2 ] == true ) then
