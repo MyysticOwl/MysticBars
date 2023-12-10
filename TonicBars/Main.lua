@@ -18,7 +18,11 @@ import "MyysticBars.TonicBars.Localization.Localizer";
 import "MyysticBars.TonicBars.Menu.MainMenu";
 import "MyysticBars.TonicBars.Enumerations";
 
-import "MyysticBars.Utils.Table";
+import "MyysticBars.Utils.TableDump";
+
+--local player = Turbine.Gameplay.LocalPlayer.GetInstance();
+local dump = MyysticBars.Utils.TableDump();
+-- dump.Dump(getmetatable());
 
 DISPLAYWIDTH = Turbine.UI.Display.GetWidth();
 DISPLAYHEIGHT = Turbine.UI.Display.GetHeight();
