@@ -12,6 +12,7 @@ import "MyysticBars.TonicBars.Services.EventService"
 import "MyysticBars.TonicBars.Services.InventoryService"
 import "MyysticBars.TonicBars.Services.LocalizationService"
 import "MyysticBars.TonicBars.Services.PlayerService"
+import "MyysticBars.TonicBars.Services.SkillsService"
 import "MyysticBars.TonicBars.Services.SettingsService"
 import "MyysticBars.TonicBars.Services.BarService"
 import "MyysticBars.TonicBars.Localization.Localizer";
@@ -30,6 +31,8 @@ DISPLAYHEIGHT = Turbine.UI.Display.GetHeight();
 SERVICE_CONTAINER = MyysticBars.Utils.ServiceContainer();
 SERVICE_CONTAINER:AddService(MyysticBars.TonicBars.Services.PlayerService(), MyysticBars.TonicBars.Services.PlayerService);
 SERVICE_CONTAINER:AddService(MyysticBars.TonicBars.Services.SettingsService(), MyysticBars.TonicBars.Services.SettingsService);
+
+SERVICE_CONTAINER:AddService(MyysticBars.TonicBars.Services.SkillsService(), MyysticBars.TonicBars.Services.SkillsService);
 
 SERVICE_CONTAINER:AddService(MyysticBars.TonicBars.Services.EventService(), MyysticBars.TonicBars.Services.EventService);
 SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.EventService):StartManager(); -- Start watching for effects.
