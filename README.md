@@ -1,2 +1,2 @@
-# MyysticBars
+# MyysticUI
 Bar Manager for LOTRO

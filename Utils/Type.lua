@@ -1,5 +1,5 @@
 
-import "MyysticBars.Utils.Class";
+import "MyysticUI.Utils.Class";
 
 --[[
 

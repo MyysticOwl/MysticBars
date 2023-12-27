@@ -1,7 +1,7 @@
 
-import "MyysticBars.Utils.Class";
-import "MyysticBars.Utils.Event";
-import "MyysticBars.Utils.Service";
+import "MyysticUI.Utils.Class";
+import "MyysticUI.Utils.Event";
+import "MyysticUI.Utils.Service";
 
 --[[
 
@@ -51,7 +51,7 @@ function ServiceContainer:AddService( service, serviceType )
 		return;
 	end
 
-	if ( not service:IsA( MyysticBars.Utils.Service ) ) then
+	if ( not service:IsA( MyysticUI.Utils.Service ) ) then
 		error( "Attempt to register something other than a service." );
 	end
 

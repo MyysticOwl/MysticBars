@@ -1,5 +1,0 @@
--- Created by MyysticOwl
--- The use of this code requires the permission of the author.
--- Permission can be atained by contacting MyysticOwl at: TonicBars@gmail.com
---
--- RESPECT!

@@ -6,12 +6,11 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticBars.Utils.Class";
-import "MyysticBars.Utils.Table";
-import "MyysticBars.UI.CheckBox";
-import "MyysticBars.UI.ComboBox";
-import "MyysticBars.UI.AutoListBox";
-import "MyysticBars.UI.Slider";
+import "MyysticUI.Utils.Class";
+import "MyysticUI.Utils.Table";
+import "MyysticUI.UI.ComboBox";
+import "MyysticUI.UI.AutoListBox";
+import "MyysticUI.UI.Slider";
 
 MenuUtils = class( Turbine.Object );
 
@@ -66,7 +65,7 @@ MenuUtils.Verdana14 = Turbine.UI.Lotro.Font.Verdana14;
 MenuUtils.Verdana16 = Turbine.UI.Lotro.Font.Verdana16;
 MenuUtils.Arial12 = Turbine.UI.Lotro.Font.Arial12;
 
-RESOURCEDIR = "MyysticBars/UI/Resources/"
+RESOURCEDIR = "MyysticUI/UI/Resources/"
 
 MenuUtils.ICONEXPANDALL = 0x4100027B;-- 16x16
 MenuUtils.ICONEXPANDALLOVER = 0x4100027C;-- 16x16
@@ -80,10 +79,10 @@ MenuUtils.ICONCHECKEDEMPTY = Turbine.UI.Graphic(RESOURCEDIR .. "checkbox_02_empt
 function MenuUtils:AddAutoListBox( parentBox, orientation, width, height, top, left, thebgcolor )
 	local box;
 	if ( x ~= nil ) then
-		box = MyysticBars.UI.AutoListBox(width, height);
+		box = MyysticUI.UI.AutoListBox(width, height);
 		box:SetPosition(top,left);
 	else
-		box = MyysticBars.UI.AutoListBox();
+		box = MyysticUI.UI.AutoListBox();
 	end
 	box:SetZOrder(10);
 	box:SetParent( parentBox );
@@ -307,7 +306,7 @@ function MenuUtils:AddItem(node)
 end
 
 function MenuUtils:AddCheckBox( parentBox, text, x, y, thebgcolor )
-	local cb = MyysticBars.UI.CheckBox();
+	local cb = Turbine.UI.Lotro.CheckBox();
 	cb:SetParent( parentBox );
 	cb:SetText( text );
 	cb:SetBackColor( unselectedColor );
@@ -322,12 +321,12 @@ function MenuUtils:AddCheckBox( parentBox, text, x, y, thebgcolor )
 end
 
 function MenuUtils:CreateCheckBoxCallback( control, commandTable, callbackFunction )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	control.CheckedChanged = function( sender, args )
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
-	control.CheckedCallback = function( sender, args )
 		local barId = tonumber( settingsService:GetSettings().selectedBar);
 		local barSettings = settingsService:GetBarSettings( barId );
-		if ( control.IsChecked == true ) then
+		if ( control:IsChecked() == true ) then
 			self:BuildItemFromCommandTable( barSettings, commandTable, true );
 		else
 			self:BuildItemFromCommandTable( barSettings, commandTable, nil );
@@ -341,7 +340,7 @@ function MenuUtils:CreateCheckBoxCallback( control, commandTable, callbackFuncti
 end
 
 function MenuUtils:AddScrollBar( parentBox, value, minVal, maxVal, x, y, thebgcolor, text )
-	local sb = MyysticBars.UI.Slider();
+	local sb = MyysticUI.UI.Slider();
 	sb:SetParent( parentBox );
 	sb:SetSize( x, y );
 	sb:SetText(text);
@@ -359,7 +358,7 @@ function MenuUtils:AddScrollBar( parentBox, value, minVal, maxVal, x, y, thebgco
 end
 
 function MenuUtils:CreateScrollBarCallback( control, commandTable, add, divide, callbackFunction )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
 	control.ValueChanged = function( sender, args )
 		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );

@@ -13,7 +13,7 @@ function Window:Constructor()
     self.topLeft:SetSize(36, 36);
     self.topLeft:SetMouseVisible(false);
     self.topLeft:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-    self.topLeft:SetBackground("MyysticBars/UI/Resources/box_silver_top_left.tga");
+    self.topLeft:SetBackground("MyysticUI/UI/Resources/box_silver_top_left.tga");
 
     -- topRight
     self.topRight = Turbine.UI.Control();
@@ -21,7 +21,7 @@ function Window:Constructor()
     self.topRight:SetSize(36, 36);
     self.topRight:SetMouseVisible(false);
     self.topRight:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-    self.topRight:SetBackground("MyysticBars/UI/Resources/box_silver_top_right.tga");
+    self.topRight:SetBackground("MyysticUI/UI/Resources/box_silver_top_right.tga");
     
     -- bottomLeft
     self.bottomLeft = Turbine.UI.Control();
@@ -29,7 +29,7 @@ function Window:Constructor()
     self.bottomLeft:SetSize(36, 36);
     self.bottomLeft:SetMouseVisible(false);
     self.bottomLeft:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-    self.bottomLeft:SetBackground("MyysticBars/UI/Resources/box_silver_bottom_left.tga");
+    self.bottomLeft:SetBackground("MyysticUI/UI/Resources/box_silver_bottom_left.tga");
 
     -- bottomRight
     self.bottomRight = Turbine.UI.Control();
@@ -37,14 +37,14 @@ function Window:Constructor()
     self.bottomRight:SetSize(36, 36);
     self.bottomRight:SetMouseVisible(false);
     self.bottomRight:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-    self.bottomRight:SetBackground("MyysticBars/UI/Resources/box_silver_bottom_right.tga");
+    self.bottomRight:SetBackground("MyysticUI/UI/Resources/box_silver_bottom_right.tga");
 
 	 -- resize button
     self.resize = Turbine.UI.Control();
     self.resize:SetParent(self);
     self.resize:SetSize(22, 22);
     self.resize:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-    self.resize:SetBackground("MyysticBars/UI/Resources/resize2.tga");
+    self.resize:SetBackground("MyysticUI/UI/Resources/resize2.tga");
     self.resize.pressed = false;
 	self.resize.MouseDown = function( sender, args )
 		sender.dragStartX = args.X;
@@ -70,21 +70,21 @@ function Window:Constructor()
     self.close:SetParent(self);
     self.close:SetSize(16, 16);
     self.close:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-    self.close:SetBackground("MyysticBars/UI/Resources/titlebar_X_2.tga");
+    self.close:SetBackground("MyysticUI/UI/Resources/titlebar_X_2.tga");
     self.close.pressed = false;
     self.close.MouseEnter = function(sender, args)
-        self.close:SetBackground("MyysticBars/UI/Resources/titlebar_X_2_"..(self.close.pressed and "pressed" or "mouseover")..".tga");
+        self.close:SetBackground("MyysticUI/UI/Resources/titlebar_X_2_"..(self.close.pressed and "pressed" or "mouseover")..".tga");
     end
     self.close.MouseLeave = function(sender, args)
-        self.close:SetBackground("MyysticBars/UI/Resources/titlebar_X_2"..(self.close.pressed and "_mouseover" or "")..".tga");
+        self.close:SetBackground("MyysticUI/UI/Resources/titlebar_X_2"..(self.close.pressed and "_mouseover" or "")..".tga");
     end
     self.close.MouseDown = function(sender, args)
         self.close.pressed = true;
-        self.close:SetBackground("MyysticBars/UI/Resources/titlebar_X_2_pressed.tga");
+        self.close:SetBackground("MyysticUI/UI/Resources/titlebar_X_2_pressed.tga");
     end
     self.close.MouseUp = function(sender, args)
         self.close.pressed = false;
-        self.close:SetBackground("MyysticBars/UI/Resources/titlebar_X_2.tga");
+        self.close:SetBackground("MyysticUI/UI/Resources/titlebar_X_2.tga");
     end
     self.close.MouseClick = function(sender, args)
         self:Close();

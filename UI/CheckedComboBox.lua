@@ -1,20 +1,20 @@
 import "Turbine.UI"
-import "MyysticBars.UI.ComboBox";
-import "MyysticBars.UI.MenuUtils";
+import "MyysticUI.UI.ComboBox";
+import "MyysticUI.UI.MenuUtils";
 
-CheckedComboBox = class(MyysticBars.UI.ComboBox);
+CheckedComboBox = class(MyysticUI.UI.ComboBox);
 
 function CheckedComboBox:Constructor()
-    MyysticBars.UI.ComboBox.Constructor(self);
+    MyysticUI.UI.ComboBox.Constructor(self);
 
-    self.utils = MyysticBars.UI.MenuUtils();
+    self.utils = MyysticUI.UI.MenuUtils();
 
     self.SelectedIndexChanged = function(sender, args)
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticBars.TonicBars.Services.SettingsService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
 		for i = 1, self.listBox:GetItemCount() do
 			local item = self.listBox:GetItem(i);
-			if ( item.IsChecked == true ) then
+			if ( item:IsChecked() ) then
 				self.utils:BuildItemFromCommandTable( barSettings, item.value, true );
 			else
 				self.utils:BuildItemFromCommandTable( barSettings, item.value, nil );
@@ -24,31 +24,32 @@ function CheckedComboBox:Constructor()
 	end
 end
 
-function CheckedComboBox:ItemSelected(index)
-    if (self.selection ~= -1) then
-        local old = self.listBox:GetItem(self.selection);
-    end
+-- function CheckedComboBox:ItemSelected(index)
+--     if (self.selection ~= -1) then
+--         local old = self.listBox:GetItem(self.selection);
+--     end
     
-    local item = self.listBox:GetItem(index);
-    self.selection = index;
-    self.label:SetText("ITEMS CHECKED");
+--     local item = self.listBox:GetItem(index);
+--     self.selection = index;
+--     self.label:SetText("ITEMS CHECKED");
     
-    self:CloseDropDown();
-end
+--     self:CloseDropDown();
+-- end
 
 function CheckedComboBox:AddItem(text, value)
     local width, height = self.listBox:GetSize();
 
-    local listItem = MyysticBars.UI.CheckBox();
+    local listItem = Turbine.UI.Lotro.CheckBox();
     listItem:SetSize(width, 20);
     listItem:SetText(text);
 
-    listItem.CheckedCallback = function(sender, args)
+    listItem.CheckedChanged = function(sender, args)
         self:ItemSelected(self.listBox:GetSelectedIndex());
         self:FireEvent();
     end
-    listItem.value = value;
-    listItem.IsChecked = false;
+
+	listItem["value"] = value;
+    listItem:SetChecked(false);
     self.listBox:AddItem(listItem);
 end
 
@@ -56,11 +57,13 @@ function CheckedComboBox:ItemSelected(index)
     if (self.selection ~= -1) then
         local old = self.listBox:GetItem(self.selection);
     end
-    
-    local item = self.listBox:GetItem(index);
-    self.selection = index;
 
-    self.label:SetText(item:GetText());
+	if (index > 0) then
+	    local item = self.listBox:GetItem(index);
+    	self.selection = index;
+
+    	self.label:SetText(item:GetText());
+	end
 end
 
 function CheckedComboBox:ClearChecks()
@@ -99,7 +102,7 @@ function CheckedComboBox:GetSelections()
 		local count = 0;
 		for i = 1, self.listBox:GetItemCount() do
 			local item = self.listBox:GetItem(i);
-			if ( item.IsChecked == true ) then
+			if ( item:IsChecked() ) then
 				count = count + 1;
 				items[count] = item:GetText();
 				--Turbine.Shell.WriteLine( "Checked - key:" .. count .. " value:" .. items[count] );
