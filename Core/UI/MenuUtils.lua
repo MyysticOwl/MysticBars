@@ -203,11 +203,11 @@ end
 
 function MenuUtils:AddExpandTreeViewItem(parent, text, context, panel, expanded, collapsed)
 	local treeNode = Turbine.UI.TreeNode();
-	treeNode:SetSize(context["width"]-2,36);
+	treeNode:SetSize(context["width"]-2,20);
 
 	local headerHolder = Turbine.UI.Control();
 	headerHolder:SetParent(treeNode);
-	headerHolder:SetSize(treeNode:GetWidth(),34);
+	headerHolder:SetSize(treeNode:GetWidth(),20);
 	headerHolder:SetBackColor(self.HDBLUE);
 	headerHolder:SetMouseVisible(false);
 	self:AddItem(headerHolder);
@@ -257,6 +257,7 @@ function MenuUtils:AddExpandTreeViewItem(parent, text, context, panel, expanded,
 	typeHeader:SetPosition(30,10);
 	typeHeader:SetTextAlignment(self.LEFTALIGN);
 	typeHeader:SetForeColor(self.WHITE);
+	typeHeader:SetOutlineColor( Turbine.UI.Color(0,0,0, 0) );
 	typeHeader:SetFont(BFONT);
 	typeHeader:SetText(text);
 	typeHeader:SetMouseVisible(false);
