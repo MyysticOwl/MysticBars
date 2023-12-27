@@ -191,7 +191,6 @@ end
 -- Set it to trigger on Buff                Bar ID - When to trigger
 function ConfigurationService:SetBuffTrigger( buff )
 	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-	local localizationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.LocalizationService);
 	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
 	playerClass = playerService.playerClass;
 
@@ -202,17 +201,8 @@ function ConfigurationService:SetBuffTrigger( buff )
 		if ( self.barSettings.events.effects == nil ) then
 			self.barSettings.events.effects = { };
 		end
-		if ( localizationService:GetLanguage() ~= "en" ) then
-			local events = eventService:GetRegisteredEvents();
-			for key, value in pairs (events.classes[ playerClass ].effects) do
-				if ( value.englishSkillName == buff and self.barSettings.events.effects[buff] == nil) then
-					self.barSettings.events.effects[key] = true;	
-				end
-			end
-		else
-			if ( self.barSettings.events.effects[buff] == nil ) then
-				self.barSettings.events.effects[buff] = true;
-			end
+		if ( self.barSettings.events.effects[buff] == nil ) then
+			self.barSettings.events.effects[buff] = true;
 		end
 	end
 end

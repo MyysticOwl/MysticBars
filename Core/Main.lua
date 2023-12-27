@@ -10,7 +10,6 @@ import "MyysticUI.Core.DefaultConfiguration.MainConfig"
 import "MyysticUI.Services.ConfigurationService";
 import "MyysticUI.Services.EventService"
 import "MyysticUI.Services.InventoryService"
-import "MyysticUI.Services.LocalizationService"
 import "MyysticUI.Services.PlayerService"
 import "MyysticUI.Services.SkillsService"
 import "MyysticUI.Services.SettingsService"
@@ -37,7 +36,6 @@ SERVICE_CONTAINER:AddService(MyysticUI.Services.EventService(), MyysticUI.Servic
 SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService):StartManager(); -- Start watching for effects.
 
 SERVICE_CONTAINER:AddService(MyysticUI.Services.InventoryService(), MyysticUI.Services.InventoryService);
-SERVICE_CONTAINER:AddService(MyysticUI.Services.LocalizationService(), MyysticUI.Services.LocalizationService);
 SERVICE_CONTAINER:AddService(MyysticUI.Services.ConfigurationService(), MyysticUI.Services.ConfigurationService);
 
 SERVICE_CONTAINER:AddService(MyysticUI.Services.BarService(), MyysticUI.Services.BarService);
