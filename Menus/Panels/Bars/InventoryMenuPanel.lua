@@ -6,7 +6,7 @@
 
 import "Turbine";
 import "MyysticUI.Utils.Class";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.MenuUtils";
 import "MyysticUI.Menus.Panels.Controls.GeneralPanel"
 import "MyysticUI.Menus.Panels.Controls.SlotsPanel"
 import "MyysticUI.Menus.Panels.Controls.ClassBuffPanel"
@@ -16,7 +16,7 @@ import "MyysticUI.Menus.Panels.Controls.ColorPanel"
 
 InventoryMenuPanel = class();
 
-InventoryMenuPanel.utils = MyysticUI.UI.MenuUtils();
+InventoryMenuPanel.utils = MyysticUI.Core.UI.MenuUtils();
 
 function InventoryMenuPanel:Draw(context)
 	menu.contentBox:ClearItems();

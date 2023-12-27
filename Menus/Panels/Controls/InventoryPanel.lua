@@ -7,21 +7,21 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
-import "MyysticUI.UI.CheckedComboBox";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
+import "MyysticUI.Core.UI.CheckedComboBox";
 
 InventoryPanel = class();
 
 function InventoryPanel:Constructor( panel )
-	self.utils = MyysticUI.UI.MenuUtils();
+	self.utils = MyysticUI.Core.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, "Inventory Options");
 
 --	local box = self.utils:AddAutoListBox( panel, Turbine.UI.Orientation.Vertical, 0, 0, 0, 0 );
 
 	self.utils:AddLabelBox( panel, "Category Based:", 120, selectionHeight );
-	self.visibilityList = MyysticUI.UI.CheckedComboBox();
+	self.visibilityList = MyysticUI.Core.UI.CheckedComboBox();
 	self.visibilityList:SetSize( 300, 20 );
 	self.visibilityList:SetParent( panel );
 	for key, value in opairs( Turbine.Gameplay.ItemCategory ) do
@@ -32,7 +32,7 @@ function InventoryPanel:Constructor( panel )
 	self.utils:AddLabelBox( panel, "", 120, selectionHeight / 2 );
 
 	self.utils:AddLabelBox( panel, "Name Based:", 120, selectionHeight );
-	self.nameList = MyysticUI.UI.CheckedComboBox();
+	self.nameList = MyysticUI.Core.UI.CheckedComboBox();
 	self.nameList:SetSize( 300, 20 );
 	self.nameList:SetParent( panel );
 	panel:AddItem( self.nameList );

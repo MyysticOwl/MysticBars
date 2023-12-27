@@ -8,9 +8,9 @@ import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "MyysticUI.Utils.Class";
 import "MyysticUI.Utils.Table";
-import "MyysticUI.UI.ComboBox";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.Slider";
+import "MyysticUI.Core.UI.ComboBox";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.Slider";
 
 MenuUtils = class( Turbine.Object );
 
@@ -65,7 +65,7 @@ MenuUtils.Verdana14 = Turbine.UI.Lotro.Font.Verdana14;
 MenuUtils.Verdana16 = Turbine.UI.Lotro.Font.Verdana16;
 MenuUtils.Arial12 = Turbine.UI.Lotro.Font.Arial12;
 
-RESOURCEDIR = "MyysticUI/UI/Resources/"
+RESOURCEDIR = "MyysticUI/Core/UI/Resources/"
 
 MenuUtils.ICONEXPANDALL = 0x4100027B;-- 16x16
 MenuUtils.ICONEXPANDALLOVER = 0x4100027C;-- 16x16
@@ -79,10 +79,11 @@ MenuUtils.ICONCHECKEDEMPTY = Turbine.UI.Graphic(RESOURCEDIR .. "checkbox_02_empt
 function MenuUtils:AddAutoListBox( parentBox, orientation, width, height, top, left, thebgcolor )
 	local box;
 	if ( x ~= nil ) then
-		box = MyysticUI.UI.AutoListBox(width, height);
+		box = MyysticUI.Core.UI.AutoListBox(width, height);
 		box:SetPosition(top,left);
 	else
-		box = MyysticUI.UI.AutoListBox();
+		box = MyysticUI.Core.UI.AutoListBox();
+		box:SetPosition(top,left);
 	end
 	box:SetZOrder(10);
 	box:SetParent( parentBox );
@@ -309,8 +310,10 @@ function MenuUtils:AddCheckBox( parentBox, text, x, y, thebgcolor )
 	local cb = Turbine.UI.Lotro.CheckBox();
 	cb:SetParent( parentBox );
 	cb:SetText( text );
+	cb:SetForeColor(Slider.ItemColor);
+    cb:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
 	cb:SetBackColor( unselectedColor );
-	cb:SetSize( x, y );
+	cb:SetSize( x + 3, y + 10 );
 	if ( thebgcolor == nil ) then
 		cb:SetBackColor( bgColor );
 	else
@@ -340,7 +343,7 @@ function MenuUtils:CreateCheckBoxCallback( control, commandTable, callbackFuncti
 end
 
 function MenuUtils:AddScrollBar( parentBox, value, minVal, maxVal, x, y, thebgcolor, text )
-	local sb = MyysticUI.UI.Slider();
+	local sb = MyysticUI.Core.UI.Slider();
 	sb:SetParent( parentBox );
 	sb:SetSize( x, y );
 	sb:SetText(text);

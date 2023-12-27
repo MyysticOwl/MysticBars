@@ -18,7 +18,7 @@ function Slider:Constructor()
     -- text label
     self.label = Turbine.UI.Label();
     self.label:SetParent(self);
-    self.label:SetPosition(0, 0);
+    self.label:SetPosition(3, 5);
     self.label:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
     self.label:SetForeColor(Slider.ItemColor);
     self.label:SetTextAlignment(Turbine.UI.ContentAlignment.TopLeft);
@@ -26,7 +26,7 @@ function Slider:Constructor()
     -- value label
     self.valueLabel = Turbine.UI.Label();
     self.valueLabel:SetParent(self);
-    self.valueLabel:SetPosition(0, 0);
+    self.valueLabel:SetPosition(0, 5);
     self.valueLabel:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
     self.valueLabel:SetForeColor(Slider.ItemColor);
     self.valueLabel:SetTextAlignment(Turbine.UI.ContentAlignment.TopRight);
@@ -35,7 +35,7 @@ function Slider:Constructor()
     -- left arrow
     self.leftArrow = Turbine.UI.Control();
     self.leftArrow:SetParent(self);
-    self.leftArrow:SetBackground("MyysticUI/UI/Resources/slider_leftarrow.tga");
+    self.leftArrow:SetBackground("MyysticUI/Core/UI/Resources/slider_leftarrow.tga");
     self.leftArrow:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.leftArrow:SetSize(16,16);
 
@@ -46,7 +46,7 @@ function Slider:Constructor()
     
         if (args.Button == Turbine.UI.MouseButton.Left) then
             self.leftArrow:SetWantsUpdates(true);
-            self.leftArrow:SetBackground("MyysticUI/UI/Resources/slider_leftarrow_pressed.tga");
+            self.leftArrow:SetBackground("MyysticUI/Core/UI/Resources/slider_leftarrow_pressed.tga");
             self.leftArrow.tick = Turbine.Engine.GetGameTime();
             self.leftArrow.wait = true;
         end
@@ -58,7 +58,7 @@ function Slider:Constructor()
 
         if (args.Button == Turbine.UI.MouseButton.Left) then
             self.leftArrow:SetWantsUpdates(false);
-            self.leftArrow:SetBackground("MyysticUI/UI/Resources/slider_leftarrow.tga");
+            self.leftArrow:SetBackground("MyysticUI/Core/UI/Resources/slider_leftarrow.tga");
             self:Decrement();
         end
     end
@@ -79,7 +79,7 @@ function Slider:Constructor()
     -- right arrow
     self.rightArrow = Turbine.UI.Control();
     self.rightArrow:SetParent(self);
-    self.rightArrow:SetBackground("MyysticUI/UI/Resources/slider_rightarrow.tga");
+    self.rightArrow:SetBackground("MyysticUI/Core/UI/Resources/slider_rightarrow.tga");
     self.rightArrow:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.rightArrow:SetSize(16,16);
 
@@ -90,7 +90,7 @@ function Slider:Constructor()
 
         if (args.Button == Turbine.UI.MouseButton.Left) then
             self.rightArrow:SetWantsUpdates(true);
-            self.rightArrow:SetBackground("MyysticUI/UI/Resources/slider_rightarrow_pressed.tga");
+            self.rightArrow:SetBackground("MyysticUI/Core/UI/Resources/slider_rightarrow_pressed.tga");
             self.rightArrow.tick = Turbine.Engine.GetGameTime();
             self.rightArrow.wait = true;
         end
@@ -102,7 +102,7 @@ function Slider:Constructor()
 
         if (args.Button == Turbine.UI.MouseButton.Left) then
             self.rightArrow:SetWantsUpdates(false);
-            self.rightArrow:SetBackground("MyysticUI/UI/Resources/slider_rightarrow.tga");
+            self.rightArrow:SetBackground("MyysticUI/Core/UI/Resources/slider_rightarrow.tga");
             self:Increment();
         end
     end
@@ -123,7 +123,7 @@ function Slider:Constructor()
     -- slider area
     self.sliderBox = Turbine.UI.Control();
     self.sliderBox:SetParent(self);
-    self.sliderBox:SetBackground("MyysticUI/UI/Resources/slider_background.tga");
+    self.sliderBox:SetBackground("MyysticUI/Core/UI/Resources/slider_background.tga");
     self.sliderBox:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.sliderBox.MouseClick = function(sender, args)
         if (not self:IsEnabled()) then
@@ -147,7 +147,7 @@ function Slider:Constructor()
     -- slider widget
     self.slider = Turbine.UI.Control();
     self.slider:SetParent(self.sliderBox);
-    self.slider:SetBackground("MyysticUI/UI/Resources/slider_widget.tga");
+    self.slider:SetBackground("MyysticUI/Core/UI/Resources/slider_widget.tga");
     self.slider:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.slider:SetSize(16,16)
     self.slider.MouseDown = function(sender, args)
@@ -205,11 +205,11 @@ function Slider:SetEnabled(enabled)
     if (enabled) then
         self.label:SetForeColor(ComboBox.ItemColor);
         self.valueLabel:SetForeColor(ComboBox.ItemColor);
-        self.slider:SetBackground("MyysticUI/UI/Resources/slider_widget.tga");
+        self.slider:SetBackground("MyysticUI/Core/UI/Resources/slider_widget.tga");
     else
         self.label:SetForeColor(Slider.DisabledColor);
         self.valueLabel:SetForeColor(Slider.DisabledColor);
-        self.slider:SetBackground("MyysticUI/UI/Resources/slider_widget_ghosted.tga");
+        self.slider:SetBackground("MyysticUI/Core/UI/Resources/slider_widget_ghosted.tga");
     end
 end
 
@@ -218,7 +218,7 @@ function Slider:Layout()
     
     self.label:SetSize(width * .75, 20);
     self.valueLabel:SetSize(width * .25, 20);
-    self.valueLabel:SetPosition(width - (width * .25), 0);
+    self.valueLabel:SetPosition(width - (width * .25), 5);
 
     self.sliderBox:SetSize(width - 56, 16);
     self.sliderBox:SetPosition(28, 21);

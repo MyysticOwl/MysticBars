@@ -6,13 +6,13 @@
 
 import "Turbine";
 import "MyysticUI.Utils.Class";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.MenuUtils";
 import "MyysticUI.Menus.Panels.Controls.ExtensionGeneralPanel"
 import "MyysticUI.Menus.Panels.Controls.PredefinedExtensionPanel"
 
 ExtensionBarMenuPanel = class();
 
-ExtensionBarMenuPanel.utils = MyysticUI.UI.MenuUtils();
+ExtensionBarMenuPanel.utils = MyysticUI.Core.UI.MenuUtils();
 
 function ExtensionBarMenuPanel:Draw(context)
 	menu.contentBox:ClearItems();

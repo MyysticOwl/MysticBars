@@ -5,7 +5,7 @@
 -- RESPECT!
 
 import "MyysticUI.Utils.Class";
-import "MyysticUI.UI.Window";
+import "MyysticUI.Core.UI.Window";
 
 WindowInventoryBar = class( MyysticUI.Core.Bars.InventoryBaseBar );
 
@@ -13,7 +13,7 @@ function WindowInventoryBar:Constructor( barid )
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
 	self.id = barid;
-	self.mainWindow = MyysticUI.UI.Window();
+	self.mainWindow = MyysticUI.Core.UI.Window();
 
 	self.watchSizeChanges = false;
 	self.changingSizes = false;

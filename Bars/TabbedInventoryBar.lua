@@ -5,7 +5,7 @@
 -- RESPECT!
 
 import "MyysticUI.Utils.Class";
-import "MyysticUI.UI.Window";
+import "MyysticUI.Core.UI.Window";
 import "MyysticUI.Core.Bars.InventoryBaseBar";
 import "MyysticUI.Core.Bars.Tab"
 

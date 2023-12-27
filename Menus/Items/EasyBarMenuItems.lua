@@ -8,9 +8,9 @@ import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "MyysticUI.Utils.Class";
-import "MyysticUI.UI.ComboBox";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.ComboBox";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
 import "MyysticUI.Menus.Items.MainMenuItems";
 import "MyysticUI.Menus.Panels.Bars.BarMenuPanel";
 
@@ -18,7 +18,7 @@ EasyBarMenuItems = class();
 
 EasyBarMenuItems.panel = MyysticUI.Menus.Panels.Bars.BarMenuPanel();
 EasyBarMenuItems.menuItems = MyysticUI.Menus.Items.MainMenuItems();
-EasyBarMenuItems.utils = MyysticUI.UI.MenuUtils();
+EasyBarMenuItems.utils = MyysticUI.Core.UI.MenuUtils();
 
 function EasyBarMenuItems:Constructor(mainMenu, parent)
 	self.configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);

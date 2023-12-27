@@ -45,15 +45,17 @@ function SkillsService:BuildSkillLists()
 	local corruptionCount = 0;
 
 	local trainedSkills = playerService.player:GetTrainedSkills();
-	local untrainedSkills = playerService.player:GetUntrainedSkills();
-
-	Turbine.Shell.WriteLine( "untrainedSkills: " .. untrainedSkills:GetCount());
 
 	for i = 1, trainedSkills:GetCount() do
 		local skill = trainedSkills:GetItem(i);
 		local info = skill:GetSkillInfo();
 		local name = string.lower(info:GetName());
 		local description = string.lower(info:GetDescription());
+
+		-- Turbine.Shell.WriteLine( "t: " .. info:GetType());
+		-- Turbine.Shell.WriteLine( "i: " .. info:GetIconImageID());
+		-- Turbine.Shell.WriteLine( "n: " .. name);
+		-- Turbine.Shell.WriteLine( "d: " .. description);
 
 		local found = false;
 

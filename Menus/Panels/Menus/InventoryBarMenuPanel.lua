@@ -6,15 +6,15 @@
 
 import "Turbine";
 import "MyysticUI.Utils.Class";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.MenuUtils";
 
 InventoryBarMenuPanel = class();
 
 function InventoryBarMenuPanel:Draw()
 	menu.contentBox:ClearItems();
 
-	local title = MyysticUI.UI.AutoListBox();
-	local utils = MyysticUI.UI.MenuUtils();
+	local title = MyysticUI.Core.UI.AutoListBox();
+	local utils = MyysticUI.Core.UI.MenuUtils();
 
 	utils:AddCategoryBox(title, "Inventory Bars");
 	utils:AddLabelBox( title, "Click Add Bar to start using tonic bars or select an Windowed Bar to edit.", selectionWidth + 250, selectionHeight + 20 );

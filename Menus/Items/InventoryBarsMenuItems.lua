@@ -9,16 +9,16 @@ import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "MyysticUI.Utils.Class";
 import "MyysticUI.Utils.TableDump";
-import "MyysticUI.UI.ComboBox";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.ComboBox";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
 import "MyysticUI.Menus.Panels.Bars.InventoryMenuPanel";
 
 InventoryBarsMenuItems = class();
 
 InventoryBarsMenuItems.panel = MyysticUI.Menus.Panels.Bars.InventoryMenuPanel();
 InventoryBarsMenuItems.menuItems = MyysticUI.Menus.Items.MainMenuItems();
-InventoryBarsMenuItems.utils = MyysticUI.UI.MenuUtils();
+InventoryBarsMenuItems.utils = MyysticUI.Core.UI.MenuUtils();
 
 function InventoryBarsMenuItems:Constructor(mainMenu, parent)
 	self:Refresh(mainMenu, parent)

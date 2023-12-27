@@ -9,9 +9,9 @@ import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "MyysticUI.Utils.Class";
 import "MyysticUI.Utils.Table";
-import "MyysticUI.UI.ComboBox";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.ComboBox";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
 import "MyysticUI.Menus.Items.MainMenuItems";
 import "MyysticUI.Menus.Items.EasyBarMenuItems";
 import "MyysticUI.Menus.Items.ManageBarsMenuItems";
@@ -33,7 +33,7 @@ SCREENHEIGHT = Turbine.UI.Display.GetHeight();
 
 MainMenu = class( Turbine.UI.ListBox );
 
-MainMenu.utils = MyysticUI.UI.MenuUtils();
+MainMenu.utils = MyysticUI.Core.UI.MenuUtils();
 
 MainMenu.navigationWidth = 200;
 MainMenu.tree = nil;
@@ -61,10 +61,14 @@ function MainMenu:AddSelectionTypes(width)
 	self.menuBox:SetWidth(width);
 	self.menuBox:SetHeight( windowHeight );
 
+	self.spacer = self.utils:AddLabelBox( self.menuBox, "", 20, selectionHeight );
+
 	local editButton = Turbine.UI.Lotro.Button();
-	editButton:SetParent(self.menuBox);
+	--editButton:SetParent(self.menuBox);
 	editButton:SetText( "Edit Mode" );
-	editButton:SetSize( width, selectionHeight + 100 );
+	editButton:SetSize( width, 200 );
+	editButton:SetMultiline(true);
+
 	editButton.MouseClick = function( sender, args )
 		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 		local settings = settingsService:GetSettings();
@@ -83,6 +87,7 @@ function MainMenu:AddSelectionTypes(width)
 
 	end
 	self.menuBox:AddItem( editButton );
+	self.spacer = self.utils:AddLabelBox( self.menuBox, "", 20, selectionHeight );
 
 	self.navigationBox = self.utils:AddAutoListBox( self, Turbine.UI.Orientation.Vertical );
 	self.navigationBox:SetWidth(width);
@@ -94,7 +99,11 @@ function MainMenu:AddSelectionTypes(width)
 
 	self.contentBox = self.utils:AddAutoListBox( self, Turbine.UI.Orientation.Vertical );
 	self.contentBox:SetHeight( windowHeight );
+	self.contentBox:SetWidth( 8 );
+	self:AddItem( self.contentBox );
 
+	self.contentBox = self.utils:AddAutoListBox( self, Turbine.UI.Orientation.Vertical );
+	self.contentBox:SetHeight( windowHeight );
 	self:AddItem( self.contentBox );
 end
 

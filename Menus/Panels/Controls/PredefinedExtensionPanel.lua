@@ -7,21 +7,21 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
 
 PredefinedExtensionPanel = class();
 
 function PredefinedExtensionPanel:Constructor( panel, mainMenu )
 	menu = mainMenu;
-	self.utils = MyysticUI.UI.MenuUtils();
+	self.utils = MyysticUI.Core.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, "Predefined Extensions");
 
 
 	self.utils:AddLabelBox( panel, "This will change shortcuts on the current bar perminately!!!!", selectionWidth + 150, selectionHeight + 10 );
 
-	self.typeList = MyysticUI.UI.ComboBox();
+	self.typeList = MyysticUI.Core.UI.ComboBox();
 	self.typeList:SetSize( 200, 20 );
 	self.typeList:SetParent( panel );
 	-- self.typeList:AddItem( "Hunters Travel", 	HUNTER_TRAVEL_TYPE );

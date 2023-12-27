@@ -8,13 +8,13 @@ import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "MyysticUI.Utils.Class";
-import "MyysticUI.UI.ComboBox";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.ComboBox";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
 
 MainMenuItems = class();
 
-MainMenuItems.utils = MyysticUI.UI.MenuUtils();
+MainMenuItems.utils = MyysticUI.Core.UI.MenuUtils();
 
 function MainMenuItems:CreateNewBarItem(parent, mainMenu)
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);

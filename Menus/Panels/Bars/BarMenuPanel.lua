@@ -6,14 +6,14 @@
 
 import "Turbine";
 import "MyysticUI.Utils.Class";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.MenuUtils";
 import "MyysticUI.Menus.Panels.Controls.GeneralPanel"
 import "MyysticUI.Menus.Panels.Controls.SlotsPanel"
 import "MyysticUI.Menus.Panels.Controls.ClassBuffPanel"
 
 BarMenuPanel = class();
 
-BarMenuPanel.utils = MyysticUI.UI.MenuUtils();
+BarMenuPanel.utils = MyysticUI.Core.UI.MenuUtils();
 
 function BarMenuPanel:Draw(context)
 	menu.contentBox:ClearItems();

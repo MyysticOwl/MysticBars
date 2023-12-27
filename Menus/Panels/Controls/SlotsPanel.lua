@@ -7,15 +7,15 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
 
 SlotsPanel = class();
 
 function SlotsPanel:Constructor( panel, RowColumnBased, sizeOption, mainMenu )
 	menu = mainMenu;
 	self.RowColumnBased = RowColumnBased;
-	self.utils = MyysticUI.UI.MenuUtils();
+	self.utils = MyysticUI.Core.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, "Quick Slots");
 

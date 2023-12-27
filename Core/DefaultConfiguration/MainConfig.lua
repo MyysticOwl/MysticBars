@@ -30,9 +30,9 @@ function MainConfig:Constructor()
 	eventService:AddCallback( Turbine.Gameplay.LocalPlayer.GetInstance(), "LevelChanged", function( sender, args )
 		self:CheckConfiguration();
 	end);
-	
+
 	local configSettings = settingsService:GetSettings();
-	if ( configSettings.defaultsCreated == nil and #settingsService:GetBars() == 0) then
+	if ( configSettings.defaultsCreated == nil and settingsService:GetBars() == 0) then
 		configSettings.defaultsCreated = true;
 		self:CheckConfiguration();
 	end
@@ -41,7 +41,6 @@ end
 function MainConfig:CheckConfiguration()
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 	local configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);
-	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
 	local playerClass = playerService.playerClass;

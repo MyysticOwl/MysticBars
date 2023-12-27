@@ -7,13 +7,13 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
 
 ColorPanel = class();
 
 function ColorPanel:Constructor( panel )
-	self.utils = MyysticUI.UI.MenuUtils();
+	self.utils = MyysticUI.Core.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, "Background Colors");
 

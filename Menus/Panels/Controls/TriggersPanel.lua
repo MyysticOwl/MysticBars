@@ -7,19 +7,19 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
 
 TriggersPanel = class();
 
 function TriggersPanel:Constructor( panel )
 	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
 
-	self.utils = MyysticUI.UI.MenuUtils();
+	self.utils = MyysticUI.Core.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, "Triggers");
 
-	self.triggerList = MyysticUI.UI.CheckedComboBox();
+	self.triggerList = MyysticUI.Core.UI.CheckedComboBox();
 	self.triggerList:SetSize( 300, 20 );
 	self.triggerList:SetParent( panel );
 	panel:AddItem( self.triggerList );

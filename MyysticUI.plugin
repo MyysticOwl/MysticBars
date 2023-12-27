@@ -4,7 +4,7 @@
 		<Name>MyysticUI</Name>
 		<Author>MyysticOwl</Author>
 		<Version>v3.0.1</Version>
-		<Image>MyysticUI/MyysticUI/Resources/Tonic2.tga</Image>
+		<Image>MyysticUI/Core/UI/Resources/Tonic2.tga</Image>
 		<Description>The concept is a Bar (quickbar) manager.
 MyysticUI (previously TonicBars) will allow you to create Easy Bars, Quickslot Bars and Inventory Bars and manage different attributes for them.
 

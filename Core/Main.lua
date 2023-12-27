@@ -30,13 +30,14 @@ SERVICE_CONTAINER = MyysticUI.Utils.ServiceContainer();
 SERVICE_CONTAINER:AddService(MyysticUI.Services.PlayerService(), MyysticUI.Services.PlayerService);
 SERVICE_CONTAINER:AddService(MyysticUI.Services.SettingsService(), MyysticUI.Services.SettingsService);
 
-SERVICE_CONTAINER:AddService(MyysticUI.Services.SkillsService(), MyysticUI.Services.SkillsService);
-
 SERVICE_CONTAINER:AddService(MyysticUI.Services.EventService(), MyysticUI.Services.EventService);
 SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService):StartManager(); -- Start watching for effects.
 
 SERVICE_CONTAINER:AddService(MyysticUI.Services.InventoryService(), MyysticUI.Services.InventoryService);
 SERVICE_CONTAINER:AddService(MyysticUI.Services.ConfigurationService(), MyysticUI.Services.ConfigurationService);
+
+SERVICE_CONTAINER:AddService(MyysticUI.Services.SkillsService(), MyysticUI.Services.SkillsService);
+SERVICE_CONTAINER:GetService(MyysticUI.Services.SkillsService):BuildSkillLists();
 
 SERVICE_CONTAINER:AddService(MyysticUI.Services.BarService(), MyysticUI.Services.BarService);
 
@@ -55,11 +56,12 @@ Turbine.Shell.WriteLine( "MysticBars " .. THEVERSION .. " from MyysticOwl" );
 Turbine.Shell.WriteLine( "usage: /tb; /TonicBars; /mb; /MysticBars" );
 Turbine.Shell.WriteLine( "----------------------------" );
 
+
 local shellCommand = Turbine.ShellCommand()
 function shellCommand:Execute(command, arguments)
 	Turbine.PluginManager.ShowOptions(Plugins["TonicBars"]);
 end
-Turbine.Shell.AddCommand('tb;tonicbars;TonicBars;mb;mysticbars;MysticBars', shellCommand);
+Turbine.Shell.AddCommand('mb;mysticui;MysticUI;mysticbars;MysticBars;', shellCommand);
 
 menu = MyysticUI.Menus.MainMenu();
 plugin.GetOptionsPanel = function( self )

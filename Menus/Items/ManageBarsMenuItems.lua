@@ -17,7 +17,7 @@ ManageBarsMenuItems.panel = MyysticUI.Menus.Panels.Bars.BarMenuPanel();
 ManageBarsMenuItems.menuItems = MyysticUI.Menus.Items.MainMenuItems();
 ManageBarsMenuItems.extensionsPanel = MyysticUI.Menus.Panels.Menus.ExtensionsMenuPanel();
 ManageBarsMenuItems.extensionsBarPanel = MyysticUI.Menus.Panels.Bars.ExtensionBarMenuPanel();
-ManageBarsMenuItems.utils = MyysticUI.UI.MenuUtils();
+ManageBarsMenuItems.utils = MyysticUI.Core.UI.MenuUtils();
 
 function ManageBarsMenuItems:Constructor(mainMenu, parent)
 	self:Refresh(mainMenu, parent)

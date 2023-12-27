@@ -7,14 +7,14 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
 
 ExtensionGeneralPanel = class();
 
 function ExtensionGeneralPanel:Constructor( panel, mainMenu )
 	menu = mainMenu;
-	self.utils = MyysticUI.UI.MenuUtils();
+	self.utils = MyysticUI.Core.UI.MenuUtils();
 
 	self.utils:AddLabelBox( panel, "", 50, selectionHeight );
 
@@ -47,7 +47,7 @@ function ExtensionGeneralPanel:Constructor( panel, mainMenu )
 
 	self.utils:AddLabelBox( panel, "Orientation:", selectionWidth + 100, selectionHeight + 5 );
 
-	self.orientationList = MyysticUI.UI.ComboBox();
+	self.orientationList = MyysticUI.Core.UI.ComboBox();
 	self.orientationList:SetSize( 200, 20 );
 	self.orientationList:SetParent( panel );
 	self.orientationList:AddItem( "Left",  "Left" );
@@ -58,7 +58,7 @@ function ExtensionGeneralPanel:Constructor( panel, mainMenu )
 
 	self.utils:AddLabelBox( panel, "When attached quickslot is Moused Over:", selectionWidth + 200, selectionHeight + 5 );
 
-	self.mousedOverList = MyysticUI.UI.ComboBox();
+	self.mousedOverList = MyysticUI.Core.UI.ComboBox();
 	self.mousedOverList:SetSize( 200, 20 );
 	self.mousedOverList:SetParent( panel );
 	self.mousedOverList:AddItem( "Show Extension(s)", SHOW_EXTENSIONS );
@@ -69,7 +69,7 @@ function ExtensionGeneralPanel:Constructor( panel, mainMenu )
 
 	self.utils:AddLabelBox( panel, "Stop displaying extension when:", selectionWidth + 200, selectionHeight + 5 );
 
-	self.removalList = MyysticUI.UI.ComboBox();
+	self.removalList = MyysticUI.Core.UI.ComboBox();
 	self.removalList:SetSize( 200, 20 );
 	self.removalList:SetParent( panel );
 	self.removalList:AddItem( "Mouse Leaves Bar", 1 );

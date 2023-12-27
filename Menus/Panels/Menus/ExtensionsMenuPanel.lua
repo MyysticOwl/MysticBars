@@ -6,15 +6,15 @@
 
 import "Turbine";
 import "MyysticUI.Utils.Class";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.MenuUtils";
 
 ExtensionsMenuPanel = class();
 
 function ExtensionsMenuPanel:Draw()
 	menu.contentBox:ClearItems();
 
-	local title = MyysticUI.UI.AutoListBox();
-	local utils = MyysticUI.UI.MenuUtils();
+	local title = MyysticUI.Core.UI.AutoListBox();
+	local utils = MyysticUI.Core.UI.MenuUtils();
 
 	utils:AddCategoryBox(title, "Extensions");
 	utils:AddLabelBox( title, "Extensions work different than QuickBars. To add an Extension, just right click on the quickslot to extend. Then select the orientation.", selectionWidth + 250, selectionHeight + 20 );

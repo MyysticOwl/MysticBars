@@ -6,15 +6,15 @@
 
 import "Turbine";
 import "MyysticUI.Utils.Class";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.MenuUtils";
 
 EasyBarMenuPanel = class();
 
 function EasyBarMenuPanel:Draw()
 	menu.contentBox:ClearItems();
 
-	local title = MyysticUI.UI.AutoListBox();
-	local utils = MyysticUI.UI.MenuUtils();
+	local title = MyysticUI.Core.UI.AutoListBox();
+	local utils = MyysticUI.Core.UI.MenuUtils();
 
 	utils:AddCategoryBox(title, "Create Bars Quickly");
 	utils:AddLabelBox( title, "This menu is used to create complicated bars, very easily. Often getting everything setup on your bar takes a lot of time. Hopefully this helps you get where you want to go easier.", selectionWidth + 250, selectionHeight + 20 );

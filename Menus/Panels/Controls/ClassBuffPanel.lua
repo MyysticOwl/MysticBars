@@ -7,8 +7,8 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
 
 ClassBuffPanel = class();
 
@@ -17,19 +17,19 @@ function ClassBuffPanel:Constructor( panel )
 	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
 	local playerClass = playerService.playerClass;
 
-	self.utils = MyysticUI.UI.MenuUtils();
+	self.utils = MyysticUI.Core.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, "Class Triggers");
 
 	self.utils:AddLabelBox( panel, "Triggered When:", 120, selectionHeight );
-	self.triggerList = MyysticUI.UI.ComboBox();
+	self.triggerList = MyysticUI.Core.UI.ComboBox();
 	self.triggerList:SetSize( 200, 20 );
 	self.triggerList:SetParent( panel );
 	self.triggerList:AddItem( "Buffs Active", 1 );
 	self.triggerList:AddItem( "Buffs Not Active", 2 );
 	panel:AddItem( self.triggerList );
 
-	self.fadeOpacityNum1 = self.utils:AddLabelBox( panel, "", 50, selectionHeight );
+	self.fadeOpacityNum1 = self.utils:AddLabelBox( panel, "", 20, selectionHeight );
 
 	local events = eventService:GetRegisteredEvents();
 	self.eventCheckboxes = { };
@@ -37,7 +37,7 @@ function ClassBuffPanel:Constructor( panel )
 	local box = nil;
 
 	self.utils:AddLabelBox( panel, "Buffs", 120, selectionHeight );
-	self.buffList = MyysticUI.UI.CheckedComboBox();
+	self.buffList = MyysticUI.Core.UI.CheckedComboBox();
 	self.buffList:SetSize( 300, 20 );
 	self.buffList:SetParent( panel );
 	panel:AddItem( self.buffList );
@@ -46,12 +46,12 @@ function ClassBuffPanel:Constructor( panel )
 	if ( playerClass == Turbine.Gameplay.Class.Burglar ) then
 	elseif ( playerClass == Turbine.Gameplay.Class.Champion ) then
 		self.eventCheckboxes[CHAMPION_FERVOR] = self.utils:AddCheckBox( box13, "Fervor between:", selectionWidth + 15, selectionHeight );
-		self.eventCheckboxes[CHAMPION_FERVOR].CheckedCallback = function( sender, args )
+		self.eventCheckboxes[CHAMPION_FERVOR].CheckedChanged = function( sender, args )
 			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 			local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
 
-			if ( self.eventCheckboxes[CHAMPION_FERVOR].IsChecked ) then
+			if ( self.eventCheckboxes[CHAMPION_FERVOR]:IsChecked() ) then
 				if ( barSettings.events == nil ) then
 					barSettings.events = { }; 
 				end
@@ -90,12 +90,12 @@ function ClassBuffPanel:Constructor( panel )
 		box13:AddItem( box );
 	elseif ( playerClass == Turbine.Gameplay.Class.RuneKeeper ) then
 		self.eventCheckboxes[RK_ATTUNEMENT] = self.utils:AddCheckBox( box13, "Attunement between:", selectionWidth + 15, selectionHeight );
-		self.eventCheckboxes[RK_ATTUNEMENT].CheckedCallback = function( sender, args )
+		self.eventCheckboxes[RK_ATTUNEMENT].CheckedChanged = function( sender, args )
 			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 			local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
 
-			if ( self.eventCheckboxes[RK_ATTUNEMENT].IsChecked ) then
+			if ( self.eventCheckboxes[RK_ATTUNEMENT]:IsChecked() ) then
 				if ( barSettings.events == nil ) then
 					barSettings.events = { }; 
 				end
@@ -118,7 +118,7 @@ function ClassBuffPanel:Constructor( panel )
 				settingsService:SetBarSettings( menu:GetSelection(), barSettings );
 			end
 		end
-		self.utils:AddLabelBox( box13, "Attunement is set with: 10 is Balanced, Lower numbers are Battle and Higher numbers are Healing", 50, selectionHeight );
+		self.utils:AddLabelBox( box13, "10 Balanced, Lower numbers Battle, Higher numbers Healing", 400, selectionHeight );
 		box = self.utils:AddAutoListBox( box13, Turbine.UI.Orientation.Horizontal, 0, 0, 0, 0 );
 		boxSet1 = self.utils:AddAutoListBox( box, Turbine.UI.Orientation.Vertical, 0, 0, 0, 0 );
 		boxSet2 = self.utils:AddAutoListBox( box, Turbine.UI.Orientation.Vertical, 0, 0, 0, 0 );
@@ -136,12 +136,12 @@ function ClassBuffPanel:Constructor( panel )
 		box13:AddItem( box );
 	elseif ( playerClass == Turbine.Gameplay.Class.Hunter ) then
 		self.eventCheckboxes[HUNTER_FOCUS] = self.utils:AddCheckBox( box13, "Focus between:", selectionWidth + 15, selectionHeight );
-		self.eventCheckboxes[HUNTER_FOCUS].CheckedCallback = function( sender, args )
+		self.eventCheckboxes[HUNTER_FOCUS].CheckedChanged = function( sender, args )
 			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 			local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
 
-			if ( self.eventCheckboxes[HUNTER_FOCUS].IsChecked ) then
+			if ( self.eventCheckboxes[HUNTER_FOCUS]:IsChecked() ) then
 				if ( barSettings.events == nil ) then
 					barSettings.events = { }; 
 				end

@@ -7,15 +7,15 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.UI.AutoListBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.AutoListBox";
+import "MyysticUI.Core.UI.MenuUtils";
 
 GeneralPanel = class();
 
 function GeneralPanel:Constructor( panel )
-	self.utils = MyysticUI.UI.MenuUtils();
+	self.utils = MyysticUI.Core.UI.MenuUtils();
 
-	local box0 = self.utils:AddAutoListBox( panel, Turbine.UI.Orientation.Horizontal, 0, 0, 0, 0 );
+	local box0 = self.utils:AddAutoListBox( panel, Turbine.UI.Orientation.Horizontal, 0, 0, 0, 5 );
 
 	self.utils:AddLabelBox( box0, "Name:", 80, selectionHeight );
 
@@ -51,6 +51,8 @@ function GeneralPanel:Constructor( panel )
 	end
 
 	panel:AddItem( deleteButton );
+	self.spacer = self.utils:AddLabelBox( panel, "", 20, selectionHeight );
+
 
 	self.utils:AddCategoryBox(panel, "General");
 
@@ -58,13 +60,15 @@ function GeneralPanel:Constructor( panel )
 	self.utils:CreateCheckBoxCallback( self.barLockedCheckBox, { "locked" } );
 
 	self.utils:AddLabelBox( panel, "Bar Visibility?", 120, selectionHeight );
-	self.visibilityList = MyysticUI.UI.ComboBox();
+	self.visibilityList = MyysticUI.Core.UI.ComboBox();
 	self.visibilityList:SetSize( 200, 20 );
 	self.visibilityList:SetParent( panel );
 	self.visibilityList:AddItem( "Always", 1 );
 	self.visibilityList:AddItem( "Triggered", 2 );
 	
 	panel:AddItem( self.visibilityList );
+
+	self.spacer = self.utils:AddLabelBox( panel, "", 20, selectionHeight );
 end
 
 function GeneralPanel:DisplaySettings()

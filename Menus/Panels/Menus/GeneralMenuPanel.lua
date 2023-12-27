@@ -6,7 +6,7 @@
 
 import "Turbine";
 import "MyysticUI.Utils.Class";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.MenuUtils";
 
 buttonWidth = 90;
 selectionWidth = 160;
@@ -14,19 +14,19 @@ selectionHeight = 20;
 
 GeneralMenuPanel = class( Turbine.Object );
 
-GeneralMenuPanel.utils = MyysticUI.UI.MenuUtils();
+GeneralMenuPanel.utils = MyysticUI.Core.UI.MenuUtils();
 
 function GeneralMenuPanel:Draw(context)
 	menu.contentBox:ClearItems();
 	
-	local settingsBox = MyysticUI.UI.AutoListBox();
+	local settingsBox = MyysticUI.Core.UI.AutoListBox();
 
 	self.utils:AddCategoryBox(settingsBox, "General Settings");
 
 	if ( realClassSet == nil ) then
 		self.utils:AddLabelBox( settingsBox, "Plugin can't determine your class, please select the correct one:", selectionWidth + 200, selectionHeight + 10 );
 
-		self.classList = MyysticUI.UI.ComboBox();
+		self.classList = MyysticUI.Core.UI.ComboBox();
 		self.classList:SetSize( 200, 20 );
 		self.classList:SetParent( settingsBox );
 		self.classList:AddItem( "Guardian", 		23 );
@@ -48,7 +48,7 @@ function GeneralMenuPanel:Draw(context)
 
 	self.utils:AddCategoryBox(settingsBox, "Languages");
 
-	self.languageList = MyysticUI.UI.ComboBox();
+	self.languageList = MyysticUI.Core.UI.ComboBox();
 	self.languageList:SetSize( 200, 20 );
 	self.languageList:SetParent( settingsBox );
 	self.languageList:AddItem( "English", "en" );
@@ -71,7 +71,7 @@ function GeneralMenuPanel:AddSettings(settingsBox)
 
 	self.utils:AddLabelBox( settingsBox, "Profiles", selectionWidth + 200, selectionHeight + 25 );
 
-	self.profileList = MyysticUI.UI.ComboBox();
+	self.profileList = MyysticUI.Core.UI.ComboBox();
 	self.profileList:SetSize( 200, 20 );
 	self.profileList:SetParent( settingsBox );
 	settingsBox:AddItem( self.profileList );
@@ -79,13 +79,13 @@ function GeneralMenuPanel:AddSettings(settingsBox)
 	self.utils:AddLabelBox( settingsBox, "", 0, 15 );
 	self.utils:AddLabelBox( settingsBox, "Take", selectionWidth + 200, selectionHeight );
 
-	self.theirBarList = MyysticUI.UI.ComboBox();
+	self.theirBarList = MyysticUI.Core.UI.ComboBox();
 	self.theirBarList:SetSize( 200, 20 );
 	self.theirBarList:SetParent( settingsBox );
 	settingsBox:AddItem( self.theirBarList );
 
 	self.utils:AddLabelBox( settingsBox, "Give", selectionWidth + 200, selectionHeight );
-	self.myBarList = MyysticUI.UI.ComboBox();
+	self.myBarList = MyysticUI.Core.UI.ComboBox();
 	self.myBarList:SetSize( 200, 20 );
 	self.myBarList:SetParent( settingsBox );
 	settingsBox:AddItem( self.myBarList );

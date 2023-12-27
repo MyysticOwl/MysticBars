@@ -1,13 +1,13 @@
 import "Turbine.UI"
-import "MyysticUI.UI.ComboBox";
-import "MyysticUI.UI.MenuUtils";
+import "MyysticUI.Core.UI.ComboBox";
+import "MyysticUI.Core.UI.MenuUtils";
 
-CheckedComboBox = class(MyysticUI.UI.ComboBox);
+CheckedComboBox = class(MyysticUI.Core.UI.ComboBox);
 
 function CheckedComboBox:Constructor()
-    MyysticUI.UI.ComboBox.Constructor(self);
+    MyysticUI.Core.UI.ComboBox.Constructor(self);
 
-    self.utils = MyysticUI.UI.MenuUtils();
+    self.utils = MyysticUI.Core.UI.MenuUtils();
 
     self.SelectedIndexChanged = function(sender, args)
 		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
