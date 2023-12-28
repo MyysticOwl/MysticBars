@@ -20,8 +20,15 @@ function MainMenuItems:CreateNewBarItem(parent, mainMenu)
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
 	local context = { ["parent"] = parent, ["width"] = parent:GetWidth() };
-	self.utils:AddCheckedTreeViewItem(parent, "Add New Bar", context, false);
-	self:SetCheckedIcon(context, false);
+	local treeNode = MyysticUI.Core.Menus.MainTitleNode(parent, "Add New Bar", context, 1);
+
+	if (parent ~= nil and parent.Add ~= nil) then
+		parent:Add(treeNode);
+	else
+		parent:GetChildNodes():Add(treeNode);
+	end
+
+--	self:SetCheckedIcon(context, false);
 
 	context["icon"].MouseClick = function(sender,args)
 		local barId = barService:Add( QUICKSLOTBAR );
@@ -38,8 +45,15 @@ function MainMenuItems:CreateNewTabInventoryBarItem(parent, mainMenu)
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
 	local context = { ["parent"] = parent, ["width"] = parent:GetWidth() };
-	self.utils:AddCheckedTreeViewItem(parent, "Add Tabbed Bar", context, false);
-	self:SetCheckedIcon(context, false);
+	local treeNode = MyysticUI.Core.Menus.MainTitleNode(parent, "Add Tabbed Bar", context, 1);
+
+	if (parent ~= nil and parent.Add ~= nil) then
+		parent:Add(treeNode);
+	else
+		parent:GetChildNodes():Add(treeNode);
+	end
+
+--	self:SetCheckedIcon(context, false);
 
 	context["icon"].MouseClick = function(sender,args)
 		local barId = barService:Add( TABBED_INV_BAR );
@@ -56,8 +70,15 @@ function MainMenuItems:CreateNewWindowInventoryBarItem(parent, mainMenu)
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
 	local context = { ["parent"] = parent, ["width"] = parent:GetWidth() };
-	self.utils:AddCheckedTreeViewItem(parent, "Add Windowed Bar", context, false);
-	self:SetCheckedIcon(context, false);
+	local treeNode = MyysticUI.Core.Menus.MainTitleNode(parent, "Add Windowed Bar", context, 1);
+
+	if (parent ~= nil and parent.Add ~= nil) then
+		parent:Add(treeNode);
+	else
+		parent:GetChildNodes():Add(treeNode);
+	end
+
+--	self:SetCheckedIcon(context, false);
 
 	context["icon"].MouseClick = function(sender,args)
 		local barId = barService:Add( WINDOW_INV_BAR );
@@ -75,14 +96,20 @@ function MainMenuItems:CreateNewExtensionItem(parent, panel)
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
 	local context = { ["parent"] = parent, ["width"] = parent:GetWidth() };
-	self.utils:AddCheckedTreeViewItem(parent, "Extensions Mode?", context, false);
+	local treeNode = MyysticUI.Core.Menus.MainTitleNode(parent, "Extensions Mode?", context, 1);
 
-	local settings = settingsService:GetSettings();
-	if (settings.barMode ~= EXTENSION_MODE) then
-		self:SetCheckedIcon(context, false);
+	if (parent ~= nil and parent.Add ~= nil) then
+		parent:Add(treeNode);
 	else
-		self:SetCheckedIcon(context, true);
+		parent:GetChildNodes():Add(treeNode);
 	end
+
+	-- local settings = settingsService:GetSettings();
+	-- if (settings.barMode ~= EXTENSION_MODE) then
+	-- 	self:SetCheckedIcon(context, false);
+	-- else
+	-- 	self:SetCheckedIcon(context, true);
+	-- end
 
 	context["icon"].MouseClick = function(sender,args)
 		self:EditExtensionsClicked(context, panel, settings);
@@ -96,44 +123,50 @@ function MainMenuItems:CreateNewExtensionItem(parent, panel)
 end
 
 function MainMenuItems:EditExtensionsClicked(context, panel, settings)
-	if (context["icon"]:GetBackground() == self.utils.ICONCHECKED) then
-		self:SetCheckedIcon(context, false);
+	-- if (context["icon"]:GetBackground() == self.utils.ICONCHECKED) then
+	-- 	self:SetCheckedIcon(context, false);
 
-		if ( settings.barMode == NORMAL_MODE and self.priorBarMode == nil ) then
-			settings.barMode = EASYBAR_MODE;
-		elseif ( settings.barMode == NORMAL_MODE and self.priorBarMode ~= nil ) then
-			settings.barMode = self.priorBarMode;
-		else
-			self.priorBarMode = settings.barMode;
-			settings.barMode = NORMAL_MODE;
-		end
-	else
-		self:SetCheckedIcon(context, true);
+	-- 	if ( settings.barMode == NORMAL_MODE and self.priorBarMode == nil ) then
+	-- 		settings.barMode = EASYBAR_MODE;
+	-- 	elseif ( settings.barMode == NORMAL_MODE and self.priorBarMode ~= nil ) then
+	-- 		settings.barMode = self.priorBarMode;
+	-- 	else
+	-- 		self.priorBarMode = settings.barMode;
+	-- 		settings.barMode = NORMAL_MODE;
+	-- 	end
+	-- else
+	-- 	self:SetCheckedIcon(context, true);
 
-		if ( settings.barMode ~= NORMAL_MODE ) then
-			settings.barMode = EXTENSION_MODE;
-		else
-			settings.priorBarMode = EXTENSION_MODE;
-		end
-	end
+	-- 	if ( settings.barMode ~= NORMAL_MODE ) then
+	-- 		settings.barMode = EXTENSION_MODE;
+	-- 	else
+	-- 		settings.priorBarMode = EXTENSION_MODE;
+	-- 	end
+	-- end
 
 	panel.Draw();
 end
 
-function MainMenuItems:CreateIfExistsCheckedBarItem(parent, mainMenu, panel, barId, value)
+function MainMenuItems:CreateIfExistsBarNode(parent, mainMenu, panel, barId, value)
 	if (self:Exists(self:NewContext(parent, barId, self:GetBarName(barId, value), 0 ))) then
-		return self:CreateCheckedBarItem(parent, mainMenu, panel, barId, value)
+		return self:CreateBarNode(parent, mainMenu, panel, barId, value)
 	end
 end
 
-function MainMenuItems:CreateCheckedBarItem(parent, mainMenu, panel, barId, value)
+function MainMenuItems:CreateBarNode(parent, mainMenu, panel, barId, value)
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
 	local context = self:NewContext(parent, barId, self:GetBarName(barId, value), parent:GetWidth() );
-	local node = self.utils:AddCheckedTreeViewItem(parent, context["barName"], context, false);
+	local node = MyysticUI.Core.Menus.MainTitleNode(parent, context["barName"], context, 1);
+
+	if (parent ~= nil and parent.Add ~= nil) then
+		parent:Add(node);
+	else
+		parent:GetChildNodes():Add(node);
+	end
 
 	self:Exists(context);
-	self:SetCheckedIcon(context, context["exists"]);
+	-- self:SetCheckedIcon(context, context["exists"]);
 
 	context["icon"].MouseClick = function(sender,args)
 		local id, actualBar = self:GetBarMatch(context);
@@ -150,7 +183,7 @@ function MainMenuItems:CreateCheckedBarItem(parent, mainMenu, panel, barId, valu
 		end
 
 		self:Exists(context);
-		self:SetCheckedIcon(context, context["exists"]);
+		--self:SetCheckedIcon(context, context["exists"]);
 
 		if (context["exists"]) then
 			self:SetSelected(context);
@@ -182,7 +215,13 @@ function MainMenuItems:CreateExpandedBarItem(parent, mainMenu, panel, barId, val
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
 	local context = self:NewContext(parent, barId, self:GetBarName(barId, value), parent:GetWidth());
-	local node = self.utils:AddExpandTreeViewItem(parent, context["barName"], context, panel);
+	local treeNode = MyysticUI.Core.Menus.MainTitleNode(parent, context["barName"], context, 1);
+
+	if (parent ~= nil and parent.Add ~= nil) then
+		parent:Add(treeNode);
+	else
+		parent:GetChildNodes():Add(treeNode);
+	end
 
 	self:Exists(context);
 	self:SetExpandedIcon(context);
@@ -246,13 +285,9 @@ function MainMenuItems:SetSelected(context)
 	end
 end
 
-function MainMenuItems:SetCheckedIcon(context, checked)
-	if (checked) then
-		context["icon"]:SetBackground(self.utils.ICONCHECKED);
-	else
-		context["icon"]:SetBackground(self.utils.ICONCHECKEDEMPTY);
-	end
-end
+-- function MainMenuItems:SetCheckedIcon(context, checked)
+-- 	context["icon"]:SetBackground(checked and self.utils.ICONCHECKED or self.utils.ICONCHECKEDEMPTY);
+-- end
 
 function MainMenuItems:SetExpandedIcon(context)
 	local childNodes = context["node"]:GetChildNodes();

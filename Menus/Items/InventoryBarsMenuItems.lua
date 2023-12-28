@@ -31,7 +31,7 @@ function InventoryBarsMenuItems:Refresh(mainMenu, parent)
 
 	local tab_bars = settingsService:GetBars( TABBED_INV_BAR );
 	for key, value in pairs (tab_bars) do
-		self.menuItems:CreateIfExistsCheckedBarItem(parent, mainMenu, self.panel, key, value);
+		self.menuItems:CreateIfExistsBarNode(parent, mainMenu, self.panel, key, value);
 	end
 
 	-- local window_bars = settingsService:GetBars( WINDOW_INV_BAR );

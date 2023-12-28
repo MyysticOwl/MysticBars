@@ -1,21 +1,67 @@
 
 MainTitleNode = class(Turbine.UI.TreeNode);
 
-function MainTitleNode:Constructor(parent,padding,buffType)
+function MainTitleNode:Constructor(parent, text, context, topPadding)
 	Turbine.UI.TreeNode.Constructor(self);
-  
-  self.errors = 0;
-  
+
   self.parent = parent;
   self.listeners = {}
-  
-  self.buffType = buffType;
-  
+
   self.height = 29;
-  self.padding = padding;
-  
+  self.padding = topPadding;
+
 	self:SetHeight(self.height);
+  self:SetWidth(400);
   self:SetBackColor(Turbine.UI.Color(0.925,0,0,0));
+
+  self.plus = Turbine.UI.Control();
+  self.plus:SetParent(self);
+  self.plus:SetTop(3+(self.height-topPadding-15-6)/2);
+  self.plus:SetLeft(6);
+  self.plus:SetSize(15,15);
+  self.plus:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
+  self.plus:SetBackground(0x41007E27);
+  self.plus:SetMouseVisible(false);
+
+	self.title = Turbine.UI.Label();
+	self.title:SetParent(self);
+	self.title:SetMouseVisible(false);
+	self.title:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleLeft);
+	self.title:SetMultiline(false);
+  self.title:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
+  self.title:SetFontStyle(Turbine.UI.FontStyle.Outline);
+  self.title:SetText(text);
+  self.title:SetWidth(self:GetWidth() - self.plus:GetWidth() - 5);
+  self.title:SetLeft(self.plus:GetLeft() + self.plus:GetWidth() + 5);
+  self.title:SetTop(-10);
+
+  	-- icon.MouseClick = function(sender,args)
+	-- 	if treeNode:IsExpanded() == true then
+	-- 		icon:SetBackground(self.ICONCOLLAPSE);
+	-- 		if (expanded ~= nil) then
+	-- 			expanded(panel, context);
+	-- 		end
+	-- 	else
+	-- 		icon:SetBackground(self.ICONEXPAND);
+	-- 		if (collapsed ~= nil) then
+	-- 			collapsed(panel, context);
+	-- 		end
+	-- 	end
+	-- end
+
+	-- treeNode.MouseClick = function(sender,args)
+	-- 	if treeNode:IsExpanded() == true then
+	-- 		icon:SetBackground(self.ICONCOLLAPSE);
+	-- 		if (expanded ~= nil) then
+	-- 			expanded(panel, context);
+	-- 		end
+	-- 	else
+	-- 		icon:SetBackground(self.ICONEXPAND);
+	-- 		if (collapsed ~= nil) then
+	-- 			collapsed(panel, context);
+	-- 		end
+	-- 	end
+	-- end
 
   self.tl = Turbine.UI.Control();
   self.tl:SetParent(self);
@@ -41,14 +87,14 @@ function MainTitleNode:Constructor(parent,padding,buffType)
   self.l = Turbine.UI.Control();
   self.l:SetParent(self);
   self.l:SetPosition(0,3);
-  self.l:SetSize(3,self.height-6-padding);
+  self.l:SetSize(3,self.height-6-topPadding);
   self.l:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.l:SetMouseVisible(false);
 
   self.c = Turbine.UI.Control();
   self.c:SetParent(self);
   self.c:SetPosition(3,3);
-  self.c:SetHeight(self.height-6-padding);
+  self.c:SetHeight(self.height-6-topPadding);
   self.c:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.c:SetMouseVisible(false);
   self.c:SetBackColorBlendMode(Turbine.UI.BlendMode.AlphaBlend);
@@ -56,48 +102,37 @@ function MainTitleNode:Constructor(parent,padding,buffType)
   self.r = Turbine.UI.Control();
   self.r:SetParent(self);
   self.r:SetTop(3);
-  self.r:SetSize(3,self.height-6-padding);
+  self.r:SetSize(3,self.height-6-topPadding);
   self.r:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.r:SetMouseVisible(false);
 
   self.bl = Turbine.UI.Control();
   self.bl:SetParent(self);
-  self.bl:SetPosition(0,self.height-3-padding);
+  self.bl:SetPosition(0,self.height-3-topPadding);
   self.bl:SetSize(3,3);
   self.bl:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.bl:SetMouseVisible(false);
 
   self.b = Turbine.UI.Control();
   self.b:SetParent(self);
-  self.b:SetPosition(3,self.height-3-padding);
+  self.b:SetPosition(3,self.height-3-topPadding);
   self.b:SetHeight(3);
   self.b:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.b:SetMouseVisible(false);
 
   self.br = Turbine.UI.Control();
   self.br:SetParent(self);
-  self.br:SetTop(self.height-3-padding);
+  self.br:SetTop(self.height-3-topPadding);
   self.br:SetSize(3,3);
   self.br:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.br:SetMouseVisible(false);
 
-	self.title = Turbine.UI.Label();
-	self.title:SetParent(self);
-	self.title:SetMouseVisible(false);
-	self.title:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleLeft);
-	self.title:SetMultiline(false);
-  self.title:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
-  self.title:SetFontStyle(Turbine.UI.FontStyle.Outline);
-
-  self.plus = Turbine.UI.Control();
-  self.plus:SetParent(self);
-  self.plus:SetTop(3+(self.height-padding-15-6)/2);
-  self.plus:SetSize(15,15);
-  self.plus:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-  self.plus:SetBackground(0x41007E27);
-  self.plus:SetMouseVisible(false);
+	context["node"] = self;
+	context["icon"] = self.plus;
+	context["header"] = self.title;
 
   self:SetSelected(false);
+  self:Layout();
 end
 
 function MainTitleNode:Layout()
@@ -110,7 +145,7 @@ function MainTitleNode:Layout()
   self.b:SetWidth(w-6);
   self.br:SetLeft(w-3);
 
-  self.plus:SetLeft(w-15-self.plus:GetTop());
+--  self.plus:SetLeft(6);
 end
 
 function MainTitleNode:SetSelected(selected)

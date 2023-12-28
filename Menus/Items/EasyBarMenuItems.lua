@@ -40,7 +40,7 @@ function EasyBarMenuItems:Refresh(mainMenu, parent)
 						bar.barName = key2;
 					end
 
-					self.menuItems:CreateCheckedBarItem(parent, mainMenu, self.panel, barId, value2);
+					self.menuItems:CreateBarNode(parent, mainMenu, self.panel, barId, value2);
 				end
 			end
 		end

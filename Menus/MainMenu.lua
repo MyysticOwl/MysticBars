@@ -127,7 +127,7 @@ function MainMenu:Refresh()
 	local context = {["width"] = self.navigationWidth};
 
 	self:AddMenuOption(MyysticUI.Menus.Panels.Menus.GeneralMenuPanel, nil, {["width"] = self.navigationWidth}, "General", RootNode)
-	self.aboutMenuItem = self.utils:AddTreeViewItem(RootNode, "About", context);
+-- TODO:SE	self.aboutMenuItem = self.utils:AddTreeViewItem(RootNode, "About", context);
 
 	self:LoadExpandedItems();
 
@@ -136,7 +136,14 @@ end
 
 function MainMenu:AddMenuOption(menuPanelObj, itemPanelObj, context, text, treeRoot)
 	local menuPanel = menuPanelObj();
-	local menuItem = self.utils:AddExpandTreeViewItem(treeRoot, text, context, menuPanel, menuPanel.Draw, menuPanel.Draw);
+	local menuItem = MyysticUI.Core.Menus.MainTitleNode(treeRoot, text, context, 1);
+
+	if (treeRoot ~= nil and treeRoot.Add ~= nil) then
+		treeRoot:Add(menuItem);
+	else
+		treeRoot:GetChildNodes():Add(menuItem);
+	end
+
 	self.menus[text] = {
 		["panel"] = menuPanel,
 		["context"] = context,

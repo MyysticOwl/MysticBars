@@ -31,11 +31,11 @@ function ManageBarsMenuItems:Refresh(mainMenu, parent)
 	local bars = settingsService:GetBars( QUICKSLOTBAR );
 	local extensions = settingsService:GetBars( EXTENSIONBAR );
 	for key, value in pairs (bars) do
-		local context = self.menuItems:CreateIfExistsCheckedBarItem(parent, mainMenu, self.panel, key, value);
+		local context = self.menuItems:CreateIfExistsBarNode(parent, mainMenu, self.panel, key, value);
 
 		for extKey, extValue in pairs (extensions) do
 			if (extValue.barType == EXTENSIONBAR and extValue.connectionBarID == key) then
-				self.menuItems:CreateCheckedBarItem(context["node"], mainMenu, self.extensionsBarPanel, extKey, extValue);
+				self.menuItems:CreateBarNode(context["node"], mainMenu, self.extensionsBarPanel, extKey, extValue);
 			end
 		end
 	end
