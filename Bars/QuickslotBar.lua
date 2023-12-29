@@ -5,16 +5,16 @@
 -- RESPECT!
 
 import "MyysticUI.Utils.Class";
-import "MyysticUI.Core.Bars.Tab"
+import "MyysticUI.Bars.Core.Tab"
 
-QuickslotBar = class( MyysticUI.Core.Bars.BaseBar );
+QuickslotBar = class( MyysticUI.Bars.Core.BaseBar );
 
 function QuickslotBar:Constructor( barid )
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
 	self.id = barid;
-	MyysticUI.Core.Bars.BaseBar.Constructor( self );
+	MyysticUI.Bars.Core.BaseBar.Constructor( self );
 
 	self.quickslotList.loading = true;
 	settingsService:LoadQuickslots( barSettings, self.quickslotList.quickslots );
@@ -145,14 +145,14 @@ function QuickslotBar:Create()
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
-	self.quickslotList = MyysticUI.Core.Bars.QuickslotList( self.id );
+	self.quickslotList = MyysticUI.Bars.Core.QuickslotList( self.id );
 	self.quickslotList:SetParent( self );
 
 	local title = barSettings.barName;
 	if ( barSettings.barName == nil or barSettings.barName == "" ) then
 		title = "Bar:" .. self.id;
 	end
-	self.tab = MyysticUI.Core.Bars.Tab( self, title );
+	self.tab = MyysticUI.Bars.Core.Tab( self, title );
 
 	self.qsCreated = true;
 	self:Refresh();
@@ -173,7 +173,7 @@ function QuickslotBar:SetBGColor( color )
 end
 
 function QuickslotBar:Refresh()
-	MyysticUI.Core.Bars.BaseBar.Refresh( self );
+	MyysticUI.Bars.Core.BaseBar.Refresh( self );
 	self.tab:Refresh();
 
 	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService)
@@ -267,7 +267,7 @@ function QuickslotBar:RegisterBarExtension( extBar, index, extensionBarID )
 end
 
 function QuickslotBar:SetMenuBackColor( selected, barMode )
-	MyysticUI.Core.Bars.BaseBar.SetMenuBackColor( self, selected, QUICKSLOT_MODE );
+	MyysticUI.Bars.Core.BaseBar.SetMenuBackColor( self, selected, QUICKSLOT_MODE );
 	if ( barMode == QUICKSLOT_MODE ) then
 		self:SetBackColor( Turbine.UI.Color(1,0,1,0) );
 		self.tab:SetBackColor( Turbine.UI.Color(1,0,1,0) );

@@ -53,11 +53,13 @@ function ClassSpecificEvents:Constructor( regEvents )
 			eventService:NotifyClients();
 		end);
 	elseif ( playerService.player:GetClass() == Turbine.Gameplay.Class.RuneKeeper ) then
-		self.registeredEvents.classRange[ RK_ATTUNEMENT ] = att:GetAttunement();
-		eventService:AddCallback( att, "AttunementChanged", function( sender, args )
+		if (self.registeredEvents.classRange[ RK_ATTUNEMENT ] ~= nil) then
 			self.registeredEvents.classRange[ RK_ATTUNEMENT ] = att:GetAttunement();
-			eventService:NotifyClients();
-		end);
+			eventService:AddCallback( att, "AttunementChanged", function( sender, args )
+				self.registeredEvents.classRange[ RK_ATTUNEMENT ] = att:GetAttunement();
+				eventService:NotifyClients();
+			end);
+		end
 		-- eventService.AddCallback( self, att, "IsChargedChanged", function( sender, args )
 			-- self.registeredEvents.classRange[ "Charged" ] = att:IsCharged();
 			-- eventService:NotifyClients();

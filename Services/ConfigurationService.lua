@@ -85,7 +85,7 @@ function ConfigurationService:CreateBar( override, name, level, rows, columns, x
 		end
 		if ( override ~= nil or ( autoBarID == nil and foundbar == nil ) ) then
 			self.barid = barService:Add( barType, autoBarID );
-			self.barSettings = settingsService:GetBarSettings( self.barid );
+			local localBarSettings = settingsService:GetBarSettings( self.barid );
 			if ( theSettings.autoCreatedBars == nil ) then
 				theSettings.autoCreatedBars = { };
 			end
@@ -94,21 +94,21 @@ function ConfigurationService:CreateBar( override, name, level, rows, columns, x
 			end
 			theSettings.autoCreatedBars[self.barid].barName = name;
 
-			self.barSettings.barName = name;
+			localBarSettings.barName = name;
 			if ( rows ~= nil ) then
-				self.barSettings.quickslotRows = rows;
+				localBarSettings.quickslotRows = rows;
 			end
 			if ( columns ~= nil ) then
-				self.barSettings.quickslotColumns = columns;
+				localBarSettings.quickslotColumns = columns;
 			end
 			if ( rows ~= nil and columns ~= nil ) then
-				self.barSettings.quickslotCount = rows * columns;
+				localBarSettings.quickslotCount = rows * columns;
 			end
-			self.barSettings.x = x;
-			self.barSettings.y = y;
+			localBarSettings.x = x;
+			localBarSettings.y = y;
 		else
 			self.barid = foundbar;
-			self.barSettings = settingsService:GetBarSettings( self.barid );
+			-- localBarSettings = settingsService:GetBarSettings( self.barid );
 		end
 		if ( menu ~= nil ) then
 			theSettings = settingsService:GetSettings();
@@ -129,149 +129,166 @@ function ConfigurationService:SetBar( barid )
 
 	if ( barid ~= nil ) then
 		self.barid = barid;
-		self.barSettings = settingsService:GetBarSettings( barid );
-		return self.barSettings;
+		return settingsService:GetBarSettings( barid );
 	end
 end
 
 -- Set it to trigger on health                Bar ID - When to trigger
 function ConfigurationService:SetTrigger( statType, percent )
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( self.barid );
+
 	if ( self.barid ~= nil ) then
-		if ( self.barSettings.events == nil ) then
-			self.barSettings.events = { };
+		if ( localBarSettings.events == nil ) then
+			localBarSettings.events = { };
 		end
-		if ( self.barSettings.events.categories == nil ) then
-			self.barSettings.events.categories = { };
+		if ( localBarSettings.events.categories == nil ) then
+			localBarSettings.events.categories = { };
 		end
 
-		self.barSettings.visible = false;
+		localBarSettings.visible = false;
 
 		if ( statType == ConfigurationService.HEALTH ) then
-			self.barSettings.events.displayOnHealth = true;
-			self.barSettings.events.healthTrigger = (percent / 100);
+			localBarSettings.events.displayOnHealth = true;
+			localBarSettings.events.healthTrigger = (percent / 100);
 		elseif ( statType == ConfigurationService.POWER ) then
-			self.barSettings.events.displayOnPower = true;
-			self.barSettings.events.powerTrigger = (percent / 100);
+			localBarSettings.events.displayOnPower = true;
+			localBarSettings.events.powerTrigger = (percent / 100);
 
 		elseif ( statType == Turbine.Gameplay.EffectCategory.Disease ) then
-			self.barSettings.events.categories[statType] = true;
+			localBarSettings.events.categories[statType] = true;
 		elseif ( statType == Turbine.Gameplay.EffectCategory.Fear ) then
-			self.barSettings.events.categories[statType] = true;
+			localBarSettings.events.categories[statType] = true;
 		elseif ( statType == Turbine.Gameplay.EffectCategory.Poison ) then
-			self.barSettings.events.categories[statType] = true;
+			localBarSettings.events.categories[statType] = true;
 		elseif ( statType == Turbine.Gameplay.EffectCategory.Wound ) then
-			self.barSettings.events.categories[statType] = true;
+			localBarSettings.events.categories[statType] = true;
 
 		elseif ( statType == ConfigurationService.CTRL ) then
-			self.barSettings.events.isControl = true;
+			localBarSettings.events.isControl = true;
 		elseif ( statType == ConfigurationService.ALT ) then
-			self.barSettings.events.isAlt = true;
+			localBarSettings.events.isAlt = true;
 		elseif ( statType == ConfigurationService.SHIFT ) then
-			self.barSettings.events.isShift = true;
+			localBarSettings.events.isShift = true;
 		end
 	end
 end
 
 -- Set it to trigger on Buff                 
 function ConfigurationService:SetBuffTriggerOptions( whenActive, Anding )
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( self.barid );
+
 	if ( self.barid ~= nil ) then
-		if ( self.barSettings.events == nil ) then
-			self.barSettings.events = { };
+		if ( localBarSettings.events == nil ) then
+			localBarSettings.events = { };
 		end
-		self.barSettings.visible = false;
-		self.barSettings.events.triggerOnClassBuffActive = whenActive;
+		localBarSettings.visible = false;
+		localBarSettings.events.triggerOnClassBuffActive = whenActive;
 		if ( Anding ) then
-			self.barSettings.events.triggerBuffType = "and";
+			localBarSettings.events.triggerBuffType = "and";
 		else
-			self.barSettings.events.triggerBuffType = "or";
+			localBarSettings.events.triggerBuffType = "or";
 		end
 	end
 end
 
 -- Set it to trigger on Buff                Bar ID - When to trigger
 function ConfigurationService:SetBuffTrigger( buff )
-	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
-	playerClass = playerService.playerClass;
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( self.barid );
 
 	if ( self.barid ~= nil ) then
-		if ( self.barSettings.events == nil ) then
-			self.barSettings.events = { };
+		if ( localBarSettings.events == nil ) then
+			localBarSettings.events = { };
 		end
-		if ( self.barSettings.events.effects == nil ) then
-			self.barSettings.events.effects = { };
+		if ( localBarSettings.events.effects == nil ) then
+			localBarSettings.events.effects = { };
 		end
-		if ( self.barSettings.events.effects[buff] == nil ) then
-			self.barSettings.events.effects[buff] = true;
+		if ( localBarSettings.events.effects[buff] == nil ) then
+			localBarSettings.events.effects[buff] = true;
 		end
 	end
 end
 
 -- Set it to trigger on name                Bar ID - When to trigger
 function ConfigurationService:SetClassRangeTrigger( name, theMin, theMax )
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( self.barid );
+
 	if ( self.barid ~= nil ) then
-		if ( self.barSettings.events == nil ) then
-			self.barSettings.events = { };
+		if ( localBarSettings.events == nil ) then
+			localBarSettings.events = { };
 		end
-		if ( self.barSettings.events.classRange == nil ) then
-			self.barSettings.events.classRange = { };
+		if ( localBarSettings.events.classRange == nil ) then
+			localBarSettings.events.classRange = { };
 		end
-		if ( self.barSettings.events.classRange[name] == nil ) then
-			self.barSettings.events.classRange[name] = { };
-			self.barSettings.events.classRange[name].minValue = theMin;
-			self.barSettings.events.classRange[name].maxValue = theMax;
+		if ( localBarSettings.events.classRange[name] == nil ) then
+			localBarSettings.events.classRange[name] = { };
+			localBarSettings.events.classRange[name].minValue = theMin;
+			localBarSettings.events.classRange[name].maxValue = theMax;
 		end
 	end
 end
 
 --                                       Bar ID  a  r  g  b
 function ConfigurationService:SetBGColor( a, r, g, b )
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( self.barid );
+	
 	if ( self.barid ~= nil ) then
-		self.barSettings.useBackgroundColor = true;
-		self.barSettings.opacity = a;
-		self.barSettings.backgroundColorRed = r;
-		self.barSettings.backgroundColorGreen = g;
-		self.barSettings.backgroundColorBlue = b;
+		localBarSettings.useBackgroundColor = true;
+		localBarSettings.opacity = a;
+		localBarSettings.backgroundColorRed = r;
+		localBarSettings.backgroundColorGreen = g;
+		localBarSettings.backgroundColorBlue = b;
 	end
 end
 
 --                               Bar ID - Location - Hex for Shortcut
 function ConfigurationService:AddShortcut( location, sData, sType, level )
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( self.barid );
+
 	if ( self.barid ~= nil and (level == nil or self.level >= level) ) then
-		if ( self.barSettings.quickslots == nil ) then
-			self.barSettings.quickslots = { };
+		if ( localBarSettings.quickslots == nil ) then
+			localBarSettings.quickslots = { };
 		end
-		if ( self.barSettings.quickslots[location] == nil ) then
-			self.barSettings.quickslots[location] = { };
+		if ( localBarSettings.quickslots[location] == nil ) then
+			localBarSettings.quickslots[location] = { };
 		end
-		if ( self.barSettings.quickslots[location].Data == nil ) then
-			self.barSettings.quickslots[location].Data = sData;
-			self.barSettings.quickslots[location].Type = sType;
+		if ( localBarSettings.quickslots[location].Data == nil ) then
+			localBarSettings.quickslots[location].Data = sData;
+			localBarSettings.quickslots[location].Type = sType;
 		end
 	end
 end
 
 --                               Bar ID - Location - Hex for Shortcut
 function ConfigurationService:SetInventoryFilter( filter )
+	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( self.barid );
+
 	if ( self.barid ~= nil ) then
-		if ( self.barSettings.events == nil ) then
-			self.barSettings.events = { };
+		if ( localBarSettings.events == nil ) then
+			localBarSettings.events = { };
 		end
-		if ( self.barSettings.events.inventory == nil ) then
-			self.barSettings.events.inventory = { };
+		if ( localBarSettings.events.inventory == nil ) then
+			localBarSettings.events.inventory = { };
 		end
-		if ( self.barSettings.events.inventory.nameFilters == nil ) then
-			self.barSettings.events.inventory.nameFilters = { };
+		if ( localBarSettings.events.inventory.nameFilters == nil ) then
+			localBarSettings.events.inventory.nameFilters = { };
 		end
-		self.barSettings.events.inventory.nameFilters[ filter ] = true;
+		localBarSettings.events.inventory.nameFilters[ filter ] = true;
 	end
 end
 
 function ConfigurationService:Save()
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings( self.barid );
 
 	if ( self.barid ~= nil and barService  ~= nil and barService:Alive( self.barid )) then
-		settingsService:SetBarSettings( self.barid, self.barSettings );
+		settingsService:SetBarSettings( self.barid, localBarSettings );
 	end
 end

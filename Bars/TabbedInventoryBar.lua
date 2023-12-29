@@ -5,11 +5,11 @@
 -- RESPECT!
 
 import "MyysticUI.Utils.Class";
-import "MyysticUI.Core.UI.Window";
-import "MyysticUI.Core.Bars.InventoryBaseBar";
-import "MyysticUI.Core.Bars.Tab"
+import "MyysticUI.Menus.Core.UI.Window";
+import "MyysticUI.Bars.Core.InventoryBaseBar";
+import "MyysticUI.Bars.Core.Tab"
 
-TabbedInventoryBar = class( MyysticUI.Core.Bars.InventoryBaseBar );
+TabbedInventoryBar = class( MyysticUI.Bars.Core.InventoryBaseBar );
 
 function TabbedInventoryBar:Constructor( barid )
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
@@ -26,11 +26,11 @@ function TabbedInventoryBar:Constructor( barid )
 		settingsService:SetBarSettings( self.id, thebarSettings );
 	end
 
-	MyysticUI.Core.Bars.InventoryBaseBar.Constructor( self );
+	MyysticUI.Bars.Core.InventoryBaseBar.Constructor( self );
 end
 
 function TabbedInventoryBar:Create()
-	MyysticUI.Core.Bars.InventoryBaseBar.Create( self );
+	MyysticUI.Bars.Core.InventoryBaseBar.Create( self );
 	
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -39,7 +39,7 @@ function TabbedInventoryBar:Create()
 	if ( barSettings.barName == nil or barSettings.barName == "" ) then
 		title = "Bar:" .. self.id;
 	end
-	self.tab = MyysticUI.Core.Bars.Tab( self, title );
+	self.tab = MyysticUI.Bars.Core.Tab( self, title );
 	--self.quickslotList:SetPosition(0, 0 );
 end
 
@@ -58,14 +58,14 @@ function TabbedInventoryBar:SetBGColor( color )
 end
 
 function TabbedInventoryBar:Refresh()
-	MyysticUI.Core.Bars.InventoryBaseBar.Refresh( self );
+	MyysticUI.Bars.Core.InventoryBaseBar.Refresh( self );
 	if ( self.tab ~= nil ) then
 		self.tab:Refresh();
 	end
 end
 
 function TabbedInventoryBar:SetMenuBackColor( selected )
-	MyysticUI.Core.Bars.BaseBar.SetMenuBackColor( self, selected, INVENTORY_MODE );
+	MyysticUI.Bars.Core.BaseBar.SetMenuBackColor( self, selected, INVENTORY_MODE );
 	self:SetBackColor( Turbine.UI.Color(1,1,1,1) );
 	if ( self.tab ~= nil ) then
 		self.tab:SetBackColor( Turbine.UI.Color(1,1,1,1) );

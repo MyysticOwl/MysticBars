@@ -4,7 +4,7 @@
 		<Name>MyysticUI</Name>
 		<Author>MyysticOwl</Author>
 		<Version>v3.0.1</Version>
-		<Image>MyysticUI/Core/UI/Resources/Tonic2.tga</Image>
+		<Image>MyysticUI/Menus/Core/Resources/Tonic2.tga</Image>
 		<Description>The concept is a Bar (quickbar) manager.
 MyysticUI (previously TonicBars) will allow you to create Easy Bars, Quickslot Bars and Inventory Bars and manage different attributes for them.
 
@@ -23,6 +23,6 @@ Trigger those bars to display under certain circumstances.
      Health/Power Drops below some Percentage
 		</Description>
 	</Information>
-	<Package>MyysticUI.Core.Main</Package>
+	<Package>MyysticUI.Main</Package>
 	<Configuration Apartment="MyysticUI"></Configuration>
 </Plugin>

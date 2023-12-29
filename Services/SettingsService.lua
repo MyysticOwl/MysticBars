@@ -55,10 +55,11 @@ function SettingsService:LoadSettings( profile )
 		self.profiles = { };
 	end
 
-	local playerSettings = self.profiles[ playerService.player:GetName() ];
+	local playersName = playerService.player:GetName();
+	local playerSettings = self.profiles[ playersName ];
 	if ( playerSettings == nil ) then
-		self.profiles[ playerService.player:GetName() ] = { };
-		playerSettings = self.profiles[ playerService.player:GetName() ];
+		self.profiles[ playersName ] = { };
+		playerSettings = self.profiles[ playersName ];
 	end
 
 	if ( Turbine.Engine:GetLocale() == "de" or Turbine.Engine:GetLocale() == "fr" ) then

@@ -7,7 +7,7 @@ import "Turbine";
 import "Turbine.UI";
 import "MyysticUI.Utils.Class";
 import "MyysticUI.Utils.Service";
-import "MyysticUI.Core.Bars.BaseBar";
+import "MyysticUI.Bars.Core.BaseBar";
 import "MyysticUI.Bars.QuickslotBar";
 import "MyysticUI.Bars.ExtensionBar";
 import "MyysticUI.Bars.TabbedInventoryBar";

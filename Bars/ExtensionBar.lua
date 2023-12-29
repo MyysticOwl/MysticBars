@@ -3,7 +3,7 @@
 -- in respect for borrowing said authors code.
 -- RESPECT!
 
-ExtensionBar = class( MyysticUI.Core.Bars.BaseBar );
+ExtensionBar = class( MyysticUI.Bars.Core.BaseBar );
 
 function ExtensionBar:Constructor( barid )
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
@@ -30,7 +30,7 @@ function ExtensionBar:Constructor( barid )
 	self.keepVisible = false;
 	self.cycleCount = 0;
 	
-	MyysticUI.Core.Bars.BaseBar.Constructor( self );
+	MyysticUI.Bars.Core.BaseBar.Constructor( self );
 
 	self.quickslotList.loading = true;
 	settingsService:LoadQuickslots( barSettings, self.quickslotList.quickslots );
@@ -46,8 +46,8 @@ function ExtensionBar:Constructor( barid )
 end
 
 function ExtensionBar:Create()
-	self.quickslotList = MyysticUI.Core.Bars.QuickslotList( self.id );
-	MyysticUI.Core.Bars.BaseBar.Create( self );
+	self.quickslotList = MyysticUI.Bars.Core.QuickslotList( self.id );
+	MyysticUI.Bars.Core.BaseBar.Create( self );
 end
 
 function ExtensionBar:CheckMakeVisible()
@@ -169,7 +169,7 @@ end
 
 function ExtensionBar:Refresh()
 	self:SetupPosition( false );
-	MyysticUI.Core.Bars.BaseBar.Refresh( self );
+	MyysticUI.Bars.Core.BaseBar.Refresh( self );
 	self:SetupPosition( false );
 end
 
@@ -292,6 +292,6 @@ function ExtensionBar:FindNthQuickslot( selection )
 end
 
 function ExtensionBar:SetMenuBackColor( selected, barMode )
-	MyysticUI.Core.Bars.BaseBar.SetMenuBackColor( self, selected, EXTENSION_MODE );
+	MyysticUI.Bars.Core.BaseBar.SetMenuBackColor( self, selected, EXTENSION_MODE );
 	self:SetBackColor( Turbine.UI.Color(1,1,1,0) );
 end

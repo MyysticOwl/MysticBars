@@ -9,21 +9,31 @@ import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "MyysticUI.Utils.Class";
 import "MyysticUI.Utils.Table";
-import "MyysticUI.Core.UI.ComboBox";
-import "MyysticUI.Core.UI.AutoListBox";
-import "MyysticUI.Core.UI.MenuUtils";
-import "MyysticUI.Menus.Items.MainMenuItems";
-import "MyysticUI.Menus.Items.EasyBarMenuItems";
-import "MyysticUI.Menus.Items.ManageBarsMenuItems";
-import "MyysticUI.Menus.Items.InventoryBarsMenuItems";
-import "MyysticUI.Menus.Panels.Menus.EasyBarMenuPanel";
-import "MyysticUI.Menus.Panels.Menus.ManageBarsMenuPanel";
-import "MyysticUI.Menus.Panels.Menus.InventoryBarMenuPanel";
-import "MyysticUI.Menus.Panels.Menus.ExtensionsMenuPanel";
-import "MyysticUI.Menus.Panels.Menus.GeneralMenuPanel";
+import "MyysticUI.Menus.Core.UI.ComboBox";
+import "MyysticUI.Menus.Core.UI.AutoListBox";
+import "MyysticUI.Menus.Core.UI.MenuUtils";
+import "MyysticUI.Menus.MainMenuItems";
+import "MyysticUI.Menus.GeneralMenuPanel";
+import "MyysticUI.Menus.EasyBars.EasyBarMenuItems";
+import "MyysticUI.Menus.InventoryBars.InventoryBarsMenuItems";
+import "MyysticUI.Menus.InventoryBars.InventoryBarMenuPanel";
+import "MyysticUI.Menus.InventoryBars.InventoryMenuPanel";
+import "MyysticUI.Menus.ManagedBars.ExtensionsMenuPanel";
+import "MyysticUI.Menus.ManagedBars.ExtensionBarMenuPanel";
+import "MyysticUI.Menus.ManagedBars.ManageBarsMenuItems";
+import "MyysticUI.Menus.ManagedBars.ManageBarsMenuPanel";
+import "MyysticUI.Menus.ManagedBars.ManagedBarsTitleTreeNode";
 
-windowWidth = 800;
-windowHeight = 2000;
+import "MyysticUI.Menus.Controls.BasePanel";
+import "MyysticUI.Menus.Controls.ClassBuffPanel";
+import "MyysticUI.Menus.Controls.ColorPanel";
+import "MyysticUI.Menus.Controls.ExtensionGeneralPanel";
+import "MyysticUI.Menus.Controls.InventoryPanel";
+import "MyysticUI.Menus.Controls.PredefinedExtensionPanel";
+import "MyysticUI.Menus.Controls.SlotsPanel";
+import "MyysticUI.Menus.Controls.TriggersPanel";
+
+windowHeight = 500;
 
 selectionWidth = 160;
 selectionHeight = 20;
@@ -31,45 +41,59 @@ selectionHeight = 20;
 SCREENWIDTH = Turbine.UI.Display.GetWidth();
 SCREENHEIGHT = Turbine.UI.Display.GetHeight();
 
-MainMenu = class( Turbine.UI.ListBox );
+MainMenu = class( Turbine.UI.Control );
 
-MainMenu.utils = MyysticUI.Core.UI.MenuUtils();
+MainMenu.utils = MyysticUI.Menus.Core.UI.MenuUtils();
 
 MainMenu.navigationWidth = 200;
 MainMenu.tree = nil;
-MainMenu.menuItems = MyysticUI.Menus.Items.MainMenuItems();
+MainMenu.menuItems = MyysticUI.Menus.MainMenuItems();
 
 MainMenu.menus = { };
 MainMenu.menuSize = 0;
 MainMenu.expandedMenus = nil;
 
 function MainMenu:Constructor()
-	Turbine.UI.ListBox.Constructor(self);
-	
-	self:SetWidth( windowWidth );
-	self:SetHeight( windowHeight );
-	self:SetVisible( true );
-	self:SetOrientation(Turbine.UI.Orientation.Horizontal);
+	Turbine.UI.Control.Constructor(self);
 
-	self:AddSelectionTypes(self.navigationWidth);
+	self:SetHeight(windowHeight);
 
-	self:Refresh();
-end
+	self.editButton = Turbine.UI.Lotro.Button();
+	self.editButton:SetParent(self);
+	self.editButton:SetText( "Edit Mode" );
+	self.editButton:SetSize( 100, 30 );
+	self.editButton:SetMultiline(true);
+	self.editButton:SetPosition(2, 20);
 
-function MainMenu:AddSelectionTypes(width)
-	self.menuBox = self.utils:AddAutoListBox( self, Turbine.UI.Orientation.Vertical );
-	self.menuBox:SetWidth(width);
-	self.menuBox:SetHeight( windowHeight );
+	self.tree = Turbine.UI.TreeView();
+    self.tree:SetParent(self);
+    self.tree:SetPosition(10, 50);
+    self.tree:SetIndentationWidth(30);
 
-	self.spacer = self.utils:AddLabelBox( self.menuBox, "", 20, selectionHeight );
+	-- Give the tree view a scroll bar.
+	self.scrollBar = Turbine.UI.Lotro.ScrollBar();
+	self.scrollBar:SetOrientation(Turbine.UI.Orientation.Vertical);
+	self.scrollBar:SetParent(self);
+	self.scrollBar:SetPosition(0, 50);
+	self.scrollBar:SetSize(10, windowHeight);
 
-	local editButton = Turbine.UI.Lotro.Button();
-	--editButton:SetParent(self.menuBox);
-	editButton:SetText( "Edit Mode" );
-	editButton:SetSize( width, 200 );
-	editButton:SetMultiline(true);
+	self.tree:SetVerticalScrollBar(self.scrollBar);
 
-	editButton.MouseClick = function( sender, args )
+	local treeRoot = self.tree:GetNodes();
+
+	local menuItem = MyysticUI.Menus.Core.TitleTreeNode("Easy Bars", 1);
+	treeRoot:Add(menuItem);
+	MyysticUI.Menus.EasyBars.EasyBarMenuItems(self, menuItem);
+
+	local menuItem2 = MyysticUI.Menus.Core.TitleTreeNode("Manage Bars", 1);
+	treeRoot:Add(menuItem2);
+	MyysticUI.Menus.ManagedBars.ManageBarsMenuItems(self, menuItem2);
+
+	local menuItem3 = MyysticUI.Menus.Core.TitleTreeNode("Inventory Bars", 1);
+	treeRoot:Add(menuItem3);
+	MyysticUI.Menus.InventoryBars.InventoryBarsMenuItems(self, menuItem3);
+
+	self.editButton.MouseClick = function( sender, args )
 		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 		local settings = settingsService:GetSettings();
 
@@ -86,93 +110,40 @@ function MainMenu:AddSelectionTypes(width)
 		barService:RefreshBars();
 
 	end
-	self.menuBox:AddItem( editButton );
-	self.spacer = self.utils:AddLabelBox( self.menuBox, "", 20, selectionHeight );
 
-	self.navigationBox = self.utils:AddAutoListBox( self, Turbine.UI.Orientation.Vertical );
-	self.navigationBox:SetWidth(width);
-	self.navigationBox:SetHeight( windowHeight );
+	self:Refresh();
+end
 
-	self.menuBox:AddItem( self.navigationBox );
-
-	self:AddItem( self.menuBox );
-
-	self.contentBox = self.utils:AddAutoListBox( self, Turbine.UI.Orientation.Vertical );
-	self.contentBox:SetHeight( windowHeight );
-	self.contentBox:SetWidth( 8 );
-	self:AddItem( self.contentBox );
-
-	self.contentBox = self.utils:AddAutoListBox( self, Turbine.UI.Orientation.Vertical );
-	self.contentBox:SetHeight( windowHeight );
-	self:AddItem( self.contentBox );
+function MainMenu:SizeChanged(args)
+	self:Refresh();
 end
 
 function MainMenu:Refresh()
-	self:SaveExpandedItems();
+	local w,h = self:GetSize();
 
-	self.navigationBox:ClearItems();
+	self.tree:SetSize(w - 40, h);
+	self.scrollBar:SetTop(h-10);
+	self.scrollBar:SetWidth(w);
 
-	self.tree = Turbine.UI.TreeView();
-    self.tree:SetParent(self.navigationBox);
-    self.tree:SetPosition(5,60);
-    self.tree:SetSize(200,windowHeight);
-    self.tree:SetIndentationWidth(30);
+	local root = self.tree:GetNodes();
+	for i=1,self.tree:GetNodes():GetCount() do
+		local node = root:Get(i);
 
-	local RootNode = self.tree:GetNodes();
-
-	self:AddMenuOption(MyysticUI.Menus.Panels.Menus.EasyBarMenuPanel, MyysticUI.Menus.Items.EasyBarMenuItems, {["width"] = self.navigationWidth}, "Easy Bars", RootNode);
-	self:AddMenuOption(MyysticUI.Menus.Panels.Menus.ManageBarsMenuPanel, MyysticUI.Menus.Items.ManageBarsMenuItems, {["width"] = self.navigationWidth}, "Manage Bars", RootNode);
-	self:AddMenuOption(MyysticUI.Menus.Panels.Menus.InventoryBarMenuPanel, MyysticUI.Menus.Items.InventoryBarsMenuItems, {["width"] = self.navigationWidth}, "Inventory Bars", RootNode);
-
-	local context = {["width"] = self.navigationWidth};
-
-	self:AddMenuOption(MyysticUI.Menus.Panels.Menus.GeneralMenuPanel, nil, {["width"] = self.navigationWidth}, "General", RootNode)
--- TODO:SE	self.aboutMenuItem = self.utils:AddTreeViewItem(RootNode, "About", context);
-
-	self:LoadExpandedItems();
-
-	self.navigationBox:AddItem(self.tree);
+		self:RefreshChildren(node, w - 50);
+	end
 end
 
-function MainMenu:AddMenuOption(menuPanelObj, itemPanelObj, context, text, treeRoot)
-	local menuPanel = menuPanelObj();
-	local menuItem = MyysticUI.Core.Menus.MainTitleNode(treeRoot, text, context, 1);
+function MainMenu:RefreshChildren(node, w)
+	if (node:GetChildNodes():GetCount() > 0) then
+		for i=1,node:GetChildNodes():GetCount() do
+			local childNode = node:GetChildNodes():Get(i);
 
-	if (treeRoot ~= nil and treeRoot.Add ~= nil) then
-		treeRoot:Add(menuItem);
+			self:RefreshChildren(childNode, w - 50);
+			node:Refresh(w - 50);
+		end
 	else
-		treeRoot:GetChildNodes():Add(menuItem);
+		node:Refresh(w);
 	end
-
-	self.menus[text] = {
-		["panel"] = menuPanel,
-		["context"] = context,
-		["node"] = menuItem
-	}
-	self.menuSize = self.menuSize + 1;
-
-	-- Draw Children Menu Items!
-	if (itemPanelObj ~= nil) then
-		itemPanelObj(self, menuItem);
-	end
-end
-
-function MainMenu:SaveExpandedItems()
-	if (self.menuSize > 0 and self.expandedMenus == nil) then
-		self.expandedMenus = { };
-		for key, menu in opairs(self.menus) do
-			self.expandedMenus[key] = menu["node"]:IsExpanded();
-		end
-	end
-end
-function MainMenu:LoadExpandedItems()
-	if (self.menuSize > 0 and self.expandedMenus ~= nil) then
-		for key, expanded in opairs(self.expandedMenus) do
-			self.menus[key]["node"]:SetExpanded(expanded);
-			self.menuItems:SetExpandedIcon(self.menus[key]["context"]);
-		end
-	end
-	self.expandedMenus = nil;
 end
 
 function MainMenu:GetSelection()
@@ -182,4 +153,24 @@ end
 
 function MainMenu:EnableTriggers( enabled )
 
+end
+
+function MainMenu:Destroy(sender)
+	self.editButton:SetParent(nil);
+	self.editButton.MouseClick = nil;
+	self.editButton:SetVisible(false);
+	self.editButton = nil;
+
+	self.tree:SetParent(nil);
+	self.tree:SetVisible(false);
+	self.tree = nil;
+
+	self.scrollBar:SetParent(nil);
+	self.scrollBar:SetVisible(false);
+	self.scrollBar = nil;
+
+	self.SizeChanged = nil;
+	self:SetParent(nil);
+	self:SetVisible(false);
+	self = nil;
 end

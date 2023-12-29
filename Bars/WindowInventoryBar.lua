@@ -5,15 +5,15 @@
 -- RESPECT!
 
 import "MyysticUI.Utils.Class";
-import "MyysticUI.Core.UI.Window";
+import "MyysticUI.Menus.Core.UI.Window";
 
-WindowInventoryBar = class( MyysticUI.Core.Bars.InventoryBaseBar );
+WindowInventoryBar = class( MyysticUI.Bars.Core.InventoryBaseBar );
 
 function WindowInventoryBar:Constructor( barid )
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
 	self.id = barid;
-	self.mainWindow = MyysticUI.Core.UI.Window();
+	self.mainWindow = MyysticUI.Menus.Core.UI.Window();
 
 	self.watchSizeChanges = false;
 	self.changingSizes = false;
@@ -30,7 +30,7 @@ function WindowInventoryBar:Constructor( barid )
 
 	Turbine.Shell.WriteLine( "LOADED WindowBar" );
 
-	MyysticUI.Core.Bars.InventoryBaseBar.Constructor( self );
+	MyysticUI.Bars.Core.InventoryBaseBar.Constructor( self );
 
 	self:SetParent( self.mainWindow );
 	self.mainWindow:SetPosition( thebarSettings.x, thebarSettings.y );
@@ -118,13 +118,13 @@ function WindowInventoryBar:Constructor( barid )
 end
 
 function WindowInventoryBar:Create()
-	MyysticUI.Core.Bars.InventoryBaseBar.Create( self );
+	MyysticUI.Bars.Core.InventoryBaseBar.Create( self );
 	self.mainWindow:SetSize( self.quickslotList:GetWidth() + 24, self.quickslotList:GetHeight() + 55 );
 	self.watchSizeChanges = true;
 end
 
 function WindowInventoryBar:Refresh()
-	MyysticUI.Core.Bars.InventoryBaseBar.Refresh( self );
+	MyysticUI.Bars.Core.InventoryBaseBar.Refresh( self );
 
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -184,6 +184,6 @@ function WindowInventoryBar:InventoryPressed()
 end
 
 function WindowInventoryBar:SetMenuBackColor( selected )
-	MyysticUI.Core.Bars.BaseBar.SetMenuBackColor( self, selected, INVENTORY_MODE );
+	MyysticUI.Bars.Core.BaseBar.SetMenuBackColor( self, selected, INVENTORY_MODE );
 	self:SetBackColor( Turbine.UI.Color(1,0,0,0) );
 end
