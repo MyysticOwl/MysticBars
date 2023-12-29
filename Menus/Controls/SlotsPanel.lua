@@ -10,59 +10,40 @@ import "Turbine.UI.Lotro";
 import "MyysticUI.Menus.Core.UI.AutoListBox";
 import "MyysticUI.Menus.Core.UI.MenuUtils";
 
-SlotsPanel = class();
+SlotsPanel = class(MyysticUI.Menus.Controls.BasePanel);
 
-function SlotsPanel:Constructor( panel, RowColumnBased, sizeOption, mainMenu )
-	menu = mainMenu;
-	self.RowColumnBased = RowColumnBased;
-	self.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+function SlotsPanel:Constructor( barId, barValue, isExtension )
+	MyysticUI.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
 
-	self.utils:AddCategoryBox(panel, "Quick Slots");
+	self:SetHeight(80);
 
-	local box2a = self.utils:AddAutoListBox( panel, Turbine.UI.Orientation.Vertical );
-	local box2b = self.utils:AddAutoListBox( box2a, Turbine.UI.Orientation.Horizontal );
+	if (isExtension == nil) then
+		isExtension = false;
+	end
 
-	if ( self.RowColumnBased == true ) then
-		self.sb = self.utils:AddScrollBar( box2b, 1, 1, 50, 200, selectionHeight + 20, nil, "Rows:" );
-	
-		box2a:AddItem( box2b );
-		panel:AddItem( box2a );
-		local box3a = self.utils:AddAutoListBox( panel, Turbine.UI.Orientation.Vertical );
-		local box3b = self.utils:AddAutoListBox( box3a, Turbine.UI.Orientation.Horizontal );
-	
-		self.sb2 = self.utils:AddScrollBar( box3b, 1, 1, 50, 200, selectionHeight + 20, nil, "Columns:" );
-	
-		box3a:AddItem( box3b );
-		panel:AddItem( box3a );
+	self.isExtension = isExtension;
+
+	if ( self.isExtension == false ) then
+		self.sb = self.utils:AddScrollBar( self.panelBackground, 1, 1, 100, 200, selectionHeight + 20, nil, "Rows:", 5, 5, 5 );
+		self.sb2 = self.utils:AddScrollBar( self.panelBackground, 1, 1, 50, 200, selectionHeight + 20, nil, "Columns:", 200, 5, 30 );
 	else
-		self.extSb = self.utils:AddScrollBar( box2b, 1, 1, 50, 200, selectionHeight + 20, nil, "Count:" );
+		self.extSb = self.utils:AddScrollBar( self.panelBackground, 1, 1, 50, 200, selectionHeight + 20, nil, "Count:", 5, 5, 20 );
 		self.utils:CreateScrollBarCallback( self.extSb, { "quickslotCount" }, nil, nil, function(sender,args)
 			local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
 			inventoryService:NotifyClients();
 		end );
-		box2a:AddItem( box2b );
-		panel:AddItem( box2a );
 	end
-	local box5a = self.utils:AddAutoListBox( panel, Turbine.UI.Orientation.Vertical );
-	local box5b = self.utils:AddAutoListBox( box5a, Turbine.UI.Orientation.Horizontal );
-	self.spacingSB = self.utils:AddScrollBar( box5b, 1, 0, 50, 200, selectionHeight + 20, nil, "Spacing:" );
+	self.spacingSB = self.utils:AddScrollBar( self.panelBackground, 1, 0, 50, 200, selectionHeight + 20, nil, "Spacing:", 5, 40, 20 );
 	self.utils:CreateScrollBarCallback( self.spacingSB, { "quickslotSpacing" } );
 
-	box5a:AddItem( box5b );
-	panel:AddItem( box5a );
-	local box6a = self.utils:AddAutoListBox( panel, Turbine.UI.Orientation.Vertical );
-	local box6b = self.utils:AddAutoListBox( box6a, Turbine.UI.Orientation.Horizontal );
-
-	self.sizeSB = self.utils:AddScrollBar( box6b, 36, 0, 99, 200, selectionHeight + 20, nil, "Size:" );
-
+	self.sizeSB = self.utils:AddScrollBar( self.panelBackground, 36, 0, 99, 200, selectionHeight + 20, nil, "Size:", 200, 40, 5 );
 	self.utils:CreateScrollBarCallback( self.sizeSB, { "quickslotSize" }, nil, nil, function(sender,args)
 		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
 		barService:RefreshBars();
 	end );
 
-	box6a:AddItem( box6b );
-	panel:AddItem( box6a );
+	self:DisplaySettings();
 end
 
 function SlotsPanel:DisplaySettings()
@@ -70,7 +51,7 @@ function SlotsPanel:DisplaySettings()
 	local menuService = SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService);
 	local localBarSettings = settingsService:GetBarSettings( menuService:GetSelection() );
 
-	if ( self.RowColumnBased == true ) then
+	if ( self.isExtension == false ) then
 		self.sb.ValueChanged = function( sender, args )
 			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);

@@ -14,11 +14,12 @@ function Slider:Constructor()
     self.max = 0;
     self.value = 0;
     self.format = "%d";
+    self.valueLabelLeft = 0
 
     -- text label
     self.label = Turbine.UI.Label();
     self.label:SetParent(self);
-    self.label:SetPosition(3, 5);
+    self.label:SetPosition(0, 0);
     self.label:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
     self.label:SetForeColor(Slider.ItemColor);
     self.label:SetTextAlignment(Turbine.UI.ContentAlignment.TopLeft);
@@ -26,7 +27,7 @@ function Slider:Constructor()
     -- value label
     self.valueLabel = Turbine.UI.Label();
     self.valueLabel:SetParent(self);
-    self.valueLabel:SetPosition(0, 5);
+    self.valueLabel:SetPosition(self.valueLabelLeft, 5);
     self.valueLabel:SetFont(Turbine.UI.Lotro.Font.TrajanPro14);
     self.valueLabel:SetForeColor(Slider.ItemColor);
     self.valueLabel:SetTextAlignment(Turbine.UI.ContentAlignment.TopRight);
@@ -125,6 +126,7 @@ function Slider:Constructor()
     self.sliderBox:SetParent(self);
     self.sliderBox:SetBackground("MyysticUI/Menus/Core/Resources/slider_background.tga");
     self.sliderBox:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
+    self.sliderBox:SetVisible(true);
     self.sliderBox.MouseClick = function(sender, args)
         if (not self:IsEnabled()) then
             return;
@@ -150,6 +152,7 @@ function Slider:Constructor()
     self.slider:SetBackground("MyysticUI/Menus/Core/Resources/slider_widget.tga");
     self.slider:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.slider:SetSize(16,16)
+    self.slider:SetVisible(true);
     self.slider.MouseDown = function(sender, args)
         if (not self:IsEnabled()) then
             return;
@@ -218,7 +221,7 @@ function Slider:Layout()
     
     self.label:SetSize(width * .75, 20);
     self.valueLabel:SetSize(width * .25, 20);
-    self.valueLabel:SetPosition(0, 0);
+    self.valueLabel:SetPosition(self.valueLabelLeft, 0);
 
     self.sliderBox:SetSize(width - 56, 16);
     self.sliderBox:SetPosition(28, 16);
@@ -295,4 +298,11 @@ function Slider:Decrement()
         value = self.min;
     end
     self:SetValue(value);
+end
+
+function Slider:SetValueLabelLeft(valueLabelLeft)
+    self.valueLabelLeft = valueLabelLeft;
+    self:Layout();
+    self:UpdateValueFromPosition();
+    self:SetValue(self.value);
 end

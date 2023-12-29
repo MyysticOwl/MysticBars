@@ -151,11 +151,12 @@ function MenuUtils:AddButton( parentBox, text, w, h, mouseClick, left, top )
 	return button;
 end
 
-function MenuUtils:AddComboBox( parentBox, x, y, left, top )
+function MenuUtils:AddComboBox( parentBox, visibleOptions, x, y, left, top )
 	local combo = MyysticUI.Menus.Core.UI.ComboBox();
 	combo:SetSize( x, y );
 	combo:SetPosition(left, top);
 	combo:SetParent( parentBox );
+	combo:SetNumberOfVisibleOptions(visibleOptions);
 
 	return combo;
 end
@@ -232,11 +233,12 @@ function MenuUtils:CreateCheckBoxCallback( control, commandTable, callbackFuncti
 	end
 end
 
-function MenuUtils:AddScrollBar( parentBox, value, minVal, maxVal, x, y, thebgcolor, text, left, top )
+function MenuUtils:AddScrollBar( parentBox, value, minVal, maxVal, x, y, thebgcolor, text, left, top, valueLabelLeft )
 	local sb = MyysticUI.Menus.Core.UI.Slider();
 	sb:SetParent( parentBox );
 	sb:SetSize( x, y );
 	sb:SetPosition(left, top);
+	sb:SetValueLabelLeft(valueLabelLeft);
 	sb:SetText(text);
 	sb:SetValue( value );
 	sb:SetMin( minVal ); -- SetMinimum

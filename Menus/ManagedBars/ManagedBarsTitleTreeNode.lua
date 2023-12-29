@@ -9,7 +9,7 @@ function ManagedBarsTitleTreeNode:Constructor(text, topPadding, barId, barValue)
   self.listeners = {}
 
   self.barId = barId;
-	self.barValues = barValue;
+--	self.barValues = barValue;
 
   self.height = 29;
   self.padding = topPadding;
@@ -36,18 +36,16 @@ function ManagedBarsTitleTreeNode:Constructor(text, topPadding, barId, barValue)
   self.lock:SetBackground("MyysticUI/Menus/Core/Resources/button_unlocked.tga");
   self.lock:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.lock:SetMouseVisible(true);
-  self.lock.MouseClick = function(args)
+  self.lock.MouseDown = function(args)
     local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+
     local localBarSettings = settingsService:GetBarSettings( self.barId );
-
-    if (localBarSettings.locked == true) then
-      localBarSettings.locked = false;
-    else
-      localBarSettings.locked = true;
-    end
-    self.lock:SetBackground(localBarSettings.locked and "MyysticUI/Menus/Core/Resources/button_locked.tga" or "MyysticUI/Menus/Core/Resources/button_unlocked.tga");
-
+    localBarSettings.locked = not localBarSettings.locked;
     settingsService:SetBarSettings( self.barId, localBarSettings );
+
+    self.lock:SetBackground(localBarSettings.locked and "MyysticUI/Menus/Core/Resources/button_unlocked.tga" or "MyysticUI/Menus/Core/Resources/button_locked.tga");
+
+    self:SetExpanded(not self:IsExpanded());
   end
 
   self.delete = Turbine.UI.Control();

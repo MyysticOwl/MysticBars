@@ -10,34 +10,15 @@ import "Turbine.UI.Lotro";
 import "MyysticUI.Menus.Core.UI.AutoListBox";
 import "MyysticUI.Menus.Core.UI.MenuUtils";
 
-TriggersPanel = class(Turbine.UI.TreeNode);
-
-TriggersPanel.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+TriggersPanel = class(MyysticUI.Menus.Controls.BasePanel);
 
 function TriggersPanel:Constructor( barId, barValue )
-	Turbine.UI.TreeNode.Constructor(self);
+	MyysticUI.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
 
-	self.barId = barId;
-	self.barValues = barValue;
-
-	self:SetHeight(160);
-
-	self.panel = Turbine.UI.Control();
-	self.panel:SetParent(self);
-	self.panel:SetPosition(0, 0);
-	self.panel:SetSize(self:GetWidth()-2,self:GetHeight()-2);
-	self.panel:SetBackColor(Turbine.UI.Color(0.42,0.3,0.3));
-	self.panel:SetMouseVisible(false);
-
-	self.panelBackground = Turbine.UI.Control();
-	self.panelBackground:SetParent(self.panel);
-	self.panelBackground:SetPosition(1,1);
-	self.panelBackground:SetSize(self:GetWidth()-4,self:GetHeight()-4);
-	self.panelBackground:SetBackColor(Turbine.UI.Color(0.925,0,0,0));
-	self.panelBackground:SetMouseVisible(false);
+	self:SetHeight(140);
 
 	self.utils:AddLabelBox( self.panelBackground, "Bar Visibility?", 120, selectionHeight, nil, 5, 5 );
-	self.visibilityList = self.utils:AddComboBox(self.panelBackground, 200, 20, 98, 5);
+	self.visibilityList = self.utils:AddComboBox(self.panelBackground, 10, 200, 20, 98, 5);
 	self.visibilityList:AddItem( "Always", 1 );
 	self.visibilityList:AddItem( "Triggered", 2 );
 
@@ -63,13 +44,13 @@ function TriggersPanel:Constructor( barId, barValue )
 
 	self.healthTriggerCheckBox = self.utils:AddCheckBox( self.panelBackground, "Health Drops Below %:", selectionWidth + 100, selectionHeight, nil, 5, 50 );
 	self.utils:CreateCheckBoxCallback( self.healthTriggerCheckBox, { "events", "displayOnHealth" } );
-	self.healthSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, nil, 200, 55 );
+	self.healthSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, nil, 200, 55, -30 );
 	self.utils:CreateScrollBarCallback( self.healthSB, { "events", "healthTrigger" }, nil, 100 );
 
 	self.powerTriggerCheckBox = self.utils:AddCheckBox( self.panelBackground, "Power Drops Below %:", selectionWidth + 100, 16, nil, 5, 90 );
 	self.utils:CreateCheckBoxCallback( self.powerTriggerCheckBox, { "events", "displayOnPower" } );
 
-	self.powerSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, nil, 200, 95 );
+	self.powerSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, nil, 200, 95, -30 );
 	self.utils:CreateScrollBarCallback( self.powerSB, { "events", "powerTrigger" }, nil, 100 );
 
 	self:DisplaySettings();
@@ -86,7 +67,6 @@ function TriggersPanel:DisplaySettings()
 	self.triggerList:SetSelections( localBarSettings.events, true );
 	self.triggerList:SetSelections( localBarSettings.events.categories, true );
 
-
 	self.healthTriggerCheckBox:SetChecked( localBarSettings.events.displayOnHealth );
 	self.powerTriggerCheckBox:SetChecked( localBarSettings.events.displayOnPower );
 	self.healthSB:SetValue( localBarSettings.events.healthTrigger * 100 );
@@ -97,11 +77,3 @@ function TriggersPanel:EnableTriggers( enabled )
 	self.healthTriggerCheckBox:SetDisabled( not enabled );
 	self.powerTriggerCheckBox:SetDisabled( not enabled );
 end
-
-function TriggersPanel:Refresh(width)
-	local w = width or self:GetWidth();
-
-	self:SetWidth(w);
-	self.panel:SetSize(self:GetWidth()-2,self:GetHeight()-2);
-	self.panelBackground:SetSize(self:GetWidth()-4,self:GetHeight()-4);
-  end
