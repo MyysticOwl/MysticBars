@@ -24,34 +24,34 @@ function TriggersPanel:Constructor( barId, barValue )
 
 	self.utils:AddLabelBox( self.panelBackground, "When?", 120, selectionHeight, nil, 5, 30 );
 	self.triggerList = self.utils:AddCheckedComboBox(self.panelBackground, 5, 300, 20, 55, 30);
-	self.triggerList:AddItem( "In Combat", "displayInCombat" );
-	self.triggerList:AddItem( "Out of Combat", "displayNotInCombat" );
+	self.triggerList:AddItem( "In Combat", { "events", "displayInCombat" } );
+	self.triggerList:AddItem( "Out of Combat", { "events", "displayNotInCombat" } );
 
-	self.triggerList:AddItem( "Mounted", "displayWhileMounted" );
-	self.triggerList:AddItem( "Not Mounted", "displayWhileNotMounted" );
-	self.triggerList:AddItem( "Combat Mounted", "displayWhileCombatMounted" );
-	self.triggerList:AddItem( "Not Combat Mounted", "displayWhileNotCombatMounted" );
+	self.triggerList:AddItem( "Mounted", { "events", "displayWhileMounted" } );
+	self.triggerList:AddItem( "Not Mounted", { "events", "displayWhileNotMounted" } );
+	self.triggerList:AddItem( "Combat Mounted", { "events", "displayWhileCombatMounted" } );
+	self.triggerList:AddItem( "Not Combat Mounted", { "events", "displayWhileNotCombatMounted" } );
 
-	self.triggerList:AddItem( "Ctrl Pressed", "isControl" );
-	self.triggerList:AddItem( "Alt Pressed", "isAlt" );
-	self.triggerList:AddItem( "Shift Pressed", "isShift" );
+	self.triggerList:AddItem( "Ctrl Pressed", { "events", "isControl" } );
+	self.triggerList:AddItem( "Alt Pressed", { "events", "isAlt" } );
+	self.triggerList:AddItem( "Shift Pressed", { "events", "isShift" } );
 
 	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
 	local events = eventService:GetRegisteredEvents();
 	for key, value in pairs (events.categories) do
-		self.triggerList:AddItem( value.description, "categories", key );
+		self.triggerList:AddItem( value.description, { "events", "categories", key} );
 	end
 
 	self.healthTriggerCheckBox = self.utils:AddCheckBox( self.panelBackground, "Health Drops Below %:", selectionWidth + 100, selectionHeight, nil, 5, 50 );
-	self.utils:CreateCheckBoxCallback( self.healthTriggerCheckBox, barId, "displayOnHealth" );
+	self.utils:CreateCheckBoxCallback( self.healthTriggerCheckBox, barId, { "events", "displayOnHealth" } );
 	self.healthSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, nil, 200, 55, -30 );
-	self.utils:CreateScrollBarCallback( self.healthSB, barId, "healthTrigger", nil, 100 );
+	self.utils:CreateScrollBarCallback( self.healthSB, barId, { "events", "healthTrigger" }, nil, 100 );
 
 	self.powerTriggerCheckBox = self.utils:AddCheckBox( self.panelBackground, "Power Drops Below %:", selectionWidth + 100, 16, nil, 5, 90 );
-	self.utils:CreateCheckBoxCallback( self.powerTriggerCheckBox, barId, "displayOnPower" );
+	self.utils:CreateCheckBoxCallback( self.powerTriggerCheckBox, barId, { "events", "displayOnPower" } );
 
 	self.powerSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, nil, 200, 95, -30 );
-	self.utils:CreateScrollBarCallback( self.powerSB, barId, "powerTrigger", nil, 100 );
+	self.utils:CreateScrollBarCallback( self.powerSB, barId, { "events", "powerTrigger" }, nil, 100 );
 
 	self:DisplaySettings();
 end
@@ -79,7 +79,7 @@ function TriggersPanel:DisplaySettings()
 		end
 	end
 	self.triggerList:ClearChecks();
-	self.triggerList:SetSelections( localBarSettings.events, true );
+	self.triggerList:SetSelections( localBarSettings.events, true, true );
 	self.triggerList:SetSelections( localBarSettings.events.categories, true );
 
 	self.healthTriggerCheckBox:SetChecked( localBarSettings.events.displayOnHealth );

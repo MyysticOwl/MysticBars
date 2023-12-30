@@ -13,7 +13,7 @@ import "MyysticUI.Menus.Core.UI.CheckedComboBox";
 
 InventoryPanel = class();
 
-function InventoryPanel:Constructor( panel )
+function InventoryPanel:Constructor( barId, barValue )
 	self.utils = MyysticUI.Menus.Core.UI.MenuUtils();
 
 	self.utils:AddCategoryBox(panel, "Inventory Options");
@@ -78,7 +78,7 @@ function InventoryPanel:Constructor( panel )
 	end );
 
 	self.countSB = self.utils:AddScrollBar(panel, 0, 1, 100, 200, selectionHeight + 20, nil, "" );
-	self.utils:CreateScrollBarCallback( self.countSB, { "events", "inventory", "quantity" }, nil, nil, function(sender,args)
+	self.utils:CreateScrollBarCallback( self.countSB, barId { "events", "inventory", "quantity" }, nil, nil, function(sender,args)
 		local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
 		inventoryService:NotifyClients();
 	end );

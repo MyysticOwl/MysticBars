@@ -29,19 +29,18 @@ function ColorPanel:Constructor( barId, barValue )
 	self.bgASB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, "Opacity:", 230, 80, 25 );
 	self.utils:CreateScrollBarCallback( self.bgASB, barId, { "opacity" }, nil, 100);
 
-	self.fadeOpacitySelection = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, "Shortcut Opacity:", 30, 120, 95 );
-	self.utils:CreateScrollBarCallback( self.fadeOpacitySelection, barId, { "fadeOpacity" }, nil, 100 );
-
-	self.useFadingCheckBox  = self.utils:AddCheckBox( self.panelBackground, "Remove opacity when moused over?", selectionWidth + 200, selectionHeight, nil, 30, 160 );
+	self.useFadingCheckBox  = self.utils:AddCheckBox( self.panelBackground, "Remove Override when moused over?", selectionWidth + 200, selectionHeight, nil, 30, 120 );
 	self.utils:CreateCheckBoxCallback( self.useFadingCheckBox, barId, { "useFading" } );
+
+	self.fadeOpacitySelection = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, "Override Opacity:", 60, 150, 95 );
+	self.utils:CreateScrollBarCallback( self.fadeOpacitySelection, barId, { "fadeOpacity" }, nil, 100 );
 
 	self:DisplaySettings();
 end
 
 function ColorPanel:DisplaySettings()
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local menuService = SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService);
-	local localBarSettings = settingsService:GetBarSettings( menuService:GetSelection() );
+	local localBarSettings = settingsService:GetBarSettings( self.barId );
 
 	-- COLOR SETTINGS
 	self.useBackgroundCheckBox:SetChecked( localBarSettings.useBackgroundColor );

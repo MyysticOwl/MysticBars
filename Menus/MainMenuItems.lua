@@ -147,44 +147,6 @@ function MainMenuItems:CreateBarNode(parent, barId, bar)
 	local node = MyysticUI.Menus.Core.TitleTreeNode(self:GetBarName(barId, bar), 1);
 
 	parent:GetChildNodes():Add(node);
-
-	-- context["icon"].MouseClick = function(sender,args)
-	-- 	local id, actualBar = self:GetBarMatch(context);
-	-- 	if ( actualBar == nil ) then
-	-- 		value.callback( self, true );
-
-	-- 		local configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);
-	-- 		configurationService:Save();
-	-- 		barService:LoadQuickslots();
-	-- 		barService:RefreshBars();
-
-	-- 		local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
-	-- 		inventoryService:NotifyClients();
-	-- 	end
-
-	-- 	if (context["exists"]) then
-	-- 		self:SetSelected(context);
-	-- 		panel.Draw(panel, context);
-	-- 	else
-	-- 		mainMenu.contentBox:ClearItems();
-	-- 	end
-
-	-- 	barService:RefreshBars();
-
-	-- 	if (mainMenu ~= nil) then
-	-- 		mainMenu:Refresh();
-	-- 	end
-	-- end
-
-	-- node.MouseClick = function(sender,args)
-	-- 	if (context["exists"]) then
-	-- 		self:SetSelected(context);
-	-- 		panel.Draw(panel, context);
-	-- 	end
-	-- end
-
---	self:Exists(context);
-
 	return node;
 end
 

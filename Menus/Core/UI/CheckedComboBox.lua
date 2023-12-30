@@ -34,7 +34,7 @@ function CheckedComboBox:AddItem(text, value)
         self:FireEvent();
     end
 
-	listItem["value"] = value;
+	listItem.value = value;
     listItem:SetChecked(false);
     self.listBox:AddItem(listItem);
 end
@@ -55,22 +55,32 @@ end
 function CheckedComboBox:ClearChecks()
 	for i = 1, self.listBox:GetItemCount() do
 		local item = self.listBox:GetItem(i);
-		item.IsChecked = false;
+		--item.IsChecked = false;
 		item:SetChecked( false );
 	end	
 end
 
-function CheckedComboBox:SetSelections( valueTable, useValue )
+function CheckedComboBox:SetSelections( valueTable, useValue, debug )
 	if ( valueTable == nil ) then
 		self.selection = -1;
 		self.label:SetText("");
 	else
-		for key, value in  opairs( valueTable ) do
+		for inputKey, inputValue in  opairs( valueTable ) do
 			for i = 1, self.listBox:GetItemCount() do
 				local item = self.listBox:GetItem(i);
 
-				--  item.value[#item.value] == key
-				if (item:GetText() == key or ( useValue ~= nil and item.value[#item.value] == value ) ) then
+				local found = false;
+				local val = item.value;
+
+				for key=1, #val, 1 do
+					if ( key == #val ) then
+						if (val[key] == inputKey) then
+							found = true;
+						end
+					end
+				end
+
+				if (item:GetText() == inputKey or ( useValue ~= nil and found ) ) then
 					item:SetChecked( true );
 					self:FireEvent();
 					break;
@@ -88,10 +98,9 @@ function CheckedComboBox:GetSelections()
 		local count = 0;
 		for i = 1, self.listBox:GetItemCount() do
 			local item = self.listBox:GetItem(i);
-			if ( item:IsChecked() ) then
+			if ( item:IsChecked() == true ) then
 				count = count + 1;
-				items[count] = item:GetText();
-				--Turbine.Shell.WriteLine( "Checked - key:" .. count .. " value:" .. items[count] );
+				items[count] = item.value;
 			end
 		end
         return items;

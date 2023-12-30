@@ -225,6 +225,7 @@ function ConfigurationService:SetClassRangeTrigger( name, theMin, theMax )
 		end
 		if ( localBarSettings.events.classRange[name] == nil ) then
 			localBarSettings.events.classRange[name] = { };
+			localBarSettings.events.classRange[name].active = true;
 			localBarSettings.events.classRange[name].minValue = theMin;
 			localBarSettings.events.classRange[name].maxValue = theMax;
 		end
@@ -280,15 +281,5 @@ function ConfigurationService:SetInventoryFilter( filter )
 			localBarSettings.events.inventory.nameFilters = { };
 		end
 		localBarSettings.events.inventory.nameFilters[ filter ] = true;
-	end
-end
-
-function ConfigurationService:Save()
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local localBarSettings = settingsService:GetBarSettings( self.barid );
-
-	if ( self.barid ~= nil and barService  ~= nil and barService:Alive( self.barid )) then
-		settingsService:SetBarSettings( self.barid, localBarSettings );
 	end
 end
