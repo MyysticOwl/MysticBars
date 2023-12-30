@@ -232,13 +232,25 @@ end
 function SettingsService:SetBarSettings(barid, bar, doNotRefresh)
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
-	if ( barid ~= nil ) then
+	if ( barid ~= nil and barService  ~= nil and barService:Alive( barid )) then
 		self.settings.bars[barid] = bar;
 
 		self:SaveSettings();
 		if ( doNotRefresh == nil and barService ~= nil ) then
 			barService:RefreshBars();
 		end
+	end
+end
+
+function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallback)
+	local barSettings = self:GetBarSettings( barid );
+
+	local updatedSettings = updateCallback(barSettings);
+
+	self:SetBarSettings( barid, updatedSettings );
+
+	if (completeCallback ~= nil) then
+		completeCallback(updatedSettings);
 	end
 end
 

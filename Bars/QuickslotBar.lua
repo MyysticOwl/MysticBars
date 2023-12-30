@@ -22,12 +22,7 @@ function QuickslotBar:Constructor( barid )
 
 	if ( barSettings.barType ~= QUICKSLOTBAR ) then
 		barSettings.barType = QUICKSLOTBAR;
-
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-
-		if ( barService ~= nil and barService:Alive( self.id ) ) then
-			settingsService:SetBarSettings( self.id, barSettings );
-		end
+		settingsService:SetBarSettings( self.id, barSettings );
 	end
 
 	self.faded = true;
@@ -120,25 +115,21 @@ function QuickslotBar:Constructor( barid )
 end
 
 function QuickslotBar:PositionChanged( sender, args )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local settings = settingsService:GetSettings();
-	local barSettings = settingsService:GetBarSettings( self.id );
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+	SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
+		local settings = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):GetSettings();
+		if ( settings.barMode ~= NORMAL_MODE or ( dragBarAvailable and self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then
+			local x,y = self:GetPosition();
 
-	if ( settings.barMode ~= NORMAL_MODE or ( dragBarAvailable and self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then
-		local x,y = self:GetPosition();
+			barSettings.relationalX = x / DISPLAYWIDTH;
+			barSettings.relationalY = y / DISPLAYHEIGHT;
 
-		barSettings.relationalX = x / DISPLAYWIDTH;
-		barSettings.relationalY = y / DISPLAYHEIGHT;
-
-		barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
-		barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
-
-		if ( barService ~= nil and barService:Alive( self.id ) ) then
-			settingsService:SetBarSettings( self.id, barSettings );
-			barService:UpdateBarExtensions();
+			barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
+			barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
 		end
-	end
+		return barSettings;
+	end, function()
+		SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService):UpdateBarExtensions();
+	end);
 end
 
 function QuickslotBar:Create()
@@ -233,17 +224,15 @@ end
 
 function QuickslotBar:RegisterBarExtension( extBar, index, extensionBarID )
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local attachedbarSettings = settingsService:GetBarSettings( extensionBarID );
-	if ( attachedbarSettings.connectionQuickslotID ~= index or attachedbarSettings.connectionBarID ~= self.id ) then
-		attachedbarSettings.connectionQuickslotID = index;
-		attachedbarSettings.connectionBarID = self.id;
-
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-
-		if ( barService  ~= nil and barService:Alive( self.id ) ) then
-			settingsService:SetBarSettings( extensionBarID, attachedbarSettings );
+	SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(extensionBarID, function(barSettings)
+		if ( barSettings.connectionQuickslotID ~= index or barSettings.connectionBarID ~= self.id ) then
+			barSettings.connectionQuickslotID = index;
+			barSettings.connectionBarID = self.id;
 		end
-	end
+		return barSettings;
+	end, function()
+		SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+	end);
 
 	local barSettings = settingsService:GetBarSettings( self.id );
 	if ( self.nextExtension == nil ) then

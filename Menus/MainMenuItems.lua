@@ -27,17 +27,14 @@ function MainMenuItems:CreateNewBarItem(parent, mainMenu)
 		parent:GetChildNodes():Add(treeNode);
 	end
 
---	self:SetCheckedIcon(context, false);
+	treeNode.MouseClick = function(sender,args)
+		local barId = barService:Add( QUICKSLOTBAR );
+		barService:RefreshBars();
 
-	-- context["icon"].MouseClick = function(sender,args)
-	-- 	local barId = barService:Add( QUICKSLOTBAR );
-	-- 	self:SetSelected({["id"] = barId});
-	-- 	barService:RefreshBars();
-
-	-- 	if (mainMenu ~= nil) then
-	-- 		mainMenu:Refresh();
-	-- 	end
-	-- end
+		if (mainMenu ~= nil) then
+			mainMenu:Refresh();
+		end
+	end
 end
 
 function MainMenuItems:CreateNewTabInventoryBarItem(parent, mainMenu)

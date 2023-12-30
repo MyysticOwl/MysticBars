@@ -43,15 +43,15 @@ function ManagedBarsTitleTreeNode:Constructor(text, topPadding, barId, barValue)
     localBarSettings.locked = not localBarSettings.locked;
     settingsService:SetBarSettings( self.barId, localBarSettings );
 
-    self.lock:SetBackground(localBarSettings.locked and "MyysticUI/Menus/Core/Resources/button_unlocked.tga" or "MyysticUI/Menus/Core/Resources/button_locked.tga");
+    self.lock:SetBackground(localBarSettings.locked and "MyysticUI/Menus/Core/Resources/button_locked.tga" or "MyysticUI/Menus/Core/Resources/button_unlocked.tga");
 
     self:SetExpanded(not self:IsExpanded());
   end
 
   self.delete = Turbine.UI.Control();
   self.delete:SetParent(self);
-  self.delete:SetSize(20,19);
-  self.delete:SetPosition(self:GetWidth() - 22,4);
+  self.delete:SetSize(16,16);
+  self.delete:SetPosition(self:GetWidth() - 22,20);
   self.delete:SetBackground("MyysticUI/Menus/Core/Resources/titlebar_X_2_sepia.tga");
   self.delete:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.delete:SetMouseVisible(true);

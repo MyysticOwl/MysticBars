@@ -8,20 +8,6 @@ function CheckedComboBox:Constructor()
     MyysticUI.Menus.Core.UI.ComboBox.Constructor(self);
 
     self.utils = MyysticUI.Menus.Core.UI.MenuUtils();
-
-    self.SelectedIndexChanged = function(sender, args)
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-		local barSettings = settingsService:GetBarSettings( menu:GetSelection() );
-		for i = 1, self.listBox:GetItemCount() do
-			local item = self.listBox:GetItem(i);
-			if ( item:IsChecked() ) then
-				self.utils:BuildItemFromCommandTable( barSettings, item.value, true );
-			else
-				self.utils:BuildItemFromCommandTable( barSettings, item.value, nil );
-			end
-			settingsService:SetBarSettings( menu:GetSelection(), barSettings );
-		end
-	end
 end
 
 -- function CheckedComboBox:ItemSelected(index)

@@ -214,22 +214,20 @@ function MenuUtils:AddCheckBox( parentBox, text, x, y, thebgcolor, left, top )
 	return cb;
 end
 
-function MenuUtils:CreateCheckBoxCallback( control, commandTable, callbackFunction )
+function MenuUtils:CreateCheckBoxCallback( control, barId, commandTable, callbackFunction )
 	control.CheckedChanged = function( sender, args )
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-
-		local barId = tonumber( settingsService:GetSettings().selectedBar);
-		local barSettings = settingsService:GetBarSettings( barId );
-		if ( control:IsChecked() == true ) then
-			self:BuildItemFromCommandTable( barSettings, commandTable, true );
-		else
-			self:BuildItemFromCommandTable( barSettings, commandTable, nil );
-		end
-		settingsService:SetBarSettings( barId, barSettings );
-
-		if ( callbackFunction ~= nil ) then
-			callbackFunction();
-		end
+		SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)
+			if ( control:IsChecked() == true ) then
+				self:BuildItemFromCommandTable( barSettings, commandTable, true );
+			else
+				self:BuildItemFromCommandTable( barSettings, commandTable, nil );
+			end
+			return barSettings;
+		end, function()
+			if ( callbackFunction ~= nil ) then
+				callbackFunction();
+			end
+		end);
 	end
 end
 
@@ -253,23 +251,24 @@ function MenuUtils:AddScrollBar( parentBox, value, minVal, maxVal, x, y, thebgco
 	return sb;
 end
 
-function MenuUtils:CreateScrollBarCallback( control, commandTable, add, divide, callbackFunction )
+function MenuUtils:CreateScrollBarCallback( control, barId, commandTable, add, divide, callbackFunction )
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
 	control.ValueChanged = function( sender, args )
-		local menuService = SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService);
-		local barSettings = settingsService:GetBarSettings( menuService:GetSelection() );
-		if ( add ~= nil ) then
-			self:BuildItemFromCommandTable( barSettings, commandTable, control:GetValue() + add );
-		elseif ( divide ~= nil ) then
-			self:BuildItemFromCommandTable( barSettings, commandTable, control:GetValue() / divide );
-		else
-			self:BuildItemFromCommandTable( barSettings, commandTable, control:GetValue() );
-		end
-		settingsService:SetBarSettings( menuService:GetSelection(), barSettings );
-		if ( callbackFunction ~= nil ) then
-			callbackFunction();
-		end
+		SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)
+			if ( add ~= nil ) then
+				self:BuildItemFromCommandTable( barSettings, commandTable, control:GetValue() + add );
+			elseif ( divide ~= nil ) then
+				self:BuildItemFromCommandTable( barSettings, commandTable, control:GetValue() / divide );
+			else
+				self:BuildItemFromCommandTable( barSettings, commandTable, control:GetValue() );
+			end
+			return barSettings;
+		end, function()
+			if ( callbackFunction ~= nil ) then
+				callbackFunction();
+			end
+		end);
 	end
 end
 

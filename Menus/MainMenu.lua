@@ -122,8 +122,8 @@ function MainMenu:Refresh()
 	local w,h = self:GetSize();
 
 	self.tree:SetSize(w - 40, h);
-	self.scrollBar:SetTop(h-10);
-	self.scrollBar:SetWidth(w);
+	-- self.scrollBar:SetTop(h-10);
+--	self.scrollBar:SetWidth(w - 10);
 
 	local root = self.tree:GetNodes();
 	for i=1,self.tree:GetNodes():GetCount() do

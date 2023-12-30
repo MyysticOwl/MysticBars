@@ -33,135 +33,110 @@ function ClassBuffPanel:Constructor( barId, barValue )
 
 	if ( playerClass == Turbine.Gameplay.Class.Burglar ) then
 	elseif ( playerClass == Turbine.Gameplay.Class.Champion ) then
-		self.eventCheckboxes[CHAMPION_FERVOR] = self.utils:AddCheckBox( box13, "Fervor between:", selectionWidth + 15, selectionHeight );
+		self.eventCheckboxes[CHAMPION_FERVOR] = self.utils:AddCheckBox( self.panelBackground, "Fervor between:", selectionWidth + 15, selectionHeight, nil, 5, 50 );
 		self.eventCheckboxes[CHAMPION_FERVOR].CheckedChanged = function( sender, args )
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-			local barSettings = settingsService:GetBarSettings( self.barId );
-
-			if ( self.eventCheckboxes[CHAMPION_FERVOR]:IsChecked() ) then
-				if ( barSettings.events == nil ) then
-					barSettings.events = { }; 
+			SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+				if ( self.eventCheckboxes[CHAMPION_FERVOR]:IsChecked() ) then
+					if ( barSettings.events == nil ) then
+						barSettings.events = { };
+					end
+					if ( barSettings.events.classRange == nil ) then
+						barSettings.events.classRange = { };
+					end
+					barSettings.events.classRange[CHAMPION_FERVOR] = { };
+					barSettings.events.classRange[CHAMPION_FERVOR].minValue = 1;
+					barSettings.events.classRange[CHAMPION_FERVOR].maxValue = 1;
+					self.championSbMin:SetValue( 1 );
+					self.championSbMax:SetValue( 5 );
+				elseif ( barSettings.events ~= nil and barSettings.events.classRange ~= nil and barSettings.events.classRange[CHAMPION_FERVOR] ~= nil) then
+					self.championSbMin:SetValue( 0 );
+					self.championSbMax:SetValue( 0 );
+					barSettings.events.classRange[CHAMPION_FERVOR].maxValue = nil;
+					barSettings.events.classRange[CHAMPION_FERVOR].minValue = nil;
+					barSettings.events.classRange[CHAMPION_FERVOR] = nil;
 				end
-				if ( barSettings.events.classRange == nil ) then
-					barSettings.events.classRange = { };
-				end
-				barSettings.events.classRange[CHAMPION_FERVOR] = { };
-				barSettings.events.classRange[CHAMPION_FERVOR].minValue = 1;
-				barSettings.events.classRange[CHAMPION_FERVOR].maxValue = 1;
-				self.championSbMin:SetValue( 1 );
-				self.championSbMax:SetValue( 5 );
-			elseif ( barSettings.events ~= nil and barSettings.events.classRange ~= nil and barSettings.events.classRange[CHAMPION_FERVOR] ~= nil) then
-				self.championSbMin:SetValue( 0 );
-				self.championSbMax:SetValue( 0 );
-				barSettings.events.classRange[CHAMPION_FERVOR].maxValue = nil;
-				barSettings.events.classRange[CHAMPION_FERVOR].minValue = nil;
-				barSettings.events.classRange[CHAMPION_FERVOR] = nil;
-			end
-			if ( barService  ~= nil and barService:Alive( self.barId ) ) then
-				settingsService:SetBarSettings( self.barId, barSettings );
-			end
+				return barSettings;
+			end);
 		end
-		box = self.utils:AddAutoListBox( box13, Turbine.UI.Orientation.Horizontal, 0, 0, 0, 0 );
-		boxSet1 = self.utils:AddAutoListBox( box, Turbine.UI.Orientation.Vertical, 0, 0, 0, 0 );
-		boxSet2 = self.utils:AddAutoListBox( box, Turbine.UI.Orientation.Vertical, 0, 0, 0, 0 );
 
-		self.championSbMin = self.utils:AddScrollBar( boxSet1, 1, 1, 5, 100, selectionHeight + 15, nil, "Min:" );
-		self.utils:CreateScrollBarCallback( self.championSbMin, { "events", "classRange", CHAMPION_FERVOR, "minValue" } );
+		self.championSbMin = self.utils:AddScrollBar( self.panelBackground, 1, 1, 5, 100, selectionHeight + 15, nil, "Min:", 30, 80, 15 );
+		self.utils:CreateScrollBarCallback( self.championSbMin, barId, { "events", "classRange", CHAMPION_FERVOR, "minValue" } );
 
-		self.championSbMax = self.utils:AddScrollBar( boxSet2, 1, 1, 5, 100, selectionHeight + 15, nil, "Max:" );
-		self.utils:CreateScrollBarCallback( self.championSbMax, { "events", "classRange", CHAMPION_FERVOR, "maxValue" } );
+		self.championSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 1, 5, 100, selectionHeight + 15, nil, "Max:", 130, 80, 15 );
+		self.utils:CreateScrollBarCallback( self.championSbMax, barId, { "events", "classRange", CHAMPION_FERVOR, "maxValue" } );
 		self.championSbMin:SetValue( 0 );
 		self.championSbMax:SetValue( 0 );
-		box:AddItem( boxSet1 );
-		box:AddItem( boxSet2 );
-		box13:AddItem( box );
 	elseif ( playerClass == Turbine.Gameplay.Class.RuneKeeper ) then
 		self.eventCheckboxes[RK_ATTUNEMENT] = self.utils:AddCheckBox( self.panelBackground, "Attunement between:", selectionWidth + 15, selectionHeight, nil, 5, 50 );
 		self.eventCheckboxes[RK_ATTUNEMENT].CheckedChanged = function( sender, args )
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-			local barSettings = settingsService:GetBarSettings( self.barId );
-
-			if ( self.eventCheckboxes[RK_ATTUNEMENT]:IsChecked() ) then
-				if ( barSettings.events == nil ) then
-					barSettings.events = { }; 
+			SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+				if ( self.eventCheckboxes[RK_ATTUNEMENT]:IsChecked() ) then
+					if ( barSettings.events == nil ) then
+						barSettings.events = { }; 
+					end
+					if ( barSettings.events.classRange == nil ) then
+						barSettings.events.classRange = { };
+					end
+					barSettings.events.classRange[RK_ATTUNEMENT] = { };
+					barSettings.events.classRange[RK_ATTUNEMENT].minValue = 1;
+					barSettings.events.classRange[RK_ATTUNEMENT].maxValue = 1;
+					self.rkSbMin:SetValue( 1 );
+					self.rkSbMax:SetValue( 19 );
+				elseif ( barSettings.events ~= nil and barSettings.events.classRange ~= nil and barSettings.events.classRange[RK_ATTUNEMENT] ~= nil) then
+					self.rkSbMin:SetValue( 0 );
+					self.rkSbMax:SetValue( 0 );
+					barSettings.events.classRange[RK_ATTUNEMENT].maxValue = nil;
+					barSettings.events.classRange[RK_ATTUNEMENT].minValue = nil;
+					barSettings.events.classRange[RK_ATTUNEMENT] = nil;
 				end
-				if ( barSettings.events.classRange == nil ) then
-					barSettings.events.classRange = { };
-				end
-				barSettings.events.classRange[RK_ATTUNEMENT] = { };
-				barSettings.events.classRange[RK_ATTUNEMENT].minValue = 1;
-				barSettings.events.classRange[RK_ATTUNEMENT].maxValue = 1;
-				self.rkSbMin:SetValue( 1 );
-				self.rkSbMax:SetValue( 19 );
-			elseif ( barSettings.events ~= nil and barSettings.events.classRange ~= nil and barSettings.events.classRange[RK_ATTUNEMENT] ~= nil) then
-				self.rkSbMin:SetValue( 0 );
-				self.rkSbMax:SetValue( 0 );
-				barSettings.events.classRange[RK_ATTUNEMENT].maxValue = nil;
-				barSettings.events.classRange[RK_ATTUNEMENT].minValue = nil;
-				barSettings.events.classRange[RK_ATTUNEMENT] = nil;
-			end
-			if ( barService  ~= nil and barService:Alive( self.barId ) ) then
-				settingsService:SetBarSettings( self.barId, barSettings );
-			end
+				return barSettings;
+			end);
 		end
 		self.utils:AddLabelBox( self.panelBackground, "10 = Balanced;Lower numbers = Damage;Higher numbers Healing:", 500, selectionHeight, nil, 30, 80 );
 
 		self.rkSbMin = self.utils:AddScrollBar( self.panelBackground, 1, 1, 19, 100, selectionHeight + 20, nil, "Min:", 30, 100, 15 );
-		self.utils:CreateScrollBarCallback( self.rkSbMin, { "events", "classRange", RK_ATTUNEMENT, "minValue" } );
+		self.utils:CreateScrollBarCallback( self.rkSbMin, barId, { "events", "classRange", RK_ATTUNEMENT, "minValue" } );
 
 		self.rkSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 1, 19, 100, selectionHeight + 20, nil, "Max:", 130, 100, 20 );
-		self.utils:CreateScrollBarCallback( self.rkSbMax, { "events", "classRange", RK_ATTUNEMENT, "maxValue" } );
+		self.utils:CreateScrollBarCallback( self.rkSbMax, barId, { "events", "classRange", RK_ATTUNEMENT, "maxValue" } );
 
 		self.rkSbMin:SetValue( 0 );
 		self.rkSbMax:SetValue( 0 );
 	elseif ( playerClass == Turbine.Gameplay.Class.Hunter ) then
-		self.eventCheckboxes[HUNTER_FOCUS] = self.utils:AddCheckBox( box13, "Focus between:", selectionWidth + 15, selectionHeight );
+		self.eventCheckboxes[HUNTER_FOCUS] = self.utils:AddCheckBox( self.panelBackground, "Focus between:", selectionWidth + 15, selectionHeight, nil, 5, 50 );
 		self.eventCheckboxes[HUNTER_FOCUS].CheckedChanged = function( sender, args )
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-			local barSettings = settingsService:GetBarSettings( self.barId );
-
-			if ( self.eventCheckboxes[HUNTER_FOCUS]:IsChecked() ) then
-				if ( barSettings.events == nil ) then
-					barSettings.events = { }; 
+			SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+				if ( self.eventCheckboxes[HUNTER_FOCUS]:IsChecked() ) then
+					if ( barSettings.events == nil ) then
+						barSettings.events = { };
+					end
+					if ( barSettings.events.classRange == nil ) then
+						barSettings.events.classRange = { };
+					end
+					barSettings.events.classRange[HUNTER_FOCUS] = { };
+					barSettings.events.classRange[HUNTER_FOCUS].minValue = 1;
+					barSettings.events.classRange[HUNTER_FOCUS].maxValue = 1;
+					self.hunterSbMin:SetValue( 1 );
+					self.hunterSbMax:SetValue( 9 );
+				elseif ( barSettings.events ~= nil and barSettings.events.classRange ~= nil and barSettings.events.classRange[HUNTER_FOCUS] ~= nil) then
+					self.hunterSbMin:SetValue( 0 );
+					self.hunterSbMax:SetValue( 0 );
+					barSettings.events.classRange[HUNTER_FOCUS].maxValue = nil;
+					barSettings.events.classRange[HUNTER_FOCUS].minValue = nil;
+					barSettings.events.classRange[HUNTER_FOCUS] = nil;
 				end
-				if ( barSettings.events.classRange == nil ) then
-					barSettings.events.classRange = { };
-				end
-				barSettings.events.classRange[HUNTER_FOCUS] = { };
-				barSettings.events.classRange[HUNTER_FOCUS].minValue = 1;
-				barSettings.events.classRange[HUNTER_FOCUS].maxValue = 1;
-				self.hunterSbMin:SetValue( 1 );
-				self.hunterSbMax:SetValue( 9 );
-			elseif ( barSettings.events ~= nil and barSettings.events.classRange ~= nil and barSettings.events.classRange[HUNTER_FOCUS] ~= nil) then
-				self.hunterSbMin:SetValue( 0 );
-				self.hunterSbMax:SetValue( 0 );
-				barSettings.events.classRange[HUNTER_FOCUS].maxValue = nil;
-				barSettings.events.classRange[HUNTER_FOCUS].minValue = nil;
-				barSettings.events.classRange[HUNTER_FOCUS] = nil;
-
-			end
-			if ( barService  ~= nil and barService:Alive( self.barId ) ) then
-				settingsService:SetBarSettings( self.barId, barSettings );
-			end
+				return barSettings;
+			end);
 		end
-		box = self.utils:AddAutoListBox( box13, Turbine.UI.Orientation.Horizontal, 0, 0, 0, 0 );
-		boxSet1 = self.utils:AddAutoListBox( box, Turbine.UI.Orientation.Vertical, 0, 0, 0, 0 );
-		boxSet2 = self.utils:AddAutoListBox( box, Turbine.UI.Orientation.Vertical, 0, 0, 0, 0 );
 
-		self.hunterSbMin = self.utils:AddScrollBar( boxSet1, 1, 1, 9, 100, selectionHeight + 20, nil, "Min:" );
-		self.utils:CreateScrollBarCallback( self.hunterSbMin, { "events", "classRange", HUNTER_FOCUS, "minValue" } );
+		self.hunterSbMin = self.utils:AddScrollBar( self.panelBackground, 1, 1, 9, 100, selectionHeight + 20, nil, "Min:", 30, 80, 15 );
+		self.utils:CreateScrollBarCallback( self.hunterSbMin, barId, { "events", "classRange", HUNTER_FOCUS, "minValue" } );
 
-		self.hunterSbMax = self.utils:AddScrollBar( boxSet2, 1, 1, 9, 100, selectionHeight + 20, nil, "Max:" );
-		self.utils:CreateScrollBarCallback( self.hunterSbMax, { "events", "classRange", HUNTER_FOCUS, "maxValue" } );
+		self.hunterSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 1, 9, 100, selectionHeight + 20, nil, "Max:", 130, 80, 15 );
+		self.utils:CreateScrollBarCallback( self.hunterSbMax, barId, { "events", "classRange", HUNTER_FOCUS, "maxValue" } );
 
 		self.hunterSbMin:SetValue( 0 );
 		self.hunterSbMax:SetValue( 0 );
-		box:AddItem( boxSet1 );
-		box:AddItem( boxSet2 );
-		box13:AddItem( box );
 	end
 
 	self:DisplaySettings();
@@ -179,24 +154,20 @@ function ClassBuffPanel:DisplaySettings()
 	end
 
     self.buffList.SelectedIndexChanged = function(sender, args)
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-		local barSettings = settingsService:GetBarSettings( self.barId );
-
 		local selections = self.buffList:GetSelections();
 		if ( selections ~= nil ) then
-			-- ALWAYS RESET THE CATEGORIES
-			barSettings.events.effects = { };
-			for key, value in pairs( selections ) do
-				if ( barSettings.events.effects[value] == nil ) then
-					barSettings.events.effects[value] = true;
+			SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+				-- ALWAYS RESET THE CATEGORIES
+				barSettings.events.effects = { };
+				for key, value in pairs( selections ) do
+					if ( barSettings.events.effects[value] == nil ) then
+						barSettings.events.effects[value] = true;
+					end
 				end
-			end
-			if ( barService  ~= nil and barService:Alive( self.barId ) ) then
-				settingsService:SetBarSettings( self.barId, barSettings );
-			end
-			-- local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
-			--inventoryManager:NotifyClients();
+				return barSettings;
+			end, function()
+				SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+			end);
 		end
 	end
 	self.buffList:Clear();
@@ -210,18 +181,16 @@ function ClassBuffPanel:DisplaySettings()
 	self.buffList:SetSelections( localBarSettings.events.effects );
 
     self.triggerList.SelectedIndexChanged = function(sender, args)
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-		local barSettings = settingsService:GetBarSettings( self.barId );
-
-		if ( self.triggerList:GetSelection() == 1 ) then
-			barSettings.events.triggerOnClassBuffActive = true;
-		else
-			barSettings.events.triggerOnClassBuffActive = false;
-		end
-		if ( barService  ~= nil and barService:Alive( self.barId ) ) then
-			settingsService:SetBarSettings( self.barId, barSettings );
-		end
+		SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+			if ( self.triggerList:GetSelection() == 1 ) then
+				barSettings.events.triggerOnClassBuffActive = true;
+			else
+				barSettings.events.triggerOnClassBuffActive = false;
+			end
+			return barSettings;
+		end, function()
+			SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+		end);
 	end
 	if ( localBarSettings.events.triggerOnClassBuffActive ) then
 		self.triggerList:SetSelection( 1 );

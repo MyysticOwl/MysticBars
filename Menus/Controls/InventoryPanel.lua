@@ -72,7 +72,7 @@ function InventoryPanel:Constructor( panel )
 	self.utils:AddLabelBox( panel, "", 120, selectionHeight / 2 );
 
 	self.countCheckBox = self.utils:AddCheckBox(panel, "Quantity Based:", selectionWidth + 100, selectionHeight );
-	self.utils:CreateCheckBoxCallback( self.countCheckBox, { "events", "inventory", "useCount" }, function(sender,args)
+	self.utils:CreateCheckBoxCallback( self.countCheckBox, barId, { "events", "inventory", "useCount" }, function(sender,args)
 		local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
 		inventoryService:NotifyClients();
 	end );

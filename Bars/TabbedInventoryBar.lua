@@ -12,19 +12,18 @@ import "MyysticUI.Bars.Core.Tab"
 TabbedInventoryBar = class( MyysticUI.Bars.Core.InventoryBaseBar );
 
 function TabbedInventoryBar:Constructor( barid )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-
 	self.id = barid;
 
-	local thebarSettings = settingsService:GetBarSettings( self.id );
-	if ( thebarSettings.barType ~= TABBED_INV_BAR ) then
-		thebarSettings.barType = TABBED_INV_BAR;
-		thebarSettings.quickslotRows = 1;
-		thebarSettings.quickslotColumns = 4;
-		thebarSettings.quickslotCount = 12;
-		thebarSettings.visible = true;
-		settingsService:SetBarSettings( self.id, thebarSettings );
-	end
+	SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
+		if ( barSettings.barType ~= TABBED_INV_BAR ) then
+			barSettings.barType = TABBED_INV_BAR;
+			barSettings.quickslotRows = 1;
+			barSettings.quickslotColumns = 4;
+			barSettings.quickslotCount = 12;
+			barSettings.visible = true;
+		end
+		return barSettings;
+	end);
 
 	MyysticUI.Bars.Core.InventoryBaseBar.Constructor( self );
 end
