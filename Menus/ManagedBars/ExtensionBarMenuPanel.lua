@@ -7,7 +7,7 @@
 import "Turbine";
 import "MyysticUI.Utils.Class";
 import "MyysticUI.Menus.Core.UI.MenuUtils";
-import "MyysticUI.Menus.Controls.ExtensionGeneralPanel"
+import "MyysticUI.Menus.Controls.ExtensionPanel"
 import "MyysticUI.Menus.Controls.PredefinedExtensionPanel"
 
 ExtensionBarMenuPanel = class();
@@ -18,6 +18,9 @@ function ExtensionBarMenuPanel:Draw(parentNode, barId, barValue)
 
 	-- -----------------------   SLOTS	  0000000000000000000000000000
 	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.SlotsPanel(barId, barValue, true));
+
+	-----------------------   SLOTS	  0000000000000000000000000000
+	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.ExtensionPanel(barId, barValue));
 
 	-----------------------   SLOTS	  0000000000000000000000000000
 	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.PredefinedExtensionPanel(barId, barValue));

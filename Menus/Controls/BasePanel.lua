@@ -17,6 +17,8 @@ BasePanel.utils = MyysticUI.Menus.Core.UI.MenuUtils();
 function BasePanel:Constructor(barId, barValue)
 	Turbine.UI.TreeNode.Constructor(self);
 
+	self:SetSize(500, 100);
+
 	self.barId = barId;
 	self.barValues = barValue;
 

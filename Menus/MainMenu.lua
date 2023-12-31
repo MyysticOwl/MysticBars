@@ -29,7 +29,7 @@ import "MyysticUI.Menus.Core.BarsTitleTreeNode";
 import "MyysticUI.Menus.Controls.BasePanel";
 import "MyysticUI.Menus.Controls.ClassBuffPanel";
 import "MyysticUI.Menus.Controls.ColorPanel";
-import "MyysticUI.Menus.Controls.ExtensionGeneralPanel";
+import "MyysticUI.Menus.Controls.ExtensionPanel";
 import "MyysticUI.Menus.Controls.InventoryPanel";
 import "MyysticUI.Menus.Controls.PredefinedExtensionPanel";
 import "MyysticUI.Menus.Controls.SlotsPanel";

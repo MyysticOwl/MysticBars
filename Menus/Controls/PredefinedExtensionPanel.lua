@@ -77,5 +77,5 @@ function PredefinedExtensionPanel:DisplaySettings()
 	-- self.typeList:SetSelection( 0 );
 end
 
-function ExtensionGeneralPanel:EnableTriggers( enabled )
+function ExtensionPanel:EnableTriggers( enabled )
 end
