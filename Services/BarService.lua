@@ -64,7 +64,8 @@ function BarService:Add( barType, cBarID, cQuickslotID )
 				settingsService:IncrementNextId();
 			end
 			local barSettings = settingsService:GetBarSettings( added );
-			settingsService:SetBarSettings( added, barSettings );
+			barSettings.barType = barType;
+			settingsService:SetBarSettings( added, barSettings, nil, true );
 			self.working = false;
 			return added;
 		else

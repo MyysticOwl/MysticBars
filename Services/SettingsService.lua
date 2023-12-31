@@ -244,7 +244,7 @@ function SettingsService:SetBarSettings(barid, bar, doNotRefresh, force)
 	--Turbine.Shell.WriteLine("SetBarSettings: " .. barid);
 
 	if ( barid ~= nil and barService  ~= nil and (barService:Alive( barid ) or force)) then
-		self.settings.bars[barid] = bar;
+				self.settings.bars[barid] = bar;
 
 		self:SaveSettings();
 		if ( doNotRefresh == nil and barService ~= nil ) then
@@ -255,7 +255,7 @@ end
 
 function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallback, force)
 	local barSettings = self:GetBarSettings( barid );
-
+	
 	if (self.working == false) then
 		self.working = true;
 
@@ -264,7 +264,7 @@ function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallba
 		self:SetBarSettings( barid, updatedSettings, nil, force );
 		self.working = false;
 	else
-		Turbine.Shell.WriteLine("BROKE: " .. barid);
+		Turbine.Shell.WriteLine("Too many requests too fast");
 	end
 
 	if (completeCallback ~= nil) then

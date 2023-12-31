@@ -64,7 +64,7 @@ function TriggersPanel:DisplaySettings()
 	self.triggerList.SelectedIndexChanged = function(sender, args)
 		local selections = self.triggerList:GetSelections();
 		if ( selections ~= nil ) then
-			SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+						SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
 				-- ALWAYS RESET THE CATEGORIES
 				barSettings.events.triggered = { };
 				for key, value in pairs( selections ) do

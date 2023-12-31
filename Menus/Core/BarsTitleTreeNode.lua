@@ -28,7 +28,7 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
 
   self.barName = self.utils:AddTextBox(self, text, selectionWidth, selectionHeight, nil, self.plus:GetLeft() + self.plus:GetWidth() + 5, 4 );
   self.barName.TextChanged = function( sender, args )
-    SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+        SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
       barSettings.barName = self.barName:GetText();
       return barSettings;
     end, function(barSettings)
@@ -42,7 +42,7 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
   self.visible:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.visible:SetMouseVisible(true);
   self.visible.MouseDown = function(args)
-    SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+        SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
       barSettings.visible = not barSettings.visible;
       return barSettings;
     end, function(barSettings)
@@ -59,7 +59,7 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
   self.lock:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.lock:SetMouseVisible(true);
   self.lock.MouseDown = function(args)
-    SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+        SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
       barSettings.locked = not barSettings.locked;
       return barSettings;
     end, function(barSettings)

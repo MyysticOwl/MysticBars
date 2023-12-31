@@ -14,22 +14,14 @@ ExtensionBarMenuPanel = class();
 
 ExtensionBarMenuPanel.utils = MyysticUI.Menus.Core.UI.MenuUtils();
 
-function ExtensionBarMenuPanel:Draw(context)
-	menu.contentBox:ClearItems();
+function ExtensionBarMenuPanel:Draw(parentNode, barId, barValue)
 
-	self.utils:AddCategoryBox(menu.contentBox, context.barName);
+	-- -----------------------   SLOTS	  0000000000000000000000000000
+	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.SlotsPanel(barId, barValue, true));
 
 	-----------------------   SLOTS	  0000000000000000000000000000
-	self.slotsPanel = MyysticUI.Menus.Controls.SlotsPanel( menu.contentBox, false, nil, menu );
-	-----------------------   SLOTS	  0000000000000000000000000000
-	self.predefinedPanel = MyysticUI.Menus.Controls.PredefinedExtensionPanel( menu.contentBox, menu );
-	-----------------------   COLOR  0000000000000000000000000000
-	self.colorPanel = MyysticUI.Menus.Controls.ColorPanel( menu.contentBox, menu );
+	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.PredefinedExtensionPanel(barId, barValue));
 
-	self:DisplaySettings();
-end
-
-function ExtensionBarMenuPanel:DisplaySettings()
-	self.slotsPanel:DisplaySettings();
-	self.predefinedPanel:DisplaySettings();
+	-- -----------------------   COLOR  0000000000000000000000000000
+	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.ColorPanel(barId, barValue));
 end

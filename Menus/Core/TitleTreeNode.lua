@@ -1,7 +1,6 @@
-
 TitleTreeNode = class(MyysticUI.Menus.Core.BaseTitleTreeNode);
 
-function TitleTreeNode:Constructor(text, topPadding, addBarType)
+function TitleTreeNode:Constructor(text, topPadding, addBarType, extension)
   MyysticUI.Menus.Core.BaseTitleTreeNode.Constructor(self, text, topPadding, addBarType);
 
   self.title = Turbine.UI.Label();
@@ -32,6 +31,37 @@ function TitleTreeNode:Constructor(text, topPadding, addBarType)
 
       local barId = barService:Add(addBarType);
       barService:RefreshBars();
+
+      SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService):GetMenu():Refresh(true);
+    end
+  end
+
+  if (extension ~= nil) then
+    self.extension = Turbine.UI.Control();
+    self.extension:SetParent(self);
+    self.extension:SetSize(20, 20);
+    self.extension:SetVisible(true);
+    self.extension:SetPosition(164, 4);
+    self.extension:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
+    self.extension:SetMouseVisible(true);
+    self.extension:SetBackground("MyysticUI/Menus/Core/Resources/button_extension_off.tga");
+    self.extension.MouseDown = function(args)
+      local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+
+      if (settingsService.settings.barMode == NORMAL_MODE) then
+        self.extension:SetBackground("MyysticUI/Menus/Core/Resources/button_extension_on.tga");
+
+        settingsService.settings.priorBarMode = settingsService.settings.barMode;
+        settingsService.settings.barMode = EXTENSION_MODE;
+      else
+        self.extension:SetBackground("MyysticUI/Menus/Core/Resources/button_extension_off.tga");
+
+        settingsService.settings.barMode = settingsService.settings.priorBarMode;
+        settingsService.settings.priorBarMode = EXTENSION_MODE;
+
+      end
+
+      self:SetExpanded(false);
 
       SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService):GetMenu():Refresh(true);
     end

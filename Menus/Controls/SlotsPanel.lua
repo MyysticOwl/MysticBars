@@ -12,7 +12,7 @@ import "MyysticUI.Menus.Core.UI.MenuUtils";
 
 SlotsPanel = class(MyysticUI.Menus.Controls.BasePanel);
 
-function SlotsPanel:Constructor( barId, barValue, isExtension )
+function SlotsPanel:Constructor(barId, barValue, isExtension)
 	MyysticUI.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
 
 	self:SetHeight(80);
@@ -31,9 +31,6 @@ function SlotsPanel:Constructor( barId, barValue, isExtension )
 	else
 		self.extSb = self.utils:AddScrollBar(self.panelBackground, 1, 1, 50, 200, selectionHeight + 20, nil, "Count:", 5,
 			5, 20);
-		self.utils:CreateScrollBarCallback(self.extSb, barId, { "quickslotCount" }, nil, nil, function(sender, args)
-			SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
-		end);
 	end
 	self.spacingSB = self.utils:AddScrollBar(self.panelBackground, 1, 0, 50, 200, selectionHeight + 20, nil, "Spacing:",
 		5, 40, 20);
@@ -42,9 +39,7 @@ function SlotsPanel:Constructor( barId, barValue, isExtension )
 	self.sizeSB = self.utils:AddScrollBar(self.panelBackground, 36, 0, 99, 200, selectionHeight + 20, nil, "Size:", 200,
 		40, 5);
 	self.utils:CreateScrollBarCallback(self.sizeSB, barId, { "quickslotSize" }, nil, nil, function(sender, args)
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-
-		barService:RefreshBars();
+		SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService):RefreshBars();
 	end);
 
 	self:DisplaySettings();
@@ -55,6 +50,7 @@ function SlotsPanel:DisplaySettings()
 	local localBarSettings = settingsService:GetBarSettings(self.barId);
 
 	if (self.isExtension == false) then
+		self.sb:SetValue(localBarSettings.quickslotRows);
 		self.sb.ValueChanged = function(sender, args)
 			SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId,
 				function(barSettings)
@@ -62,10 +58,10 @@ function SlotsPanel:DisplaySettings()
 					barSettings.quickslotCount = barSettings.quickslotRows * barSettings.quickslotColumns;
 					return barSettings;
 				end, function()
-				SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
-			end);
+					SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+				end);
 		end
-		self.sb:SetValue(localBarSettings.quickslotRows);
+		self.sb2:SetValue(localBarSettings.quickslotColumns);
 		self.sb2.ValueChanged = function(sender, args)
 			SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId,
 				function(barSettings)
@@ -73,12 +69,18 @@ function SlotsPanel:DisplaySettings()
 					barSettings.quickslotCount = barSettings.quickslotRows * barSettings.quickslotColumns;
 					return barSettings;
 				end, function()
-				SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
-			end);
+					SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+				end);
 		end
-		self.sb2:SetValue(localBarSettings.quickslotColumns);
 	else
 		self.extSb:SetValue(localBarSettings.quickslotCount);
+		self.extSb.ValueChanged = function(sender, args)
+			SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId,
+				function(barSettings)
+					barSettings.quickslotCount = self.extSb:GetValue();
+					return barSettings;
+				end, nil, true);
+		end
 	end
 	self.spacingSB:SetValue(localBarSettings.quickslotSpacing);
 	self.sizeSB:SetValue(localBarSettings.quickslotSize);

@@ -215,7 +215,7 @@ end
 
 function MenuUtils:CreateCheckBoxCallback( control, barId, commandTable, callbackFunction )
 	control.CheckedChanged = function( sender, args )
-		SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)
+				SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)
 			if ( control:IsChecked() == true ) then
 				self:BuildItemFromCommandTable( barSettings, commandTable, true );
 			else
@@ -251,10 +251,8 @@ function MenuUtils:AddScrollBar( parentBox, value, minVal, maxVal, x, y, thebgco
 end
 
 function MenuUtils:CreateScrollBarCallback( control, barId, commandTable, add, divide, callbackFunction )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-
 	control.ValueChanged = function( sender, args )
-		SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)
+				SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)
 			if ( add ~= nil ) then
 				self:BuildItemFromCommandTable( barSettings, commandTable, control:GetValue() + add );
 			elseif ( divide ~= nil ) then

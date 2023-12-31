@@ -10,7 +10,6 @@ ManageBarsMenuItems = class();
 
 ManageBarsMenuItems.panel = MyysticUI.Menus.ManagedBars.ManageBarsMenuPanel();
 ManageBarsMenuItems.menuItems = MyysticUI.Menus.MainMenuItems();
-ManageBarsMenuItems.extensionsPanel = MyysticUI.Menus.ManagedBars.ExtensionsMenuPanel();
 ManageBarsMenuItems.extensionsBarPanel = MyysticUI.Menus.ManagedBars.ExtensionBarMenuPanel();
 ManageBarsMenuItems.utils = MyysticUI.Menus.Core.UI.MenuUtils();
 
@@ -34,10 +33,8 @@ function ManageBarsMenuItems:Refresh(mainMenu, parent)
 			if (extValue.barType == EXTENSIONBAR and extValue.connectionBarID == key) then
 				local node = MyysticUI.Menus.Core.BarsTitleTreeNode(self.menuItems:GetBarName(extKey, extValue), 1);
 				parent:GetChildNodes():Add(node);
-				self.panel:Draw(node);
+				self.extensionsBarPanel:Draw(node, extKey, extValue);
 			end
 		end
 	end
-
-	self.menuItems:CreateNewExtensionItem(parent, self.extensionsPanel);
 end

@@ -10,20 +10,16 @@ import "Turbine.UI.Lotro";
 import "MyysticUI.Menus.Core.UI.AutoListBox";
 import "MyysticUI.Menus.Core.UI.MenuUtils";
 
-PredefinedExtensionPanel = class();
+PredefinedExtensionPanel = class(MyysticUI.Menus.Controls.BasePanel);
 
-function PredefinedExtensionPanel:Constructor( panel, mainMenu )
-	menu = mainMenu;
-	self.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+function PredefinedExtensionPanel:Constructor( barId, barValue )
+	MyysticUI.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
 
-	self.utils:AddCategoryBox(panel, "Predefined Extensions");
+	self:SetHeight(80);
 
+	self.utils:AddLabelBox( self.panelBackground, "This will change shortcuts on the current bar perminately!!!!", selectionWidth + 150, selectionHeight + 10, 5, 5 );
 
-	self.utils:AddLabelBox( panel, "This will change shortcuts on the current bar perminately!!!!", selectionWidth + 150, selectionHeight + 10 );
-
-	self.typeList = MyysticUI.Menus.Core.UI.ComboBox();
-	self.typeList:SetSize( 200, 20 );
-	self.typeList:SetParent( panel );
+	self.typeList = self.utils:AddComboBox(self.panelBackground, 10, 200, 20, 5, 30);
 	-- self.typeList:AddItem( "Hunters Travel", 	HUNTER_TRAVEL_TYPE );
 	-- self.typeList:AddItem( "Wardens Travel", 	WARDEN_TRAVEL_TYPE );
 	-- self.typeList:AddItem( "Reputation Travel", 	REP_TRAVEL_TYPE );
@@ -38,12 +34,10 @@ function PredefinedExtensionPanel:Constructor( panel, mainMenu )
 
 	-- self.typeList:AddItem( "Instruments", 	INSTRUMENTS_TYPE );
 	-- self.typeList:AddItem( "Mini DPS", 	MINI_DPS_TYPE );
-
-	panel:AddItem( self.typeList );
 end
 
 function PredefinedExtensionPanel:DisplaySettings()
-    self.typeList.SelectedIndexChanged = function(sender, args)
+    -- self.typeList.SelectedIndexChanged = function(sender, args)
 	--	local hte = MyysticUI.Bars.Core.Quickslots.TypeHelper();
 --		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 --		local theBars = barService.GetBars();
@@ -77,8 +71,8 @@ function PredefinedExtensionPanel:DisplaySettings()
 	-- 	elseif ( self.typeList:GetSelection() == CAPTAIN_PETS_TYPE ) then
 	-- 		hte:GetNewCaptainPetsSettings( selection, theBars[selection]:GetQuickslotList() );
 	-- 	end
-	end
-	self.typeList:SetSelection( 0 );
+	-- end
+	-- self.typeList:SetSelection( 0 );
 end
 
 function ExtensionGeneralPanel:EnableTriggers( enabled )

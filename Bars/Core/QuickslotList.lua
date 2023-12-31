@@ -201,7 +201,7 @@ function QuickslotList:RefreshQuickslots()
 				local barid = barService:Add( EXTENSIONBAR, self.id, sender.index );
 				barService:ShowExtensionBarMenu( barid );
 				barService:UpdateBarExtensions();
-				menu:Refresh();
+				SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService):GetMenu():Refresh(true);
 			elseif( barService ~= nil and barService:Alive( self.id ) and args.Button == 1 and settings.barMode == NORMAL_MODE and bSettings.onMouseOver == ROLL_UP_SELECTION ) then
 				local thebars = barService:GetBars();
 				thebars[self.id]:RollupSelection( thebars[self.id], sender.index );

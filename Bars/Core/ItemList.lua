@@ -130,6 +130,7 @@ function ItemList:ClearQuickslots()
 			value = nil;
 		end
 	end
+
 	SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
 		self.currentIemCount = 0;
 		return barSettings;
@@ -229,7 +230,7 @@ function ItemList:RemoveItem( item )
 			self.items[index - 1] = self.items[index];
 		end
 		if ( self.items[index] == item ) then
-			Turbine.Shell.WriteLine( "Removing Item:" .. self.items[index]:GetName() );
+			-- Turbine.Shell.WriteLine( "Removing Item:" .. self.items[index]:GetName() );
 			found = true;
 			self.items[index] = nil;
 			self.currentIemCount = self.currentIemCount - 1;

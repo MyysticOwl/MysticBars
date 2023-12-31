@@ -19,7 +19,6 @@ import "MyysticUI.Menus.EasyBars.EasyBarPanel";
 import "MyysticUI.Menus.InventoryBars.InventoryBarsMenuItems";
 import "MyysticUI.Menus.InventoryBars.InventoryBarMenuPanel";
 import "MyysticUI.Menus.InventoryBars.InventoryMenuPanel";
-import "MyysticUI.Menus.ManagedBars.ExtensionsMenuPanel";
 import "MyysticUI.Menus.ManagedBars.ExtensionBarMenuPanel";
 import "MyysticUI.Menus.ManagedBars.ManageBarsMenuItems";
 import "MyysticUI.Menus.ManagedBars.ManageBarsMenuPanel";
@@ -87,7 +86,7 @@ function MainMenu:Constructor()
 	self.easyBars = MyysticUI.Menus.Core.TitleTreeNode("Easy Bars", 1);
 	treeRoot:Add(self.easyBars);
 
-	self.managedBars = MyysticUI.Menus.Core.TitleTreeNode("Quickslot Bars", 1, QUICKSLOTBAR);
+	self.managedBars = MyysticUI.Menus.Core.TitleTreeNode("Quickslot Bars", 1, QUICKSLOTBAR, true);
 	treeRoot:Add(self.managedBars);
 
 	self.inventoryBars = MyysticUI.Menus.Core.TitleTreeNode("Inventory Bars", 1, TABBED_INV_BAR);
