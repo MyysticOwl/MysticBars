@@ -39,6 +39,8 @@ function InventoryBaseBar:Constructor()
 		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
+		--Turbine.Shell.WriteLine("InvBar: PositionChanged: " .. self.id);
+
 		local settings = settingsService:GetSettings();
 		local barSettings = settingsService:GetBarSettings( self.id );
 		if ( settings.barMode ~= NORMAL_MODE or ( dragBarAvailable and self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then

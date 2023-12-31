@@ -100,8 +100,8 @@ end
 function KeyEvents:CheckVisibility( barSettings, value, force )
 	local visible = false;
 	-- Send all Keypress based events to all clients
-	if ( (self.registeredEvents.altIsDown ~= nil and barSettings.events.isAlt == true) or 
-		 (self.registeredEvents.controlIsDown ~= nil and barSettings.events.isControl == true) or 
+	if ( (self.registeredEvents.altIsDown ~= nil and barSettings.events.isAlt == true) or
+		 (self.registeredEvents.controlIsDown ~= nil and barSettings.events.isControl == true) or
 		 (self.registeredEvents.shiftIsDown ~= nil and barSettings.events.isShift == true)
 		) then
 		visible = true;

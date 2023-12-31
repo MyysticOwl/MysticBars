@@ -7,6 +7,7 @@
 import "MyysticUI.Utils.Type";
 import "MyysticUI.Utils.ServiceContainer";
 import "MyysticUI.Configuration.MainConfig"
+import "MyysticUI.Menus.MainMenu";
 import "MyysticUI.Services.ConfigurationService";
 import "MyysticUI.Services.EventService"
 import "MyysticUI.Services.InventoryService"
@@ -15,7 +16,6 @@ import "MyysticUI.Services.SkillsService"
 import "MyysticUI.Services.SettingsService"
 import "MyysticUI.Services.BarService"
 import "MyysticUI.Services.MenuService"
-import "MyysticUI.Menus.MainMenu";
 import "MyysticUI.Enumerations";
 
 import "MyysticUI.Utils.TableDump";
@@ -62,15 +62,14 @@ Turbine.Shell.AddCommand('mb;mysticui;MysticUI;mysticbars;MysticBars;', shellCom
 
 SERVICE_CONTAINER:AddService(MyysticUI.Services.MenuService(), MyysticUI.Services.MenuService);
 
-local menu = MyysticUI.Menus.MainMenu()
 plugin.GetOptionsPanel = function( self )
-  return menu;
+  	return SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService):GetMenu();
 end
 
 plugin.Unload = function( self )
-	menu:Destroy();
+	SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService):GetMenu():Destroy();
 end
 
 Turbine.Plugin.Unload = function(self, sender, args)
-	menu:Destroy();
+	SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService):GetMenu():Destroy();
 end

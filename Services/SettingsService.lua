@@ -16,6 +16,7 @@ function SettingsService:Constructor()
 	self.PARTIAL = 1;
 	self.ALL = 2;
 	self.BAR = 3;
+	self.working = false;
 
 	self:LoadSettings();
 
@@ -229,10 +230,12 @@ function SettingsService:GetBarSettings( barid )
 	return bar
 end
 
-function SettingsService:SetBarSettings(barid, bar, doNotRefresh)
+function SettingsService:SetBarSettings(barid, bar, doNotRefresh, force)
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
-	if ( barid ~= nil and barService  ~= nil and barService:Alive( barid )) then
+	--Turbine.Shell.WriteLine("SetBarSettings: " .. barid);
+
+	if ( barid ~= nil and barService  ~= nil and (barService:Alive( barid ) or force)) then
 		self.settings.bars[barid] = bar;
 
 		self:SaveSettings();
@@ -242,12 +245,20 @@ function SettingsService:SetBarSettings(barid, bar, doNotRefresh)
 	end
 end
 
-function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallback)
+function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallback, force)
 	local barSettings = self:GetBarSettings( barid );
 
-	local updatedSettings = updateCallback(barSettings);
+	if (self.working == false) then
+		self.working = true;
+		--Turbine.Shell.WriteLine("UpdateBarSettings: " .. barid);
 
-	self:SetBarSettings( barid, updatedSettings );
+		local updatedSettings = updateCallback(barSettings);
+
+		self:SetBarSettings( barid, updatedSettings, nil, force );
+		self.working = false;
+	else
+		Turbine.Shell.WriteLine("BROKE: " .. barid);
+	end
 
 	if (completeCallback ~= nil) then
 		completeCallback(updatedSettings);
@@ -438,8 +449,7 @@ function SettingsService:ResetAllBars()
 	end
 	barService:Construct( self.settings.bars, true );
 
-	local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
-	inventoryService:NotifyClients();
+	SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
 end
 
 

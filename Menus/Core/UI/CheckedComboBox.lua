@@ -55,12 +55,22 @@ end
 function CheckedComboBox:ClearChecks()
 	for i = 1, self.listBox:GetItemCount() do
 		local item = self.listBox:GetItem(i);
-		--item.IsChecked = false;
 		item:SetChecked( false );
 	end	
 end
 
-function CheckedComboBox:SetSelections( valueTable, useValue, debug )
+function CheckedComboBox:AnySelected()
+	local found = false;
+	for i = 1, self.listBox:GetItemCount() do
+		local item = self.listBox:GetItem(i);
+		if (item:IsChecked() == true) then
+			found = true;
+		end
+	end
+	return found;
+end
+
+function CheckedComboBox:SetSelections( valueTable, useValue )
 	if ( valueTable == nil ) then
 		self.selection = -1;
 		self.label:SetText("");
@@ -82,6 +92,7 @@ function CheckedComboBox:SetSelections( valueTable, useValue, debug )
 
 				if (item:GetText() == inputKey or ( useValue ~= nil and found ) ) then
 					item:SetChecked( true );
+					self:ItemSelected(i);
 					self:FireEvent();
 					break;
 				end

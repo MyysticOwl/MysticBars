@@ -16,78 +16,6 @@ MainMenuItems = class();
 
 MainMenuItems.utils = MyysticUI.Menus.Core.UI.MenuUtils();
 
-function MainMenuItems:CreateNewBarItem(parent, mainMenu)
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-
-	local treeNode = MyysticUI.Menus.Core.TitleTreeNode("Add New Bar", 1);
-
-	if (parent ~= nil and parent.Add ~= nil) then
-		parent:Add(treeNode);
-	else
-		parent:GetChildNodes():Add(treeNode);
-	end
-
-	treeNode.MouseClick = function(sender,args)
-		local barId = barService:Add( QUICKSLOTBAR );
-		barService:RefreshBars();
-
-		if (mainMenu ~= nil) then
-			mainMenu:Refresh();
-		end
-	end
-end
-
-function MainMenuItems:CreateNewTabInventoryBarItem(parent, mainMenu)
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-
-	local context = { ["parent"] = parent, ["width"] = parent:GetWidth() };
-	local treeNode = MyysticUI.Menus.Core.TitleTreeNode("Add Tabbed Bar", 1);
-
-	if (parent ~= nil and parent.Add ~= nil) then
-		parent:Add(treeNode);
-	else
-		parent:GetChildNodes():Add(treeNode);
-	end
-
---	self:SetCheckedIcon(context, false);
-
-	-- context["icon"].MouseClick = function(sender,args)
-	-- 	local barId = barService:Add( TABBED_INV_BAR );
-	-- 	self:SetSelected({["id"] = barId});
-	-- 	barService:RefreshBars();
-
-	-- 	if (mainMenu ~= nil) then
-	-- 		mainMenu:Refresh();
-	-- 	end
-	-- end
-end
-
-function MainMenuItems:CreateNewWindowInventoryBarItem(parent, mainMenu)
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-
-	local context = { ["parent"] = parent, ["width"] = parent:GetWidth() };
-	local treeNode = MyysticUI.Menus.Core.TitleTreeNode("Add Windowed Bar", 1);
-
-	if (parent ~= nil and parent.Add ~= nil) then
-		parent:Add(treeNode);
-	else
-		parent:GetChildNodes():Add(treeNode);
-	end
-
---	self:SetCheckedIcon(context, false);
-
-	-- context["icon"].MouseClick = function(sender,args)
-	-- 	local barId = barService:Add( WINDOW_INV_BAR );
-	-- 	self:SetSelected({["id"] = barId});
-	-- 	barService:RefreshBars();
-
-	-- 	if (mainMenu ~= nil) then
-	-- 		mainMenu:Refresh();
-	-- 	end
-	-- end
-end
-
-
 function MainMenuItems:CreateNewExtensionItem(parent, panel)
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
@@ -267,7 +195,7 @@ function MainMenuItems:GetBarName(barId, bar)
 	if (text == nil) then
 		if (bar.barname ~= nil) then
 			text = bar.barname;
-		elseif (bar.barType ~= nil and bar.barType == 1) then
+		elseif (bar.barType ~= nil and bar.barType == 1 or bar.barType == 3) then
 			text = "Bar: " .. barId;
 		else
 			text = "Ext Bar: " .. barId;

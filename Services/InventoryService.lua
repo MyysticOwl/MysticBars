@@ -61,6 +61,7 @@ function InventoryService:NotifyClients( type, specificItem )
 		if ( barService ~= null and value ~= nil and value.registered == true and barService:Alive( key ) == true ) then
 			local qlist = value.bar:GetQuickslotList();
 			if ( qlist ~= nil and ( type == self.ADD or specificItem == nil) ) then
+				--Turbine.Shell.WriteLine("InventoryService: " .. key);
 				qlist:ClearQuickslots();
 				for i=1, backpack:GetSize(), 1 do 
 					local item = backpack:GetItem(i);

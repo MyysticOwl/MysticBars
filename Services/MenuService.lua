@@ -19,6 +19,7 @@ import "MyysticUI.Services.SettingsService"
 MenuService = class( MyysticUI.Utils.Service );
 
 function MenuService:Constructor()
+	self.menu = MyysticUI.Menus.MainMenu();
 end
 
 function MenuService:SetSelection(selection)
@@ -27,4 +28,8 @@ end
 
 function MenuService:GetSelection()
 	return self.selected;
+end
+
+function MenuService:GetMenu()
+	return self.menu;
 end

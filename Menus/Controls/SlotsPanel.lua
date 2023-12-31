@@ -29,8 +29,7 @@ function SlotsPanel:Constructor( barId, barValue, isExtension )
 	else
 		self.extSb = self.utils:AddScrollBar( self.panelBackground, 1, 1, 50, 200, selectionHeight + 20, nil, "Count:", 5, 5, 20 );
 		self.utils:CreateScrollBarCallback( self.extSb, barId, { "quickslotCount" }, nil, nil, function(sender,args)
-			local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
-			inventoryService:NotifyClients();
+			SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
 		end );
 	end
 	self.spacingSB = self.utils:AddScrollBar( self.panelBackground, 1, 0, 50, 200, selectionHeight + 20, nil, "Spacing:", 5, 40, 20 );

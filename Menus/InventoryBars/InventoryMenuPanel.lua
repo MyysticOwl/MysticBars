@@ -18,36 +18,17 @@ InventoryMenuPanel = class();
 
 InventoryMenuPanel.utils = MyysticUI.Menus.Core.UI.MenuUtils();
 
-function InventoryMenuPanel:Draw(context)
-	menu.contentBox:ClearItems();
+function InventoryMenuPanel:Draw(parentNode, barId, barValue)
 
-	self.utils:AddCategoryBox(menu.contentBox, context.barName);
+	-- -----------------------   TRIGGERS  0000000000000000000000000000
+	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.InventoryPanel(barId, barValue));
 
-	-----------------------   INVENTORY  0000000000000000000000000000
-	self.inventoryPanel = MyysticUI.Menus.Controls.InventoryPanel( menu.contentBox );
+	-- -----------------------   TRIGGERS  0000000000000000000000000000
+	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.TriggersPanel(barId, barValue));
 
-	-----------------------   TRIGGERS  0000000000000000000000000000
-	self.tp = MyysticUI.Menus.Controls.TriggersPanel( menu.contentBox );
+	-- -----------------------   SLOTS	  0000000000000000000000000000
+	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.SlotsPanel(barId, barValue));
 
-	-----------------------   CLASS BUFF TRIGGERS  0000000000000000000000000000
-	self.slotsPanel = MyysticUI.Menus.Controls.SlotsPanel( menu.contentBox, true );
-
-	-----------------------   COLOR TRIGGERS  0000000000000000000000000000
-	self.colorPanel = MyysticUI.Menus.Controls.ColorPanel( menu.contentBox );
-
-	self:DisplaySettings();
-end
-
-function InventoryMenuPanel:DisplaySettings()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local localBarSettings = settingsService:GetBarSettings( menu:GetSelection() );
-
-	if ( localBarSettings.events == nil ) then
-		localBarSettings.events = { };
-	end
-
-	self.tp:DisplaySettings();
-	self.inventoryPanel:DisplaySettings();
-	self.slotsPanel:DisplaySettings();
-	self.colorPanel:DisplaySettings();
+	-- -----------------------   COLOR  0000000000000000000000000000
+	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.ColorPanel(barId, barValue));
 end

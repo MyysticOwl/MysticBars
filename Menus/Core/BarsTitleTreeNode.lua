@@ -1,15 +1,14 @@
 
-ManagedBarsTitleTreeNode = class(Turbine.UI.TreeNode);
+BarsTitleTreeNode = class(Turbine.UI.TreeNode);
 
-ManagedBarsTitleTreeNode.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+BarsTitleTreeNode.utils = MyysticUI.Menus.Core.UI.MenuUtils();
 
-function ManagedBarsTitleTreeNode:Constructor(text, topPadding, barId, barValue)
+function BarsTitleTreeNode:Constructor(text, topPadding, barId)
 	Turbine.UI.TreeNode.Constructor(self);
 
   self.listeners = {}
 
   self.barId = barId;
---	self.barValues = barValue;
 
   self.height = 29;
   self.padding = topPadding;
@@ -28,11 +27,34 @@ function ManagedBarsTitleTreeNode:Constructor(text, topPadding, barId, barValue)
   self.plus:SetMouseVisible(false);
 
   self.barName = self.utils:AddTextBox(self, text, selectionWidth, selectionHeight, nil, self.plus:GetLeft() + self.plus:GetWidth() + 5, 4 );
+  self.barName.TextChanged = function( sender, args )
+    SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+      barSettings.barName = self.barName:GetText();
+      return barSettings;
+    end, function(barSettings)
+    end);
+  end
+
+  self.visible = Turbine.UI.Control();
+  self.visible:SetParent(self);
+  self.visible:SetSize(20,20);
+  self.visible:SetPosition(200,4);
+  self.visible:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
+  self.visible:SetMouseVisible(true);
+  self.visible.MouseDown = function(args)
+    SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+      barSettings.visible = not barSettings.visible;
+      return barSettings;
+    end, function(barSettings)
+      self:SetExpanded(not self:IsExpanded());
+      self:Refresh();
+    end);
+  end
 
   self.lock = Turbine.UI.Control();
   self.lock:SetParent(self);
-  self.lock:SetSize(20,19);
-  self.lock:SetPosition(200,4);
+  self.lock:SetSize(20,20);
+  self.lock:SetPosition(230,4);
   self.lock:SetBackground("MyysticUI/Menus/Core/Resources/button_unlocked.tga");
   self.lock:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.lock:SetMouseVisible(true);
@@ -41,8 +63,8 @@ function ManagedBarsTitleTreeNode:Constructor(text, topPadding, barId, barValue)
       barSettings.locked = not barSettings.locked;
       return barSettings;
     end, function(barSettings)
-      self.lock:SetBackground(barSettings.locked and "MyysticUI/Menus/Core/Resources/button_locked.tga" or "MyysticUI/Menus/Core/Resources/button_unlocked.tga");
       self:SetExpanded(not self:IsExpanded());
+      self:Refresh();
     end);
   end
 
@@ -53,12 +75,11 @@ function ManagedBarsTitleTreeNode:Constructor(text, topPadding, barId, barValue)
   self.delete:SetBackground("MyysticUI/Menus/Core/Resources/titlebar_X_2_sepia.tga");
   self.delete:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.delete:SetMouseVisible(true);
-  self.delete.MouseClick = function(args)
+  self.delete.MouseDown = function(args)
     local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-    local menuService = SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService);
+    self:SetExpanded(not self:IsExpanded());
 
     barService:Remove( self.barId );
-    --menuService:Refresh();
   end
 
   self.tl = Turbine.UI.Control();
@@ -130,11 +151,11 @@ function ManagedBarsTitleTreeNode:Constructor(text, topPadding, barId, barValue)
   self:Refresh();
 end
 
-function ManagedBarsTitleTreeNode:SizeChanged(args)
+function BarsTitleTreeNode:SizeChanged(args)
   self:Refresh();
 end
 
-function ManagedBarsTitleTreeNode:Refresh(width)
+function BarsTitleTreeNode:Refresh(width)
   local w = width or self:GetWidth();
 
   self:SetWidth(w);
@@ -146,9 +167,15 @@ function ManagedBarsTitleTreeNode:Refresh(width)
   self.r:SetLeft(w-3);
   self.b:SetWidth(w-6);
   self.br:SetLeft(w-3);
+
+  local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+  local barSettings = settingsService:GetBarSettings( self.barId );
+
+  self.visible:SetBackground(barSettings.visible and "MyysticUI/Menus/Core/Resources/button_visible.tga" or "MyysticUI/Menus/Core/Resources/button_notvisible.tga");
+  self.lock:SetBackground(barSettings.locked and "MyysticUI/Menus/Core/Resources/button_locked.tga" or "MyysticUI/Menus/Core/Resources/button_unlocked.tga");
 end
 
-function ManagedBarsTitleTreeNode:SetSelected(selected)
+function BarsTitleTreeNode:SetSelected(selected)
   self.tl:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_left.tga");
   self.t:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_center.tga");
   self.tr:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_right.tga");
@@ -159,14 +186,14 @@ function ManagedBarsTitleTreeNode:SetSelected(selected)
   self.br:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_lower_right.tga");
 end
 
-function ManagedBarsTitleTreeNode:MouseEnter(args)
+function BarsTitleTreeNode:MouseEnter(args)
   self:SetSelected(true);
 end
 
-function ManagedBarsTitleTreeNode:MouseLeave(args)
+function BarsTitleTreeNode:MouseLeave(args)
   self:SetSelected(false);
 end
 
-function ManagedBarsTitleTreeNode:MouseClick(args)
+function BarsTitleTreeNode:MouseClick(args)
   self.plus:SetBackground(self:IsExpanded() and 0x41007E26 or 0x41007E27);
 end

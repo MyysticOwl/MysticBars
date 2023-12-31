@@ -18,28 +18,31 @@ end
 function Potions:Health( override )
 	local configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);
 
-	configurationService:CreateBar( override, "Athelas", 1, 1, 4, 300, 250, TABBED_INV_BAR );
-	configurationService:SetTrigger( configurationService.HEALTH, 30 );
-	configurationService:SetInventoryFilter( "Athelas" );
+	configurationService:CreateBar( override, "Athelas", 1, 1, 4, 300, 250, TABBED_INV_BAR, function()
+		configurationService:SetTrigger( configurationService.HEALTH, 30 );
+		configurationService:SetInventoryFilter( "Athelas" );
+	end);
 end
 
 function Potions:Power( override )
 	local configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);
 
-	configurationService:CreateBar( override, "Celebrant", 1, 1, 4, 300, 350, TABBED_INV_BAR );
-	configurationService:SetTrigger( configurationService.POWER, 30 );
-	configurationService:SetInventoryFilter( "Celebrant" );
+	configurationService:CreateBar( override, "Celebrant", 1, 1, 4, 300, 350, TABBED_INV_BAR, function()
+		configurationService:SetTrigger( configurationService.POWER, 30 );
+		configurationService:SetInventoryFilter( "Celebrant" );
+	end);
 end
 
 function Potions:GeneralEffects( override )
 	local configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);
 
-	configurationService:CreateBar( override, "Draughts/Salves", 1, 1, 4, 300, 450, TABBED_INV_BAR );
-	configurationService:SetBuffTriggerOptions( true, false );
-	configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Disease );
-	configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Fear );
-	configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Poison );
-	configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Wound );	
-	configurationService:SetInventoryFilter( "Salve" );
-	configurationService:SetInventoryFilter( "Draught" );
+	configurationService:CreateBar( override, "Draughts/Salves", 1, 1, 4, 300, 450, TABBED_INV_BAR, function()
+		configurationService:SetBuffTriggerOptions( true, false );
+		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Disease );
+		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Fear );
+		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Poison );
+		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Wound );	
+		configurationService:SetInventoryFilter( "Salve" );
+		configurationService:SetInventoryFilter( "Draught" );
+	end);
 end

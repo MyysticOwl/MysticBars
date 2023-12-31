@@ -17,13 +17,8 @@ function TriggersPanel:Constructor( barId, barValue )
 
 	self:SetHeight(140);
 
-	self.utils:AddLabelBox( self.panelBackground, "Bar Visibility?", 120, selectionHeight, nil, 5, 5 );
-	self.visibilityList = self.utils:AddComboBox(self.panelBackground, 10, 200, 20, 98, 5);
-	self.visibilityList:AddItem( "Always", 1 );
-	self.visibilityList:AddItem( "Triggered", 2 );
-
-	self.utils:AddLabelBox( self.panelBackground, "When?", 120, selectionHeight, nil, 5, 30 );
-	self.triggerList = self.utils:AddCheckedComboBox(self.panelBackground, 5, 300, 20, 55, 30);
+	self.utils:AddLabelBox( self.panelBackground, "Triggered When?", 120, selectionHeight, nil, 5, 5 );
+	self.triggerList = self.utils:AddCheckedComboBox(self.panelBackground, 5, 300, 20, 120, 5);
 	self.triggerList:AddItem( "In Combat", { "events", "displayInCombat" } );
 	self.triggerList:AddItem( "Out of Combat", { "events", "displayNotInCombat" } );
 
@@ -42,15 +37,15 @@ function TriggersPanel:Constructor( barId, barValue )
 		self.triggerList:AddItem( value.description, { "events", "categories", key} );
 	end
 
-	self.healthTriggerCheckBox = self.utils:AddCheckBox( self.panelBackground, "Health Drops Below %:", selectionWidth + 100, selectionHeight, nil, 5, 50 );
+	self.healthTriggerCheckBox = self.utils:AddCheckBox( self.panelBackground, "Health Drops Below %:", selectionWidth + 100, selectionHeight, nil, 5, 20 );
 	self.utils:CreateCheckBoxCallback( self.healthTriggerCheckBox, barId, { "events", "displayOnHealth" } );
-	self.healthSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, nil, 200, 55, -30 );
+	self.healthSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, nil, 200, 25, -30 );
 	self.utils:CreateScrollBarCallback( self.healthSB, barId, { "events", "healthTrigger" }, nil, 100 );
 
-	self.powerTriggerCheckBox = self.utils:AddCheckBox( self.panelBackground, "Power Drops Below %:", selectionWidth + 100, 16, nil, 5, 90 );
+	self.powerTriggerCheckBox = self.utils:AddCheckBox( self.panelBackground, "Power Drops Below %:", selectionWidth + 100, 16, nil, 5, 60 );
 	self.utils:CreateCheckBoxCallback( self.powerTriggerCheckBox, barId, { "events", "displayOnPower" } );
 
-	self.powerSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, nil, 200, 95, -30 );
+	self.powerSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, nil, 200, 65, -30 );
 	self.utils:CreateScrollBarCallback( self.powerSB, barId, { "events", "powerTrigger" }, nil, 100 );
 
 	self:DisplaySettings();
@@ -79,7 +74,7 @@ function TriggersPanel:DisplaySettings()
 		end
 	end
 	self.triggerList:ClearChecks();
-	self.triggerList:SetSelections( localBarSettings.events, true, true );
+	self.triggerList:SetSelections( localBarSettings.events, true );
 	self.triggerList:SetSelections( localBarSettings.events.categories, true );
 
 	self.healthTriggerCheckBox:SetChecked( localBarSettings.events.displayOnHealth );

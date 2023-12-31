@@ -53,7 +53,7 @@ function ConfigurationService:SetPlayerLevel( newLevel )
 end
 
 -- Create Quickslot Bar                           Name -      Rows - Columns - X coord - Y coord
-function ConfigurationService:CreateBar( override, name, level, rows, columns, x, y, barType )
+function ConfigurationService:CreateBar( override, name, level, rows, columns, x, y, barType, createdCallback )
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
@@ -90,6 +90,7 @@ function ConfigurationService:CreateBar( override, name, level, rows, columns, x
 				theSettings.autoCreatedBars = { };
 			end
 			if ( theSettings.autoCreatedBars[self.barid] == nil ) then
+				Turbine.Shell.WriteLine("self.barid" ..self.barid)
 				theSettings.autoCreatedBars[self.barid] = { };
 			end
 			theSettings.autoCreatedBars[self.barid].barName = name;
@@ -106,16 +107,22 @@ function ConfigurationService:CreateBar( override, name, level, rows, columns, x
 			end
 			localBarSettings.x = x;
 			localBarSettings.y = y;
+
+			if (createdCallback ~= nil) then
+				createdCallback();
+			end
 		else
 			self.barid = foundbar;
-			-- localBarSettings = settingsService:GetBarSettings( self.barid );
+			--localBarSettings = settingsService:GetBarSettings( self.barid );
 		end
-		if ( menu ~= nil ) then
+
+		local menuService = SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService);
+		if (menuService ~= nil) then
 			theSettings = settingsService:GetSettings();
 			local mode = theSettings.barMode;
-		
-			menu:Refresh();
-		
+			
+			menuService:Refresh();
+
 			theSettings = settingsService:GetSettings();
 			theSettings.barMode = mode;
 		end

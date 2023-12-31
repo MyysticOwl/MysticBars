@@ -22,7 +22,7 @@ import "MyysticUI.Menus.ManagedBars.ExtensionsMenuPanel";
 import "MyysticUI.Menus.ManagedBars.ExtensionBarMenuPanel";
 import "MyysticUI.Menus.ManagedBars.ManageBarsMenuItems";
 import "MyysticUI.Menus.ManagedBars.ManageBarsMenuPanel";
-import "MyysticUI.Menus.ManagedBars.ManagedBarsTitleTreeNode";
+import "MyysticUI.Menus.Core.BarsTitleTreeNode";
 
 import "MyysticUI.Menus.Controls.BasePanel";
 import "MyysticUI.Menus.Controls.ClassBuffPanel";
@@ -81,17 +81,18 @@ function MainMenu:Constructor()
 
 	local treeRoot = self.tree:GetNodes();
 
-	local menuItem = MyysticUI.Menus.Core.TitleTreeNode("Easy Bars", 1);
-	treeRoot:Add(menuItem);
-	MyysticUI.Menus.EasyBars.EasyBarMenuItems(self, menuItem);
+	self.easyBars = MyysticUI.Menus.Core.TitleTreeNode("Easy Bars", 1);
+	treeRoot:Add(self.easyBars);
 
-	local menuItem2 = MyysticUI.Menus.Core.TitleTreeNode("Manage Bars", 1);
-	treeRoot:Add(menuItem2);
-	MyysticUI.Menus.ManagedBars.ManageBarsMenuItems(self, menuItem2);
+	self.managedBars = MyysticUI.Menus.Core.TitleTreeNode("Manage Bars", 1, QUICKSLOTBAR);
+	treeRoot:Add(self.managedBars);
 
-	local menuItem3 = MyysticUI.Menus.Core.TitleTreeNode("Inventory Bars", 1);
-	treeRoot:Add(menuItem3);
-	MyysticUI.Menus.InventoryBars.InventoryBarsMenuItems(self, menuItem3);
+	self.inventoryBars = MyysticUI.Menus.Core.TitleTreeNode("Inventory Bars", 1, TABBED_INV_BAR);
+	treeRoot:Add(self.inventoryBars);
+
+	MyysticUI.Menus.EasyBars.EasyBarMenuItems(self, self.easyBars);
+	MyysticUI.Menus.ManagedBars.ManageBarsMenuItems(self, self.managedBars);
+	MyysticUI.Menus.InventoryBars.InventoryBarsMenuItems(self, self.inventoryBars);
 
 	self.editButton.MouseClick = function( sender, args )
 		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
@@ -118,12 +119,29 @@ function MainMenu:SizeChanged(args)
 	self:Refresh();
 end
 
-function MainMenu:Refresh()
+function MainMenu:Refresh(destroy)
 	local w,h = self:GetSize();
 
+	if (destroy ~= nil) then
+		self.easyBars:GetChildNodes():Clear();
+		self.managedBars:GetChildNodes():Clear();
+		self.inventoryBars:GetChildNodes():Clear();
+
+		MyysticUI.Menus.EasyBars.EasyBarMenuItems(self, self.easyBars);
+		MyysticUI.Menus.ManagedBars.ManageBarsMenuItems(self, self.managedBars);
+		MyysticUI.Menus.InventoryBars.InventoryBarsMenuItems(self, self.inventoryBars);
+
+		self.easyBars:SetExpanded(not self.easyBars:IsExpanded());
+		self.easyBars:SetExpanded(not self.easyBars:IsExpanded());
+
+		self.managedBars:SetExpanded(not self.managedBars:IsExpanded());
+		self.managedBars:SetExpanded(not self.managedBars:IsExpanded());
+
+		self.inventoryBars:SetExpanded(not self.inventoryBars:IsExpanded());
+		self.inventoryBars:SetExpanded(not self.inventoryBars:IsExpanded());
+	end
+
 	self.tree:SetSize(w - 40, h);
-	-- self.scrollBar:SetTop(h-10);
---	self.scrollBar:SetWidth(w - 10);
 
 	local root = self.tree:GetNodes();
 	for i=1,self.tree:GetNodes():GetCount() do
@@ -131,6 +149,8 @@ function MainMenu:Refresh()
 
 		self:RefreshChildren(node, w - 50);
 	end
+
+	--SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
 end
 
 function MainMenu:RefreshChildren(node, w)

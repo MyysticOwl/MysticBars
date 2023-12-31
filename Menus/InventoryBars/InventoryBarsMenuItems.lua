@@ -27,18 +27,10 @@ end
 function InventoryBarsMenuItems:Refresh(mainMenu, parent)
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
-	menu = mainMenu;
-
 	local tab_bars = settingsService:GetBars( TABBED_INV_BAR );
 	for key, value in pairs (tab_bars) do
-		self.menuItems:CreateIfExistsBarNode(parent, mainMenu, self.panel, key, value);
+		local node = MyysticUI.Menus.Core.BarsTitleTreeNode(self.menuItems:GetBarName(key, value), 1, key, value);
+		parent:GetChildNodes():Add(node);
+		self.panel:Draw(node, key, value);
 	end
-
-	-- local window_bars = settingsService:GetBars( WINDOW_INV_BAR );
-	-- for key, value in pairs (window_bars) do
-	-- 	self.menuItems:CreateIfExistsCheckedBarItem(parent, mainMenu, self.panel, key, value);
-	-- end
-
-	self.menuItems:CreateNewTabInventoryBarItem(parent, mainMenu);
-	--self.menuItems:CreateNewWindowInventoryBarItem(parent, mainMenu);
 end

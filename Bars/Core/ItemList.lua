@@ -130,12 +130,12 @@ function ItemList:ClearQuickslots()
 			value = nil;
 		end
 	end
-	local barSettings = settingsService:GetBarSettings( self.id );
-	
-	if ( barService  ~= nil and barService:Alive( self.id ) ) then
-		self.currentIemCount = 0;
-		settingsService:SetBarSettings( self.id, barSettings )
-	end
+	-- SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
+	-- 	self.currentIemCount = 0;
+	-- 	return barSettings;
+	-- end, function()
+	-- 	SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+	-- end);
 	self.isClearingQuickslots = false;
 end
 
@@ -213,8 +213,8 @@ function ItemList:AddItem( item )
 			self.items[self.currentIemCount] = item;
 			self.items[self.currentIemCount].QuantityChanged = function(sender,args)
 				if ( barService:Alive( self.id ) == true ) then
-					local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
-					inventoryService:NotifyClients();
+					-- local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
+					-- inventoryService:NotifyClients();
 				end
 			end	
 		end

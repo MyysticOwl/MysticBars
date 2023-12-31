@@ -32,7 +32,7 @@ end
 
 function BarService:Add( barType, cBarID, cQuickslotID )
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	
+
 	local bar = nil;
 	if ( self.working == false ) then
 		self.working = true;
@@ -41,6 +41,8 @@ function BarService:Add( barType, cBarID, cQuickslotID )
 		if ( cBarID ~= nil and barType ~= EXTENSIONBAR ) then
 			added = cBarID;
 		end
+
+		Turbine.Shell.WriteLine("bt:" .. barType);
 
 		if ( barType == QUICKSLOTBAR ) then
 			bar = MyysticUI.Bars.QuickslotBar( added );
@@ -98,11 +100,11 @@ function BarService:Remove( barid, removeSettingsWhenNil )
 		RegisteredBars[barid]:SetBackColor( Turbine.UI.Color( 0, 0, 0, 0) );
 		RegisteredBars[barid] = nil;
 
-		-- Turbine.Shell.WriteLine( "Removing:" .. barid );
-
 		if ( removeSettingsWhenNil == nil ) then
-			settingsService:SetBarSettings( barid, nil);
+			settingsService:SetBarSettings( barid, nil, nil, true);
 		end
+
+		SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService):GetMenu():Refresh(true);
 	end
 end
 
