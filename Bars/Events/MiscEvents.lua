@@ -68,17 +68,17 @@ end
 function MiscEvents:CheckVisibility( barSettings )
 	local visible = false;
 	-- Send all Keypress based events to all clients
-	if ( (self.registeredEvents.playerInCombat == true and barSettings.events.displayInCombat == true) or
-		 (self.registeredEvents.playerInCombat == false and barSettings.events.displayNotInCombat == true)
+	if ( (self.registeredEvents.playerInCombat == true and barSettings.events.triggered ~= nil and barSettings.events.triggered.displayInCombat == true) or
+		 (self.registeredEvents.playerInCombat == false and barSettings.events.triggered ~= nil and barSettings.events.triggered.displayNotInCombat == true)
 		) then
 		visible = true;
 	end
 	-- ToDo -- More here.
 	if (
-     (self.registeredEvents.playerMounted == true and barSettings.events.displayWhileMounted == true) or
-	 (self.registeredEvents.playerMounted == false and barSettings.events.displayWhileNotMounted == true) or
-	 (self.registeredEvents.playerCombatMounted == true and barSettings.events.displayWhileCombatMounted == true) or
-	 (self.registeredEvents.playerCombatMounted == false and barSettings.events.displayWhileNotCombatMounted == true)
+     (self.registeredEvents.playerMounted == true and barSettings.events.triggered.displayWhileMounted == true) or
+	 (self.registeredEvents.playerMounted == false and barSettings.events.triggered.displayWhileNotMounted == true) or
+	 (self.registeredEvents.playerCombatMounted == true and barSettings.events.triggered.displayWhileCombatMounted == true) or
+	 (self.registeredEvents.playerCombatMounted == false and barSettings.events.triggered.displayWhileNotCombatMounted == true)
 	) then
 		visible = true;
 	end

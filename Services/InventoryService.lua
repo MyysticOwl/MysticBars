@@ -61,7 +61,6 @@ function InventoryService:NotifyClients( type, specificItem )
 		if ( barService ~= null and value ~= nil and value.registered == true and barService:Alive( key ) == true ) then
 			local qlist = value.bar:GetQuickslotList();
 			if ( qlist ~= nil and ( type == self.ADD or specificItem == nil) ) then
-				--Turbine.Shell.WriteLine("InventoryService: " .. key);
 				qlist:ClearQuickslots();
 				for i=1, backpack:GetSize(), 1 do 
 					local item = backpack:GetItem(i);
@@ -80,15 +79,11 @@ end
 function InventoryService:Inventory( barObject, barSettings, type, item )
 	if ( barSettings.events ~= nil and barSettings.events.inventory ~= nil ) then
 		if ( type == nil or type == self.ADD ) then
-			if ( barSettings.events.inventory.useCount ~= nil and barSettings.events.inventory.useCount == true ) then
-				for key, value in pairs (barSettings.events.inventory) do
-					if ( key == "quantity" and item:GetQuantity() >= value ) then
-						barObject.bar:GetQuickslotList():AddItem( item );
-					end
-				end
+			if ( barSettings.events.inventory.useCount ~= nil and barSettings.events.inventory.useCount == true and item:GetQuantity() >= barSettings.events.inventory["quantity"] ) then
+				barObject.bar:GetQuickslotList():AddItem( item );
 			end
 			if ( barSettings.events.inventory.categories ~= nil ) then
-				for key, value in pairs (barSettings.events.inventory.categories) do
+								for key, value in pairs (barSettings.events.inventory.categories) do
 					--Turbine.Shell.WriteLine( "key:" .. key .. " item:" .. Turbine.Gameplay.ItemCategory[4] );
 					if ( Turbine.Gameplay.ItemCategory[ key ] == item:GetCategory() ) then
 						barObject.bar:GetQuickslotList():AddItem( item );

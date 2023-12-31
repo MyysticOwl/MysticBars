@@ -42,8 +42,6 @@ function BarService:Add( barType, cBarID, cQuickslotID )
 			added = cBarID;
 		end
 
-		Turbine.Shell.WriteLine("bt:" .. barType);
-
 		if ( barType == QUICKSLOTBAR ) then
 			bar = MyysticUI.Bars.QuickslotBar( added );
 		elseif ( barType == EXTENSIONBAR ) then

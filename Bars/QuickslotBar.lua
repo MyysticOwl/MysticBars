@@ -223,7 +223,7 @@ function QuickslotBar:UpdateBarExtensions()
 end
 
 function QuickslotBar:RegisterBarExtension( extBar, index, extensionBarID )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 	SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(extensionBarID, function(barSettings)
 		if ( barSettings.connectionQuickslotID ~= index or barSettings.connectionBarID ~= self.id ) then
 			barSettings.connectionQuickslotID = index;

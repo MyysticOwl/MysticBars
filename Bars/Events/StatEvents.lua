@@ -44,12 +44,12 @@ end
 
 function StatEvents:CheckVisibility( barSettings )
 	local visible = false;
-	if ( (self.registeredEvents.healthTriggerActive ~= nil and barSettings.events.healthTrigger ~= nil and
-		  self.registeredEvents.healthTriggerActive <= barSettings.events.healthTrigger and
-		  barSettings.events.displayOnHealth) or
-		 (self.registeredEvents.powerTriggerActive ~= nil and barSettings.events.powerTrigger ~= nil and
-		  self.registeredEvents.powerTriggerActive <= barSettings.events.powerTrigger and
-		  barSettings.events.displayOnPower) ) then
+	if ( (self.registeredEvents.healthTriggerActive ~= nil and barSettings.events.triggered.healthTrigger ~= nil and
+		  self.registeredEvents.healthTriggerActive <= barSettings.events.triggered.healthTrigger and
+		  barSettings.events.triggered.displayOnHealth) or
+		 (self.registeredEvents.powerTriggerActive ~= nil and barSettings.events.triggered.powerTrigger ~= nil and
+		  self.registeredEvents.powerTriggerActive <= barSettings.events.triggered.powerTrigger and
+		  barSettings.events.triggered.displayOnPower) ) then
 		visible = true;
 	end
 	return visible;

@@ -107,11 +107,19 @@ function SettingsService:SaveSettings( profile )
 		if ( profile == nil ) then
 			self.profiles[ playerService.player:GetName() ] = self.settings;
 		else
-			Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", profile, function () end);
+			Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", profile, function (success, error)
+				if (not success) then
+					Turbine.Shell.WriteLine("Error Saving... " .. error);
+				end
+			end);
 		end
 	end
 	if ( profile == nil ) then
-		Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", self.profiles, function () end);
+		Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", self.profiles, function (success, error)
+			if (not success) then
+				Turbine.Shell.WriteLine("Error Saving... " .. error);
+			end
+		end);
 	end
 end
 
@@ -250,7 +258,6 @@ function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallba
 
 	if (self.working == false) then
 		self.working = true;
-		--Turbine.Shell.WriteLine("UpdateBarSettings: " .. barid);
 
 		local updatedSettings = updateCallback(barSettings);
 

@@ -90,7 +90,6 @@ function ConfigurationService:CreateBar( override, name, level, rows, columns, x
 				theSettings.autoCreatedBars = { };
 			end
 			if ( theSettings.autoCreatedBars[self.barid] == nil ) then
-				Turbine.Shell.WriteLine("self.barid" ..self.barid)
 				theSettings.autoCreatedBars[self.barid] = { };
 			end
 			theSettings.autoCreatedBars[self.barid].barName = name;
@@ -149,8 +148,11 @@ function ConfigurationService:SetTrigger( statType, percent )
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
 		end
-		if ( localBarSettings.events.categories == nil ) then
-			localBarSettings.events.categories = { };
+		if ( localBarSettings.events.triggered == nil ) then
+			localBarSettings.events.triggered = { };
+		end
+		if ( localBarSettings.events.triggered.categories == nil ) then
+			localBarSettings.events.triggered.categories = { };
 		end
 
 		localBarSettings.visible = false;
@@ -163,20 +165,20 @@ function ConfigurationService:SetTrigger( statType, percent )
 			localBarSettings.events.powerTrigger = (percent / 100);
 
 		elseif ( statType == Turbine.Gameplay.EffectCategory.Disease ) then
-			localBarSettings.events.categories[statType] = true;
+			localBarSettings.events.triggered.categories[statType] = true;
 		elseif ( statType == Turbine.Gameplay.EffectCategory.Fear ) then
-			localBarSettings.events.categories[statType] = true;
+			localBarSettings.events.triggered.categories[statType] = true;
 		elseif ( statType == Turbine.Gameplay.EffectCategory.Poison ) then
-			localBarSettings.events.categories[statType] = true;
+			localBarSettings.events.triggered.categories[statType] = true;
 		elseif ( statType == Turbine.Gameplay.EffectCategory.Wound ) then
-			localBarSettings.events.categories[statType] = true;
+			localBarSettings.events.triggered.categories[statType] = true;
 
 		elseif ( statType == ConfigurationService.CTRL ) then
-			localBarSettings.events.isControl = true;
+			localBarSettings.events.triggered.isControl = true;
 		elseif ( statType == ConfigurationService.ALT ) then
-			localBarSettings.events.isAlt = true;
+			localBarSettings.events.triggered.isAlt = true;
 		elseif ( statType == ConfigurationService.SHIFT ) then
-			localBarSettings.events.isShift = true;
+			localBarSettings.events.triggered.isShift = true;
 		end
 	end
 end

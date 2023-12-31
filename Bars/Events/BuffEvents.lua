@@ -106,9 +106,9 @@ function BuffEvents:CheckVisibility( barSettings )
 		end
 	end
 	-- Send all Category Effect based events to all clients
-	if (barSettings.events.categories ~= nil ) then
+	if (barSettings.events.triggered ~= nil and barSettings.events.triggered.categories ~= nil ) then
 		for key3, value3 in pairs (self.registeredEvents.categories) do
-			if ( value3 ~= nil and value3.count > 0 and barSettings.events ~= nil and barSettings.events.categories[ key3 ] ~= nil ) then
+			if ( value3 ~= nil and value3.count > 0 and barSettings.events ~= nil and barSettings.events.triggered.categories[ key3 ] ~= nil ) then
 				visible = true;
 			end
 		end

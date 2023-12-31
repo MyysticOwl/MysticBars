@@ -50,15 +50,13 @@ function InventoryPanel:Constructor(barId, barValue)
 		selectionHeight, nil, 5, 90);
 	self.utils:CreateCheckBoxCallback(self.countCheckBox, barId, { "events", "inventory", "useCount" },
 		function(sender, args)
-			local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
-			inventoryService:NotifyClients();
+			SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
 		end);
 
 	self.countSB = self.utils:AddScrollBar(self.panelBackground, 0, 1, 100, 200, selectionHeight + 20, nil, "", 5, 120);
 	self.utils:CreateScrollBarCallback(self.countSB, barId, { "events", "inventory", "quantity" }, nil, nil,
 		function(sender, args)
-			local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
-			inventoryService:NotifyClients();
+			SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
 		end);
 
 	self:DisplaySettings();
@@ -75,6 +73,15 @@ function InventoryPanel:DisplaySettings()
 		localBarSettings.events.inventory = {};
 	end
 
+	self.nameList:Clear();
+
+	if (localBarSettings.events ~= nil and localBarSettings.events.inventory ~= nil and localBarSettings.events.inventory.nameFilters ~= nil) then
+		for key, value in opairs(localBarSettings.events.inventory.nameFilters) do
+			self.nameList:AddItem(key, { "events", "inventory", "nameFilters", key });
+		end
+	end
+	self.nameList:SetSelections(localBarSettings.events.inventory.nameFilters);
+	
 	self.nameList.SelectedIndexChanged = function(sender, args)
 		local selections = self.nameList:GetSelections();
 		if (selections ~= nil) then
@@ -83,9 +90,6 @@ function InventoryPanel:DisplaySettings()
 					-- ALWAYS RESET THE nameFilters
 					barSettings.events.inventory.nameFilters = {};
 					for key, value in pairs(selections) do
-						-- if (barSettings.events.inventory.nameFilters[value] == nil) then
-						-- 	barSettings.events.inventory.nameFilters[value] = true;
-						-- end
 						self.utils:BuildItemFromCommandTable(barSettings, value, true);
 					end
 					return barSettings;
@@ -95,20 +99,12 @@ function InventoryPanel:DisplaySettings()
 		end
 	end
 
-	self.nameList:Clear();
-
-	if (localBarSettings.events ~= nil and localBarSettings.events.inventory ~= nil and localBarSettings.events.inventory.nameFilters ~= nil) then
-		for key, value in opairs(localBarSettings.events.inventory.nameFilters) do
-			self.nameList:AddItem(key, { "events", "inventory", "nameFilters", key });
-		end
-	end
-	self.nameList:SetSelections(localBarSettings.events.inventory.nameFilters);
-
 	self.visibilityList:Clear();
 
 	for key, value in opairs(Turbine.Gameplay.ItemCategory) do
 		self.visibilityList:AddItem(key, { "events", "inventory", "categories", key });
 	end
+	self.visibilityList:SetSelections(localBarSettings.events.inventory.categories);
 
 	self.visibilityList.SelectedIndexChanged = function(sender, args)
 		local selections = self.visibilityList:GetSelections();
@@ -126,7 +122,6 @@ function InventoryPanel:DisplaySettings()
 				end);
 		end
 	end
-	self.visibilityList:SetSelections(localBarSettings.events.inventory.categories);
 
 	self.countCheckBox:SetChecked(localBarSettings.events.inventory.useCount);
 	if (localBarSettings.events.inventory.quantity ~= nil) then

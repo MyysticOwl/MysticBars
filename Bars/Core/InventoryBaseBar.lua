@@ -114,10 +114,8 @@ function InventoryBaseBar:Constructor()
 		end
 	end
 
-	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-	local inventoryService = SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService);
-	eventService:RegisterForEvents( self, self.id );
-	inventoryService:RegisterForEvents( self, self.id );
+	SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService):RegisterForEvents( self, self.id );
+	SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):RegisterForEvents( self, self.id );
 end
 
 function InventoryBaseBar:Create()

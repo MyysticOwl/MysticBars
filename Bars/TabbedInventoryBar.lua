@@ -16,7 +16,6 @@ function TabbedInventoryBar:Constructor( barid )
 
 	SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
 		if (barSettings.barType ~= TABBED_INV_BAR) then
-			Turbine.Shell.WriteLine("Overwriting: " .. barid);
 			barSettings.barType = TABBED_INV_BAR;
 			barSettings.quickslotRows = 1;
 			barSettings.quickslotColumns = 4;
