@@ -108,19 +108,19 @@ function ConfigurationService:CreateBar( override, name, level, rows, columns, x
 			localBarSettings.y = y;
 
 			if (createdCallback ~= nil) then
-				createdCallback();
+				createdCallback(localBarSettings);
+				settingsService:SetBarSettings(self.barid, localBarSettings, nil, true);
 			end
 		else
 			self.barid = foundbar;
-			--localBarSettings = settingsService:GetBarSettings( self.barid );
 		end
 
 		local menuService = SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService);
 		if (menuService ~= nil) then
 			theSettings = settingsService:GetSettings();
 			local mode = theSettings.barMode;
-			
-			menuService:Refresh();
+
+			menuService:GetMenu():Refresh();
 
 			theSettings = settingsService:GetSettings();
 			theSettings.barMode = mode;
@@ -128,6 +128,8 @@ function ConfigurationService:CreateBar( override, name, level, rows, columns, x
 	else
 		self.barid = nil;
 	end
+
+	return self.barid, settingsService:GetBarSettings( self.barid );
 end
 
 function ConfigurationService:SetBar( barid )
@@ -140,10 +142,7 @@ function ConfigurationService:SetBar( barid )
 end
 
 -- Set it to trigger on health                Bar ID - When to trigger
-function ConfigurationService:SetTrigger( statType, percent )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local localBarSettings = settingsService:GetBarSettings( self.barid );
-
+function ConfigurationService:SetTrigger( statType, percent, localBarSettings )
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -184,10 +183,7 @@ function ConfigurationService:SetTrigger( statType, percent )
 end
 
 -- Set it to trigger on Buff                 
-function ConfigurationService:SetBuffTriggerOptions( whenActive, Anding )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local localBarSettings = settingsService:GetBarSettings( self.barid );
-
+function ConfigurationService:SetBuffTriggerOptions( whenActive, Anding, localBarSettings )
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -203,10 +199,7 @@ function ConfigurationService:SetBuffTriggerOptions( whenActive, Anding )
 end
 
 -- Set it to trigger on Buff                Bar ID - When to trigger
-function ConfigurationService:SetBuffTrigger( buff )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local localBarSettings = settingsService:GetBarSettings( self.barid );
-
+function ConfigurationService:SetBuffTrigger( buff, localBarSettings )
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -221,10 +214,7 @@ function ConfigurationService:SetBuffTrigger( buff )
 end
 
 -- Set it to trigger on name                Bar ID - When to trigger
-function ConfigurationService:SetClassRangeTrigger( name, theMin, theMax )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local localBarSettings = settingsService:GetBarSettings( self.barid );
-
+function ConfigurationService:SetClassRangeTrigger( name, theMin, theMax, localBarSettings )
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -242,10 +232,7 @@ function ConfigurationService:SetClassRangeTrigger( name, theMin, theMax )
 end
 
 --                                       Bar ID  a  r  g  b
-function ConfigurationService:SetBGColor( a, r, g, b )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local localBarSettings = settingsService:GetBarSettings( self.barid );
-	
+function ConfigurationService:SetBGColor( a, r, g, b, localBarSettings )
 	if ( self.barid ~= nil ) then
 		localBarSettings.useBackgroundColor = true;
 		localBarSettings.opacity = a;
@@ -256,10 +243,7 @@ function ConfigurationService:SetBGColor( a, r, g, b )
 end
 
 --                               Bar ID - Location - Hex for Shortcut
-function ConfigurationService:AddShortcut( location, sData, sType, level )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local localBarSettings = settingsService:GetBarSettings( self.barid );
-
+function ConfigurationService:AddShortcut( location, sData, sType, level, localBarSettings )
 	if ( self.barid ~= nil and (level == nil or self.level >= level) ) then
 		if ( localBarSettings.quickslots == nil ) then
 			localBarSettings.quickslots = { };
@@ -275,10 +259,7 @@ function ConfigurationService:AddShortcut( location, sData, sType, level )
 end
 
 --                               Bar ID - Location - Hex for Shortcut
-function ConfigurationService:SetInventoryFilter( filter )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local localBarSettings = settingsService:GetBarSettings( self.barid );
-
+function ConfigurationService:SetInventoryFilter( filter, localBarSettings )
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };

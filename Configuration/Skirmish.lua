@@ -16,12 +16,12 @@ end
 function Skirmish:Skirmish( override )
 	local configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);
 
-	configurationService:CreateBar( override, "Skirmishes", 20, 1, 1, 170, 300, function()
-		configurationService:SetBuffTriggerOptions( true, false );
-		configurationService:SetTrigger( configurationService.CTRL );
-		configurationService:SetBuffTrigger( "Skirmish : Tier 1" );
-		configurationService:SetBuffTrigger( "Skirmish : Tier 2" );
-		configurationService:SetBuffTrigger( "Skirmish : Tier 3" );
-		configurationService:AddShortcut( 1, "0x7001C4C8", 6, 20 );
+	return configurationService:CreateBar( override, "Skirmishes", 20, 1, 1, 170, 300, function(localBarSettings)
+		configurationService:SetBuffTriggerOptions( true, false, localBarSettings );
+		configurationService:SetTrigger( configurationService.CTRL, nil, localBarSettings );
+		configurationService:SetBuffTrigger( "Skirmish : Tier 1", localBarSettings );
+		configurationService:SetBuffTrigger( "Skirmish : Tier 2", localBarSettings );
+		configurationService:SetBuffTrigger( "Skirmish : Tier 3", localBarSettings );
+		configurationService:AddShortcut( 1, "0x7001C4C8", 6, 20, localBarSettings );
 	end);
 end

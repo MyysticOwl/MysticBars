@@ -71,12 +71,6 @@ function MainMenuItems:EditExtensionsClicked(context, panel, settings)
 	panel.Draw();
 end
 
-function MainMenuItems:CreateBarNode(parent, barId, bar)
-	local node = MyysticUI.Menus.Core.TitleTreeNode(self:GetBarName(barId, bar), 1);
-
-	parent:GetChildNodes():Add(node);
-	return node;
-end
 
 -- function MainMenuItems:CreateExpandedBarItem(parent, mainMenu, panel, barId, value)
 -- 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);

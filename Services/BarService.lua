@@ -102,7 +102,10 @@ function BarService:Remove( barid, removeSettingsWhenNil )
 			settingsService:SetBarSettings( barid, nil, nil, true);
 		end
 
-		SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService):GetMenu():Refresh(true);
+		local menuService = SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService)
+		if (menuService ~= nil) then
+			menuService:GetMenu():Refresh(true);
+		end
 	end
 end
 
@@ -184,7 +187,9 @@ function BarService:UpdateBarExtensions()
 	for key, value in pairs (RegisteredBars) do
 		local barsettings = settingsService:GetBarSettings( key );
 		if ( barsettings.barType == QUICKSLOTBAR and value ~= nil ) then
-			RegisteredBars[ key ]:UpdateBarExtensions();
+			if (RegisteredBars[ key ].UpdateBarExtensions ~= nil) then
+				RegisteredBars[ key ]:UpdateBarExtensions();
+			end
 		end
 	end
 end

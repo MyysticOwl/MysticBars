@@ -18,31 +18,31 @@ end
 function Potions:Health( override )
 	local configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);
 
-	configurationService:CreateBar( override, "Athelas", 1, 1, 4, 300, 250, TABBED_INV_BAR, function()
-		configurationService:SetTrigger( configurationService.HEALTH, 30 );
-		configurationService:SetInventoryFilter( "Athelas" );
+	return configurationService:CreateBar( override, "Athelas", 1, 1, 4, 300, 250, TABBED_INV_BAR, function(localBarSettings)
+		configurationService:SetTrigger( configurationService.HEALTH, 30, localBarSettings );
+		configurationService:SetInventoryFilter( "Athelas", localBarSettings );
 	end);
 end
 
 function Potions:Power( override )
 	local configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);
 
-	configurationService:CreateBar( override, "Celebrant", 1, 1, 4, 300, 350, TABBED_INV_BAR, function()
-		configurationService:SetTrigger( configurationService.POWER, 30 );
-		configurationService:SetInventoryFilter( "Celebrant" );
+	return configurationService:CreateBar( override, "Celebrant", 1, 1, 4, 300, 350, TABBED_INV_BAR, function(localBarSettings)
+		configurationService:SetTrigger( configurationService.POWER, 30, localBarSettings );
+		configurationService:SetInventoryFilter( "Celebrant", localBarSettings );
 	end);
 end
 
 function Potions:GeneralEffects( override )
 	local configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);
 
-	configurationService:CreateBar( override, "Draughts/Salves", 1, 1, 4, 300, 450, TABBED_INV_BAR, function()
-		configurationService:SetBuffTriggerOptions( true, false );
-		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Disease );
-		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Fear );
-		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Poison );
-		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Wound );	
-		configurationService:SetInventoryFilter( "Salve" );
-		configurationService:SetInventoryFilter( "Draught" );
+	return configurationService:CreateBar( override, "Draughts/Salves", 1, 1, 4, 300, 450, TABBED_INV_BAR, function(localBarSettings)
+		configurationService:SetBuffTriggerOptions( true, false, localBarSettings );
+		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Disease, nil, localBarSettings );
+		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Fear, nil, localBarSettings );
+		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Poison, nil, localBarSettings );
+		configurationService:SetTrigger( Turbine.Gameplay.EffectCategory.Wound, nil, localBarSettings );	
+		configurationService:SetInventoryFilter( "Salve", localBarSettings );
+		configurationService:SetInventoryFilter( "Draught", localBarSettings );
 	end);
 end

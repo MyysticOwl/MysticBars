@@ -11,7 +11,6 @@ import "MyysticUI.Utils.Table";
 import "MyysticUI.Menus.Core.UI.ComboBox";
 import "MyysticUI.Menus.Core.UI.AutoListBox";
 import "MyysticUI.Menus.Core.UI.Slider";
-import "MyysticUI.Menus.Core.TitleTreeNode";
 
 MenuUtils = class( Turbine.Object );
 
