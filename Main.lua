@@ -6,7 +6,7 @@
 
 import "MyysticUI.Utils.Type";
 import "MyysticUI.Utils.ServiceContainer";
-import "MyysticUI.Templates.MainConfig"
+import "MyysticUI.Bars.Templates.BarTemplates"
 import "MyysticUI.Menus.MainMenu";
 import "MyysticUI.Services.TemplateService";
 import "MyysticUI.Services.EventService"
@@ -45,7 +45,7 @@ SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService):Build();
 SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
 SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService):UpdateBarExtensions();
 
-MyysticUI.Templates.MainConfig():CheckTemplates();
+MyysticUI.Bars.Templates.BarTemplates():CheckTemplates();
 
 Turbine.Shell.WriteLine( "----------------------------" );
 Turbine.Shell.WriteLine( "MysticBars " .. THEVERSION .. " from MyysticOwl" );

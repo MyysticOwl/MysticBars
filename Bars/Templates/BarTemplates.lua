@@ -4,28 +4,28 @@
 --
 -- RESPECT!
 
-import "MyysticUI.Templates.Classes.BeorningTemplate"
-import "MyysticUI.Templates.Classes.BrawlerTemplate"
-import "MyysticUI.Templates.Classes.BurglarTemplate"
-import "MyysticUI.Templates.Classes.CaptainTemplate"
-import "MyysticUI.Templates.Classes.ChampionTemplate"
-import "MyysticUI.Templates.Classes.GuardianTemplate"
-import "MyysticUI.Templates.Classes.HunterTemplate"
-import "MyysticUI.Templates.Classes.LoreMasterTemplate"
-import "MyysticUI.Templates.Classes.MarinerTemplate"
-import "MyysticUI.Templates.Classes.MinstrelTemplate"
-import "MyysticUI.Templates.Classes.RuneKeeperTemplate"
-import "MyysticUI.Templates.Classes.WardenTemplate"
-import "MyysticUI.Templates.SkirmishTemplate"
-import "MyysticUI.Templates.MonsterPlayTemplate"
-import "MyysticUI.Templates.PotionsTemplate"
+import "MyysticUI.Bars.Templates.Classes.BeorningTemplate"
+import "MyysticUI.Bars.Templates.Classes.BrawlerTemplate"
+import "MyysticUI.Bars.Templates.Classes.BurglarTemplate"
+import "MyysticUI.Bars.Templates.Classes.CaptainTemplate"
+import "MyysticUI.Bars.Templates.Classes.ChampionTemplate"
+import "MyysticUI.Bars.Templates.Classes.GuardianTemplate"
+import "MyysticUI.Bars.Templates.Classes.HunterTemplate"
+import "MyysticUI.Bars.Templates.Classes.LoreMasterTemplate"
+import "MyysticUI.Bars.Templates.Classes.MarinerTemplate"
+import "MyysticUI.Bars.Templates.Classes.MinstrelTemplate"
+import "MyysticUI.Bars.Templates.Classes.RuneKeeperTemplate"
+import "MyysticUI.Bars.Templates.Classes.WardenTemplate"
+import "MyysticUI.Bars.Templates.SkirmishTemplate"
+import "MyysticUI.Bars.Templates.MonsterPlayTemplate"
+import "MyysticUI.Bars.Templates.PotionsTemplate"
 
-MainConfig = class();
+BarTemplates = class();
 
-MainConfig.Brawler = 215;
-MainConfig.Mariner = 216;
+BarTemplates.Brawler = 215;
+BarTemplates.Mariner = 216;
 
-function MainConfig:Constructor()
+function BarTemplates:Constructor()
 	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
@@ -40,7 +40,7 @@ function MainConfig:Constructor()
 	end
 end
 
-function MainConfig:CheckTemplates()
+function BarTemplates:CheckTemplates()
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
@@ -50,33 +50,33 @@ function MainConfig:CheckTemplates()
 	templateService:SetPlayerLevel( playerService.player:GetLevel() );
 
 	if ( playerClass == Turbine.Gameplay.Class.Beorning ) then
-		MyysticUI.Templates.Classes.BeorningTemplate();
+		MyysticUI.Bars.Templates.Classes.BeorningTemplate();
 	elseif ( playerClass == self.Brawler ) then
-		MyysticUI.Templates.Classes.BrawlerTemplate();
+		MyysticUI.Bars.Templates.Classes.BrawlerTemplate();
 	elseif ( playerClass == Turbine.Gameplay.Class.Burglar ) then
-		MyysticUI.Templates.Classes.BurglarTemplate();
+		MyysticUI.Bars.Templates.Classes.BurglarTemplate();
 	elseif ( playerClass == Turbine.Gameplay.Class.Captain ) then
-		MyysticUI.Templates.Classes.CaptainTemplate();
+		MyysticUI.Bars.Templates.Classes.CaptainTemplate();
 	elseif ( playerClass == Turbine.Gameplay.Class.Champion ) then
-		MyysticUI.Templates.Classes.ChampionTemplate();
+		MyysticUI.Bars.Templates.Classes.ChampionTemplate();
 	elseif ( playerClass == Turbine.Gameplay.Class.Guardian ) then
-		MyysticUI.Templates.Classes.GuardianTemplate();
+		MyysticUI.Bars.Templates.Classes.GuardianTemplate();
 	elseif ( playerClass == Turbine.Gameplay.Class.Hunter ) then
-		MyysticUI.Templates.Classes.HunterTemplate();
+		MyysticUI.Bars.Templates.Classes.HunterTemplate();
 	elseif ( playerClass == Turbine.Gameplay.Class.LoreMaster ) then
-		MyysticUI.Templates.Classes.LoreMasterTemplate();
+		MyysticUI.Bars.Templates.Classes.LoreMasterTemplate();
 	elseif ( playerClass == self.Mariner ) then
-		MyysticUI.Templates.Classes.MarinerTemplate();
+		MyysticUI.Bars.Templates.Classes.MarinerTemplate();
 	elseif ( playerClass == Turbine.Gameplay.Class.Minstrel ) then
-		MyysticUI.Templates.Classes.MinstrelTemplate();
+		MyysticUI.Bars.Templates.Classes.MinstrelTemplate();
 	elseif ( playerClass == Turbine.Gameplay.Class.RuneKeeper ) then
-		MyysticUI.Templates.Classes.RuneKeeperTemplate();
+		MyysticUI.Bars.Templates.Classes.RuneKeeperTemplate();
 	elseif ( playerClass == Turbine.Gameplay.Class.Warden ) then
-		MyysticUI.Templates.Classes.WardenTemplate();
+		MyysticUI.Bars.Templates.Classes.WardenTemplate();
 	end
 
-	MyysticUI.Templates.SkirmishTemplate();
-	MyysticUI.Templates.PotionsTemplate();
+	MyysticUI.Bars.Templates.SkirmishTemplate();
+	MyysticUI.Bars.Templates.PotionsTemplate();
 
 	settingsService:SaveSettings();
 
