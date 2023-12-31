@@ -4,15 +4,15 @@
 --
 -- RESPECT!
 
-ConfigurationService = class( MyysticUI.Utils.Service );
-ConfigurationService.HEALTH = 1;
-ConfigurationService.POWER = 11;
+TemplateService = class( MyysticUI.Utils.Service );
+TemplateService.HEALTH = 1;
+TemplateService.POWER = 11;
 
-ConfigurationService.CTRL = 3;
-ConfigurationService.ALT = 4;
-ConfigurationService.SHIFT = 5;
+TemplateService.CTRL = 3;
+TemplateService.ALT = 4;
+TemplateService.SHIFT = 5;
 
-function ConfigurationService:Constructor()
+function TemplateService:Constructor()
 	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
@@ -20,7 +20,7 @@ function ConfigurationService:Constructor()
 	self.registeredBars = 1;
 end
 
-function ConfigurationService:RegisterBarCreator( description, barname, callback, disable )
+function TemplateService:RegisterBarCreator( description, barname, callback, disable )
 	if ( self.RegisteredEasyBars == nil ) then
 		self.RegisteredEasyBars = { };
 	end
@@ -36,7 +36,7 @@ function ConfigurationService:RegisterBarCreator( description, barname, callback
 	end
 end
 
-function ConfigurationService:ConstructBars()
+function TemplateService:ConstructBars()
 	for key, value in pairs (self.RegisteredEasyBars) do
 		if ( value.disableAutoCreate == nil ) then
 			value.callback();
@@ -44,16 +44,16 @@ function ConfigurationService:ConstructBars()
 	end
 end
 
-function ConfigurationService:GetEasyBars()
+function TemplateService:GetEasyBars()
 	return self.RegisteredEasyBars;
 end
 
-function ConfigurationService:SetPlayerLevel( newLevel )
+function TemplateService:SetPlayerLevel( newLevel )
 	self.level = newLevel;
 end
 
 -- Create Quickslot Bar                           Name -      Rows - Columns - X coord - Y coord
-function ConfigurationService:CreateBar( override, name, level, rows, columns, x, y, barType, createdCallback )
+function TemplateService:CreateBar( override, name, level, rows, columns, x, y, barType, createdCallback )
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
@@ -132,7 +132,7 @@ function ConfigurationService:CreateBar( override, name, level, rows, columns, x
 	return self.barid, settingsService:GetBarSettings( self.barid );
 end
 
-function ConfigurationService:SetBar( barid )
+function TemplateService:SetBar( barid )
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
 	if ( barid ~= nil ) then
@@ -142,7 +142,7 @@ function ConfigurationService:SetBar( barid )
 end
 
 -- Set it to trigger on health                Bar ID - When to trigger
-function ConfigurationService:SetTrigger( statType, percent, localBarSettings )
+function TemplateService:SetTrigger( statType, percent, localBarSettings )
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -156,10 +156,10 @@ function ConfigurationService:SetTrigger( statType, percent, localBarSettings )
 
 		localBarSettings.visible = false;
 
-		if ( statType == ConfigurationService.HEALTH ) then
+		if ( statType == TemplateService.HEALTH ) then
 			localBarSettings.events.displayOnHealth = true;
 			localBarSettings.events.healthTrigger = (percent / 100);
-		elseif ( statType == ConfigurationService.POWER ) then
+		elseif ( statType == TemplateService.POWER ) then
 			localBarSettings.events.displayOnPower = true;
 			localBarSettings.events.powerTrigger = (percent / 100);
 
@@ -172,18 +172,18 @@ function ConfigurationService:SetTrigger( statType, percent, localBarSettings )
 		elseif ( statType == Turbine.Gameplay.EffectCategory.Wound ) then
 			localBarSettings.events.triggered.categories[statType] = true;
 
-		elseif ( statType == ConfigurationService.CTRL ) then
+		elseif ( statType == TemplateService.CTRL ) then
 			localBarSettings.events.triggered.isControl = true;
-		elseif ( statType == ConfigurationService.ALT ) then
+		elseif ( statType == TemplateService.ALT ) then
 			localBarSettings.events.triggered.isAlt = true;
-		elseif ( statType == ConfigurationService.SHIFT ) then
+		elseif ( statType == TemplateService.SHIFT ) then
 			localBarSettings.events.triggered.isShift = true;
 		end
 	end
 end
 
 -- Set it to trigger on Buff                 
-function ConfigurationService:SetBuffTriggerOptions( whenActive, Anding, localBarSettings )
+function TemplateService:SetBuffTriggerOptions( whenActive, Anding, localBarSettings )
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -199,7 +199,7 @@ function ConfigurationService:SetBuffTriggerOptions( whenActive, Anding, localBa
 end
 
 -- Set it to trigger on Buff                Bar ID - When to trigger
-function ConfigurationService:SetBuffTrigger( buff, localBarSettings )
+function TemplateService:SetBuffTrigger( buff, localBarSettings )
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -214,7 +214,7 @@ function ConfigurationService:SetBuffTrigger( buff, localBarSettings )
 end
 
 -- Set it to trigger on name                Bar ID - When to trigger
-function ConfigurationService:SetClassRangeTrigger( name, theMin, theMax, localBarSettings )
+function TemplateService:SetClassRangeTrigger( name, theMin, theMax, localBarSettings )
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -232,7 +232,7 @@ function ConfigurationService:SetClassRangeTrigger( name, theMin, theMax, localB
 end
 
 --                                       Bar ID  a  r  g  b
-function ConfigurationService:SetBGColor( a, r, g, b, localBarSettings )
+function TemplateService:SetBGColor( a, r, g, b, localBarSettings )
 	if ( self.barid ~= nil ) then
 		localBarSettings.useBackgroundColor = true;
 		localBarSettings.opacity = a;
@@ -243,7 +243,7 @@ function ConfigurationService:SetBGColor( a, r, g, b, localBarSettings )
 end
 
 --                               Bar ID - Location - Hex for Shortcut
-function ConfigurationService:AddShortcut( location, sData, sType, level, localBarSettings )
+function TemplateService:AddShortcut( location, sData, sType, level, localBarSettings )
 	if ( self.barid ~= nil and (level == nil or self.level >= level) ) then
 		if ( localBarSettings.quickslots == nil ) then
 			localBarSettings.quickslots = { };
@@ -259,7 +259,7 @@ function ConfigurationService:AddShortcut( location, sData, sType, level, localB
 end
 
 --                               Bar ID - Location - Hex for Shortcut
-function ConfigurationService:SetInventoryFilter( filter, localBarSettings )
+function TemplateService:SetInventoryFilter( filter, localBarSettings )
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };

@@ -255,7 +255,7 @@ end
 
 function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallback, force)
 	local barSettings = self:GetBarSettings( barid );
-	
+
 	if (self.working == false) then
 		self.working = true;
 

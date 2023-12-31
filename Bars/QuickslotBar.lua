@@ -225,8 +225,6 @@ end
 function QuickslotBar:RegisterBarExtension(extBar, index, extensionBarID)
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
-	Turbine.Shell.WriteLine("RegisterBarExtension: " .. extensionBarID);
-
 	SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(extensionBarID,
 		function(barSettings)
 			if (barSettings.connectionQuickslotID ~= index or barSettings.connectionBarID ~= self.id) then

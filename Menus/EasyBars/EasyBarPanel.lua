@@ -18,8 +18,8 @@ EasyBarPanel.menuItems = MyysticUI.Menus.MainMenuItems();
 function EasyBarPanel:Constructor()
 	MyysticUI.Menus.Controls.BasePanel.Constructor(self, nil, nil);
 
-	self.configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);
-	local easyBars = self.configurationService:GetEasyBars();
+	self.templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local easyBars = self.templateService:GetEasyBars();
 	local column = 0;
 	local row = 0;
 	local leftPad = 200;

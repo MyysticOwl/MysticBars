@@ -20,6 +20,8 @@ function PredefinedExtensionPanel:Constructor( barId, barValue )
 	self.utils:AddLabelBox( self.panelBackground, "This will change shortcuts on the current bar perminately!!!!", selectionWidth + 150, selectionHeight + 10, 5, 5 );
 
 	self.typeList = self.utils:AddComboBox(self.panelBackground, 10, 200, 20, 5, 30);
+
+	SERVICE_CONTAINER:GetService(MyysticUI.Services.SkillsService):BuildSkillLists();
 	-- self.typeList:AddItem( "Hunters Travel", 	HUNTER_TRAVEL_TYPE );
 	-- self.typeList:AddItem( "Wardens Travel", 	WARDEN_TRAVEL_TYPE );
 	-- self.typeList:AddItem( "Reputation Travel", 	REP_TRAVEL_TYPE );

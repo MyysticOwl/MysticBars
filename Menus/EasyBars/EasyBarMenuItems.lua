@@ -11,7 +11,7 @@ EasyBarMenuItems = class();
 EasyBarMenuItems.menuItems = MyysticUI.Menus.MainMenuItems();
 
 function EasyBarMenuItems:Constructor(mainMenu, parent)
-	self.configurationService = SERVICE_CONTAINER:GetService(MyysticUI.Services.ConfigurationService);
+	self.templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
 	parent:GetChildNodes():Add(MyysticUI.Menus.EasyBars.EasyBarPanel());
 end

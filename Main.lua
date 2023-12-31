@@ -6,9 +6,9 @@
 
 import "MyysticUI.Utils.Type";
 import "MyysticUI.Utils.ServiceContainer";
-import "MyysticUI.Configuration.MainConfig"
+import "MyysticUI.Templates.MainConfig"
 import "MyysticUI.Menus.MainMenu";
-import "MyysticUI.Services.ConfigurationService";
+import "MyysticUI.Services.TemplateService";
 import "MyysticUI.Services.EventService"
 import "MyysticUI.Services.InventoryService"
 import "MyysticUI.Services.PlayerService"
@@ -35,11 +35,9 @@ SERVICE_CONTAINER:AddService(MyysticUI.Services.EventService(), MyysticUI.Servic
 SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService):StartManager(); -- Start watching for effects.
 
 SERVICE_CONTAINER:AddService(MyysticUI.Services.InventoryService(), MyysticUI.Services.InventoryService);
-SERVICE_CONTAINER:AddService(MyysticUI.Services.ConfigurationService(), MyysticUI.Services.ConfigurationService);
+SERVICE_CONTAINER:AddService(MyysticUI.Services.TemplateService(), MyysticUI.Services.TemplateService);
 
 SERVICE_CONTAINER:AddService(MyysticUI.Services.SkillsService(), MyysticUI.Services.SkillsService);
-SERVICE_CONTAINER:GetService(MyysticUI.Services.SkillsService):BuildSkillLists();
-
 SERVICE_CONTAINER:AddService(MyysticUI.Services.BarService(), MyysticUI.Services.BarService);
 
 SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService):Build();
@@ -47,7 +45,7 @@ SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService):Build();
 SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
 SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService):UpdateBarExtensions();
 
-MyysticUI.Configuration.MainConfig():CheckConfiguration();
+MyysticUI.Templates.MainConfig():CheckTemplates();
 
 Turbine.Shell.WriteLine( "----------------------------" );
 Turbine.Shell.WriteLine( "MysticBars " .. THEVERSION .. " from MyysticOwl" );
