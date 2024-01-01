@@ -19,6 +19,8 @@ import "MyysticUI.Bars.Templates.Classes.WardenTemplate"
 import "MyysticUI.Bars.Templates.SkirmishTemplate"
 import "MyysticUI.Bars.Templates.MonsterPlayTemplate"
 import "MyysticUI.Bars.Templates.PotionsTemplate"
+import "MyysticUI.Bars.Templates.DynamicTemplate"
+import "MyysticUI.Bars.Templates.rawdata"
 
 BarTemplates = class();
 
@@ -48,6 +50,8 @@ function BarTemplates:CheckTemplates()
 	local playerClass = playerService.playerClass;
 
 	templateService:SetPlayerLevel( playerService.player:GetLevel() );
+
+	MyysticUI.Bars.Templates.DynamicTemplate();
 
 	if ( playerClass == Turbine.Gameplay.Class.Beorning ) then
 		MyysticUI.Bars.Templates.Classes.BeorningTemplate();

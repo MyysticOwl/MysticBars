@@ -28,6 +28,16 @@ SkillsService.class = {}
 SkillsService.skirmish = {}
 SkillsService.corruption = {}
 
+SkillsService.mountCount = 0;
+SkillsService.mountedCombatCount = 0;
+SkillsService.petsCount = 0;
+SkillsService.travelCount = 0;
+SkillsService.skillsCount = 0;
+SkillsService.craftingCount = 0;
+SkillsService.classCount = 0;
+SkillsService.skirmishCount = 0;
+SkillsService.corruptionCount = 0;
+
 function SkillsService:Constructor()
 	self.built = false;
 end
@@ -35,16 +45,6 @@ end
 function SkillsService:BuildSkillLists()
 	if (not self.built) then
 		local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
-
-		local mountCount = 0;
-		local mountedCombatCount = 0;
-		local petsCount = 0;
-		local travelCount = 0;
-		local skillsCount = 0;
-		local craftingCount = 0;
-		local classCount = 0;
-		local skirmishCount = 0;
-		local corruptionCount = 0;
 
 		local trainedSkills = playerService.player:GetTrainedSkills();
 
@@ -63,21 +63,21 @@ function SkillsService:BuildSkillLists()
 
 			if ((string.find(description, "gambits quickly") ~= nil) and found == false) then
 
-				if (self.class[classCount] == nil) then
-					self.class[classCount] = {};
+				if (self.class[self.classCount] == nil) then
+					self.class[self.classCount] = {};
 				end
-				self.class[classCount]["masteries"] = skill;
-				classCount = classCount + 1;
+				self.class[self.classCount]["masteries"] = skill;
+				self.classCount = self.classCount + 1;
 				found = true;
 			end
 
 			if ((string.find(description, "stance") ~= nil) and found == false) then
 
-				if (self.class[classCount] == nil) then
-					self.class[classCount] = {};
+				if (self.class[self.classCount] == nil) then
+					self.class[self.classCount] = {};
 				end
-				self.class[classCount]["stances"] = skill;
-				classCount = classCount + 1;
+				self.class[self.classCount]["stances"] = skill;
+				self.classCount = self.classCount + 1;
 				found = true;
 			end
 
@@ -86,11 +86,11 @@ function SkillsService:BuildSkillLists()
 				string.find(name, "commune with") ~= nil or 
 				(string.find(description, "summons a") ~= nil and string.find(description, "companion") ~= nil)) and found == false) then
 
-				if (self.class[classCount] == nil) then
-					self.class[classCount] = {};
+				if (self.class[self.classCount] == nil) then
+					self.class[self.classCount] = {};
 				end
-				self.class[classCount]["pet"] = skill;
-				classCount = classCount + 1;
+				self.class[self.classCount]["pet"] = skill;
+				self.classCount = self.classCount + 1;
 				found = true;
 			end
 
@@ -101,8 +101,8 @@ function SkillsService:BuildSkillLists()
 				string.find(name, "muster at") ~= nil or
 				string.find(name, "muster in") ~= nil) and found == false) then
 
-				self.travel[travelCount] = skill;
-				travelCount = travelCount + 1;
+				self.travel[self.travelCount] = skill;
+				self.travelCount = self.travelCount + 1;
 				found = true;
 			end
 		
@@ -113,8 +113,8 @@ function SkillsService:BuildSkillLists()
 				string.find(description, "with you") ~= nil or
 				string.find(description, "brings out") ~= nil) and found == false) then
 
-				self.pets[petsCount] = skill;
-				petsCount = petsCount + 1;
+				self.pets[self.petsCount] = skill;
+				self.petsCount = self.petsCount + 1;
 				found = true;
 			end
 
@@ -124,8 +124,8 @@ function SkillsService:BuildSkillLists()
 				string.find(description, "your steed") ~= nil or
 				string.find(description, "to ride") ~= nil) and found == false) then
 
-				self.mountedCombat[mountedCombatCount] = skill;
-				mountedCombatCount = mountedCombatCount + 1;
+				self.mountedCombat[self.mountedCombatCount] = skill;
+				self.mountedCombatCount = self.mountedCombatCount + 1;
 				found = true;
 			end
 
@@ -136,32 +136,32 @@ function SkillsService:BuildSkillLists()
 				string.find(name, "boar") ~= nil or
 				string.find(name, "steed") ~= nil) and found == false) then
 
-				self.mounts[mountCount] = skill;
-				mountCount = mountCount + 1;
+				self.mounts[self.mountCount] = skill;
+				self.mountCount = self.mountCount + 1;
 				found = true;
 			end
 
 			if ((string.find(name, "track") ~= nil) and found == false) then
-				self.crafting[craftingCount] = skill;
-				craftingCount = craftingCount + 1;
+				self.crafting[self.craftingCount] = skill;
+				self.craftingCount = self.craftingCount + 1;
 				found = true;
 			end
 
 			if ((string.find(description, "your soldier") ~= nil) and found == false) then
-				self.skirmish[skirmishCount] = skill;
-				skirmishCount = skirmishCount + 1;
+				self.skirmish[self.skirmishCount] = skill;
+				self.skirmishCount = self.skirmishCount + 1;
 				found = true;
 			end
 
 			if ((string.find(description, "remove a corruption") ~= nil) and found == false) then
-				self.corruption[corruptionCount] = skill;
-				corruptionCount = corruptionCount + 1;
+				self.corruption[self.corruptionCount] = skill;
+				self.corruptionCount = self.corruptionCount + 1;
 				--found = true; NOT FOR THIS ONE!
 			end
 
 			if (found == false) then
-				self.skills[skillsCount] = skill;
-				skillsCount = skillsCount + 1;
+				self.skills[self.skillsCount] = skill;
+				self.skillsCount = self.skillsCount + 1;
 			end
 		end
 		self.built = true;
