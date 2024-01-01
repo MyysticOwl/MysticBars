@@ -1,4 +1,4 @@
-shortcutLookup = {
+ShortcutLookup = {
 ["0x41140AE7"] = { shortcut = "0x7003A2CF" },
 ["0x41140AF7"] = { shortcut = "0x7003A2D0" },
 ["0x41140AE2"] = { shortcut = "0x7003A2CE" },

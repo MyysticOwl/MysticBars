@@ -25,48 +25,52 @@ end
 function HunterTemplate:Stance( override )
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 	
-	templateService:CreateBar( override, "Stance", 6, 1, 4, 240, 300 );
-	templateService:SetBuffTriggerOptions( false, false );
-	templateService:SetTrigger( templateService.CTRL );
-	templateService:SetBuffTrigger( "Stance: Fleet" );
-	templateService:SetBuffTrigger( "Stance: Strength" );
-	templateService:SetBuffTrigger( "Stance: Endurance" );
-	templateService:SetBuffTrigger( "Stance: Precision" );
-	templateService:SetBGColor( 0.35, 1, 0, 0 );
-	templateService:AddShortcut( 1, "0x70003F4E", 6, 6 );
-	templateService:AddShortcut( 2, "0x70003F4D", 6, 18 );
-	templateService:AddShortcut( 3, "0x70003F4F", 6, 28 );
-	templateService:AddShortcut( 4, "0x70010065", 6, 56 );
+	return templateService:CreateBar( override, "Stance", 6, 1, 4, 240, 300, QUICKSLOTBAR, function(barSettings)
+		templateService:SetBuffTriggerOptions( false, false, barSettings );
+		templateService:SetTrigger( templateService.CTRL, nil, barSettings );
+		templateService:SetBuffTrigger( "Stance: Fleet", barSettings );
+		templateService:SetBuffTrigger( "Stance: Strength", barSettings );
+		templateService:SetBuffTrigger( "Stance: Endurance", barSettings );
+		templateService:SetBuffTrigger( "Stance: Precision", barSettings );
+		templateService:SetBGColor( 0.35, 1, 0, 0, barSettings );
+		templateService:AddShortcut( 1, "0x70003F4E", 6, 6, barSettings );
+		templateService:AddShortcut( 2, "0x70003F4D", 6, 18, barSettings );
+		templateService:AddShortcut( 3, "0x70003F4F", 6, 28, barSettings );
+		templateService:AddShortcut( 4, "0x70010065", 6, 56, barSettings );
+	end);
 end
 
 function HunterTemplate:Focus3( override )
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
-	templateService:CreateBar( override, "3 Focus", 2, 1, 4, 240, 350 );
-	templateService:SetBuffTriggerOptions( true, false );
-	templateService:SetClassRangeTrigger( HUNTER_FOCUS, 3, 9);
-	templateService:AddShortcut( 1, "0x70003F35", 6, 2 );
-	templateService:AddShortcut( 2, "0x70021D0D", 6, 20 );
-	templateService:AddShortcut( 3, "0x700030F3", 6, 34 );
-	templateService:AddShortcut( 4, "0x70003F36", 6, 44 );
+	return templateService:CreateBar( override, "3 Focus", 2, 1, 4, 240, 350, QUICKSLOTBAR, function(barSettings)
+		templateService:SetBuffTriggerOptions( true, false, barSettings );
+		templateService:SetClassRangeTrigger( HUNTER_FOCUS, 3, 9, barSettings);
+		templateService:AddShortcut( 1, "0x70003F35", 6, 2, barSettings );
+		templateService:AddShortcut( 2, "0x70021D0D", 6, 20, barSettings );
+		templateService:AddShortcut( 3, "0x700030F3", 6, 34, barSettings );
+		templateService:AddShortcut( 4, "0x70003F36", 6, 44, barSettings );
+	end);
 end
 
 function HunterTemplate:Focus6( override )
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
-	templateService:CreateBar( override, "6 Focus", 30, 1, 2, 240, 400 );
-	templateService:SetBuffTriggerOptions( true, false );
-	templateService:SetClassRangeTrigger( HUNTER_FOCUS, 6, 9);
-	templateService:AddShortcut( 1, "0x70003F37", 6, 30 );
-	templateService:AddShortcut( 1, "0x700153E5", 6, 52 );
-	templateService:AddShortcut( 2, "0x700010F4", 6, 41 );
+	return templateService:CreateBar( override, "6 Focus", 30, 1, 2, 240, 400, QUICKSLOTBAR, function(barSettings)
+		templateService:SetBuffTriggerOptions( true, false, barSettings );
+		templateService:SetClassRangeTrigger( HUNTER_FOCUS, 6, 9, barSettings);
+		templateService:AddShortcut( 1, "0x70003F37", 6, 30, barSettings );
+		templateService:AddShortcut( 1, "0x700153E5", 6, 52, barSettings );
+		templateService:AddShortcut( 2, "0x700010F4", 6, 41, barSettings );
+	end);
 end
 
 function HunterTemplate:FindThePath( override )
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
-	templateService:CreateBar( override, "Find The Path", 14, 1, 1, 240, 450 );
-	templateService:SetBuffTriggerOptions( false, false );
-	templateService:SetBuffTrigger( "Find the Path" );
-	templateService:AddShortcut( 1, "0x70003F3D", 6, 14 );
+	return templateService:CreateBar( override, "Find The Path", 14, 1, 1, 240, 450, QUICKSLOTBAR, function(barSettings)
+		templateService:SetBuffTriggerOptions( false, false, barSettings );
+		templateService:SetBuffTrigger( "Find the Path", barSettings );
+		templateService:AddShortcut( 1, "0x70003F3D", 6, 14, barSettings );
+	end);
 end

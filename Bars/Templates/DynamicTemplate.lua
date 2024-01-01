@@ -9,7 +9,7 @@ DynamicTemplate = class();
 function DynamicTemplate:Constructor()
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
-	templateService:RegisterBarCreator( "Mounts", "Mounts", self.Mounts, true );
+	--TOtemplateService:RegisterBarCreator( "Mounts", "Mounts", self.Mounts );
 	templateService:ConstructBars();
 end
 
@@ -20,28 +20,15 @@ function DynamicTemplate:Mounts()
 
 	--	override, name, level, rows, columns, x, y, barType, createdCallback )
 	templateService:CreateBar( false, "Mounts", 1, 5, 5, 200, 200, QUICKSLOTBAR, function(localBarSettings)
-		local dump = MyysticUI.Utils.TableDump();
-		templateService:SetTrigger( templateService.ALT, nil, localBarSettings );
-
 		for key, skill in pairs ( skillsService.travel ) do
 			local skillInfo = skill:GetSkillInfo();
-			-- local shortcut = skillInfo:GetShortcut();
---			dump.Dump(getmetatable(skillInfo:GetShortcutData()));
-			-- dump.Dump(shortcut);
 			local possibleHex = "0x" .. dec2hex(skillInfo:GetIconImageID());
---			Turbine.Shell.WriteLine(possibleHex);
-
-			if (shortcutLookup[possibleHex]) then
-				Turbine.Shell.WriteLine("Found: " .. shortcutLookup[possibleHex].shortcut .. " desc: " .. skillInfo:GetDescription());
-				templateService:AddShortcut( key, shortcutLookup[possibleHex].shortcut, 6, 1, localBarSettings );
+		
+			if (ShortcutLookup[possibleHex]) then
+				templateService:AddShortcut( key, ShortcutLookup[possibleHex].shortcut, 6, 1, localBarSettings );
+			else
+				Turbine.Shell.WriteLine("Missing: " .. possibleHex .. " desc: " .. skillInfo:GetDescription());
 			end
-
-			-- local shortcut = Turbine.UI.Lotro.Shortcut( skillInfo:GetType(), skillInfo:GetIconImageID() );
-			-- if (shortcut:GetData() == "0x7001CEA9" or shortcut:GetData() == "0x7001B4D8") then
-			-- 	Turbine.Shell.WriteLine("Found it!");
-			-- end
-
-			--templateService:AddShortcut( key, "0x" .. dec2hex(skillInfo:GetIconImageID()), skillInfo:GetType(), 1, localBarSettings );
 		end
 	end);
 end

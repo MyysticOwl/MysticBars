@@ -21,64 +21,70 @@ end
 function CaptainTemplate:Heralds( override )
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
-	templateService:CreateBar( override, "Heralds", 12, 1, 3, 240, 300 );
-	templateService:SetBuffTriggerOptions( false, false );
-	templateService:SetTrigger( templateService.CTRL );
-	templateService:SetBuffTrigger( "Banner of War" );
-	templateService:SetBuffTrigger( "Banner of Hope" );
-	templateService:SetBuffTrigger( "Banner of Victory" );
-	templateService:SetBGColor( 0.35, 1, 0, 0 );
-	templateService:AddShortcut( 1, "0x70002F7A", 6, 10 );
-	templateService:AddShortcut( 2, "0x70002FAF", 6, 24 );
-	templateService:AddShortcut( 3, "0x70002F1A", 6, 34 );
+	return templateService:CreateBar( override, "Heralds", 12, 1, 3, 240, 300, QUICKSLOTBAR, function(barSettings)
+		templateService:SetBuffTriggerOptions( false, false, barSettings );
+		templateService:SetTrigger( templateService.CTRL, nil, barSettings );
+		templateService:SetBuffTrigger( "Banner of War", barSettings );
+		templateService:SetBuffTrigger( "Banner of Hope", barSettings );
+		templateService:SetBuffTrigger( "Banner of Victory", barSettings );
+		templateService:SetBGColor( 0.35, 1, 0, 0, barSettings );
+		templateService:AddShortcut( 1, "0x70002F7A", 6, 10, barSettings );
+		templateService:AddShortcut( 2, "0x70002FAF", 6, 24, barSettings );
+		templateService:AddShortcut( 3, "0x70002F1A", 6, 34, barSettings );
+	end);
 end
 
 function CaptainTemplate:Tier1( override )
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
-	templateService:CreateBar( override, "Tier1", 2, 1, 2, 240, 350 );
-	templateService:SetBuffTriggerOptions( true, false );
-	templateService:SetBuffTrigger( "Battle-readied" );
-	templateService:AddShortcut( 1, "0x70002FCF", 6, 2 );
-	templateService:AddShortcut( 2, "0x70003E50", 6, 10 );
+	return templateService:CreateBar( override, "Tier1", 2, 1, 2, 240, 350, QUICKSLOTBAR, function(barSettings)
+		templateService:SetBuffTriggerOptions( true, false, barSettings );
+		templateService:SetBuffTrigger( "Battle-readied", barSettings );
+		templateService:AddShortcut( 1, "0x70002FCF", 6, 2, barSettings );
+		templateService:AddShortcut( 2, "0x70003E50", 6, 10, barSettings );
+	end);
 end
 
 function CaptainTemplate:Tier2( override )
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
-	templateService:CreateBar( override, "Tier2", 30, 1, 1, 240, 400 );
-	templateService:SetBuffTriggerOptions( true, false );
-	templateService:SetBuffTrigger( "Battle-hardened" );
-	templateService:AddShortcut( 1, "0x7000AD9A", 6, 30 );
-	templateService:AddShortcut( 1, "0x70017D31", 6, 52 );
+	return templateService:CreateBar( override, "Tier2", 30, 1, 1, 240, 400, QUICKSLOTBAR, function(barSettings)
+		templateService:SetBuffTriggerOptions( true, false, barSettings );
+		templateService:SetBuffTrigger( "Battle-hardened", barSettings );
+		templateService:AddShortcut( 1, "0x7000AD9A", 6, 30, barSettings );
+		templateService:AddShortcut( 1, "0x70017D31", 6, 52, barSettings );
+	end);
 end
 
 function CaptainTemplate:Marks( override )
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
-	templateService:CreateBar( override, "Marks", 12, 1, 3, 240, 450 );
-	templateService:AddShortcut( 1, "0x70003E4F", 6, 12 );
-	templateService:AddShortcut( 2, "0x70003E4D", 6, 18 );
-	templateService:AddShortcut( 3, "0x70003E56", 6, 30 );
+	return templateService:CreateBar( override, "Marks", 12, 1, 3, 240, 450, QUICKSLOTBAR, function(barSettings)
+		templateService:AddShortcut( 1, "0x70003E4F", 6, 12, barSettings );
+		templateService:AddShortcut( 2, "0x70003E4D", 6, 18, barSettings );
+		templateService:AddShortcut( 3, "0x70003E56", 6, 30, barSettings );
+	end);
 end
 
 function CaptainTemplate:Tactics( override )
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
-	templateService:CreateBar( override, "Tactics", 6, 1, 3, 240, 500 );
-	templateService:AddShortcut( 1, "0x70003E53", 6, 6 );
-	templateService:AddShortcut( 2, "0x70003E55", 6, 28 );
-	templateService:AddShortcut( 3, "0x70003E59", 6, 38 );
+	return templateService:CreateBar( override, "Tactics", 6, 1, 3, 240, 500, QUICKSLOTBAR, function(barSettings)
+		templateService:AddShortcut( 1, "0x70003E53", 6, 6, barSettings );
+		templateService:AddShortcut( 2, "0x70003E55", 6, 28, barSettings );
+		templateService:AddShortcut( 3, "0x70003E59", 6, 38, barSettings );
+	end);
 end
 
 function CaptainTemplate:DefeatResponse( override )
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
-	templateService:CreateBar( override, "DefeatResponse", 2, 1, 4, 240, 550 );
-	templateService:SetBuffTriggerOptions( true, false );
-	templateService:SetBuffTrigger( "Enemy Defeat Response" );
-	templateService:AddShortcut( 1, "0x70002F4F", 6, 2 );
-	templateService:AddShortcut( 2, "0x70002F58", 6, 4 );
-	templateService:AddShortcut( 3, "0x7000FF8B", 6, 8 );
-	templateService:AddShortcut( 4, "0x70002F61", 6, 60 );
+	return templateService:CreateBar( override, "DefeatResponse", 2, 1, 4, 240, 550, QUICKSLOTBAR, function(barSettings)
+		templateService:SetBuffTriggerOptions( true, false, barSettings );
+		templateService:SetBuffTrigger( "Enemy Defeat Response", barSettings );
+		templateService:AddShortcut( 1, "0x70002F4F", 6, 2, barSettings );
+		templateService:AddShortcut( 2, "0x70002F58", 6, 4, barSettings );
+		templateService:AddShortcut( 3, "0x7000FF8B", 6, 8, barSettings );
+		templateService:AddShortcut( 4, "0x70002F61", 6, 60, barSettings );
+	end);
 end
