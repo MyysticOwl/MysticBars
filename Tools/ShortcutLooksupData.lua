@@ -873,5 +873,1752 @@ ShortcutLookup = {
 ["0x4100888C"] = { shortcut = "0x700062FA" },
 ["0x4100888A"] = { shortcut = "0x700062F6" },
 ["0x41008890"] = { shortcut = "0x70006301" },
-["0x41008885"] = { shortcut = "0x700062EC" }
+["0x41008885"] = { shortcut = "0x700062EC" },
+["0x411864CA"] = { shortcut = "0x7001B809" },
+["0x410FF4C6"] = 
+{
+    ["shortcut"] = "0x7001B4B2",
+    ["type"] = 6.000000,
+    ["name"] = "Bloodbay Pony"
+},
+["0x411864CB"] = 
+{
+    ["shortcut"] = "0x7001CF5E",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Liver Chestnut Pony"
+},
+["0x41130D63"] = 
+{
+    ["shortcut"] = "0x7001E8F0",
+    ["type"] = 6.000000,
+    ["name"] = "Yule Festival Snow Pony"
+},
+["0x410FF4CA"] = 
+{
+    ["shortcut"] = "0x7001B4B9",
+    ["type"] = 6.000000,
+    ["name"] = "Bay Pony"
+},
+["0x41130D48"] = 
+{
+    ["shortcut"] = "0x7001E8EF",
+    ["type"] = 6.000000,
+    ["name"] = "Sable Harvestmath Pony"
+},
+["0x410FF4CE"] = 
+{
+    ["shortcut"] = "0x7001B4BD",
+    ["type"] = 6.000000,
+    ["name"] = "Chestnut Pony"
+},
+["0x41185CBF"] = 
+{
+    ["shortcut"] = "0x7001B4D8",
+    ["type"] = 6.000000,
+    ["name"] = "Bree-Pony"
+},
+["0x411029E8"] = 
+{
+    ["shortcut"] = "0x7001CEA9",
+    ["type"] = 6.000000,
+    ["name"] = "Dusky Nimblefoot Goat"
+},
+["0x41185CDE"] = 
+{
+    ["shortcut"] = "0x7001B4C6",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Nimble Redhorn-goat"
+},
+["0x410FF4CF"] = 
+{
+    ["shortcut"] = "0x7001B4BE",
+    ["type"] = 6.000000,
+    ["name"] = "Blonde Sorrel Pony"
+},
+["0x41130D41"] = 
+{
+    ["shortcut"] = "0x7001B4CB",
+    ["type"] = 6.000000,
+    ["name"] = "Springfest Pony"
+},
+["0x41128896"] = 
+{
+    ["shortcut"] = "0x7002D689",
+    ["type"] = 6.000000,
+    ["name"] = "Festive Azure Pony"
+},
+["0x412351EB"] = 
+{
+    ["shortcut"] = "0x70066D31",
+    ["type"] = 6.000000,
+    ["name"] = "Return to Lyndelby"
+},
+["0x41233017"] = 
+{
+    ["shortcut"] = "0x70066102",
+    ["type"] = 6.000000,
+    ["name"] = "Flick"
+},
+["0x411D2E28"] = 
+{
+    ["shortcut"] = "0x70051DFF",
+    ["type"] = 6.000000,
+    ["name"] = "Wanderlust"
+},
+["0x411F1B06"] = 
+{
+    ["shortcut"] = "0x70057C36",
+    ["type"] = 6.000000,
+    ["name"] = "Travel to Kinship Member's House"
+},
+["0x41216D5C"] = 
+{
+    ["shortcut"] = "0x70060EA8",
+    ["type"] = 6.000000,
+    ["name"] = "Return to Tornhad"
+},
+["0x411FB960"] = 
+{
+    ["shortcut"] = "0x7005B609",
+    ["type"] = 6.000000,
+    ["name"] = "Pummel"
+},
+["0x41232FFF"] = 
+{
+    ["shortcut"] = "0x7006610B",
+    ["type"] = 6.000000,
+    ["name"] = "Belly of Brine"
+},
+["0x411FAF0E"] = 
+{
+    ["shortcut"] = "0x70058AC1",
+    ["type"] = 6.000000,
+    ["name"] = "Low Strike"
+},
+["0x4124BD52"] = 
+{
+    ["shortcut"] = "0x7006935D",
+    ["type"] = 6.000000,
+    ["name"] = "Sea-side Sand-lurker"
+},
+["0x41220489"] = 
+{
+    ["shortcut"] = "0x70062B41",
+    ["type"] = 6.000000,
+    ["name"] = "Valiant Steed of the Dúnedain"
+},
+["0x4122F87B"] = 
+{
+    ["shortcut"] = "0x70064184",
+    ["type"] = 6.000000,
+    ["name"] = "Pure Seagull"
+},
+["0x41233010"] = 
+{
+    ["shortcut"] = "0x70066107",
+    ["type"] = 6.000000,
+    ["name"] = "Blade Shield"
+},
+["0x4110C6BD"] = 
+{
+    ["shortcut"] = "0x700249FE",
+    ["type"] = 6.000000,
+    ["name"] = "Elf Ambassador's Pony"
+},
+["0x412358C3"] = 
+{
+    ["shortcut"] = "0x70066720",
+    ["type"] = 6.000000,
+    ["name"] = "Nature's Wrath"
+},
+["0x411ADE86"] = 
+{
+    ["shortcut"] = "0x70048597",
+    ["type"] = 6.000000,
+    ["name"] = "Faroth"
+},
+["0x411A4657"] = 
+{
+    ["shortcut"] = "0x70047156",
+    ["type"] = 6.000000,
+    ["name"] = "Oaken Kite"
+},
+["0x411B8B35"] = 
+{
+    ["shortcut"] = "0x7004A368",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Alliance of the Third Age"
+},
+["0x411F9F90"] = 
+{
+    ["shortcut"] = "0x70058990",
+    ["type"] = 6.000000,
+    ["name"] = "Coffee Goat"
+},
+["0x4124691B"] = 
+{
+    ["shortcut"] = "0x70067EA1",
+    ["type"] = 6.000000,
+    ["name"] = "Tide-breaker's Steed"
+},
+["0x411EE82C"] = 
+{
+    ["shortcut"] = "0x70057635",
+    ["type"] = 6.000000,
+    ["name"] = "Muster in Limlók"
+},
+["0x4111283B"] = 
+{
+    ["shortcut"] = "0x700271F5",
+    ["type"] = 6.000000,
+    ["name"] = "Green-clad Pony of the Gap"
+},
+["0x411A4A9A"] = 
+{
+    ["shortcut"] = "0x70046FC2",
+    ["type"] = 6.000000,
+    ["name"] = "Red Squirrel"
+},
+["0x411F1757"] = 
+{
+    ["shortcut"] = "0x700578D5",
+    ["type"] = 6.000000,
+    ["name"] = "Mysterious Celebration Pig"
+},
+["0x412135EA"] = 
+{
+    ["shortcut"] = "0x7005B558",
+    ["type"] = 6.000000,
+    ["name"] = "Fist of the Valar"
+},
+["0x411136C6"] = 
+{
+    ["shortcut"] = "0x70027795",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Minstrel"
+},
+["0x4122FC52"] = 
+{
+    ["shortcut"] = "0x70002F67",
+    ["type"] = 6.000000,
+    ["name"] = "Battle-shout"
+},
+["0x4121340E"] = 
+{
+    ["shortcut"] = "0x7005D48A",
+    ["type"] = 6.000000,
+    ["name"] = "Muster at the Noble Gate"
+},
+["0x4110CA45"] = 
+{
+    ["shortcut"] = "0x70024A6C",
+    ["type"] = 6.000000,
+    ["name"] = "Friend of Bears (Polar Bear)"
+},
+["0x411AD820"] = 
+{
+    ["shortcut"] = "0x70046FB4",
+    ["type"] = 6.000000,
+    ["name"] = "Black Bat"
+},
+["0x41233008"] = 
+{
+    ["shortcut"] = "0x70066119",
+    ["type"] = 6.000000,
+    ["name"] = "Riposte"
+},
+["0x41247967"] = 
+{
+    ["shortcut"] = "0x700697F3",
+    ["type"] = 6.000000,
+    ["name"] = "Muster at the Bloody Eagle Tavern"
+},
+["0x4120C721"] = 
+{
+    ["shortcut"] = "0x7005A10B",
+    ["type"] = 6.000000,
+    ["name"] = "Tame Wildwood Huorn"
+},
+["0x41211429"] = 
+{
+    ["shortcut"] = "0x700598BC",
+    ["type"] = 6.000000,
+    ["name"] = "Strike Towards the Sky"
+},
+["0x41196FC7"] = 
+{
+    ["shortcut"] = "0x7003780A",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Hammerhand"
+},
+["0x41231315"] = 
+{
+    ["shortcut"] = "0x70065461",
+    ["type"] = 6.000000,
+    ["name"] = "Brown Cow"
+},
+["0x41221C98"] = 
+{
+    ["shortcut"] = "0x7006356E",
+    ["type"] = 6.000000,
+    ["name"] = "Wizard's Frost"
+},
+["0x41233009"] = 
+{
+    ["shortcut"] = "0x70066127",
+    ["type"] = 6.000000,
+    ["name"] = "Throw Bolas"
+},
+["0x4110C6BA"] = 
+{
+    ["shortcut"] = "0x70024A01",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Dusk-watch"
+},
+["0x411FB95A"] = 
+{
+    ["shortcut"] = "0x70058C4B",
+    ["type"] = 6.000000,
+    ["name"] = "Slip Free"
+},
+["0x411FB964"] = 
+{
+    ["shortcut"] = "0x70058C4F",
+    ["type"] = 6.000000,
+    ["name"] = "Overhand Smash"
+},
+["0x411C1CC9"] = 
+{
+    ["shortcut"] = "0x7004D722",
+    ["type"] = 6.000000,
+    ["name"] = "Lasgalen Grey Owl"
+},
+["0x41129BE1"] = 
+{
+    ["shortcut"] = "0x700277A5",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Burglar"
+},
+["0x41247501"] = 
+{
+    ["shortcut"] = "0x70066120",
+    ["type"] = 6.000000,
+    ["name"] = "Sail to Tharbad"
+},
+["0x4121443C"] = 
+{
+    ["shortcut"] = "0x7005FAE2",
+    ["type"] = 6.000000,
+    ["name"] = "White Heartwood Fawn"
+},
+["0x4111F2E6"] = 
+{
+    ["shortcut"] = "0x7002F738",
+    ["type"] = 6.000000,
+    ["name"] = "Farmers Faire Pony"
+},
+["0x411FB968"] = 
+{
+    ["shortcut"] = "0x70058C3D",
+    ["type"] = 6.000000,
+    ["name"] = "Shattering Fist"
+},
+["0x4110CA4C"] = 
+{
+    ["shortcut"] = "0x70024A73",
+    ["type"] = 6.000000,
+    ["name"] = "Lynx-speech (Spotted Lynx)"
+},
+["0x411E5CDB"] = 
+{
+    ["shortcut"] = "0x7005400E",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Dead City"
+},
+["0x41232FFD"] = 
+{
+    ["shortcut"] = "0x70066110",
+    ["type"] = 6.000000,
+    ["name"] = "Sea Legs"
+},
+["0x41212D2D"] = 
+{
+    ["shortcut"] = "0x7005CB23",
+    ["type"] = 6.000000,
+    ["name"] = "Fateful Thunder Boar"
+},
+["0x41233000"] = 
+{
+    ["shortcut"] = "0x7006610A",
+    ["type"] = 6.000000,
+    ["name"] = "Dodge"
+},
+["0x4122FC4D"] = 
+{
+    ["shortcut"] = "0x70002F1A",
+    ["type"] = 6.000000,
+    ["name"] = "Call to Arms: Herald of Victory"
+},
+["0x41247504"] = 
+{
+    ["shortcut"] = "0x7006611A",
+    ["type"] = 6.000000,
+    ["name"] = "Sail to Buckland"
+},
+["0x4122EA26"] = 
+{
+    ["shortcut"] = "0x70063D1C",
+    ["type"] = 6.000000,
+    ["name"] = "Rakish Charmer's Steed"
+},
+["0x4115F955"] = 
+{
+    ["shortcut"] = "0x7003B897",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Eorlingas Pony"
+},
+["0x41231311"] = 
+{
+    ["shortcut"] = "0x7006545F",
+    ["type"] = 6.000000,
+    ["name"] = "Frost Aurochs"
+},
+["0x411258D6"] = 
+{
+    ["shortcut"] = "0x7003041B",
+    ["type"] = 6.000000,
+    ["name"] = "War-steed: Medium"
+},
+["0x411FB95D"] = 
+{
+    ["shortcut"] = "0x70058C41",
+    ["type"] = 6.000000,
+    ["name"] = "Mighty Upheaval"
+},
+["0x412116A3"] = 
+{
+    ["shortcut"] = "0x7005AD9C",
+    ["type"] = 6.000000,
+    ["name"] = "Share Innate Strength: Heavy"
+},
+["0x410FF4D8"] = 
+{
+    ["shortcut"] = "0x70022C66",
+    ["type"] = 6.000000,
+    ["name"] = "Grey Pony"
+},
+["0x4122FBFE"] = 
+{
+    ["shortcut"] = "0x7000AA10",
+    ["type"] = 6.000000,
+    ["name"] = "Withdraw"
+},
+["0x4121945C"] = 
+{
+    ["shortcut"] = "0x70061712",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of Crystal Resolve"
+},
+["0x411FAEBD"] = 
+{
+    ["shortcut"] = "0x70058359",
+    ["type"] = 6.000000,
+    ["name"] = "Speak No Evil"
+},
+["0x4122FC03"] = 
+{
+    ["shortcut"] = "0x70003E4D",
+    ["type"] = 6.000000,
+    ["name"] = "Telling Mark"
+},
+["0x41233007"] = 
+{
+    ["shortcut"] = "0x70066126",
+    ["type"] = 6.000000,
+    ["name"] = "Breath of Fire"
+},
+["0x41247503"] = 
+{
+    ["shortcut"] = "0x7006610F",
+    ["type"] = 6.000000,
+    ["name"] = "Sail to Tinnudir"
+},
+["0x4122FBF9"] = 
+{
+    ["shortcut"] = "0x7003A6A3",
+    ["type"] = 6.000000,
+    ["name"] = "Cleanse Corruption"
+},
+["0x4110CA5A"] = 
+{
+    ["shortcut"] = "0x70024A91",
+    ["type"] = 6.000000,
+    ["name"] = "Friend of Nature (Tundra-guardian)"
+},
+["0x411136C4"] = 
+{
+    ["shortcut"] = "0x70027799",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Guardian"
+},
+["0x411BAD60"] = 
+{
+    ["shortcut"] = "0x7004AE1F",
+    ["type"] = 6.000000,
+    ["name"] = "Muster in the Udûn Foothold"
+},
+["0x4110163F"] = 
+{
+    ["shortcut"] = "0x7001AA28",
+    ["type"] = 6.000000,
+    ["name"] = "Soldier"
+},
+["0x4122FEF0"] = 
+{
+    ["shortcut"] = "0x7000A1D7",
+    ["type"] = 6.000000,
+    ["name"] = "Inspire (Shield-brother)"
+},
+["0x41233013"] = 
+{
+    ["shortcut"] = "0x700660FF",
+    ["type"] = 6.000000,
+    ["name"] = "Motivating Song"
+},
+["0x411A4332"] = 
+{
+    ["shortcut"] = "0x70047076",
+    ["type"] = 6.000000,
+    ["name"] = "Muster in after-battle Osgiliath"
+},
+["0x411136C8"] = 
+{
+    ["shortcut"] = "0x700277A0",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Warden"
+},
+["0x411BD5B5"] = 
+{
+    ["shortcut"] = "0x7004CAC1",
+    ["type"] = 6.000000,
+    ["name"] = "Forest Elk"
+},
+["0x4122FC4B"] = 
+{
+    ["shortcut"] = "0x7000FC78",
+    ["type"] = 6.000000,
+    ["name"] = "Call to Arms: Archer"
+},
+["0x4122FEEC"] = 
+{
+    ["shortcut"] = "0x7000AA12",
+    ["type"] = 6.000000,
+    ["name"] = "Time of Need"
+},
+["0x411A8F20"] = 
+{
+    ["shortcut"] = "0x70047A9C",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Eldar"
+},
+["0x412346A1"] = 
+{
+    ["shortcut"] = "0x70066113",
+    ["type"] = 6.000000,
+    ["name"] = "Step Back"
+},
+["0x410FF4CC"] = 
+{
+    ["shortcut"] = "0x7001B4D2",
+    ["type"] = 6.000000,
+    ["name"] = "Lithe Festival Pony"
+},
+["0x41221409"] = 
+{
+    ["shortcut"] = "0x70003E7F",
+    ["type"] = 6.000000,
+    ["name"] = "Greater Anthem III - Prowess"
+},
+["0x412135EB"] = 
+{
+    ["shortcut"] = "0x7005BD36",
+    ["type"] = 6.000000,
+    ["name"] = "Battle Fury"
+},
+["0x41246EE8"] = 
+{
+    ["shortcut"] = "0x70066128",
+    ["type"] = 6.000000,
+    ["name"] = "Smoking Stones"
+},
+["0x411FB965"] = 
+{
+    ["shortcut"] = "0x70058C43",
+    ["type"] = 6.000000,
+    ["name"] = "Backhand Clout"
+},
+["0x412195E4"] = 
+{
+    ["shortcut"] = "0x7006175B",
+    ["type"] = 6.000000,
+    ["name"] = "Chestnut Corgi"
+},
+["0x412312C1"] = 
+{
+    ["shortcut"] = "0x70065436",
+    ["type"] = 6.000000,
+    ["name"] = "Dappled Grey Miniature Draught Horse"
+},
+["0x4121ED7C"] = 
+{
+    ["shortcut"] = "0x70062215",
+    ["type"] = 6.000000,
+    ["name"] = "Red Salamander"
+},
+["0x411113BC"] = 
+{
+    ["shortcut"] = "0x7002D114",
+    ["type"] = 6.000000,
+    ["name"] = "Perlino Pony"
+},
+["0x411E5CDA"] = 
+{
+    ["shortcut"] = "0x7005400D",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Great Alliance"
+},
+["0x411FB1D8"] = 
+{
+    ["shortcut"] = "0x70058D33",
+    ["type"] = 6.000000,
+    ["name"] = "Elderslade Boar"
+},
+["0x411D6EBA"] = 
+{
+    ["shortcut"] = "0x70052366",
+    ["type"] = 6.000000,
+    ["name"] = "Man-form"
+},
+["0x41221BB5"] = 
+{
+    ["shortcut"] = "0x700630EC",
+    ["type"] = 6.000000,
+    ["name"] = "A Little Extra Steed"
+},
+["0x41233018"] = 
+{
+    ["shortcut"] = "0x700671F1",
+    ["type"] = 6.000000,
+    ["name"] = "Explosive Brew"
+},
+["0x4110C6CA"] = 
+{
+    ["shortcut"] = "0x70022C81",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Thorin's Hall Goat"
+},
+["0x4124BF44"] = 
+{
+    ["shortcut"] = "0x70069411",
+    ["type"] = 6.000000,
+    ["name"] = "Sublime Boar"
+},
+["0x411864CC"] = 
+{
+    ["shortcut"] = "0x7001B4CF",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Ashen Pony"
+},
+["0x41003321"] = 
+{
+    ["shortcut"] = "0x700643C4",
+    ["type"] = 6.000000,
+    ["name"] = "Bow of the Righteous"
+},
+["0x4100567A"] = 
+{
+    ["shortcut"] = "0x70058C4C",
+    ["type"] = 6.000000,
+    ["name"] = "Weather Blows"
+},
+["0x41234DCC"] = 
+{
+    ["shortcut"] = "0x70066A8A",
+    ["type"] = 6.000000,
+    ["name"] = "Butterflies"
+},
+["0x4110CA4E"] = 
+{
+    ["shortcut"] = "0x70024A75",
+    ["type"] = 6.000000,
+    ["name"] = "Lynx-speech (Grey Lynx)"
+},
+["0x4121DB45"] = 
+{
+    ["shortcut"] = "0x70061ECD",
+    ["type"] = 6.000000,
+    ["name"] = "Anthem of the Free Peoples"
+},
+["0x4120C697"] = 
+{
+    ["shortcut"] = "0x7005A011",
+    ["type"] = 6.000000,
+    ["name"] = "Wild Trader's Steed"
+},
+["0x4122EA31"] = 
+{
+    ["shortcut"] = "0x70063D30",
+    ["type"] = 6.000000,
+    ["name"] = "Rakish Feline"
+},
+["0x4110CA4F"] = 
+{
+    ["shortcut"] = "0x70024A79",
+    ["type"] = 6.000000,
+    ["name"] = "Lynx-speech (Mountain Lynx)"
+},
+["0x41220451"] = 
+{
+    ["shortcut"] = "0x70062ABE",
+    ["type"] = 6.000000,
+    ["name"] = "Loyal Turtle"
+},
+["0x4110CA55"] = 
+{
+    ["shortcut"] = "0x70024A8B",
+    ["type"] = 6.000000,
+    ["name"] = "Friend of Feline Hunters (Deep-wood Sabre-cat)"
+},
+["0x41003723"] = 
+{
+    ["shortcut"] = "0x70001306",
+    ["type"] = 6.000000,
+    ["name"] = "Oathbreaker's Shame"
+},
+["0x4110C6B8"] = 
+{
+    ["shortcut"] = "0x7002353C",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Ale Association Goat"
+},
+["0x41235219"] = 
+{
+    ["shortcut"] = "0x70066727",
+    ["type"] = 6.000000,
+    ["name"] = "Trample"
+},
+["0x4122FBFB"] = 
+{
+    ["shortcut"] = "0x70036FE2",
+    ["type"] = 6.000000,
+    ["name"] = "Gallant Display"
+},
+["0x412116A4"] = 
+{
+    ["shortcut"] = "0x7005ADA8",
+    ["type"] = 6.000000,
+    ["name"] = "Share Innate Strength: Balance"
+},
+["0x411E229A"] = 
+{
+    ["shortcut"] = "0x70053610",
+    ["type"] = 6.000000,
+    ["name"] = "Black Pig"
+},
+["0x4123193A"] = 
+{
+    ["shortcut"] = "0x70064F4D",
+    ["type"] = 6.000000,
+    ["name"] = "Muster at Clegur"
+},
+["0x411FB961"] = 
+{
+    ["shortcut"] = "0x70058C3B",
+    ["type"] = 6.000000,
+    ["name"] = "Helm's Hammer"
+},
+["0x41123D88"] = 
+{
+    ["shortcut"] = "0x7002CFCB",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Stangard Pony"
+},
+["0x41140687"] = 
+{
+    ["shortcut"] = "0x7005AA0F",
+    ["type"] = 6.000000,
+    ["name"] = "Strike as One!"
+},
+["0x41123BC3"] = 
+{
+    ["shortcut"] = "0x7002CFE9",
+    ["type"] = 6.000000,
+    ["name"] = "Commune with Nature (Spirit Aurochs)"
+},
+["0x4110CA43"] = 
+{
+    ["shortcut"] = "0x70024A5D",
+    ["type"] = 6.000000,
+    ["name"] = "Raven-lore (Weathered-raven)"
+},
+["0x4110CA50"] = 
+{
+    ["shortcut"] = "0x70024A89",
+    ["type"] = 6.000000,
+    ["name"] = "Friend of Feline Hunters (Spotted Sabre-cat)"
+},
+["0x412358BE"] = 
+{
+    ["shortcut"] = "0x70003EE8",
+    ["type"] = 6.000000,
+    ["name"] = "Turn the Tables"
+},
+["0x4124BF5C"] = 
+{
+    ["shortcut"] = "0x7006942F",
+    ["type"] = 6.000000,
+    ["name"] = "Sublime Boar"
+},
+["0x4124796A"] = 
+{
+    ["shortcut"] = "0x70068715",
+    ["type"] = 6.000000,
+    ["name"] = "Muster at Lond Cirion"
+},
+["0x41128897"] = 
+{
+    ["shortcut"] = "0x7002D447",
+    ["type"] = 6.000000,
+    ["name"] = "Fireworks Laden Pony"
+},
+["0x411258D7"] = 
+{
+    ["shortcut"] = "0x70066B29",
+    ["type"] = 6.000000,
+    ["name"] = "War-steed: Medium"
+},
+["0x4122FC48"] = 
+{
+    ["shortcut"] = "0x700642EA",
+    ["type"] = 6.000000,
+    ["name"] = "Stand Alone"
+},
+["0x41221CBE"] = 
+{
+    ["shortcut"] = "0x70063242",
+    ["type"] = 6.000000,
+    ["name"] = "Muster at Andrath"
+},
+["0x411A247C"] = 
+{
+    ["shortcut"] = "0x700383F4",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of Michel Delving"
+},
+["0x4112A846"] = 
+{
+    ["shortcut"] = "0x70033822",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Citadel"
+},
+["0x41208231"] = 
+{
+    ["shortcut"] = "0x70059D12",
+    ["type"] = 6.000000,
+    ["name"] = "Return to Trestlebridge"
+},
+["0x41234DCE"] = 
+{
+    ["shortcut"] = "0x70066A8B",
+    ["type"] = 6.000000,
+    ["name"] = "Fennec Fox"
+},
+["0x411A4825"] = 
+{
+    ["shortcut"] = "0x70047199",
+    ["type"] = 6.000000,
+    ["name"] = "Ithilien Fox"
+},
+["0x412358B4"] = 
+{
+    ["shortcut"] = "0x7000ED87",
+    ["type"] = 6.000000,
+    ["name"] = "Bastion of Light"
+},
+["0x412346E4"] = 
+{
+    ["shortcut"] = "0x700664F3",
+    ["type"] = 6.000000,
+    ["name"] = "The North Wind"
+},
+["0x41185CD7"] = 
+{
+    ["shortcut"] = "0x7003649F",
+    ["type"] = 6.000000,
+    ["name"] = "Teal Fireworks Laden Pony"
+},
+["0x411AD87B"] = 
+{
+    ["shortcut"] = "0x70048552",
+    ["type"] = 6.000000,
+    ["name"] = "Bill the Pony"
+},
+["0x411238D8"] = 
+{
+    ["shortcut"] = "0x7002CFB7",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Dunlending Pony"
+},
+["0x41212D2F"] = 
+{
+    ["shortcut"] = "0x7005CB3C",
+    ["type"] = 6.000000,
+    ["name"] = "Gundabad Ukhrash"
+},
+["0x4122FC4C"] = 
+{
+    ["shortcut"] = "0x70002F7A",
+    ["type"] = 6.000000,
+    ["name"] = "Call to Arms: Herald of War"
+},
+["0x412358C0"] = 
+{
+    ["shortcut"] = "0x7000DD14",
+    ["type"] = 6.000000,
+    ["name"] = "Charge"
+},
+["0x4118671A"] = 
+{
+    ["shortcut"] = "0x7001B4AC",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Dark Chestnut Horse"
+},
+["0x411A3CC4"] = 
+{
+    ["shortcut"] = "0x70046EE4",
+    ["type"] = 6.000000,
+    ["name"] = "Travel to Premium House"
+},
+["0x411B8B54"] = 
+{
+    ["shortcut"] = "0x7004A119",
+    ["type"] = 6.000000,
+    ["name"] = "Hopeful Swan Kite"
+},
+["0x4122F46B"] = 
+{
+    ["shortcut"] = "0x70063F1A",
+    ["type"] = 6.000000,
+    ["name"] = "Rapid Techniques"
+},
+["0x412358D0"] = 
+{
+    ["shortcut"] = "0x7000D4B3",
+    ["type"] = 6.000000,
+    ["name"] = "Stagger"
+},
+["0x411CC042"] = 
+{
+    ["shortcut"] = "0x700671EC",
+    ["type"] = 6.000000,
+    ["name"] = "The Field of Celebrant"
+},
+["0x4124BF42"] = 
+{
+    ["shortcut"] = "0x70069405",
+    ["type"] = 6.000000,
+    ["name"] = "Sublime Piglet"
+},
+["0x411AD879"] = 
+{
+    ["shortcut"] = "0x7004854E",
+    ["type"] = 6.000000,
+    ["name"] = "Farmer Maggot's Dog"
+},
+["0x411EA07F"] = 
+{
+    ["shortcut"] = "0x700551F2",
+    ["type"] = 6.000000,
+    ["name"] = "Muster in Estolad Lân"
+},
+["0x4123521D"] = 
+{
+    ["shortcut"] = "0x70066724",
+    ["type"] = 6.000000,
+    ["name"] = "Savage Knockdown"
+},
+["0x41221408"] = 
+{
+    ["shortcut"] = "0x7000317F",
+    ["type"] = 6.000000,
+    ["name"] = "Greater Anthem II - War"
+},
+["0x411F9DFA"] = 
+{
+    ["shortcut"] = "0x700588C3",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Shimmering Breeze"
+},
+["0x41220452"] = 
+{
+    ["shortcut"] = "0x70062ACD",
+    ["type"] = 6.000000,
+    ["name"] = "Friendly Heron"
+},
+["0x412346BC"] = 
+{
+    ["shortcut"] = "0x7006651D",
+    ["type"] = 6.000000,
+    ["name"] = "Rummage"
+},
+["0x41233014"] = 
+{
+    ["shortcut"] = "0x70066108",
+    ["type"] = 6.000000,
+    ["name"] = "Lunge"
+},
+["0x412346B2"] = 
+{
+    ["shortcut"] = "0x700664F8",
+    ["type"] = 6.000000,
+    ["name"] = "Flèche"
+},
+["0x411F8C3E"] = 
+{
+    ["shortcut"] = "0x70058572",
+    ["type"] = 6.000000,
+    ["name"] = "Muster in Annâk-khurfu"
+},
+["0x41233015"] = 
+{
+    ["shortcut"] = "0x7006611D",
+    ["type"] = 6.000000,
+    ["name"] = "Advance"
+},
+["0x4112B387"] = 
+{
+    ["shortcut"] = "0x700671F3",
+    ["type"] = 6.000000,
+    ["name"] = "Anchored Thrust"
+},
+["0x412116A1"] = 
+{
+    ["shortcut"] = "0x7005B513",
+    ["type"] = 6.000000,
+    ["name"] = "Aggressive Posture"
+},
+["0x412358B9"] = 
+{
+    ["shortcut"] = "0x7000309C",
+    ["type"] = 6.000000,
+    ["name"] = "Protection by the Sword"
+},
+["0x411FB166"] = 
+{
+    ["shortcut"] = "0x70058C1D",
+    ["type"] = 6.000000,
+    ["name"] = "Buff Donkey"
+},
+["0x4113A050"] = 
+{
+    ["shortcut"] = "0x7005AFC0",
+    ["type"] = 6.000000,
+    ["name"] = "First Strike"
+},
+["0x410FF4C2"] = 
+{
+    ["shortcut"] = "0x7001B4BF",
+    ["type"] = 6.000000,
+    ["name"] = "Yule Festival Pony"
+},
+["0x41233004"] = 
+{
+    ["shortcut"] = "0x70066114",
+    ["type"] = 6.000000,
+    ["name"] = "Salt Cure"
+},
+["0x411A4331"] = 
+{
+    ["shortcut"] = "0x70047075",
+    ["type"] = 6.000000,
+    ["name"] = "Muster in Henneth Annûn"
+},
+["0x4122FC01"] = 
+{
+    ["shortcut"] = "0x70002F4F",
+    ["type"] = 6.000000,
+    ["name"] = "Rallying Cry"
+},
+["0x410FF4D3"] = 
+{
+    ["shortcut"] = "0x7001B4D7",
+    ["type"] = 6.000000,
+    ["name"] = "Harvestmath Pony"
+},
+["0x41247969"] = 
+{
+    ["shortcut"] = "0x70068712",
+    ["type"] = 6.000000,
+    ["name"] = "Muster at Dol Amroth"
+},
+["0x411BD18B"] = 
+{
+    ["shortcut"] = "0x7004C558",
+    ["type"] = 6.000000,
+    ["name"] = "Banded Snake"
+},
+["0x4123521C"] = 
+{
+    ["shortcut"] = "0x7006671E",
+    ["type"] = 6.000000,
+    ["name"] = "Blood Prize"
+},
+["0x41247968"] = 
+{
+    ["shortcut"] = "0x7006870C",
+    ["type"] = 6.000000,
+    ["name"] = "Muster at Jax Phanâl"
+},
+["0x41140146"] = 
+{
+    ["shortcut"] = "0x70040D47",
+    ["type"] = 6.000000,
+    ["name"] = "Sweeping Riposte"
+},
+["0x4110CA5C"] = 
+{
+    ["shortcut"] = "0x70024A93",
+    ["type"] = 6.000000,
+    ["name"] = "Friend of Nature (Swamp-guardian)"
+},
+["0x412116A0"] = 
+{
+    ["shortcut"] = "0x7005B9D2",
+    ["type"] = 6.000000,
+    ["name"] = "Hurl Object"
+},
+["0x41212CD9"] = 
+{
+    ["shortcut"] = "0x7005C419",
+    ["type"] = 6.000000,
+    ["name"] = "Efficient Strikes"
+},
+["0x4110C6C1"] = 
+{
+    ["shortcut"] = "0x70024A07",
+    ["type"] = 6.000000,
+    ["name"] = "Lossoth Steed"
+},
+["0x411FB95C"] = 
+{
+    ["shortcut"] = "0x70058C42",
+    ["type"] = 6.000000,
+    ["name"] = "Knee Strike"
+},
+["0x411FB15D"] = 
+{
+    ["shortcut"] = "0x70058C31",
+    ["type"] = 6.000000,
+    ["name"] = "Feed-laden Donkey"
+},
+["0x411D63A1"] = 
+{
+    ["shortcut"] = "0x70052445",
+    ["type"] = 6.000000,
+    ["name"] = "Golden Barn Owl"
+},
+["0x4123300F"] = 
+{
+    ["shortcut"] = "0x70066111",
+    ["type"] = 6.000000,
+    ["name"] = "Shanty: Steady Aft"
+},
+["0x411F9F91"] = 
+{
+    ["shortcut"] = "0x70058989",
+    ["type"] = 6.000000,
+    ["name"] = "Light Grey Goat"
+},
+["0x411DA38C"] = 
+{
+    ["shortcut"] = "0x70052E8C",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Unearthed Kingdom"
+},
+["0x41221407"] = 
+{
+    ["shortcut"] = "0x70003E80",
+    ["type"] = 6.000000,
+    ["name"] = "Lesser Anthem III - Composure"
+},
+["0x41230086"] = 
+{
+    ["shortcut"] = "0x700364D5",
+    ["type"] = 6.000000,
+    ["name"] = "Lightning Strike"
+},
+["0x411136C9"] = 
+{
+    ["shortcut"] = "0x7002779E",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Hunter"
+},
+["0x4110C6BF"] = 
+{
+    ["shortcut"] = "0x70022C6C",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Grey Company Pony"
+},
+["0x4122FC47"] = 
+{
+    ["shortcut"] = "0x70003E4E",
+    ["type"] = 6.000000,
+    ["name"] = "Make Haste"
+},
+["0x4110CA4A"] = 
+{
+    ["shortcut"] = "0x70024A69",
+    ["type"] = 6.000000,
+    ["name"] = "Friend of Bears (Tundra Cub)"
+},
+["0x4110CA5B"] = 
+{
+    ["shortcut"] = "0x70024A95",
+    ["type"] = 6.000000,
+    ["name"] = "Friend of Nature (Mountain-guardian)"
+},
+["0x4121981C"] = 
+{
+    ["shortcut"] = "0x700617BD",
+    ["type"] = 6.000000,
+    ["name"] = "A Murder of Crows"
+},
+["0x412346D3"] = 
+{
+    ["shortcut"] = "0x70066129",
+    ["type"] = 6.000000,
+    ["name"] = "Sludge Pot"
+},
+["0x4124691C"] = 
+{
+    ["shortcut"] = "0x70067EA8",
+    ["type"] = 6.000000,
+    ["name"] = "Fleet Merchant's Steed"
+},
+["0x41233002"] = 
+{
+    ["shortcut"] = "0x7006611F",
+    ["type"] = 6.000000,
+    ["name"] = "Disengage"
+},
+["0x411F9F6C"] = 
+{
+    ["shortcut"] = "0x7005895E",
+    ["type"] = 6.000000,
+    ["name"] = "Elderslade Battle-goat"
+},
+["0x4110CA40"] = 
+{
+    ["shortcut"] = "0x70024A63",
+    ["type"] = 6.000000,
+    ["name"] = "Raven-lore (Blood-raven)"
+},
+["0x411FB962"] = 
+{
+    ["shortcut"] = "0x70058C50",
+    ["type"] = 6.000000,
+    ["name"] = "Quick Feint"
+},
+["0x411FB1D6"] = 
+{
+    ["shortcut"] = "0x70058D34",
+    ["type"] = 6.000000,
+    ["name"] = "Boar of the Three Peaks"
+},
+["0x412358C2"] = 
+{
+    ["shortcut"] = "0x700660CC",
+    ["type"] = 6.000000,
+    ["name"] = "Relentless Fury"
+},
+["0x412346CD"] = 
+{
+    ["shortcut"] = "0x700664EF",
+    ["type"] = 6.000000,
+    ["name"] = "Toss a Bottle"
+},
+["0x4123300C"] = 
+{
+    ["shortcut"] = "0x70066106",
+    ["type"] = 6.000000,
+    ["name"] = "En Garde"
+},
+["0x4110C6C5"] = 
+{
+    ["shortcut"] = "0x70024A0D",
+    ["type"] = 6.000000,
+    ["name"] = "Eriador Pony"
+},
+["0x4110CA41"] = 
+{
+    ["shortcut"] = "0x70024A62",
+    ["type"] = 6.000000,
+    ["name"] = "Raven-lore (Frost-raven)"
+},
+["0x411FB160"] = 
+{
+    ["shortcut"] = "0x70058C2E",
+    ["type"] = 6.000000,
+    ["name"] = "Battle-adorned Pig"
+},
+["0x4110C6C3"] = 
+{
+    ["shortcut"] = "0x70024A0C",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Rivendell Pony"
+},
+["0x4123300A"] = 
+{
+    ["shortcut"] = "0x70066104",
+    ["type"] = 6.000000,
+    ["name"] = "Compound Attack"
+},
+["0x41185CD6"] = 
+{
+    ["shortcut"] = "0x700272FD",
+    ["type"] = 6.000000,
+    ["name"] = "Summerfest Pony"
+},
+["0x412312C0"] = 
+{
+    ["shortcut"] = "0x7006543D",
+    ["type"] = 6.000000,
+    ["name"] = "Homesteader's Miniature Draught Horse"
+},
+["0x4110CA4B"] = 
+{
+    ["shortcut"] = "0x70024A74",
+    ["type"] = 6.000000,
+    ["name"] = "Lynx-speech (Tundra Lynx)"
+},
+["0x41212D30"] = 
+{
+    ["shortcut"] = "0x7005CB38",
+    ["type"] = 6.000000,
+    ["name"] = "Crystal Grim"
+},
+["0x4110CA4D"] = 
+{
+    ["shortcut"] = "0x70024A7A",
+    ["type"] = 6.000000,
+    ["name"] = "Lynx-speech (Onyx Lynx)"
+},
+["0x41128885"] = 
+{
+    ["shortcut"] = "0x7002E78F",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Eastemnet"
+},
+["0x411BBF53"] = 
+{
+    ["shortcut"] = "0x7006611E",
+    ["type"] = 6.000000,
+    ["name"] = "Sail to Lothlórien"
+},
+["0x412346C3"] = 
+{
+    ["shortcut"] = "0x700664F1",
+    ["type"] = 6.000000,
+    ["name"] = "The South Wind"
+},
+["0x4122EA2F"] = 
+{
+    ["shortcut"] = "0x70063D32",
+    ["type"] = 6.000000,
+    ["name"] = "Charming Feline"
+},
+["0x411AD877"] = 
+{
+    ["shortcut"] = "0x70048559",
+    ["type"] = 6.000000,
+    ["name"] = "Raven"
+},
+["0x41232FFE"] = 
+{
+    ["shortcut"] = "0x70066112",
+    ["type"] = 6.000000,
+    ["name"] = "Thrust"
+},
+["0x412312BD"] = 
+{
+    ["shortcut"] = "0x7006542D",
+    ["type"] = 6.000000,
+    ["name"] = "Homestead Steed"
+},
+["0x4122FC51"] = 
+{
+    ["shortcut"] = "0x7000AD9A",
+    ["type"] = 6.000000,
+    ["name"] = "Blade of Elendil"
+},
+["0x411FAF10"] = 
+{
+    ["shortcut"] = "0x70058AC0",
+    ["type"] = 6.000000,
+    ["name"] = "Dextrous Hook"
+},
+["0x412030D3"] = 
+{
+    ["shortcut"] = "0x700597F3",
+    ["type"] = 6.000000,
+    ["name"] = "Get Serious"
+},
+["0x412145CD"] = 
+{
+    ["shortcut"] = "0x7005FC98",
+    ["type"] = 6.000000,
+    ["name"] = "Goat of Kept Promises"
+},
+["0x4110C6C9"] = 
+{
+    ["shortcut"] = "0x70022C66",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Algraig Pony"
+},
+["0x4110C6C8"] = 
+{
+    ["shortcut"] = "0x70022C89",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Esteldín Pony"
+},
+["0x41232141"] = 
+{
+    ["shortcut"] = "0x70065B62",
+    ["type"] = 6.000000,
+    ["name"] = "The King's Pony"
+},
+["0x4110C6C6"] = 
+{
+    ["shortcut"] = "0x70022C87",
+    ["type"] = 6.000000,
+    ["name"] = "Prized Mathom Society Pony"
+},
+["0x4110CA48"] = 
+{
+    ["shortcut"] = "0x70024A68",
+    ["type"] = 6.000000,
+    ["name"] = "Friend of Bears (Blackpaw-bear)"
+},
+["0x412312BF"] = 
+{
+    ["shortcut"] = "0x70065E12",
+    ["type"] = 6.000000,
+    ["name"] = "Black Miniature Draught Horse"
+},
+["0x4122048A"] = 
+{
+    ["shortcut"] = "0x70062B3B",
+    ["type"] = 6.000000,
+    ["name"] = "Elk of Flowing Silver"
+},
+["0x4122FEDA"] = 
+{
+    ["shortcut"] = "0x700534EA",
+    ["type"] = 6.000000,
+    ["name"] = "Defensive Strike"
+},
+["0x41112394"] = 
+{
+    ["shortcut"] = "0x700267A0",
+    ["type"] = 6.000000,
+    ["name"] = "Anniversary Pony"
+},
+["0x4110CA44"] = 
+{
+    ["shortcut"] = "0x70024A5F",
+    ["type"] = 6.000000,
+    ["name"] = "Raven-lore (Storm-raven)"
+},
+["0x4120D271"] = 
+{
+    ["shortcut"] = "0x7005A596",
+    ["type"] = 6.000000,
+    ["name"] = "Journey to the Hall of Vérnozal"
+},
+["0x412358AA"] = 
+{
+    ["shortcut"] = "0x70036948",
+    ["type"] = 6.000000,
+    ["name"] = "Cataclysmic Shout"
+},
+["0x411FB167"] = 
+{
+    ["shortcut"] = "0x70058C2D",
+    ["type"] = 6.000000,
+    ["name"] = "Treasure-laden Donkey"
+},
+["0x412474FF"] = 
+{
+    ["shortcut"] = "0x700671DA",
+    ["type"] = 6.000000,
+    ["name"] = "Aggressive Strike"
+},
+["0x412351EA"] = 
+{
+    ["shortcut"] = "0x70066D32",
+    ["type"] = 6.000000,
+    ["name"] = "Elusive Catch"
+},
+["0x4122140A"] = 
+{
+    ["shortcut"] = "0x700264B9",
+    ["type"] = 6.000000,
+    ["name"] = "Lesser Anthem II - Dissonance "
+},
+["0x4123300B"] = 
+{
+    ["shortcut"] = "0x70066103",
+    ["type"] = 6.000000,
+    ["name"] = "Shanty: Steady Fore"
+},
+["0x4121945D"] = 
+{
+    ["shortcut"] = "0x70061711",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of Starlight"
+},
+["0x4121DD6F"] = 
+{
+    ["shortcut"] = "0x70061F40",
+    ["type"] = 6.000000,
+    ["name"] = "Noble Starling"
+},
+["0x4114AC11"] = 
+{
+    ["shortcut"] = "0x7003B00D",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Kingstead"
+},
+["0x4123514D"] = 
+{
+    ["shortcut"] = "0x700666D6",
+    ["type"] = 6.000000,
+    ["name"] = "Salt-sea Blade"
+},
+["0x41233005"] = 
+{
+    ["shortcut"] = "0x700660FE",
+    ["type"] = 6.000000,
+    ["name"] = "Re-centre"
+},
+["0x4122EA30"] = 
+{
+    ["shortcut"] = "0x70063D31",
+    ["type"] = 6.000000,
+    ["name"] = "Dashing Feline"
+},
+["0x411E8FA3"] = 
+{
+    ["shortcut"] = "0x7005486B",
+    ["type"] = 6.000000,
+    ["name"] = "Shepherd Dog"
+},
+["0x4122FC53"] = 
+{
+    ["shortcut"] = "0x70002FAF",
+    ["type"] = 6.000000,
+    ["name"] = "Call to Arms: Herald of Hope"
+},
+["0x412358BF"] = 
+{
+    ["shortcut"] = "0x70066157",
+    ["type"] = 6.000000,
+    ["name"] = "Breach"
+},
+["0x41123BC4"] = 
+{
+    ["shortcut"] = "0x7002CFEB",
+    ["type"] = 6.000000,
+    ["name"] = "Commune with Nature (Spirit Cub)"
+},
+["0x4120DAA9"] = 
+{
+    ["shortcut"] = "0x7005A6EC",
+    ["type"] = 6.000000,
+    ["name"] = "Adventurous Lurker"
+},
+["0x411E229B"] = 
+{
+    ["shortcut"] = "0x70053611",
+    ["type"] = 6.000000,
+    ["name"] = "Pink Pig"
+},
+["0x411E8FA2"] = 
+{
+    ["shortcut"] = "0x70054872",
+    ["type"] = 6.000000,
+    ["name"] = "Harnessed Shepherd Dog"
+},
+["0x41231939"] = 
+{
+    ["shortcut"] = "0x700658E8",
+    ["type"] = 6.000000,
+    ["name"] = "Muster at Pelargir"
+},
+["0x41210E19"] = 
+{
+    ["shortcut"] = "0x70058C44",
+    ["type"] = 6.000000,
+    ["name"] = "Helm-crusher"
+},
+["0x4124691A"] = 
+{
+    ["shortcut"] = "0x70067E90",
+    ["type"] = 6.000000,
+    ["name"] = "Parrot"
+},
+["0x4111678B"] = 
+{
+    ["shortcut"] = "0x70028F5D",
+    ["type"] = 6.000000,
+    ["name"] = "Fleet-footed Goat"
+},
+["0x412116A2"] = 
+{
+    ["shortcut"] = "0x7005ADAD",
+    ["type"] = 6.000000,
+    ["name"] = "Share Innate Strength: Quickness"
+},
+["0x4110CA47"] = 
+{
+    ["shortcut"] = "0x70024A65",
+    ["type"] = 6.000000,
+    ["name"] = "Friend of Bears (Wildpaw-bear)"
+},
+["0x4121142A"] = 
+{
+    ["shortcut"] = "0x70058C4A",
+    ["type"] = 6.000000,
+    ["name"] = "Follow Me!"
+},
+["0x411BB71A"] = 
+{
+    ["shortcut"] = "0x7004B8C2",
+    ["type"] = 6.000000,
+    ["name"] = "Journey to the Court of Lothlórien"
+},
+["0x41185CC4"] = 
+{
+    ["shortcut"] = "0x700216FA",
+    ["type"] = 6.000000,
+    ["name"] = "Pale Golden Summer Pony"
+},
+["0x412358BD"] = 
+{
+    ["shortcut"] = "0x7006671C",
+    ["type"] = 6.000000,
+    ["name"] = "Final Strike"
+},
+["0x41112839"] = 
+{
+    ["shortcut"] = "0x700271F6",
+    ["type"] = 6.000000,
+    ["name"] = "Red-clad Pony of the Gap"
+},
+["0x4111283C"] = 
+{
+    ["shortcut"] = "0x700271F3",
+    ["type"] = 6.000000,
+    ["name"] = "White-clad Pony of the Gap"
+},
+["0x41232FFC"] = 
+{
+    ["shortcut"] = "0x70066122",
+    ["type"] = 6.000000,
+    ["name"] = "Cut-over"
+},
+["0x411CCD73"] = 
+{
+    ["shortcut"] = "0x70052177",
+    ["type"] = 6.000000,
+    ["name"] = "Throw Knife"
+},
+["0x4121443D"] = 
+{
+    ["shortcut"] = "0x7005FAE9",
+    ["type"] = 6.000000,
+    ["name"] = "Autumn Heartwood Stag"
+},
+["0x41212D2E"] = 
+{
+    ["shortcut"] = "0x7005CB22",
+    ["type"] = 6.000000,
+    ["name"] = "Steed of the Gundabad Reclaimer"
+},
+["0x4122FBFF"] = 
+{
+    ["shortcut"] = "0x70002F61",
+    ["type"] = 6.000000,
+    ["name"] = "Routing Cry"
+},
+["0x411EE573"] = 
+{
+    ["shortcut"] = "0x70057349",
+    ["type"] = 6.000000,
+    ["name"] = "Anniversary Celebration Pig"
+},
+["0x4122F466"] = 
+{
+    ["shortcut"] = "0x70063F1B",
+    ["type"] = 6.000000,
+    ["name"] = "The Way of the Spear"
+},
+["0x41233016"] = 
+{
+    ["shortcut"] = "0x70066118",
+    ["type"] = 6.000000,
+    ["name"] = "Feint"
+},
+["0x410D76D1"] = 
+{
+    ["shortcut"] = "0x70058C3F",
+    ["type"] = 6.000000,
+    ["name"] = "Fulgurant Strike"
+},
+["0x4120F941"] = 
+{
+    ["shortcut"] = "0x7005AA90",
+    ["type"] = 6.000000,
+    ["name"] = "Return to Akrâz-zahar"
+},
+["0x411FAF0F"] = 
+{
+    ["shortcut"] = "0x70058AC8",
+    ["type"] = 6.000000,
+    ["name"] = "Sinister Cross"
+},
+["0x411E436F"] = 
+{
+    ["shortcut"] = "0x70053C12",
+    ["type"] = 6.000000,
+    ["name"] = "Fortitude of the Stout-axes"
+},
+["0x4121340F"] = 
+{
+    ["shortcut"] = "0x7005D488",
+    ["type"] = 6.000000,
+    ["name"] = "Muster at Leitstáth"
+},
+["0x41247500"] = 
+{
+    ["shortcut"] = "0x70066100",
+    ["type"] = 6.000000,
+    ["name"] = "Sail to Celondim"
+},
+["0x411BB718"] = 
+{
+    ["shortcut"] = "0x7004B8C5",
+    ["type"] = 6.000000,
+    ["name"] = "Journey to Bâr Thorenion"
+}
 }

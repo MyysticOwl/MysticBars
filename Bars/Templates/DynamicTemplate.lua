@@ -23,11 +23,11 @@ function DynamicTemplate:Mounts()
 		for key, skill in pairs ( skillsService.travel ) do
 			local skillInfo = skill:GetSkillInfo();
 			local possibleHex = "0x" .. dec2hex(skillInfo:GetIconImageID());
-		
+
 			if (ShortcutLookup[possibleHex]) then
 				templateService:AddShortcut( key, ShortcutLookup[possibleHex].shortcut, 6, 1, localBarSettings );
 			else
-				Turbine.Shell.WriteLine("Missing: " .. possibleHex .. " desc: " .. skillInfo:GetDescription());
+--				Turbine.Shell.WriteLine("Missing: " .. possibleHex .. " desc: " .. skillInfo:GetDescription());
 			end
 		end
 	end);
