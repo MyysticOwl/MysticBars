@@ -128,7 +128,10 @@ function QuickslotBar:PositionChanged(sender, args)
 		end
 		return barSettings;
 	end, function()
-		SERVICE_CONTAINER:GetService(MysticBars.Services.BarService):UpdateBarExtensions();
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+		if (barService ~= nil) then
+			barService:UpdateBarExtensions();
+		end
 	end);
 end
 

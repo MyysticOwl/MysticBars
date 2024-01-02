@@ -219,14 +219,17 @@ function SettingsService:GetBarSettings( barid )
 	if ( bar.events == nil ) then
 		bar.events = { };
 	end
-	if ( bar.events.healthTrigger == nil )then
-		bar.events.healthTrigger = 0.25;
+	if ( bar.events.triggered == nil ) then
+		bar.events.triggered = { };
 	end
-	if ( bar.events.powerTrigger == nil )then
-		bar.events.powerTrigger = 0.25;
+	if ( bar.events.triggered.healthTrigger == nil )then
+		bar.events.triggered.healthTrigger = 0.25;
 	end
-	if ( bar.events.triggerOnClassBuffActive == nil ) then
-		bar.events.triggerOnClassBuffActive = true;
+	if ( bar.events.triggered.powerTrigger == nil )then
+		bar.events.triggered.powerTrigger = 0.25;
+	end
+	if ( bar.events.triggered.triggerOnClassBuffActive == nil ) then
+		bar.events.triggered.triggerOnClassBuffActive = true;
 	end
 	if ( bar.events.inventory == nil )then
 		bar.events.inventory = { };
@@ -235,8 +238,37 @@ function SettingsService:GetBarSettings( barid )
 		bar.events.inventory.quantity = 50;
 	end
 
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayInCombat");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayNotInCombat");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayWhileMounted");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayWhileNotMounted");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayWhileCombatMounted");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayWhileNotCombatMounted");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "isControl");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "isAlt");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "isShift");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "categories");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayOnHealth");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "healthTrigger");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayOnPower");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "powerTrigger");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "triggerOnClassBuffActive");
+	self:MigrateTriggerParam(bar.events, bar.events.triggered, "triggerBuffType");
+
 	return bar
 end
+
+function SettingsService:MigrateTriggerParam(path, newpath, parameter)
+	if (path[parameter] ~= nil) then
+		if (newpath[parameter] == nil) then
+			newpath[parameter] = {};
+		end
+		newpath[parameter] = path[parameter];
+		path[parameter] = nil;
+	end
+end
+
+
 
 function SettingsService:SetBarSettings(barid, bar, doNotRefresh, force)
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);

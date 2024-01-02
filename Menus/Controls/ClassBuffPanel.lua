@@ -173,16 +173,16 @@ function ClassBuffPanel:DisplaySettings()
     self.triggerList.SelectedIndexChanged = function(sender, args)
 		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
 			if ( self.triggerList:GetSelection() == 1 ) then
-				barSettings.events.triggerOnClassBuffActive = true;
+				barSettings.events.triggered.triggerOnClassBuffActive = true;
 			else
-				barSettings.events.triggerOnClassBuffActive = false;
+				barSettings.events.triggered.triggerOnClassBuffActive = false;
 			end
 			return barSettings;
 		end, function()
 			SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 		end);
 	end
-	if ( localBarSettings.events.triggerOnClassBuffActive ) then
+	if ( localBarSettings.events.triggered.triggerOnClassBuffActive ) then
 		self.triggerList:SetSelection( 1 );
 	else
 		self.triggerList:SetSelection( 2 );

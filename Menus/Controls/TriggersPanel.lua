@@ -80,10 +80,10 @@ function TriggersPanel:DisplaySettings()
 	self.triggerList:SetSelections( localBarSettings.events.triggered, true );
 	self.triggerList:SetSelections( localBarSettings.events.triggered.categories, true );
 
-	self.healthTriggerCheckBox:SetChecked( localBarSettings.events.displayOnHealth );
-	self.powerTriggerCheckBox:SetChecked( localBarSettings.events.displayOnPower );
-	self.healthSB:SetValue( localBarSettings.events.healthTrigger * 100 );
-	self.powerSB:SetValue( localBarSettings.events.powerTrigger * 100 );
+	self.healthTriggerCheckBox:SetChecked( localBarSettings.events.triggered.displayOnHealth );
+	self.powerTriggerCheckBox:SetChecked( localBarSettings.events.triggered.displayOnPower );
+	self.healthSB:SetValue( localBarSettings.events.triggered.healthTrigger * 100 );
+	self.powerSB:SetValue( localBarSettings.events.triggered.powerTrigger * 100 );
 end
 
 function TriggersPanel:EnableTriggers( enabled )	

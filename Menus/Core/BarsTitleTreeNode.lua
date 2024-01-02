@@ -159,20 +159,23 @@ function BarsTitleTreeNode:Refresh(width)
   local w = width or self:GetWidth();
 
   self:SetWidth(w);
-  self.delete:SetPosition(self:GetWidth() - 22,4);
 
-  self.t:SetWidth(w-6);
-  self.tr:SetLeft(w-3);
-  self.c:SetWidth(w-6);
-  self.r:SetLeft(w-3);
-  self.b:SetWidth(w-6);
-  self.br:SetLeft(w-3);
+  if (self.delete ~= nil) then
+    self.delete:SetPosition(self:GetWidth() - 22,4);
 
-  local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-  local barSettings = settingsService:GetBarSettings( self.barId );
+    self.t:SetWidth(w-6);
+    self.tr:SetLeft(w-3);
+    self.c:SetWidth(w-6);
+    self.r:SetLeft(w-3);
+    self.b:SetWidth(w-6);
+    self.br:SetLeft(w-3);
 
-  self.visible:SetBackground(barSettings.visible and "MysticBars/Menus/Core/Resources/button_visible.tga" or "MysticBars/Menus/Core/Resources/button_notvisible.tga");
-  self.lock:SetBackground(barSettings.locked and "MysticBars/Menus/Core/Resources/button_locked.tga" or "MysticBars/Menus/Core/Resources/button_unlocked.tga");
+    local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+    local barSettings = settingsService:GetBarSettings( self.barId );
+
+    self.visible:SetBackground(barSettings.visible and "MysticBars/Menus/Core/Resources/button_visible.tga" or "MysticBars/Menus/Core/Resources/button_notvisible.tga");
+    self.lock:SetBackground(barSettings.locked and "MysticBars/Menus/Core/Resources/button_locked.tga" or "MysticBars/Menus/Core/Resources/button_unlocked.tga");
+  end
 end
 
 function BarsTitleTreeNode:SetSelected(selected)

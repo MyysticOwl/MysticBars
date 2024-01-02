@@ -144,13 +144,15 @@ function MainMenu:Refresh(destroy)
 		self.inventoryBars:SetExpanded(not self.inventoryBars:IsExpanded());
 	end
 
-	self.tree:SetSize(w - 40, h);
+	if (self.tree) then
+		self.tree:SetSize(w - 40, h);
 
-	local root = self.tree:GetNodes();
-	for i=1,self.tree:GetNodes():GetCount() do
-		local node = root:Get(i);
+		local root = self.tree:GetNodes();
+		for i=1,self.tree:GetNodes():GetCount() do
+			local node = root:Get(i);
 
-		self:RefreshChildren(node, w - 50);
+			self:RefreshChildren(node, w - 50);
+		end
 	end
 end
 

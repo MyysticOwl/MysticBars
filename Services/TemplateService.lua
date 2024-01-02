@@ -157,11 +157,11 @@ function TemplateService:SetTrigger( statType, percent, localBarSettings )
 		localBarSettings.visible = false;
 
 		if ( statType == TemplateService.HEALTH ) then
-			localBarSettings.events.displayOnHealth = true;
-			localBarSettings.events.healthTrigger = (percent / 100);
+			localBarSettings.events.triggered.displayOnHealth = true;
+			localBarSettings.events.triggered.healthTrigger = (percent / 100);
 		elseif ( statType == TemplateService.POWER ) then
-			localBarSettings.events.displayOnPower = true;
-			localBarSettings.events.powerTrigger = (percent / 100);
+			localBarSettings.events.triggered.displayOnPower = true;
+			localBarSettings.events.triggered.powerTrigger = (percent / 100);
 
 		elseif ( statType == Turbine.Gameplay.EffectCategory.Disease ) then
 			localBarSettings.events.triggered.categories[statType] = true;
@@ -188,12 +188,15 @@ function TemplateService:SetBuffTriggerOptions( whenActive, Anding, localBarSett
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
 		end
+		if ( localBarSettings.events.triggered == nil ) then
+			localBarSettings.events.triggered = { };
+		end
 		localBarSettings.visible = false;
-		localBarSettings.events.triggerOnClassBuffActive = whenActive;
+		localBarSettings.events.triggered.triggerOnClassBuffActive = whenActive;
 		if ( Anding ) then
-			localBarSettings.events.triggerBuffType = "and";
+			localBarSettings.events.triggered.triggerBuffType = "and";
 		else
-			localBarSettings.events.triggerBuffType = "or";
+			localBarSettings.events.triggered.triggerBuffType = "or";
 		end
 	end
 end

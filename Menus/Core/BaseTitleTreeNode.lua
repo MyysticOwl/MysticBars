@@ -99,12 +99,14 @@ function BaseTitleTreeNode:Refresh(width)
 
   self:SetWidth(w);
 
-  self.t:SetWidth(w - 6);
-  self.tr:SetLeft(w - 3);
-  self.c:SetWidth(w - 6);
-  self.r:SetLeft(w - 3);
-  self.b:SetWidth(w - 6);
-  self.br:SetLeft(w - 3);
+  if (self.t ~= nil) then
+    self.t:SetWidth(w - 6);
+    self.tr:SetLeft(w - 3);
+    self.c:SetWidth(w - 6);
+    self.r:SetLeft(w - 3);
+    self.b:SetWidth(w - 6);
+    self.br:SetLeft(w - 3);
+  end
 end
 
 function BaseTitleTreeNode:SetSelected(selected)

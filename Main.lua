@@ -52,11 +52,14 @@ Turbine.Shell.WriteLine( "MysticBars " .. THEVERSION .. " from MyysticOwl" );
 Turbine.Shell.WriteLine( "usage: /mb; /MysticBars" );
 Turbine.Shell.WriteLine( "----------------------------" );
 
-local shellCommand = Turbine.ShellCommand()
-function shellCommand:Execute(command, arguments)
+ShellCommand = Turbine.ShellCommand()
+Turbine.Shell.AddCommand('mb', ShellCommand);
+Turbine.Shell.AddCommand('mysticbars', ShellCommand);
+
+function ShellCommand:Execute(command, arguments)
 	Turbine.PluginManager.ShowOptions(Plugins["MysticBars"]);
 end
-Turbine.Shell.AddCommand('mb;mysticbars;MysticBars;', shellCommand);
+
 
 SERVICE_CONTAINER:AddService(MysticBars.Services.MenuService(), MysticBars.Services.MenuService);
 
