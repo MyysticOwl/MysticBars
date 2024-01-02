@@ -7,13 +7,13 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.Menus.Core.UI.AutoListBox";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
+import "MysticBars.Menus.Core.UI.AutoListBox";
+import "MysticBars.Menus.Core.UI.MenuUtils";
 
-ExtensionPanel = class(MyysticUI.Menus.Controls.BasePanel);
+ExtensionPanel = class(MysticBars.Menus.Controls.BasePanel);
 
 function ExtensionPanel:Constructor( barId, barValue )
-	MyysticUI.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
+	MysticBars.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
 
 	self:SetHeight(140);
 
@@ -40,12 +40,12 @@ function ExtensionPanel:Constructor( barId, barValue )
 end
 
 function ExtensionPanel:DisplaySettings()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local localBarSettings = settingsService:GetBarSettings( self.barId );
 
 	self.orientationList:SetSelection( localBarSettings.orientation );
     self.orientationList.SelectedIndexChanged = function(sender, args)
-		SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId,
+		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId,
 		function(barSettings)
 			barSettings.orientation = self.orientationList:GetSelection();
 			return barSettings;
@@ -53,7 +53,7 @@ function ExtensionPanel:DisplaySettings()
 	end
 
     self.mousedOverList.SelectedIndexChanged = function(sender, args)
-		SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId,
+		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId,
 		function(barSettings)
 			barSettings.onMouseOver = self.mousedOverList:GetSelection();
 			return barSettings;
@@ -62,7 +62,7 @@ function ExtensionPanel:DisplaySettings()
 	self.mousedOverList:SetSelection( localBarSettings.onMouseOver or SHOW_EXTENSIONS );
 
     self.removalList.SelectedIndexChanged = function(sender, args)
-		SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId,
+		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId,
 		function(barSettings)
 			barSettings.barTermination = self.removalList:GetSelection();
 			return barSettings;

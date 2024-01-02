@@ -1,5 +1,5 @@
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
+import "MysticBars.Utils.Class";
 import "Turbine";
 DropDownBoxItem = class( Turbine.UI.Control );
 function DropDownBoxItem:Constructor(label,width)

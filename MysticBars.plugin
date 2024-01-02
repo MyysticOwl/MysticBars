@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <Plugin>
 	<Information>
-		<Name>MyysticUI</Name>
+		<Name>MysticBars</Name>
 		<Author>MyysticOwl</Author>
-		<Version>v3.0.1</Version>
-		<Image>MyysticUI/Menus/Core/Resources/Tonic2.tga</Image>
+		<Version>v3.1.0</Version>
+		<Image>MysticBars/Menus/Core/Resources/myysticowl.tga</Image>
 		<Description>The concept is a Bar (quickbar) manager.
-MyysticUI (previously TonicBars) will allow you to create Easy Bars, Quickslot Bars and Inventory Bars and manage different attributes for them.
+MysticBars (previously TonicBars) will allow you to create Easy Bars, Quickslot Bars and Inventory Bars and manage different attributes for them.
 
 Organize skills, items, mounts, pets, and more onto Quick-Bars for easy access.
 
@@ -23,6 +23,6 @@ Trigger those bars to display under certain circumstances.
      Health/Power Drops below some Percentage
 		</Description>
 	</Information>
-	<Package>MyysticUI.Main</Package>
-	<Configuration Apartment="MyysticUI"></Configuration>
+	<Package>MysticBars.Main</Package>
+	<Configuration Apartment="MysticBars"></Configuration>
 </Plugin>

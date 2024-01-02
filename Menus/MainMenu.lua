@@ -7,33 +7,33 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Table";
-import "MyysticUI.Menus.Core.UI.ComboBox";
-import "MyysticUI.Menus.Core.UI.AutoListBox";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
-import "MyysticUI.Menus.MainMenuItems";
-import "MyysticUI.Menus.GeneralMenuPanel";
-import "MyysticUI.Menus.EasyBars.EasyBarMenuItems";
-import "MyysticUI.Menus.EasyBars.EasyBarPanel";
-import "MyysticUI.Menus.InventoryBars.InventoryBarsMenuItems";
-import "MyysticUI.Menus.InventoryBars.InventoryBarMenuPanel";
-import "MyysticUI.Menus.InventoryBars.InventoryMenuPanel";
-import "MyysticUI.Menus.ManagedBars.ExtensionBarMenuPanel";
-import "MyysticUI.Menus.ManagedBars.ManageBarsMenuItems";
-import "MyysticUI.Menus.ManagedBars.ManageBarsMenuPanel";
-import "MyysticUI.Menus.Core.BaseTitleTreeNode";
-import "MyysticUI.Menus.Core.TitleTreeNode";
-import "MyysticUI.Menus.Core.BarsTitleTreeNode";
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Table";
+import "MysticBars.Menus.Core.UI.ComboBox";
+import "MysticBars.Menus.Core.UI.AutoListBox";
+import "MysticBars.Menus.Core.UI.MenuUtils";
+import "MysticBars.Menus.MainMenuItems";
+import "MysticBars.Menus.GeneralMenuPanel";
+import "MysticBars.Menus.EasyBars.EasyBarMenuItems";
+import "MysticBars.Menus.EasyBars.EasyBarPanel";
+import "MysticBars.Menus.InventoryBars.InventoryBarsMenuItems";
+import "MysticBars.Menus.InventoryBars.InventoryBarMenuPanel";
+import "MysticBars.Menus.InventoryBars.InventoryMenuPanel";
+import "MysticBars.Menus.ManagedBars.ExtensionBarMenuPanel";
+import "MysticBars.Menus.ManagedBars.ManageBarsMenuItems";
+import "MysticBars.Menus.ManagedBars.ManageBarsMenuPanel";
+import "MysticBars.Menus.Core.BaseTitleTreeNode";
+import "MysticBars.Menus.Core.TitleTreeNode";
+import "MysticBars.Menus.Core.BarsTitleTreeNode";
 
-import "MyysticUI.Menus.Controls.BasePanel";
-import "MyysticUI.Menus.Controls.ClassBuffPanel";
-import "MyysticUI.Menus.Controls.ColorPanel";
-import "MyysticUI.Menus.Controls.ExtensionPanel";
-import "MyysticUI.Menus.Controls.InventoryPanel";
-import "MyysticUI.Menus.Controls.PredefinedExtensionPanel";
-import "MyysticUI.Menus.Controls.SlotsPanel";
-import "MyysticUI.Menus.Controls.TriggersPanel";
+import "MysticBars.Menus.Controls.BasePanel";
+import "MysticBars.Menus.Controls.ClassBuffPanel";
+import "MysticBars.Menus.Controls.ColorPanel";
+import "MysticBars.Menus.Controls.ExtensionPanel";
+import "MysticBars.Menus.Controls.InventoryPanel";
+import "MysticBars.Menus.Controls.PredefinedExtensionPanel";
+import "MysticBars.Menus.Controls.SlotsPanel";
+import "MysticBars.Menus.Controls.TriggersPanel";
 
 windowHeight = 500;
 
@@ -45,11 +45,11 @@ SCREENHEIGHT = Turbine.UI.Display.GetHeight();
 
 MainMenu = class( Turbine.UI.Control );
 
-MainMenu.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+MainMenu.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 MainMenu.navigationWidth = 200;
 MainMenu.tree = nil;
-MainMenu.menuItems = MyysticUI.Menus.MainMenuItems();
+MainMenu.menuItems = MysticBars.Menus.MainMenuItems();
 
 MainMenu.menus = { };
 MainMenu.menuSize = 0;
@@ -83,21 +83,21 @@ function MainMenu:Constructor()
 
 	local treeRoot = self.tree:GetNodes();
 
-	self.easyBars = MyysticUI.Menus.Core.TitleTreeNode("Easy Bars", 1);
+	self.easyBars = MysticBars.Menus.Core.TitleTreeNode("Easy Bars", 1);
 	treeRoot:Add(self.easyBars);
 
-	self.managedBars = MyysticUI.Menus.Core.TitleTreeNode("Quickslot Bars", 1, QUICKSLOTBAR, true);
+	self.managedBars = MysticBars.Menus.Core.TitleTreeNode("Quickslot Bars", 1, QUICKSLOTBAR, true);
 	treeRoot:Add(self.managedBars);
 
-	self.inventoryBars = MyysticUI.Menus.Core.TitleTreeNode("Inventory Bars", 1, TABBED_INV_BAR);
+	self.inventoryBars = MysticBars.Menus.Core.TitleTreeNode("Inventory Bars", 1, TABBED_INV_BAR);
 	treeRoot:Add(self.inventoryBars);
 
-	MyysticUI.Menus.EasyBars.EasyBarMenuItems(self, self.easyBars);
-	MyysticUI.Menus.ManagedBars.ManageBarsMenuItems(self, self.managedBars);
-	MyysticUI.Menus.InventoryBars.InventoryBarsMenuItems(self, self.inventoryBars);
+	MysticBars.Menus.EasyBars.EasyBarMenuItems(self, self.easyBars);
+	MysticBars.Menus.ManagedBars.ManageBarsMenuItems(self, self.managedBars);
+	MysticBars.Menus.InventoryBars.InventoryBarsMenuItems(self, self.inventoryBars);
 
 	self.editButton.MouseClick = function( sender, args )
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 		local settings = settingsService:GetSettings();
 
 		if ( settings.barMode == NORMAL_MODE and self.priorBarMode == nil ) then
@@ -109,7 +109,7 @@ function MainMenu:Constructor()
 			settings.barMode = NORMAL_MODE;
 		end
 
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 		barService:RefreshBars();
 
 		self:Refresh();
@@ -130,9 +130,9 @@ function MainMenu:Refresh(destroy)
 		self.managedBars:GetChildNodes():Clear();
 		self.inventoryBars:GetChildNodes():Clear();
 
-		MyysticUI.Menus.EasyBars.EasyBarMenuItems(self, self.easyBars);
-		MyysticUI.Menus.ManagedBars.ManageBarsMenuItems(self, self.managedBars);
-		MyysticUI.Menus.InventoryBars.InventoryBarsMenuItems(self, self.inventoryBars);
+		MysticBars.Menus.EasyBars.EasyBarMenuItems(self, self.easyBars);
+		MysticBars.Menus.ManagedBars.ManageBarsMenuItems(self, self.managedBars);
+		MysticBars.Menus.InventoryBars.InventoryBarsMenuItems(self, self.inventoryBars);
 
 		self.easyBars:SetExpanded(not self.easyBars:IsExpanded());
 		self.easyBars:SetExpanded(not self.easyBars:IsExpanded());
@@ -168,7 +168,7 @@ function MainMenu:RefreshChildren(node, w)
 end
 
 function MainMenu:GetSelection()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	return settingsService:GetSettings().selectedBar;
 end
 

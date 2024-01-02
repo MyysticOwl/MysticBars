@@ -5,18 +5,18 @@
 
 import "Turbine";
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Service";
-import "MyysticUI.Bars.Core.BaseBar";
-import "MyysticUI.Bars.QuickslotBar";
-import "MyysticUI.Bars.ExtensionBar";
-import "MyysticUI.Bars.TabbedInventoryBar";
-import "MyysticUI.Bars.WindowInventoryBar";
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Service";
+import "MysticBars.Bars.Core.BaseBar";
+import "MysticBars.Bars.QuickslotBar";
+import "MysticBars.Bars.ExtensionBar";
+import "MysticBars.Bars.TabbedInventoryBar";
+import "MysticBars.Bars.WindowInventoryBar";
 
-BarService = class( MyysticUI.Utils.Service );
+BarService = class( MysticBars.Utils.Service );
 
 function BarService:Constructor()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	
 	self.working = false;
 	RegisteredBars = { };
@@ -31,7 +31,7 @@ function BarService:RefreshBars()
 end
 
 function BarService:Add( barType, cBarID, cQuickslotID )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local bar = nil;
 	if ( self.working == false ) then
@@ -43,20 +43,20 @@ function BarService:Add( barType, cBarID, cQuickslotID )
 		end
 
 		if ( barType == QUICKSLOTBAR ) then
-			bar = MyysticUI.Bars.QuickslotBar( added );
+			bar = MysticBars.Bars.QuickslotBar( added );
 		elseif ( barType == EXTENSIONBAR ) then
 			local barSettings = settingsService:GetBarSettings( cBarID );
 			added = settings.nextBarId;
 			if ( barSettings.barType == QUICKSLOTBAR ) then
-				bar = MyysticUI.Bars.ExtensionBar( added );
+				bar = MysticBars.Bars.ExtensionBar( added );
 				RegisteredBars[cBarID]:RegisterBarExtension( bar, cQuickslotID, added );
 			else
 				Turbine.Shell.WriteLine( "You can not add an extension to an extension." );
 			end
 		elseif ( barType == TABBED_INV_BAR ) then
-			bar = MyysticUI.Bars.TabbedInventoryBar( added );
+			bar = MysticBars.Bars.TabbedInventoryBar( added );
 		elseif ( barType == WINDOW_INV_BAR ) then
-			bar = MyysticUI.Bars.WindowInventoryBar( added );
+			bar = MysticBars.Bars.WindowInventoryBar( added );
 		end
 		if ( bar ~= nil ) then
 			RegisteredBars[added] = bar;
@@ -79,8 +79,8 @@ function BarService:Add( barType, cBarID, cQuickslotID )
 end
 
 function BarService:Remove( barid, removeSettingsWhenNil )
-	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	if ( barid ~= nil and RegisteredBars[barid] ~= nil ) then
 		eventService:UnregisterForEvents( barid );
@@ -103,7 +103,7 @@ function BarService:Remove( barid, removeSettingsWhenNil )
 			settingsService:SetBarSettings( barid, nil, nil, true);
 		end
 
-		local menuService = SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService)
+		local menuService = SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService)
 		if (menuService ~= nil) then
 			menuService:GetMenu():Refresh(true);
 		end
@@ -111,8 +111,8 @@ function BarService:Remove( barid, removeSettingsWhenNil )
 end
 
 function BarService:Copy( barid, bartype )
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	if ( barid ~= nil and self.working == false ) then
 		self.working = true;
@@ -124,7 +124,7 @@ function BarService:Copy( barid, bartype )
 end
 
 function BarService:Reset( barid )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	if ( barid ~= nil and self.working == false ) then
 		self.working = true;	
@@ -141,26 +141,26 @@ function BarService:Reset( barid )
 end
 
 function BarService:Construct( storedBars, second )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	for key, value in pairs (storedBars) do
 		if ( value.barType == QUICKSLOTBAR ) then
-			local bar = MyysticUI.Bars.QuickslotBar( tonumber(key) );
+			local bar = MysticBars.Bars.QuickslotBar( tonumber(key) );
 			RegisteredBars[tonumber(key)] = bar;
 		end
 		if ( value.barType == TABBED_INV_BAR ) then
-			local bar = MyysticUI.Bars.TabbedInventoryBar( tonumber(key) );
+			local bar = MysticBars.Bars.TabbedInventoryBar( tonumber(key) );
 			RegisteredBars[tonumber(key)] = bar;
 		end
 		if ( value.barType == WINDOW_INV_BAR ) then
-			local bar = MyysticUI.Bars.WindowInventoryBar( tonumber(key) );
+			local bar = MysticBars.Bars.WindowInventoryBar( tonumber(key) );
 			RegisteredBars[tonumber(key)] = bar;
 		end
 	end
 
 	for key, value in pairs (storedBars) do
 		if ( value.barType == EXTENSIONBAR ) then
-			local bar = MyysticUI.Bars.ExtensionBar( key );
+			local bar = MysticBars.Bars.ExtensionBar( key );
 			local attachedbarSettings = settingsService:GetBarSettings( key );
 			local thebar = RegisteredBars[attachedbarSettings.connectionBarID];
 			if ( thebar ~= nil ) then
@@ -183,7 +183,7 @@ function BarService:ShowExtensionBarMenu( barid )
 end
 
 function BarService:UpdateBarExtensions()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	for key, value in pairs (RegisteredBars) do
 		local barsettings = settingsService:GetBarSettings( key );
@@ -204,7 +204,7 @@ function BarService:Alive( barid )
 end
 
 function BarService:LoadQuickslots()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	for key, value in pairs (RegisteredBars) do
 		local bSettings = settingsService:GetBarSettings( key );

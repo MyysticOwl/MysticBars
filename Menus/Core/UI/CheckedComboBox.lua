@@ -1,13 +1,13 @@
 import "Turbine.UI"
-import "MyysticUI.Menus.Core.UI.ComboBox";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
+import "MysticBars.Menus.Core.UI.ComboBox";
+import "MysticBars.Menus.Core.UI.MenuUtils";
 
-CheckedComboBox = class(MyysticUI.Menus.Core.UI.ComboBox);
+CheckedComboBox = class(MysticBars.Menus.Core.UI.ComboBox);
 
 function CheckedComboBox:Constructor()
-    MyysticUI.Menus.Core.UI.ComboBox.Constructor(self);
+    MysticBars.Menus.Core.UI.ComboBox.Constructor(self);
 
-    self.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+    self.utils = MysticBars.Menus.Core.UI.MenuUtils();
 end
 
 -- function CheckedComboBox:ItemSelected(index)

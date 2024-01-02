@@ -5,8 +5,8 @@
 -- RESPECT!
 
 import "Turbine";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
+import "MysticBars.Utils.Class";
+import "MysticBars.Menus.Core.UI.MenuUtils";
 
 buttonWidth = 90;
 selectionWidth = 160;
@@ -14,19 +14,19 @@ selectionHeight = 20;
 
 GeneralMenuPanel = class( Turbine.Object );
 
-GeneralMenuPanel.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+GeneralMenuPanel.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 function GeneralMenuPanel:Draw(context)
 --	menu.contentBox:ClearItems();
 	
-	local settingsBox = MyysticUI.Menus.Core.UI.AutoListBox();
+	local settingsBox = MysticBars.Menus.Core.UI.AutoListBox();
 
 	self.utils:AddCategoryBox(settingsBox, "General Settings");
 
 	if ( realClassSet == nil ) then
 		self.utils:AddLabelBox( settingsBox, "Plugin can't determine your class, please select the correct one:", selectionWidth + 200, selectionHeight + 10 );
 
-		self.classList = MyysticUI.Menus.Core.UI.ComboBox();
+		self.classList = MysticBars.Menus.Core.UI.ComboBox();
 		self.classList:SetSize( 200, 20 );
 		self.classList:SetParent( settingsBox );
 		self.classList:AddItem( "Guardian", 		23 );
@@ -48,7 +48,7 @@ function GeneralMenuPanel:Draw(context)
 
 	self.utils:AddCategoryBox(settingsBox, "Languages");
 
-	self.languageList = MyysticUI.Menus.Core.UI.ComboBox();
+	self.languageList = MysticBars.Menus.Core.UI.ComboBox();
 	self.languageList:SetSize( 200, 20 );
 	self.languageList:SetParent( settingsBox );
 	self.languageList:AddItem( "English", "en" );
@@ -71,7 +71,7 @@ function GeneralMenuPanel:AddSettings(settingsBox)
 
 	self.utils:AddLabelBox( settingsBox, "Profiles", selectionWidth + 200, selectionHeight + 25 );
 
-	self.profileList = MyysticUI.Menus.Core.UI.ComboBox();
+	self.profileList = MysticBars.Menus.Core.UI.ComboBox();
 	self.profileList:SetSize( 200, 20 );
 	self.profileList:SetParent( settingsBox );
 	settingsBox:AddItem( self.profileList );
@@ -79,13 +79,13 @@ function GeneralMenuPanel:AddSettings(settingsBox)
 	self.utils:AddLabelBox( settingsBox, "", 0, 15 );
 	self.utils:AddLabelBox( settingsBox, "Take", selectionWidth + 200, selectionHeight );
 
-	self.theirBarList = MyysticUI.Menus.Core.UI.ComboBox();
+	self.theirBarList = MysticBars.Menus.Core.UI.ComboBox();
 	self.theirBarList:SetSize( 200, 20 );
 	self.theirBarList:SetParent( settingsBox );
 	settingsBox:AddItem( self.theirBarList );
 
 	self.utils:AddLabelBox( settingsBox, "Give", selectionWidth + 200, selectionHeight );
-	self.myBarList = MyysticUI.Menus.Core.UI.ComboBox();
+	self.myBarList = MysticBars.Menus.Core.UI.ComboBox();
 	self.myBarList:SetSize( 200, 20 );
 	self.myBarList:SetParent( settingsBox );
 	settingsBox:AddItem( self.myBarList );
@@ -95,7 +95,7 @@ function GeneralMenuPanel:AddSettings(settingsBox)
 	noShortcutButton:SetText( "Without Icons" );
 	noShortcutButton:SetSize( buttonWidth + 75, selectionHeight );
 	noShortcutButton.MouseClick = function( sender, args )
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 		local profile = self.profileList:GetSelection();
 		local theirBar = self.theirBarList:GetSelection();
@@ -113,7 +113,7 @@ function GeneralMenuPanel:AddSettings(settingsBox)
 	shortcutButton:SetText( "With Icons" );
 	shortcutButton:SetSize( buttonWidth + 75, selectionHeight );
 	shortcutButton.MouseClick = function( sender, args )
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 		local profile = self.profileList:GetSelection();
 		local theirBar = self.theirBarList:GetSelection();
@@ -169,12 +169,12 @@ function GeneralMenuPanel:ChangeProfileVisibilty()
 end
 
 function GeneralMenuPanel:RefreshComboBox()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	self.profileList:Clear();
 	for key, value in opairs (settingsService:GetProfiles() ) do
 		local found = false;
-		local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 		if ( playerService:GetName() == key ) then
 			found = true;
 		end
@@ -191,13 +191,13 @@ function GeneralMenuPanel:RefreshComboBox()
 end
 
 function GeneralMenuPanel:RefreshTheirProfileBars()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	self.theirBarList:Clear();
 	self.theirBarList:AddItem( "", "" );
 	for key, value in opairs (settingsService:GetProfileBars(self.profileList:GetSelection()) ) do
 		local found = false;
-		local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 		if ( playerService:GetName() == key ) then
 			found = true;
 		end
@@ -217,13 +217,13 @@ function GeneralMenuPanel:RefreshTheirProfileBars()
 end
 
 function GeneralMenuPanel:RefreshMyProfileBars()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	self.myBarList:Clear();
 	self.myBarList:AddItem( "", "" );
 	for key, value in opairs (settingsService:GetBars() ) do
 		local found = false;
-		local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 		if ( playerService:GetName() == key ) then
 			found = true;
 		end

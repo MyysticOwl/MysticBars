@@ -6,14 +6,14 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Table";
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Table";
 
 BuffEvents = class( Turbine.Object  );
 
 function BuffEvents:Constructor( regEvents )
-	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local playerClass = playerService.playerClass;
 	self.registeredEvents = regEvents;
 
@@ -33,8 +33,8 @@ function BuffEvents:Constructor( regEvents )
 	end
 
 	eventService:AddCallback( effects, "EffectAdded", function(sender, args)
-		local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-		local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+		local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
+		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 		
 		local effects = playerService.player:GetEffects()
 		local effect = effects:Get(args.Index);
@@ -52,7 +52,7 @@ function BuffEvents:Constructor( regEvents )
 	end);
 
 	eventService:AddCallback( effects, "EffectRemoved", function(sender, args)
-		local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
+		local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 		
 		local effect = args.Effect;
 
@@ -69,7 +69,7 @@ function BuffEvents:Constructor( regEvents )
 	end);
 
 	eventService:AddCallback( effects, "EffectsCleared", function(sender, args)
-		local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
+		local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 
 		local effect = args.Effect;
 

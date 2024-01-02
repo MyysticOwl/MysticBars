@@ -6,13 +6,13 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
+import "MysticBars.Utils.Class";
 
 MiscEvents = class( Turbine.Object  );
 
 function MiscEvents:Constructor( regEvents )
-	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	self.registeredEvents = regEvents;
 
 	eventService:AddCallback( playerService.player, "InCombatChanged", function( sender, args )
@@ -48,8 +48,8 @@ function MiscEvents:Constructor( regEvents )
 --  2: __metatable
 	
 	eventService:AddCallback( playerService.player, "MountChanged", function( sender, args )
-		local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-		local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+		local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
+		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 		
 		local mount = playerService.player:GetMount();
 		if ( mount == nil ) then

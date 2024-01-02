@@ -7,14 +7,14 @@
 SkirmishTemplate = class();
 
 function SkirmishTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	templateService:RegisterBarCreator( "Skirmishes", "Skirmishes", self.Skirmish, true );
 	templateService:ConstructBars();
 end
 
 function SkirmishTemplate:Skirmish( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Skirmishes", 20, 1, 1, 170, 300, QUICKSLOTBAR, function(localBarSettings)
 		templateService:SetBuffTriggerOptions( true, false, localBarSettings );

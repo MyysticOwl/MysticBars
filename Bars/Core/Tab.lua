@@ -58,7 +58,7 @@ function Tab:SetHidden( hide )
 end
 
 function Tab:Refresh()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();	
 
 	if ( settings.barMode == NORMAL_MODE or self.hidden == true ) then

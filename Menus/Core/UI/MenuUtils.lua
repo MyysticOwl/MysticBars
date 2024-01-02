@@ -6,11 +6,11 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Table";
-import "MyysticUI.Menus.Core.UI.ComboBox";
-import "MyysticUI.Menus.Core.UI.AutoListBox";
-import "MyysticUI.Menus.Core.UI.Slider";
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Table";
+import "MysticBars.Menus.Core.UI.ComboBox";
+import "MysticBars.Menus.Core.UI.AutoListBox";
+import "MysticBars.Menus.Core.UI.Slider";
 
 MenuUtils = class( Turbine.Object );
 
@@ -65,7 +65,7 @@ MenuUtils.Verdana14 = Turbine.UI.Lotro.Font.Verdana14;
 MenuUtils.Verdana16 = Turbine.UI.Lotro.Font.Verdana16;
 MenuUtils.Arial12 = Turbine.UI.Lotro.Font.Arial12;
 
-RESOURCEDIR = "MyysticUI/Menus/Core/Resources/"
+RESOURCEDIR = "MysticBars/Menus/Core/Resources/"
 
 MenuUtils.ICONEXPANDALL = 0x4100027B;-- 16x16
 MenuUtils.ICONEXPANDALLOVER = 0x4100027C;-- 16x16
@@ -79,10 +79,10 @@ MenuUtils.ICONCHECKEDEMPTY = Turbine.UI.Graphic(RESOURCEDIR .. "checkbox_02_empt
 function MenuUtils:AddAutoListBox( parentBox, orientation, width, height, top, left, thebgcolor )
 	local box;
 	if ( x ~= nil ) then
-		box = MyysticUI.Menus.Core.UI.AutoListBox(width, height);
+		box = MysticBars.Menus.Core.UI.AutoListBox(width, height);
 		box:SetPosition(top,left);
 	else
-		box = MyysticUI.Menus.Core.UI.AutoListBox();
+		box = MysticBars.Menus.Core.UI.AutoListBox();
 		box:SetPosition(top,left);
 	end
 	box:SetZOrder(10);
@@ -151,7 +151,7 @@ function MenuUtils:AddButton( parentBox, text, w, h, mouseClick, left, top )
 end
 
 function MenuUtils:AddComboBox( parentBox, visibleOptions, x, y, left, top )
-	local combo = MyysticUI.Menus.Core.UI.ComboBox();
+	local combo = MysticBars.Menus.Core.UI.ComboBox();
 	combo:SetSize( x, y );
 	combo:SetPosition(left, top);
 	combo:SetParent( parentBox );
@@ -161,7 +161,7 @@ function MenuUtils:AddComboBox( parentBox, visibleOptions, x, y, left, top )
 end
 
 function MenuUtils:AddCheckedComboBox( parentBox, visibleOptions, x, y, left, top )
-	local combo = MyysticUI.Menus.Core.UI.CheckedComboBox();
+	local combo = MysticBars.Menus.Core.UI.CheckedComboBox();
 	combo:SetSize( x, y );
 	combo:SetPosition(left, top);
 	combo:SetParent( parentBox );
@@ -215,7 +215,7 @@ end
 
 function MenuUtils:CreateCheckBoxCallback( control, barId, commandTable, callbackFunction )
 	control.CheckedChanged = function( sender, args )
-				SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)
+				SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)
 			if ( control:IsChecked() == true ) then
 				self:BuildItemFromCommandTable( barSettings, commandTable, true );
 			else
@@ -231,7 +231,7 @@ function MenuUtils:CreateCheckBoxCallback( control, barId, commandTable, callbac
 end
 
 function MenuUtils:AddScrollBar( parentBox, value, minVal, maxVal, x, y, thebgcolor, text, left, top, valueLabelLeft )
-	local sb = MyysticUI.Menus.Core.UI.Slider();
+	local sb = MysticBars.Menus.Core.UI.Slider();
 	sb:SetParent( parentBox );
 	sb:SetSize( x, y );
 	sb:SetPosition(left, top);
@@ -252,7 +252,7 @@ end
 
 function MenuUtils:CreateScrollBarCallback( control, barId, commandTable, add, divide, callbackFunction )
 	control.ValueChanged = function( sender, args )
-				SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)
+				SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)
 			if ( add ~= nil ) then
 				self:BuildItemFromCommandTable( barSettings, commandTable, control:GetValue() + add );
 			elseif ( divide ~= nil ) then

@@ -33,7 +33,7 @@ function ItemList:SetMaxItemsPerLine( maxPerLine )
 end
 
 function ItemList:Refresh()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
 	self:RefreshQuickslots();
@@ -64,8 +64,8 @@ function ItemList:Refresh()
 end
 
 function ItemList:RefreshQuickslots()
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 	self.loading = true;
 	
@@ -112,8 +112,8 @@ function ItemList:RefreshQuickslots()
 end
 
 function ItemList:ClearQuickslots()
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	self.isClearingQuickslots = true;
 	for key, value in pairs (self.quickslots) do
@@ -131,11 +131,11 @@ function ItemList:ClearQuickslots()
 		end
 	end
 
-	SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
+	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
 		self.currentIemCount = 0;
 		return barSettings;
 	end, function()
-		--SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+		--SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 	end);
 	self.isClearingQuickslots = false;
 end
@@ -152,14 +152,14 @@ function ItemList:GetQuickslotLocation( index )
 end
 
 function ItemList:SetupExtensionSlot( bars, index )
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	if ( index <= self.count ) then
 		self.extensions = bars;
 		
 		self.quickslots[ index ].MouseEnter = function(sender,args)
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 			if ( barService:Alive( self.id ) and self.entered == false ) then
 				self.entered = true;
@@ -180,7 +180,7 @@ function ItemList:SetupExtensionSlot( bars, index )
 		end
 
 		self.quickslots[ index ].MouseLeave = function(sender,args)
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 			if ( barService:Alive( self.id ) and self.entered == true ) then
 				for key, value in pairs (self.extensions) do
@@ -198,8 +198,8 @@ function ItemList:SetupExtensionSlot( bars, index )
 end
 
 function ItemList:AddItem( item )
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local found = false;
 	for key, value in pairs (self.items) do
@@ -214,7 +214,7 @@ function ItemList:AddItem( item )
 			self.items[self.currentIemCount] = item;
 			self.items[self.currentIemCount].QuantityChanged = function(sender,args)
 				if ( barService:Alive( self.id ) == true ) then
-					SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+					SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 				end
 			end	
 		end
@@ -222,7 +222,7 @@ function ItemList:AddItem( item )
 end
 
 function ItemList:RemoveItem( item )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 	local found = nil;
 	for index=1, self.currentIemCount, 1 do

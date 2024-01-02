@@ -7,7 +7,7 @@
 MinstrelTemplate = class();
 
 function MinstrelTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	templateService:RegisterBarCreator( "War-Speech Skills", 		"War-speech", 		self.WarSpeech );
 	templateService:RegisterBarCreator( "Stances", 				"Stances", 			self.Stances );
@@ -18,7 +18,7 @@ function MinstrelTemplate:Constructor()
 end
 
 function MinstrelTemplate:WarSpeech( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "War-speech", 14, 1, 3, 240, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -30,7 +30,7 @@ function MinstrelTemplate:WarSpeech( override )
 end
 
 function MinstrelTemplate:Stances( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Stances", 10, 1, 2, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 2, "0x7000B699", 6, 10, barSettings );
@@ -39,7 +39,7 @@ function MinstrelTemplate:Stances( override )
 end
 
 function MinstrelTemplate:Coda( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Coda", 1, 1, 1, 240, 400, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -49,7 +49,7 @@ function MinstrelTemplate:Coda( override )
 end
 
 function MinstrelTemplate:Anthems( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Anthems", 6, 1, 6, 240, 450, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -64,7 +64,7 @@ function MinstrelTemplate:Anthems( override )
 end
 
 function MinstrelTemplate:Scribe( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Scribe Stance", 30, 1, 3, 240, 500, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );

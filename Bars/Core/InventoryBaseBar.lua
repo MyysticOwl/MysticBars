@@ -4,20 +4,20 @@
 --
 -- RESPECT!
 
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Menus.Core.UI.Window";
+import "MysticBars.Utils.Class";
+import "MysticBars.Menus.Core.UI.Window";
 
-InventoryBaseBar = class( MyysticUI.Bars.Core.BaseBar );
+InventoryBaseBar = class( MysticBars.Bars.Core.BaseBar );
 
 function InventoryBaseBar:Constructor()
-	MyysticUI.Bars.Core.BaseBar.Constructor( self );
+	MysticBars.Bars.Core.BaseBar.Constructor( self );
 
 	self.faded = true;
 	self.isVisible = true;
 
 	self.MouseEnter = function(sender,args)
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 		local barSettings = settingsService:GetBarSettings( self.id );
 		if ( barService ~= nil and barService:Alive( self.id ) and barSettings.useFading == true ) then
@@ -26,8 +26,8 @@ function InventoryBaseBar:Constructor()
 		end
 	end
 	self.MouseLeave = function(sender,args)
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 		local barSettings = settingsService:GetBarSettings( self.id );
 		if ( barService ~= nil and barService:Alive( self.id ) and barSettings.useFading == true ) then
@@ -36,8 +36,8 @@ function InventoryBaseBar:Constructor()
 		end
 	end
 	self.PositionChanged = function( sender, args )
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 		--Turbine.Shell.WriteLine("InvBar: PositionChanged: " .. self.id);
 
@@ -58,8 +58,8 @@ function InventoryBaseBar:Constructor()
 		end
 	end
 	self.MouseDown = function( sender, args )
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 		if ( barService ~= nil and barService:Alive( self.id ) == true ) then
 			local settings = settingsService:GetSettings();
@@ -74,8 +74,8 @@ function InventoryBaseBar:Constructor()
 		end
 	end
 	self.MouseMove = function( sender, args )
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 		local settings = settingsService:GetSettings();
 
 		local left, top = self:GetPosition();
@@ -86,7 +86,7 @@ function InventoryBaseBar:Constructor()
 		end
 	end
 	self.MouseUp = function( sender, args )
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 		if ( barService ~= nil and barService:Alive( self.id ) == true and args.Button == Turbine.UI.MouseButton.Left ) then
 			self.dragging = false;
@@ -114,15 +114,15 @@ function InventoryBaseBar:Constructor()
 		end
 	end
 
-	SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService):RegisterForEvents( self, self.id );
-	SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):RegisterForEvents( self, self.id );
+	SERVICE_CONTAINER:GetService(MysticBars.Services.EventService):RegisterForEvents( self, self.id );
+	SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):RegisterForEvents( self, self.id );
 end
 
 function InventoryBaseBar:Create()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
-	self.quickslotList = MyysticUI.Bars.Core.ItemList( self.id );
+	self.quickslotList = MysticBars.Bars.Core.ItemList( self.id );
 	self.quickslotList:SetParent( self );
 	
 	self.qsCreated = true;
@@ -134,9 +134,9 @@ function InventoryBaseBar:SetBGColor( color )
 end
 
 function InventoryBaseBar:Refresh()
-	MyysticUI.Bars.Core.BaseBar.Refresh( self );
+	MysticBars.Bars.Core.BaseBar.Refresh( self );
 	
-	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
+	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 	eventService:NotifyClients();
 end
 
@@ -152,7 +152,7 @@ end
 --
 -- It is recommended to call: "eventService:NotifyClients();" if needed.
 function InventoryBaseBar:DetermineVisiblity( eventValue, force )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
 	local barSettings = settingsService:GetBarSettings( self.id );
 

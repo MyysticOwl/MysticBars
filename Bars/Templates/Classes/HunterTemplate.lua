@@ -13,7 +13,7 @@
 HunterTemplate = class();
 
 function HunterTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	templateService:RegisterBarCreator( "Stances", 			"Stance", self.Stance );
 	templateService:RegisterBarCreator( "Focus >= 3 Skills", 	"3 Focus", self.Focus3 );
@@ -23,7 +23,7 @@ function HunterTemplate:Constructor()
 end
 
 function HunterTemplate:Stance( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 	
 	return templateService:CreateBar( override, "Stance", 6, 1, 4, 240, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( false, false, barSettings );
@@ -41,7 +41,7 @@ function HunterTemplate:Stance( override )
 end
 
 function HunterTemplate:Focus3( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "3 Focus", 2, 1, 4, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -54,7 +54,7 @@ function HunterTemplate:Focus3( override )
 end
 
 function HunterTemplate:Focus6( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "6 Focus", 30, 1, 2, 240, 400, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -66,7 +66,7 @@ function HunterTemplate:Focus6( override )
 end
 
 function HunterTemplate:FindThePath( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Find The Path", 14, 1, 1, 240, 450, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( false, false, barSettings );

@@ -7,7 +7,7 @@
 ChampionTemplate = class();
 
 function ChampionTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	templateService:RegisterBarCreator( "Stances", 	 "Stance",	self.Stance );
 	templateService:RegisterBarCreator( "Tier1 Skills", "Tier1", 	self.Tier1 );
@@ -19,7 +19,7 @@ function ChampionTemplate:Constructor()
 end
 
 function ChampionTemplate:Stance( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Stance", 4, 1, 3, 240, 30, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( false, false, barSettings );
@@ -35,7 +35,7 @@ function ChampionTemplate:Stance( override )
 end
 
 function ChampionTemplate:Tier1( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Tier1", 18, 1, 3, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -48,7 +48,7 @@ function ChampionTemplate:Tier1( override )
 end
 
 function ChampionTemplate:Tier2( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Tier2", 4, 1, 4, 240, 400, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -62,7 +62,7 @@ function ChampionTemplate:Tier2( override )
 end
 
 function ChampionTemplate:Tier3( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Tier3", 14, 1, 2, 240, 450, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -74,7 +74,7 @@ function ChampionTemplate:Tier3( override )
 end
 
 function ChampionTemplate:Tier4( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Tier4", 6, 1, 4, 240, 500, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -88,7 +88,7 @@ function ChampionTemplate:Tier4( override )
 end
 
 function ChampionTemplate:Tier5( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Tier5", 6, 1, 2, 240, 550, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );

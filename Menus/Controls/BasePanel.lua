@@ -7,12 +7,12 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.Menus.Core.UI.AutoListBox";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
+import "MysticBars.Menus.Core.UI.AutoListBox";
+import "MysticBars.Menus.Core.UI.MenuUtils";
 
 BasePanel = class(Turbine.UI.TreeNode);
 
-BasePanel.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+BasePanel.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 function BasePanel:Constructor(barId, barValue)
 	Turbine.UI.TreeNode.Constructor(self);

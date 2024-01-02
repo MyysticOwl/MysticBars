@@ -3,10 +3,10 @@
 -- in respect for borrowing said authors code.
 -- RESPECT!
 
-ExtensionBar = class( MyysticUI.Bars.Core.BaseBar );
+ExtensionBar = class( MysticBars.Bars.Core.BaseBar );
 
 function ExtensionBar:Constructor( barid )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
 	self.id = barid;
@@ -30,7 +30,7 @@ function ExtensionBar:Constructor( barid )
 	self.keepVisible = false;
 	self.cycleCount = 0;
 	
-	MyysticUI.Bars.Core.BaseBar.Constructor( self );
+	MysticBars.Bars.Core.BaseBar.Constructor( self );
 
 	self.quickslotList.loading = true;
 	settingsService:LoadQuickslots( barSettings, self.quickslotList.quickslots );
@@ -46,8 +46,8 @@ function ExtensionBar:Constructor( barid )
 end
 
 function ExtensionBar:Create()
-	self.quickslotList = MyysticUI.Bars.Core.QuickslotList( self.id );
-	MyysticUI.Bars.Core.BaseBar.Create( self );
+	self.quickslotList = MysticBars.Bars.Core.QuickslotList( self.id );
+	MysticBars.Bars.Core.BaseBar.Create( self );
 end
 
 function ExtensionBar:CheckMakeVisible()
@@ -57,7 +57,7 @@ function ExtensionBar:CheckMakeVisible()
 end
 
 function ExtensionBar:Show( visible )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	if ( visible ) then
 		self:SetWantsUpdates( false );
@@ -73,7 +73,7 @@ function ExtensionBar:Show( visible )
 			self.keepVisible = true;
 		end
 		self.MouseLeave = function(sender,args)
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 			
 			if ( barService:Alive( self.id ) ) then
 				local barSettings = settingsService:GetBarSettings( self.id );
@@ -116,8 +116,8 @@ function ExtensionBar:Setup( pX, pY )
 end
 
 function ExtensionBar:SetupPosition( refresh )
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	if ( barService  ~= nil and barService:Alive( self.id ) ) then
 		local barSettings = settingsService:GetBarSettings( self.id );
@@ -169,7 +169,7 @@ end
 
 function ExtensionBar:Refresh()
 	self:SetupPosition( false );
-	MyysticUI.Bars.Core.BaseBar.Refresh( self );
+	MysticBars.Bars.Core.BaseBar.Refresh( self );
 	self:SetupPosition( false );
 end
 
@@ -211,8 +211,8 @@ function ExtensionBar:SetOrientation( orientation )
 	if ( orientation == nil or (orientation ~= "Left" and orientation ~= "Right" and orientation ~= "Up" and orientation ~= "Down") ) then
 		return nil
 	else
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 		local barSettings = settingsService:GetBarSettings( self.id );
 
@@ -229,7 +229,7 @@ function ExtensionBar:SetOrientation( orientation )
 end
 
 function ExtensionBar:SelectRandomShortcut( parentBar, quickslotToReplace )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local i = 0;
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -249,7 +249,7 @@ function ExtensionBar:SelectRandomShortcut( parentBar, quickslotToReplace )
 end
 
 function ExtensionBar:CycleShortcut( parentBar, quickslotToReplace, args )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local barSettings = settingsService:GetBarSettings( self.id );
 	self.cycleCount = (self.cycleCount + 1) % (barSettings.quickslotCount + 1);	  -- 0 - quickslot count will return 1 minus the number we want because LUA is 1 based.
@@ -266,8 +266,8 @@ end
 function ExtensionBar:RollupSelection( parentBar, indexToUse )
 	local quickslot = self:GetQuickslotList().quickslots[ indexToUse ];
 	if ( quickslot ~= nil and quickslot:GetShortcut() ~= nil ) then
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 		local theBars = barService:GetBars();
 		local barSettings = settingsService:GetBarSettings( self.id );
@@ -278,7 +278,7 @@ function ExtensionBar:RollupSelection( parentBar, indexToUse )
 end
 
 function ExtensionBar:FindNthQuickslot( selection )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local barSettings = settingsService:GetBarSettings( self.id );
 	for key2, value2 in pairs ( barSettings.quickslots ) do
@@ -292,6 +292,6 @@ function ExtensionBar:FindNthQuickslot( selection )
 end
 
 function ExtensionBar:SetMenuBackColor( selected, barMode )
-	MyysticUI.Bars.Core.BaseBar.SetMenuBackColor( self, selected, EXTENSION_MODE );
+	MysticBars.Bars.Core.BaseBar.SetMenuBackColor( self, selected, EXTENSION_MODE );
 	self:SetBackColor( Turbine.UI.Color(1,1,1,0) );
 end

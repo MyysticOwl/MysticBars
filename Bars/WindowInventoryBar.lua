@@ -4,16 +4,16 @@
 --
 -- RESPECT!
 
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Menus.Core.UI.Window";
+import "MysticBars.Utils.Class";
+import "MysticBars.Menus.Core.UI.Window";
 
-WindowInventoryBar = class( MyysticUI.Bars.Core.InventoryBaseBar );
+WindowInventoryBar = class( MysticBars.Bars.Core.InventoryBaseBar );
 
 function WindowInventoryBar:Constructor( barid )
-	-- local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	-- local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	-- self.id = barid;
-	-- self.mainWindow = MyysticUI.Menus.Core.UI.Window();
+	-- self.mainWindow = MysticBars.Menus.Core.UI.Window();
 
 	-- self.watchSizeChanges = false;
 	-- self.changingSizes = false;
@@ -30,15 +30,15 @@ function WindowInventoryBar:Constructor( barid )
 
 	-- Turbine.Shell.WriteLine( "LOADED WindowBar" );
 
-	-- MyysticUI.Bars.Core.InventoryBaseBar.Constructor( self );
+	-- MysticBars.Bars.Core.InventoryBaseBar.Constructor( self );
 
 	-- self:SetParent( self.mainWindow );
 	-- self.mainWindow:SetPosition( thebarSettings.x, thebarSettings.y );
 	-- self:SetPosition( 0, 0 );
 
 	-- self.mainWindow.SizeChanged = function(sender,args)
-	-- 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-	-- 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	-- 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+	-- 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	-- 	if ( barService:Alive( self.id ) and self.changingSizes == false ) then
 	-- 		self.changingSizes = true;
@@ -60,8 +60,8 @@ function WindowInventoryBar:Constructor( barid )
 	-- self.mainWindow.MouseEnter = self.MouseEnter;
 	-- self.mainWindow.MouseLeave = self.MouseLeave;
 	-- self.mainWindow.PositionChanged = function( sender, args )
-	-- 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-	-- 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	-- 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+	-- 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	-- 	local settings = settingsService:GetSettings();
 	-- 	local barSettings = settingsService:GetBarSettings( self.id );
 
@@ -74,8 +74,8 @@ function WindowInventoryBar:Constructor( barid )
 	-- end
 	-- self.mainWindow.MouseDown = self.MouseDown;
 	-- self.mainWindow.MouseMove = function( sender, args )
-	-- 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-	-- 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	-- 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+	-- 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	-- 	local settings = settingsService:GetSettings();
 
 	-- 	local left, top = self:GetPosition();
@@ -86,7 +86,7 @@ function WindowInventoryBar:Constructor( barid )
 	-- 	end
 	-- end
 	-- self.mainWindow.MouseUp = function( sender, args )
-	-- 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+	-- 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 	-- 	if ( barService:Alive( self.id ) == true and args.Button == Turbine.UI.MouseButton.Left ) then
 	-- 		self.dragging = false;
@@ -118,15 +118,15 @@ function WindowInventoryBar:Constructor( barid )
 end
 
 function WindowInventoryBar:Create()
-	-- MyysticUI.Bars.Core.InventoryBaseBar.Create( self );
+	-- MysticBars.Bars.Core.InventoryBaseBar.Create( self );
 	-- self.mainWindow:SetSize( self.quickslotList:GetWidth() + 24, self.quickslotList:GetHeight() + 55 );
 	-- self.watchSizeChanges = true;
 end
 
 function WindowInventoryBar:Refresh()
-	-- MyysticUI.Bars.Core.InventoryBaseBar.Refresh( self );
+	-- MysticBars.Bars.Core.InventoryBaseBar.Refresh( self );
 
-	-- local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	-- local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	-- local barSettings = settingsService:GetBarSettings( self.id );
 	-- self:SetPosition( 10, 41 );
 end
@@ -144,7 +144,7 @@ end
 --
 -- It is recommended to call: "eventService:NotifyClients();" if needed.
 function WindowInventoryBar:DetermineVisiblity( eventValue, force )
-	-- local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	-- local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	-- local settings = settingsService:GetSettings();
 	-- local barSettings = settingsService:GetBarSettings( self.id );
 
@@ -184,6 +184,6 @@ function WindowInventoryBar:InventoryPressed()
 end
 
 function WindowInventoryBar:SetMenuBackColor( selected )
-	-- MyysticUI.Bars.Core.BaseBar.SetMenuBackColor( self, selected, INVENTORY_MODE );
+	-- MysticBars.Bars.Core.BaseBar.SetMenuBackColor( self, selected, INVENTORY_MODE );
 	-- self:SetBackColor( Turbine.UI.Color(1,0,0,0) );
 end

@@ -4,14 +4,14 @@
 --
 -- RESPECT!
 
-import "MyysticUI.Menus.MainMenuItems";
+import "MysticBars.Menus.MainMenuItems";
 
 EasyBarMenuItems = class();
 
-EasyBarMenuItems.menuItems = MyysticUI.Menus.MainMenuItems();
+EasyBarMenuItems.menuItems = MysticBars.Menus.MainMenuItems();
 
 function EasyBarMenuItems:Constructor(mainMenu, parent)
-	self.templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	self.templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	parent:GetChildNodes():Add(MyysticUI.Menus.EasyBars.EasyBarPanel());
+	parent:GetChildNodes():Add(MysticBars.Menus.EasyBars.EasyBarPanel());
 end

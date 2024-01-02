@@ -7,7 +7,7 @@
 MarinerTemplate = class();
 
 function MarinerTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	templateService:ConstructBars();
 end

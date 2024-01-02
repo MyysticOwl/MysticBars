@@ -5,26 +5,26 @@
 -- RESPECT!
 
 import "Turbine";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
-import "MyysticUI.Menus.Controls.ExtensionPanel"
-import "MyysticUI.Menus.Controls.PredefinedExtensionPanel"
+import "MysticBars.Utils.Class";
+import "MysticBars.Menus.Core.UI.MenuUtils";
+import "MysticBars.Menus.Controls.ExtensionPanel"
+import "MysticBars.Menus.Controls.PredefinedExtensionPanel"
 
 ExtensionBarMenuPanel = class();
 
-ExtensionBarMenuPanel.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+ExtensionBarMenuPanel.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 function ExtensionBarMenuPanel:Draw(parentNode, barId, barValue)
 
 	-- -----------------------   SLOTS	  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.SlotsPanel(barId, barValue, true));
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.SlotsPanel(barId, barValue, true));
 
 	-----------------------   SLOTS	  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.ExtensionPanel(barId, barValue));
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.ExtensionPanel(barId, barValue));
 
 	-----------------------   SLOTS	  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.PredefinedExtensionPanel(barId, barValue));
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.PredefinedExtensionPanel(barId, barValue));
 
 	-- -----------------------   COLOR  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.ColorPanel(barId, barValue));
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.ColorPanel(barId, barValue));
 end

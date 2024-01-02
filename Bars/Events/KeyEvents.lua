@@ -6,8 +6,8 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Table";
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Table";
 
 KeyEvents = class( Turbine.UI.Control  );
 
@@ -37,13 +37,13 @@ function KeyEvents:Constructor( regEvents )
 		end
 		-- if ( args.Action == Turbine.UI.Lotro.Action.Quickslot_1 ) then	-- F12
 		-- 	Turbine.Shell.WriteLine("Quickslot 1 Fired");
-		-- 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+		-- 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 		-- 	if ( barService  ~= nil and barService:Alive( 1 ) ) then
 		-- 		local bars = barService:GetBars();
 		-- 		local bar1 = bars[1];
 		-- 		local bar1List = bar1:GetQuickslotList();
 		-- 		local quickslot1 = bar1List.quickslots[ 1 ];
-		-- 		local dump = MyysticUI.Utils.TableDump();
+		-- 		local dump = MysticBars.Utils.TableDump();
 		-- 		dump.Dump(getmetatable(quickslot1.__implementation));
 		-- 		quickslot1:MouseClick({["Button"] = 1});
 		-- 	end
@@ -60,7 +60,7 @@ function KeyEvents:Constructor( regEvents )
 		end
 
 		if ( changed ) then
-			local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
+			local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 			eventService:NotifyClients();
 		end
 	end
@@ -91,7 +91,7 @@ function KeyEvents:Constructor( regEvents )
 		end
 
 		if ( changed ) then
-			local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
+			local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 			eventService:NotifyClients();
 		end
 	end

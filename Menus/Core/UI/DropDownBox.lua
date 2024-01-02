@@ -2,9 +2,9 @@
 display listbox outside of class!]]--
 
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
+import "MysticBars.Utils.Class";
 import "Turbine";
-import "MyysticUI.Menus.Core.UI.DropDownBoxItem";
+import "MysticBars.Menus.Core.UI.DropDownBoxItem";
 DropDownBox = class( Turbine.UI.Control );
 function DropDownBox:Constructor(itemList)
 	Turbine.UI.Control.Constructor( self);
@@ -33,47 +33,47 @@ function DropDownBox:Constructor(itemList)
   self.mb_ul:SetParent(self.mainBox);
   self.mb_ul:SetPosition(0,0);
   self.mb_ul:SetSize(18,9);
-  self.mb_ul:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_ul.tga");
+  self.mb_ul:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_ul.tga");
 	self.mb_ml = Turbine.UI.Control();
   self.mb_ml:SetParent(self.mainBox);
   self.mb_ml:SetPosition(0,9);
   self.mb_ml:SetSize(18,1);
-  self.mb_ml:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_ml.tga");
+  self.mb_ml:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_ml.tga");
 	self.mb_ll = Turbine.UI.Control();
   self.mb_ll:SetParent(self.mainBox);
   self.mb_ll:SetPosition(0,10);
   self.mb_ll:SetSize(18,9);
-  self.mb_ll:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_ll.tga");
+  self.mb_ll:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_ll.tga");
 	self.mb_um = Turbine.UI.Control();
   self.mb_um:SetParent(self.mainBox);
   self.mb_um:SetPosition(18,0);
   self.mb_um:SetSize((self.mainBox:GetWidth()-36),9);
-  self.mb_um:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_um.tga");
+  self.mb_um:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_um.tga");
 	self.mb_lm = Turbine.UI.Control();
   self.mb_lm:SetParent(self.mainBox);
   self.mb_lm:SetPosition(18,10);
   self.mb_lm:SetSize((self.mainBox:GetWidth()-36),10);
-  self.mb_lm:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_lm.tga");
+  self.mb_lm:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_lm.tga");
 	self.mb_ur = Turbine.UI.Control();
   self.mb_ur:SetParent(self.mainBox);
   self.mb_ur:SetPosition((self.mainBox:GetWidth()-18),0);
   self.mb_ur:SetSize(18,9);
-  self.mb_ur:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_ur.tga");
+  self.mb_ur:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_ur.tga");
 	self.mb_mr = Turbine.UI.Control();
   self.mb_mr:SetParent(self.mainBox);
   self.mb_mr:SetPosition((self.mainBox:GetWidth()-18),9);
   self.mb_mr:SetSize(18,1);
-  self.mb_mr:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_mr.tga");
+  self.mb_mr:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_mr.tga");
 	self.mb_lr = Turbine.UI.Control();
   self.mb_lr:SetParent(self.mainBox);
   self.mb_lr:SetPosition((self.mainBox:GetWidth()-18),10);
   self.mb_lr:SetSize(18,9);
-  self.mb_lr:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_lr.tga");
+  self.mb_lr:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_lr.tga");
 	self.arrow = Turbine.UI.Control();
 	self.arrow:SetParent(self.mainBox);
 	self.arrow:SetPosition((self.mainBox:GetWidth()-16),3);
 	self.arrow:SetSize(16,16);
-	self.arrow:SetBackground("MyysticUI/Menus/Core/Resources/dropdown_arrow_closed.tga");
+	self.arrow:SetBackground("MysticBars/Menus/Core/Resources/dropdown_arrow_closed.tga");
 	self.arrow:SetBlendMode(4);
 	self.listBox = Turbine.UI.Window();
 	self.listBox:SetParent(self);
@@ -93,51 +93,51 @@ function DropDownBox:Constructor(itemList)
   self.lb_ul:SetParent(self.listBox);
   self.lb_ul:SetPosition(0,0);
   self.lb_ul:SetSize(18,9);
-  self.lb_ul:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_ul.tga");
+  self.lb_ul:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_ul.tga");
   self.lb_ul:SetVisible( true );
 	self.lb_ml = Turbine.UI.Window();
   self.lb_ml:SetParent(self.listBox);
   self.lb_ml:SetPosition(0,9);
   self.lb_ml:SetSize(18,(self.listBox:GetHeight()-18));
-  self.lb_ml:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_ml.tga");
+  self.lb_ml:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_ml.tga");
   self.lb_ml:SetVisible( true );
 	self.lb_ll = Turbine.UI.Control();
   self.lb_ll:SetParent(self.listBox);
   self.lb_ll:SetPosition(0,(self.listBox:GetHeight()-9));
   self.lb_ll:SetSize(18,9);
-  self.lb_ll:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_ll.tga");
+  self.lb_ll:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_ll.tga");
   self.lb_ll:SetBlendMode(4);
   self.lb_ll:SetVisible( true );
 	self.lb_um = Turbine.UI.Window();
   self.lb_um:SetParent(self.listBox);
   self.lb_um:SetPosition(18,0);
   self.lb_um:SetSize((self.listBox:GetWidth()-36),9);
-  self.lb_um:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_um.tga");
+  self.lb_um:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_um.tga");
   self.lb_um:SetVisible( true );
 	self.lb_lm = Turbine.UI.Window();
   self.lb_lm:SetParent(self.listBox);
   self.lb_lm:SetPosition(18,(self.listBox:GetHeight()-9));
   self.lb_lm:SetSize((self.listBox:GetWidth()-36),9);
-	self.lb_lm:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_lm.tga");
+	self.lb_lm:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_lm.tga");
 	self.lb_lm:SetVisible( true );
 	self.lb_ur = Turbine.UI.Control();
   self.lb_ur:SetParent(self.listBox);
   self.lb_ur:SetPosition((self.listBox:GetWidth()-18),0);
   self.lb_ur:SetSize(18,9);
-  self.lb_ur:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_ur.tga");
+  self.lb_ur:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_ur.tga");
   self.lb_ur:SetBlendMode(4);
 	self.lb_mr = Turbine.UI.Window();
   self.lb_mr:SetParent(self.listBox);
   self.lb_mr:SetPosition((self.listBox:GetWidth()-18),9);
   self.lb_mr:SetSize(18,(self.listBox:GetHeight()-18));
-  self.lb_mr:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_mr.tga");
+  self.lb_mr:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_mr.tga");
   self.lb_mr:SetVisible( true );
 	self.lb_lr = Turbine.UI.Control();
   self.lb_lr:SetParent(self.listBox);
   self.lb_lr:SetPosition((self.listBox:GetWidth()-18),(self.listBox:GetHeight()-9));
   self.lb_lr:SetSize(18,9);
   self.lb_lr:SetBlendMode(4);
-  self.lb_lr:SetBackground("MyysticUI/Menus/Core/Resources/ddbox_border_lr.tga");
+  self.lb_lr:SetBackground("MysticBars/Menus/Core/Resources/ddbox_border_lr.tga");
 	self.sb = Turbine.UI.Lotro.ScrollBar();
 	self.sb:SetOrientation(Turbine.UI.Orientation.Vertical);
 	self.sb:SetParent(self.listBox);
@@ -152,7 +152,7 @@ function DropDownBox:Constructor(itemList)
 	self.sp:SetMaxItemsPerLine(1);
 	self.collection = {};	
 		for i = 1, #self.itemList do
-        local listItem = MyysticUI.Menus.Core.UI.DropDownBoxItem(self.itemList[i],(self.mainBox:GetWidth()-4));
+        local listItem = MysticBars.Menus.Core.UI.DropDownBoxItem(self.itemList[i],(self.mainBox:GetWidth()-4));
         listItem:SetSize( self.sp:GetWidth(), 20 );
 				self.sp:AddItem( listItem );
 				self.collection[i]=listItem;
@@ -182,7 +182,7 @@ function DropDownBox:Constructor(itemList)
 
 	if (self.disabled == true)then
 		self.text:SetForeColor(Turbine.UI.Color(.749,.749,.749));
-		self.arrow:SetBackground("MyysticUI/Menus/Core/Resources/dropdown_arrow_closed_ghosted.tga");
+		self.arrow:SetBackground("MysticBars/Menus/Core/Resources/dropdown_arrow_closed_ghosted.tga");
 	end
 	
 	self.mainBox.MouseEnter =function(sender,args)
@@ -192,9 +192,9 @@ function DropDownBox:Constructor(itemList)
 			self.text:SetFontStyle(Turbine.UI.FontStyle.Outline );
 			self.text:SetOutlineColor(Turbine.UI.Color(.69,.482,.015));
 			if (self.show == false)then
-				self.arrow:SetBackground("MyysticUI/Menus/Core/Resources/dropdown_arrow_closed_rollover.tga");
+				self.arrow:SetBackground("MysticBars/Menus/Core/Resources/dropdown_arrow_closed_rollover.tga");
 			else
-				self.arrow:SetBackground("MyysticUI/Menus/Core/Resources/dropdown_arrow_open_rollover.tga");
+				self.arrow:SetBackground("MysticBars/Menus/Core/Resources/dropdown_arrow_open_rollover.tga");
 			end
 		end
 	end
@@ -208,10 +208,10 @@ function DropDownBox:Constructor(itemList)
 			self.text:SetFontStyle(Turbine.UI.FontStyle.None );
 			
 			if (self.show == false)then
-				self.arrow:SetBackground("MyysticUI/Menus/Core/Resources/dropdown_arrow_closed.tga");
+				self.arrow:SetBackground("MysticBars/Menus/Core/Resources/dropdown_arrow_closed.tga");
 				self.text:SetForeColor(Turbine.UI.Color(1,0.96,0.874,0.576));
 			else
-				self.arrow:SetBackground("MyysticUI/Menus/Core/Resources/dropdown_arrow_open.tga");
+				self.arrow:SetBackground("MysticBars/Menus/Core/Resources/dropdown_arrow_open.tga");
 				self.text:SetForeColor(Turbine.UI.Color(1,0.988,0.922,0.004));
 			end	
 		end
@@ -243,12 +243,12 @@ function DropDownBox:Constructor(itemList)
 				self.listBox:SetVisible(true);
 				self.Opening();
 				self:SetHeight(self.listBox:GetHeight()+20);
-				self.arrow:SetBackground("MyysticUI/Menus/Core/Resources/dropdown_arrow_open_rollover.tga");
+				self.arrow:SetBackground("MysticBars/Menus/Core/Resources/dropdown_arrow_open_rollover.tga");
 			else
 				self.show = false;
 				self.listBox:SetVisible(false);
 				self:SetHeight(20);
-				self.arrow:SetBackground("MyysticUI/Menus/Core/Resources/dropdown_arrow_closed_rollover.tga");
+				self.arrow:SetBackground("MysticBars/Menus/Core/Resources/dropdown_arrow_closed_rollover.tga");
 			end	
 		end
 	end
@@ -284,10 +284,10 @@ function DropDownBox:Constructor(itemList)
 		if(bool==false)then
 			self.text:SetForeColor(Turbine.UI.Color(1,0.96,0.874,0.576));
 			self.disabled=false;
-			self.arrow:SetBackground("MyysticUI/Menus/Core/Resources/dropdown_arrow_closed.tga");
+			self.arrow:SetBackground("MysticBars/Menus/Core/Resources/dropdown_arrow_closed.tga");
 		else
 			self.text:SetForeColor(Turbine.UI.Color(.749,.749,.749));
-			self.arrow:SetBackground("MyysticUI/Menus/Core/Resources/dropdown_arrow_closed_ghosted.tga");
+			self.arrow:SetBackground("MysticBars/Menus/Core/Resources/dropdown_arrow_closed_ghosted.tga");
 			self.disabled=true;
 			
 		end

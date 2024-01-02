@@ -7,29 +7,29 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.TableDump";
-import "MyysticUI.Menus.Core.UI.ComboBox";
-import "MyysticUI.Menus.Core.UI.AutoListBox";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
-import "MyysticUI.Menus.InventoryBars.InventoryMenuPanel";
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.TableDump";
+import "MysticBars.Menus.Core.UI.ComboBox";
+import "MysticBars.Menus.Core.UI.AutoListBox";
+import "MysticBars.Menus.Core.UI.MenuUtils";
+import "MysticBars.Menus.InventoryBars.InventoryMenuPanel";
 
 InventoryBarsMenuItems = class();
 
-InventoryBarsMenuItems.panel = MyysticUI.Menus.InventoryBars.InventoryMenuPanel();
-InventoryBarsMenuItems.menuItems = MyysticUI.Menus.MainMenuItems();
-InventoryBarsMenuItems.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+InventoryBarsMenuItems.panel = MysticBars.Menus.InventoryBars.InventoryMenuPanel();
+InventoryBarsMenuItems.menuItems = MysticBars.Menus.MainMenuItems();
+InventoryBarsMenuItems.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 function InventoryBarsMenuItems:Constructor(mainMenu, parent)
 	self:Refresh(mainMenu, parent)
 end
 
 function InventoryBarsMenuItems:Refresh(mainMenu, parent)
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local tab_bars = settingsService:GetBars( TABBED_INV_BAR );
 	for key, value in pairs (tab_bars) do
-		local node = MyysticUI.Menus.Core.BarsTitleTreeNode(self.menuItems:GetBarName(key, value), 1, key, value);
+		local node = MysticBars.Menus.Core.BarsTitleTreeNode(self.menuItems:GetBarName(key, value), 1, key, value);
 		parent:GetChildNodes():Add(node);
 		self.panel:Draw(node, key, value);
 	end

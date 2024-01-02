@@ -108,21 +108,21 @@ function BaseTitleTreeNode:Refresh(width)
 end
 
 function BaseTitleTreeNode:SetSelected(selected)
-  self.tl:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_" ..
+  self.tl:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_" ..
   (selected and "highlight" or "normal") .. "_top_left.tga");
-  self.t:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_" ..
+  self.t:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_" ..
   (selected and "highlight" or "normal") .. "_top_center.tga");
-  self.tr:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_" ..
+  self.tr:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_" ..
   (selected and "highlight" or "normal") .. "_top_right.tga");
-  self.l:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_" ..
+  self.l:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_" ..
   (selected and "highlight" or "normal") .. "_middle_left.tga");
-  self.r:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_" ..
+  self.r:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_" ..
   (selected and "highlight" or "normal") .. "_middle_right.tga");
-  self.bl:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_" ..
+  self.bl:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_" ..
   (selected and "highlight" or "normal") .. "_bottom_left.tga");
-  self.b:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_" ..
+  self.b:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_" ..
   (selected and "highlight" or "normal") .. "_bottom_center.tga");
-  self.br:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_" ..
+  self.br:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_" ..
   (selected and "highlight" or "normal") .. "_lower_right.tga");
 end
 

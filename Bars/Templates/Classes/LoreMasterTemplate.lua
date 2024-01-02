@@ -10,7 +10,7 @@ function LoreMasterTemplate:Constructor()
 end
 
 function LoreMasterTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	templateService:RegisterBarCreator( "Warding", 			"Warding", 		self.Warding );
 	templateService:RegisterBarCreator( "Sign of the Wild", 	"Wild", 		self.Wild );
@@ -20,7 +20,7 @@ function LoreMasterTemplate:Constructor()
 end
 
 function LoreMasterTemplate:Warding( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Warding", 26, 1, 3, 240, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x7000B625", 6, 26, barSettings );
@@ -30,7 +30,7 @@ function LoreMasterTemplate:Warding( override )
 end
 
 function LoreMasterTemplate:Wild( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Wild", 11, 1, 2, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x7000312B", 6, 11, barSettings );
@@ -40,7 +40,7 @@ function LoreMasterTemplate:Wild( override )
 end
 
 function LoreMasterTemplate:SoPower( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "SoPower", 1, 1, 4, 240, 400, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x70003EBB", 6, 1, barSettings );
@@ -52,7 +52,7 @@ function LoreMasterTemplate:SoPower( override )
 end
 
 function LoreMasterTemplate:Lore( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Lore", 12, 1, 6, 240, 450, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x70003EBE", 6, 12, barSettings );

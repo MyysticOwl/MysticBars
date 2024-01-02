@@ -6,15 +6,15 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Table";
-import "MyysticUI.Utils.TableDump"
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Table";
+import "MysticBars.Utils.TableDump"
 
 ClassSpecificEvents = class( Turbine.Object  );
 
 function ClassSpecificEvents:Constructor( regEvents )
-	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 	self.test = {1,2,3,4,5};
 	self.registeredEvents = regEvents;
@@ -23,7 +23,7 @@ function ClassSpecificEvents:Constructor( regEvents )
 		self.registeredEvents.classRange = { };
 	end
 
-	-- local dump = MyysticUI.Utils.TableDump()
+	-- local dump = MysticBars.Utils.TableDump()
 	-- dump.Dump(getmetatable(Turbine.UI.Lotro.LotroUIElement));
 
 	if ( playerService.player:GetClass() == Turbine.Gameplay.Class.Burglar ) then
@@ -80,7 +80,7 @@ function ClassSpecificEvents:Constructor( regEvents )
 end
 
 function ClassSpecificEvents:CheckVisibility( barSettings )
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 	local visible = false;
 	if ( playerService.player:GetClass() == Turbine.Gameplay.Class.Minstrel ) then

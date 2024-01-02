@@ -7,13 +7,13 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.Menus.Core.UI.AutoListBox";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
+import "MysticBars.Menus.Core.UI.AutoListBox";
+import "MysticBars.Menus.Core.UI.MenuUtils";
 
-TriggersPanel = class(MyysticUI.Menus.Controls.BasePanel);
+TriggersPanel = class(MysticBars.Menus.Controls.BasePanel);
 
 function TriggersPanel:Constructor( barId, barValue )
-	MyysticUI.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
+	MysticBars.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
 
 	self:SetHeight(140);
 
@@ -31,7 +31,7 @@ function TriggersPanel:Constructor( barId, barValue )
 	self.triggerList:AddItem( "Alt Pressed", { "events", "triggered", "isAlt" } );
 	self.triggerList:AddItem( "Shift Pressed", { "events", "triggered", "isShift" } );
 
-	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
+	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 	local events = eventService:GetRegisteredEvents();
 	for key, value in pairs (events.categories) do
 		self.triggerList:AddItem( value.description, { "events", "triggered", "categories", key} );
@@ -52,7 +52,7 @@ function TriggersPanel:Constructor( barId, barValue )
 end
 
 function TriggersPanel:DisplaySettings()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local localBarSettings = settingsService:GetBarSettings( self.barId );
 	if ( localBarSettings.events == nil ) then
 		localBarSettings.events = { };
@@ -64,7 +64,7 @@ function TriggersPanel:DisplaySettings()
 	self.triggerList.SelectedIndexChanged = function(sender, args)
 		local selections = self.triggerList:GetSelections();
 		if ( selections ~= nil ) then
-						SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+						SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
 				-- ALWAYS RESET THE CATEGORIES
 				barSettings.events.triggered = { };
 				for key, value in pairs( selections ) do
@@ -72,7 +72,7 @@ function TriggersPanel:DisplaySettings()
 				end
 				return barSettings;
 			end, function()
-				SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+				SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 			end);
 		end
 	end

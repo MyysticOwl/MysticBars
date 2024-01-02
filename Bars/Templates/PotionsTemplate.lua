@@ -7,7 +7,7 @@
 PotionsTemplate = class();
 
 function PotionsTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	templateService:RegisterBarCreator( "Athelas", "Athelas", self.Health, true );
 	templateService:RegisterBarCreator( "Celebrant", "Celebrant", self.Power, true );
@@ -16,7 +16,7 @@ function PotionsTemplate:Constructor()
 end
 
 function PotionsTemplate:Health( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Athelas", 1, 1, 4, 300, 250, TABBED_INV_BAR, function(localBarSettings)
 		templateService:SetTrigger( templateService.HEALTH, 30, localBarSettings );
@@ -25,7 +25,7 @@ function PotionsTemplate:Health( override )
 end
 
 function PotionsTemplate:Power( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Celebrant", 1, 1, 4, 300, 350, TABBED_INV_BAR, function(localBarSettings)
 		templateService:SetTrigger( templateService.POWER, 30, localBarSettings );
@@ -34,7 +34,7 @@ function PotionsTemplate:Power( override )
 end
 
 function PotionsTemplate:GeneralEffects( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Draughts/Salves", 1, 1, 4, 300, 450, TABBED_INV_BAR, function(localBarSettings)
 		templateService:SetBuffTriggerOptions( true, false, localBarSettings );

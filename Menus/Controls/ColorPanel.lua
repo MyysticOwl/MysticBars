@@ -7,13 +7,13 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.Menus.Core.UI.AutoListBox";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
+import "MysticBars.Menus.Core.UI.AutoListBox";
+import "MysticBars.Menus.Core.UI.MenuUtils";
 
-ColorPanel = class(MyysticUI.Menus.Controls.BasePanel);
+ColorPanel = class(MysticBars.Menus.Controls.BasePanel);
 
 function ColorPanel:Constructor( barId, barValue )
-	MyysticUI.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
+	MysticBars.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
 
 	self:SetHeight(190);
 
@@ -39,7 +39,7 @@ function ColorPanel:Constructor( barId, barValue )
 end
 
 function ColorPanel:DisplaySettings()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local localBarSettings = settingsService:GetBarSettings( self.barId );
 
 	-- COLOR SETTINGS

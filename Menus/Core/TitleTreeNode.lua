@@ -1,7 +1,7 @@
-TitleTreeNode = class(MyysticUI.Menus.Core.BaseTitleTreeNode);
+TitleTreeNode = class(MysticBars.Menus.Core.BaseTitleTreeNode);
 
 function TitleTreeNode:Constructor(text, topPadding, addBarType, extension)
-  MyysticUI.Menus.Core.BaseTitleTreeNode.Constructor(self, text, topPadding, addBarType);
+  MysticBars.Menus.Core.BaseTitleTreeNode.Constructor(self, text, topPadding, addBarType);
 
   self.title = Turbine.UI.Label();
   self.title:SetParent(self);
@@ -23,16 +23,16 @@ function TitleTreeNode:Constructor(text, topPadding, addBarType, extension)
     self.add:SetPosition(140, 6);
     self.add:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.add:SetMouseVisible(true);
-    self.add:SetBackground("MyysticUI/Menus/Core/Resources/add_icon.tga");
+    self.add:SetBackground("MysticBars/Menus/Core/Resources/add_icon.tga");
     self.add.MouseDown = function(args)
-      local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+      local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
       self:SetExpanded(false);
 
       local barId = barService:Add(addBarType);
       barService:RefreshBars();
 
-      SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService):GetMenu():Refresh(true);
+      SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService):GetMenu():Refresh(true);
     end
   end
 
@@ -45,34 +45,34 @@ function TitleTreeNode:Constructor(text, topPadding, addBarType, extension)
     self.extension:SetPosition(164, 4);
     self.extension:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.extension:SetMouseVisible(true);
-    self.extension:SetBackground("MyysticUI/Menus/Core/Resources/button_extension_off.tga");
+    self.extension:SetBackground("MysticBars/Menus/Core/Resources/button_extension_off.tga");
     self.extension.MouseDown = function(args)
-      local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+      local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
       if (not self.extensionShown) then
-        self.extension:SetBackground("MyysticUI/Menus/Core/Resources/button_extension_on.tga");
+        self.extension:SetBackground("MysticBars/Menus/Core/Resources/button_extension_on.tga");
         settingsService.settings.barMode = EXTENSION_MODE;
       else
-        self.extension:SetBackground("MyysticUI/Menus/Core/Resources/button_extension_off.tga");
+        self.extension:SetBackground("MysticBars/Menus/Core/Resources/button_extension_off.tga");
         settingsService.settings.barMode = NORMAL_MODE;
       end
 
       self.extensionShown = not self.extensionShown;
       self:SetExpanded(false);
 
-      SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService):GetMenu():Refresh(true);
+      SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService):GetMenu():Refresh(true);
     end
   end
 end
 
 function TitleTreeNode:Refresh(width)
-  MyysticUI.Menus.Core.BaseTitleTreeNode.Refresh(self, width);
+  MysticBars.Menus.Core.BaseTitleTreeNode.Refresh(self, width);
 
   if (self.extension ~= nil) then
-    local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+    local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
     if (settingsService.settings.barMode == NORMAL_MODE) then
       self.extensionShown = false;
-      self.extension:SetBackground("MyysticUI/Menus/Core/Resources/button_extension_off.tga");
+      self.extension:SetBackground("MysticBars/Menus/Core/Resources/button_extension_off.tga");
     end
   end
 end

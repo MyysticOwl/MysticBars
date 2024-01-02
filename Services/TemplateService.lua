@@ -4,7 +4,7 @@
 --
 -- RESPECT!
 
-TemplateService = class( MyysticUI.Utils.Service );
+TemplateService = class( MysticBars.Utils.Service );
 TemplateService.HEALTH = 1;
 TemplateService.POWER = 11;
 
@@ -13,8 +13,8 @@ TemplateService.ALT = 4;
 TemplateService.SHIFT = 5;
 
 function TemplateService:Constructor()
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	self.level = playerService.player:GetLevel();
 	self.registeredBars = 1;
@@ -54,8 +54,8 @@ end
 
 -- Create Quickslot Bar                           Name -      Rows - Columns - X coord - Y coord
 function TemplateService:CreateBar( override, name, level, rows, columns, x, y, barType, createdCallback )
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	if ( barType == nil ) then
 		barType = QUICKSLOTBAR;
@@ -115,7 +115,7 @@ function TemplateService:CreateBar( override, name, level, rows, columns, x, y, 
 			self.barid = foundbar;
 		end
 
-		local menuService = SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService);
+		local menuService = SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService);
 		if (menuService ~= nil) then
 			theSettings = settingsService:GetSettings();
 			local mode = theSettings.barMode;
@@ -133,7 +133,7 @@ function TemplateService:CreateBar( override, name, level, rows, columns, x, y, 
 end
 
 function TemplateService:SetBar( barid )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	if ( barid ~= nil ) then
 		self.barid = barid;

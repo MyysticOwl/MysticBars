@@ -7,14 +7,14 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Menus.Core.UI.ComboBox";
-import "MyysticUI.Menus.Core.UI.AutoListBox";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
+import "MysticBars.Utils.Class";
+import "MysticBars.Menus.Core.UI.ComboBox";
+import "MysticBars.Menus.Core.UI.AutoListBox";
+import "MysticBars.Menus.Core.UI.MenuUtils";
 
 MainMenuItems = class();
 
-MainMenuItems.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+MainMenuItems.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 function MainMenuItems:NewContext(parent, barId, barName, width)
 	return {
@@ -44,7 +44,7 @@ function MainMenuItems:GetBarName(barId, bar)
 end
 
 function MainMenuItems:GetBarMatch(context)
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	for key, value in opairs (settingsService:GetBars()) do
 		if (value.barName == context["barName"] and value.barName ~=nil) then

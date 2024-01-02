@@ -6,16 +6,16 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Service";
-import "MyysticUI.Utils.Table";
-import "MyysticUI.Bars.Events.BuffEvents";
-import "MyysticUI.Bars.Events.KeyEvents";
-import "MyysticUI.Bars.Events.StatEvents";
-import "MyysticUI.Bars.Events.ClassSpecificEvents";
-import "MyysticUI.Bars.Events.MiscEvents";
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Service";
+import "MysticBars.Utils.Table";
+import "MysticBars.Bars.Events.BuffEvents";
+import "MysticBars.Bars.Events.KeyEvents";
+import "MysticBars.Bars.Events.StatEvents";
+import "MysticBars.Bars.Events.ClassSpecificEvents";
+import "MysticBars.Bars.Events.MiscEvents";
 
-EventService = class( MyysticUI.Utils.Service );
+EventService = class( MysticBars.Utils.Service );
 
 function EventService:Constructor()
 	self.effectsRegistered = false;
@@ -58,15 +58,15 @@ function EventService:UnregisterForEvents( rid )
 end
 
 function EventService:StartManager()
-	self.buffEvents = MyysticUI.Bars.Events.BuffEvents( self.registeredEvents );
-	self.keyEvents = MyysticUI.Bars.Events.KeyEvents( self.registeredEvents );
-	self.classEvents = MyysticUI.Bars.Events.ClassSpecificEvents( self.registeredEvents );
-	self.statEvents = MyysticUI.Bars.Events.StatEvents( self.registeredEvents );
-	self.miscEvents = MyysticUI.Bars.Events.MiscEvents( self.registeredEvents );
+	self.buffEvents = MysticBars.Bars.Events.BuffEvents( self.registeredEvents );
+	self.keyEvents = MysticBars.Bars.Events.KeyEvents( self.registeredEvents );
+	self.classEvents = MysticBars.Bars.Events.ClassSpecificEvents( self.registeredEvents );
+	self.statEvents = MysticBars.Bars.Events.StatEvents( self.registeredEvents );
+	self.miscEvents = MysticBars.Bars.Events.MiscEvents( self.registeredEvents );
 end
 
 function EventService:NotifyClients()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	
 	if ( self.clients == nil ) then
 		self.clients = { };
@@ -75,7 +75,7 @@ function EventService:NotifyClients()
 		local visible = false;
 		local force = false;
 		local barSettings = settingsService:GetBarSettings( key );
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 		if ( value ~= nil and value.registered == true and barSettings.events ~= nil and barService ~= nil and barService:Alive( key ) == true) then
 			-- Send all Effect based events to all clients

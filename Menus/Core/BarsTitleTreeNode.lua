@@ -1,7 +1,7 @@
 
 BarsTitleTreeNode = class(Turbine.UI.TreeNode);
 
-BarsTitleTreeNode.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+BarsTitleTreeNode.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 function BarsTitleTreeNode:Constructor(text, topPadding, barId)
 	Turbine.UI.TreeNode.Constructor(self);
@@ -28,7 +28,7 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
 
   self.barName = self.utils:AddTextBox(self, text, selectionWidth, selectionHeight, nil, self.plus:GetLeft() + self.plus:GetWidth() + 5, 4 );
   self.barName.TextChanged = function( sender, args )
-        SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+        SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
       barSettings.barName = self.barName:GetText();
       return barSettings;
     end, function(barSettings)
@@ -42,7 +42,7 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
   self.visible:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.visible:SetMouseVisible(true);
   self.visible.MouseDown = function(args)
-        SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+        SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
       barSettings.visible = not barSettings.visible;
       return barSettings;
     end, function(barSettings)
@@ -55,11 +55,11 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
   self.lock:SetParent(self);
   self.lock:SetSize(20,20);
   self.lock:SetPosition(230,4);
-  self.lock:SetBackground("MyysticUI/Menus/Core/Resources/button_unlocked.tga");
+  self.lock:SetBackground("MysticBars/Menus/Core/Resources/button_unlocked.tga");
   self.lock:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.lock:SetMouseVisible(true);
   self.lock.MouseDown = function(args)
-        SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+        SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
       barSettings.locked = not barSettings.locked;
       return barSettings;
     end, function(barSettings)
@@ -72,11 +72,11 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
   self.delete:SetParent(self);
   self.delete:SetSize(16,16);
   self.delete:SetPosition(self:GetWidth() - 22,20);
-  self.delete:SetBackground("MyysticUI/Menus/Core/Resources/titlebar_X_2_sepia.tga");
+  self.delete:SetBackground("MysticBars/Menus/Core/Resources/titlebar_X_2_sepia.tga");
   self.delete:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.delete:SetMouseVisible(true);
   self.delete.MouseDown = function(args)
-    local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+    local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
     self:SetExpanded(not self:IsExpanded());
 
     barService:Remove( self.barId );
@@ -168,22 +168,22 @@ function BarsTitleTreeNode:Refresh(width)
   self.b:SetWidth(w-6);
   self.br:SetLeft(w-3);
 
-  local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+  local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
   local barSettings = settingsService:GetBarSettings( self.barId );
 
-  self.visible:SetBackground(barSettings.visible and "MyysticUI/Menus/Core/Resources/button_visible.tga" or "MyysticUI/Menus/Core/Resources/button_notvisible.tga");
-  self.lock:SetBackground(barSettings.locked and "MyysticUI/Menus/Core/Resources/button_locked.tga" or "MyysticUI/Menus/Core/Resources/button_unlocked.tga");
+  self.visible:SetBackground(barSettings.visible and "MysticBars/Menus/Core/Resources/button_visible.tga" or "MysticBars/Menus/Core/Resources/button_notvisible.tga");
+  self.lock:SetBackground(barSettings.locked and "MysticBars/Menus/Core/Resources/button_locked.tga" or "MysticBars/Menus/Core/Resources/button_unlocked.tga");
 end
 
 function BarsTitleTreeNode:SetSelected(selected)
-  self.tl:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_left.tga");
-  self.t:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_center.tga");
-  self.tr:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_right.tga");
-  self.l:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_middle_left.tga");
-  self.r:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_middle_right.tga");
-  self.bl:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_bottom_left.tga");
-  self.b:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_bottom_center.tga");
-  self.br:SetBackground("MyysticUI/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_lower_right.tga");
+  self.tl:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_left.tga");
+  self.t:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_center.tga");
+  self.tr:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_right.tga");
+  self.l:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_middle_left.tga");
+  self.r:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_middle_right.tga");
+  self.bl:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_bottom_left.tga");
+  self.b:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_bottom_center.tga");
+  self.br:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_lower_right.tga");
 end
 
 function BarsTitleTreeNode:MouseEnter(args)

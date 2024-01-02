@@ -4,19 +4,19 @@
 --
 -- RESPECT!
 
-import "MyysticUI.Utils.Decimal2Hex"
+import "MysticBars.Utils.Decimal2Hex"
 
 DynamicTemplate = class();
 
 function DynamicTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	local skillsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SkillsService);
+	local skillsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SkillsService);
 	skillsService:BuildSkillLists();
 	for key, skillSet in pairs ( skillsService:GetSkillSets() ) do
 		local callback = function()
-			local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
-			local skillsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SkillsService);
+			local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
+			local skillsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SkillsService);
 			skillsService:BuildSkillLists();
 		
 			local rows = 1;
@@ -26,7 +26,7 @@ function DynamicTemplate:Constructor()
 				cols = 5;
 			end
 			templateService:CreateBar( false, skillSet.title, 1, rows, cols, 200, 200, QUICKSLOTBAR, function(localBarSettings)
-				MyysticUI.Bars.Templates.DynamicTemplate.PopulateShortcuts(self, skillSet.skills, localBarSettings);
+				MysticBars.Bars.Templates.DynamicTemplate.PopulateShortcuts(self, skillSet.skills, localBarSettings);
 			end);
 		end
 
@@ -37,11 +37,11 @@ function DynamicTemplate:Constructor()
 end
 
 function DynamicTemplate:PopulateShortcuts(list, localBarSettings)
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	local count = 0;
 	for key, skill in pairs ( list ) do
-		local possibleHex = MyysticUI.Utils.Decimal2Hex(skill);
+		local possibleHex = MysticBars.Utils.Decimal2Hex(skill);
 
 		if (ShortcutLookup[possibleHex]) then
 			count = count + 1;

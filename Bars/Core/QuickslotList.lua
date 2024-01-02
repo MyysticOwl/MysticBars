@@ -33,7 +33,7 @@ end
 function QuickslotList:Refresh( showAllQuickslots, lockQuickslots )
 	self:RefreshQuickslots();
 
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
 	for key, value in pairs (self.quickslots) do
@@ -62,7 +62,7 @@ function QuickslotList:Refresh( showAllQuickslots, lockQuickslots )
 end
 
 function QuickslotList:RefreshQuickslots()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
 	self.loading = true;
@@ -75,7 +75,7 @@ function QuickslotList:RefreshQuickslots()
 					self.extensions[ key ].quickslot = nil;
 					self.extensions[ key ] = nil;
 
-					local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+					local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 					barService:Remove( id );
 				end
 			end
@@ -90,7 +90,7 @@ function QuickslotList:RefreshQuickslots()
 		self.quickslots[i] = nil;
 	end
 
-	-- local dump = MyysticUI.Utils.TableDump();
+	-- local dump = MysticBars.Utils.TableDump();
 	-- dump.Dump(barSettings.quickslots);
 
 	for i=self.count + 1, barSettings.quickslotCount do
@@ -103,8 +103,8 @@ function QuickslotList:RefreshQuickslots()
 		self.quickslots[i]:SetUseOnRightClick( true );
 
 		self.quickslots[i].DragDrop = function( sender, args )
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 			if ( barService ~= nil and barService:Alive( self.id ) ) then
 
@@ -159,7 +159,7 @@ function QuickslotList:RefreshQuickslots()
 		end
 
 		self.quickslots[i].DragEnter = function( sender, args )
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 			if ( barService ~= nil ) then
 				barService.newData = self.quickslots[sender.index]:GetShortcut():GetData();
@@ -169,8 +169,8 @@ function QuickslotList:RefreshQuickslots()
 			end
 		end
 		self.quickslots[i].DragLeave = function( sender, args )
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 			if ( barService ~= nil and sender.index == barService.originItem and self.id == barService.originBar) then
 				self.quickslots[barService.originItem]:SetShortcut( nil );
@@ -184,7 +184,7 @@ function QuickslotList:RefreshQuickslots()
 		end
 
 		self.quickslots[i].MouseDown = function( sender, args )
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 			if ( barService ~= nil ) then
 				barService.originData = self.quickslots[sender.index]:GetShortcut():GetData();
@@ -196,8 +196,8 @@ function QuickslotList:RefreshQuickslots()
 		end
 		self.quickslots[i].MouseClick = function( sender,args )
 			--Turbine.UI.Lotro.Quickslot()
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 			local settings = settingsService:GetSettings();
 			local bSettings = settingsService:GetBarSettings( self.id );
@@ -205,7 +205,7 @@ function QuickslotList:RefreshQuickslots()
 				local barid = barService:Add( EXTENSIONBAR, self.id, sender.index );
 				barService:ShowExtensionBarMenu( barid );
 				barService:UpdateBarExtensions();
-				SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService):GetMenu():Refresh(true);
+				SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService):GetMenu():Refresh(true);
 			elseif( barService ~= nil and barService:Alive( self.id ) and args.Button == 1 and settings.barMode == NORMAL_MODE and bSettings.onMouseOver == ROLL_UP_SELECTION ) then
 				local thebars = barService:GetBars();
 				thebars[self.id]:RollupSelection( thebars[self.id], sender.index );
@@ -250,8 +250,8 @@ function QuickslotList:SetupExtensionSlot( bars, index )
 		self.extensions = bars;
 		
 		self.quickslots[ index ].MouseEnter = function(sender,args)
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 			if ( barService ~= nil and barService:Alive( self.id ) and self.entered == false ) then
 				self.entered = true;
@@ -272,8 +272,8 @@ function QuickslotList:SetupExtensionSlot( bars, index )
 		end
 
 		self.quickslots[ index ].MouseLeave = function(sender,args)
-			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+			local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 			if ( barService ~= nil and barService:Alive( self.id ) and self.entered == true ) then
 				for key, value in pairs (self.extensions) do

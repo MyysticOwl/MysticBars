@@ -26,19 +26,19 @@ function dec2hex( num )
    return result
 end
 
-import "MyysticUI.ShortcutLooksupData"
+import "MysticBars.ShortcutLooksupData"
 
 local column = 0;
 local row = 0;
 local leftPad = 200;
 local topPad = 40;
 
-local skillsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SkillsService);
-local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+local skillsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SkillsService);
+local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 skillsService:BuildSkillLists();
 local trainedSkills = playerService.player:GetTrainedSkills();
 
-TestWindow = MyysticUI.Menus.Core.UI.Window();
+TestWindow = MysticBars.Menus.Core.UI.Window();
 TestWindow:SetSize(700, 500);
 TestWindow:SetVisible(true);
 TestWindow:SetText("Skill Mapper");

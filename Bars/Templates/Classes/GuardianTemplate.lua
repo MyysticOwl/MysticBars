@@ -7,7 +7,7 @@
 GuardianTemplate = class();
 
 function GuardianTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	templateService:RegisterBarCreator( "Stances", 			"Stance", 		self.Stance );
 	templateService:RegisterBarCreator( "Overpower Skills", 	"Overpower",	self.Overpower );
@@ -17,7 +17,7 @@ function GuardianTemplate:Constructor()
 end
 
 function GuardianTemplate:Stance( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Stance", 4, 1, 3, 240, 300, QUICKSLOTBAR, QUICKSLOTBAR, QUICKSLOTBAR, function(localBarSettings)
 		templateService:SetBuffTriggerOptions( false, false, localBarSettings );
@@ -33,7 +33,7 @@ function GuardianTemplate:Stance( override )
 end
 
 function GuardianTemplate:Overpower( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Overpower", 30, 1, 2, 240, 350, QUICKSLOTBAR, QUICKSLOTBAR, function(localBarSettings)
 		templateService:SetBuffTriggerOptions( true, false, localBarSettings );
@@ -44,7 +44,7 @@ function GuardianTemplate:Overpower( override )
 end
 
 function GuardianTemplate:Parry( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Parry", 8, 1, 4, 240, 400, QUICKSLOTBAR, QUICKSLOTBAR, function(localBarSettings)
 		templateService:SetBuffTriggerOptions( true, false, localBarSettings );
@@ -58,7 +58,7 @@ function GuardianTemplate:Parry( override )
 end
 
 function GuardianTemplate:Block( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Block", 2, 1, 4, 240, 450, QUICKSLOTBAR, QUICKSLOTBAR, function(localBarSettings)
 		templateService:SetBuffTriggerOptions( true, false, localBarSettings );

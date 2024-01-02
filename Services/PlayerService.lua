@@ -6,17 +6,17 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Service";
-import "MyysticUI.Utils.Table";
-import "MyysticUI.Bars.Events.BuffEvents";
-import "MyysticUI.Bars.Events.KeyEvents";
-import "MyysticUI.Bars.Events.StatEvents";
-import "MyysticUI.Bars.Events.ClassSpecificEvents";
-import "MyysticUI.Bars.Events.MiscEvents";
-import "MyysticUI.Services.SettingsService"
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Service";
+import "MysticBars.Utils.Table";
+import "MysticBars.Bars.Events.BuffEvents";
+import "MysticBars.Bars.Events.KeyEvents";
+import "MysticBars.Bars.Events.StatEvents";
+import "MysticBars.Bars.Events.ClassSpecificEvents";
+import "MysticBars.Bars.Events.MiscEvents";
+import "MysticBars.Services.SettingsService"
 
-PlayerService = class( MyysticUI.Utils.Service );
+PlayerService = class( MysticBars.Utils.Service );
 
 PlayerService.player = nil
 PlayerService.playerClass = nil
@@ -39,7 +39,7 @@ end
 
 function PlayerService:Build()
 	if ( self.playerClass == nil ) then
-		local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 		local settings = settingsService:GetSettings();
 		if ( settings.playerClass == nil ) then

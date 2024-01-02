@@ -5,12 +5,12 @@
 -- RESPECT!
 
 import "Turbine";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Service";
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Service";
 import "Turbine.Gameplay";
-import "MyysticUI.Utils.TableDeepCopy";
+import "MysticBars.Utils.TableDeepCopy";
 
-SettingsService = class( MyysticUI.Utils.Service );
+SettingsService = class( MysticBars.Utils.Service );
 
 function SettingsService:Constructor()
 	self.PARTIAL = 1;
@@ -45,7 +45,7 @@ function SettingsService:GetSettings()
 end
 
 function SettingsService:LoadSettings( profile )
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 	if ( profile == nil ) then
 		self.profiles = Turbine.PluginData.Load( Turbine.DataScope.Server, "TonicBarSettings", function(args) end);
@@ -92,7 +92,7 @@ function SettingsService:LoadSettings( profile )
 end
 
 function SettingsService:SaveSettings( profile )
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 	if ( Turbine.Engine:GetLocale() == "de" or Turbine.Engine:GetLocale() == "fr" ) then
 		local temp = { };
@@ -239,7 +239,7 @@ function SettingsService:GetBarSettings( barid )
 end
 
 function SettingsService:SetBarSettings(barid, bar, doNotRefresh, force)
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 	if ( barid ~= nil and barService  ~= nil and (barService:Alive( barid ) or force)) then
 		self.settings.bars[barid] = bar;
@@ -446,7 +446,7 @@ function SettingsService:GetProfileBars( profile )
 end
 
 function SettingsService:ResetAllBars()
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 	self:SaveSettings();
 	if ( self.settings.bars == nil ) then
@@ -454,13 +454,13 @@ function SettingsService:ResetAllBars()
 	end
 	barService:Construct( self.settings.bars, true );
 
-	SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+	SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 end
 
 
 function SettingsService:CopyProfile( profileToCopy, copyType, barid, myBar )
-	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 	if ( barid == nil ) then
 		return;
@@ -477,7 +477,7 @@ function SettingsService:CopyProfile( profileToCopy, copyType, barid, myBar )
 end
 
 function SettingsService:CopyBars(profileToCopy, copyType, barid, myBar)
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 	local realProfile = nil;
 	local copyProfile = nil;

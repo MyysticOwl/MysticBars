@@ -6,10 +6,10 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Service";
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Service";
 
-InventoryService = class( MyysticUI.Utils.Service );
+InventoryService = class( MysticBars.Utils.Service );
 
 function InventoryService:Constructor()
 	self.ADD = 1;
@@ -49,14 +49,14 @@ function InventoryService:NotifyClients( type, specificItem )
 	if ( self.clients == nil ) then
 		self.clients = { };
 	end
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local backpack = playerService.player:GetBackpack();
 
 	for key, value in pairs (self.clients) do
 		local visible = false;
 		local barSettings = settingsService:GetBarSettings( key );
-		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 		if ( barService ~= null and value ~= nil and value.registered == true and barService:Alive( key ) == true ) then
 			local qlist = value.bar:GetQuickslotList();
@@ -109,8 +109,8 @@ function InventoryService:GetRegisteredEvents()
 end
 
 function InventoryService:RegisterForBackpackCallbacks()
-	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local backpack = playerService.player:GetBackpack();
 
 	eventService.AddCallback( self, backpack, "ItemAdded", function( sender, args )

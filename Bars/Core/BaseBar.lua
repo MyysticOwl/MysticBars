@@ -4,8 +4,8 @@
 --
 -- RESPECT!
 
-import "MyysticUI.Bars.Core.QuickslotList";
-import "MyysticUI.Bars.Core.ItemList";
+import "MysticBars.Bars.Core.QuickslotList";
+import "MysticBars.Bars.Core.ItemList";
 
 dragBarAvailable = pcall( function(sender,args)
 	import "Deusdictum.UI.DragBar";
@@ -16,7 +16,7 @@ BaseBar = class( Turbine.UI.Window );
 function BaseBar:Constructor()
 	Turbine.UI.Window.Constructor( self );
 
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
 	self.dragged = false;
@@ -57,7 +57,7 @@ function BaseBar:PositionChanged( sender, args )
 end
 
 function BaseBar:Create()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
 	self.quickslotList:SetParent( self );
@@ -74,7 +74,7 @@ function BaseBar:ClearQuickslots()
 end
 
 function BaseBar:Refresh()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
 	local barSettings = settingsService:GetBarSettings( self.id );
 	if ( settings.barMode == NORMAL_MODE ) then
@@ -112,7 +112,7 @@ function BaseBar:Refresh()
 end
 
 function BaseBar:SetMenuBackColor( selected, barMode )
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
 	if ( selected ) then
 		self:SetOpacity( 0.6 );

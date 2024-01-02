@@ -7,14 +7,14 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.Menus.Core.UI.AutoListBox";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
-import "MyysticUI.Menus.Core.UI.CheckedComboBox";
+import "MysticBars.Menus.Core.UI.AutoListBox";
+import "MysticBars.Menus.Core.UI.MenuUtils";
+import "MysticBars.Menus.Core.UI.CheckedComboBox";
 
-InventoryPanel = class(MyysticUI.Menus.Controls.BasePanel);
+InventoryPanel = class(MysticBars.Menus.Controls.BasePanel);
 
 function InventoryPanel:Constructor(barId, barValue)
-	MyysticUI.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
+	MysticBars.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
 
 	self:SetHeight(190);
 
@@ -29,7 +29,7 @@ function InventoryPanel:Constructor(barId, barValue)
 
 	self.utils:AddButton(self.panelBackground, "Add", buttonWidth, selectionHeight, function(sender, args)
 		if (self.filterName:GetText() ~= "") then
-			SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId,
+			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId,
 				function(barSettings)
 					if (barSettings.events.inventory.nameFilters == nil) then
 						barSettings.events.inventory.nameFilters = {};
@@ -50,20 +50,20 @@ function InventoryPanel:Constructor(barId, barValue)
 		selectionHeight, nil, 5, 90);
 	self.utils:CreateCheckBoxCallback(self.countCheckBox, barId, { "events", "inventory", "useCount" },
 		function(sender, args)
-			SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+			SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 		end);
 
 	self.countSB = self.utils:AddScrollBar(self.panelBackground, 0, 1, 100, 200, selectionHeight + 20, nil, "", 5, 120);
 	self.utils:CreateScrollBarCallback(self.countSB, barId, { "events", "inventory", "quantity" }, nil, nil,
 		function(sender, args)
-			SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+			SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 		end);
 
 	self:DisplaySettings();
 end
 
 function InventoryPanel:DisplaySettings()
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local localBarSettings = settingsService:GetBarSettings(self.barId);
 
 	if (localBarSettings.events == nil) then
@@ -85,7 +85,7 @@ function InventoryPanel:DisplaySettings()
 	self.nameList.SelectedIndexChanged = function(sender, args)
 		local selections = self.nameList:GetSelections();
 		if (selections ~= nil) then
-			SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId,
+			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId,
 				function(barSettings)
 					-- ALWAYS RESET THE nameFilters
 					barSettings.events.inventory.nameFilters = {};
@@ -94,7 +94,7 @@ function InventoryPanel:DisplaySettings()
 					end
 					return barSettings;
 				end, function()
-					SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+					SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 				end);
 		end
 	end
@@ -109,7 +109,7 @@ function InventoryPanel:DisplaySettings()
 	self.visibilityList.SelectedIndexChanged = function(sender, args)
 		local selections = self.visibilityList:GetSelections();
 		if (selections ~= nil) then
-			SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.barId,
+			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId,
 				function(barSettings)
 					-- ALWAYS RESET THE CATEGORIES
 					barSettings.events.inventory.categories = {};
@@ -118,7 +118,7 @@ function InventoryPanel:DisplaySettings()
 					end
 					return barSettings;
 				end, function()
-					SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+					SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 				end);
 		end
 	end

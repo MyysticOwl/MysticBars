@@ -7,7 +7,7 @@
 WardenTemplate = class();
 
 function WardenTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	templateService:RegisterBarCreator( "Stances", 	"Stance", self.Stance );
 	templateService:RegisterBarCreator( "Travel", 		"Travel", self.Travel );
@@ -19,7 +19,7 @@ function WardenTemplate:Constructor()
 end
 
 function WardenTemplate:Stance( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Stance", 10, 1, 3, 240, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( false, false, barSettings );
@@ -35,7 +35,7 @@ function WardenTemplate:Stance( override )
 end
 
 function WardenTemplate:Travel( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Travel", 26, 1, 4, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x70014798", 6, 26, barSettings );
@@ -46,7 +46,7 @@ function WardenTemplate:Travel( override )
 end
 
 function WardenTemplate:Javelin( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Javelins", 1, 1, 4, 240, 400, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x700105C5", 6, 1, barSettings );
@@ -57,7 +57,7 @@ function WardenTemplate:Javelin( override )
 end
 
 function WardenTemplate:Recovery( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Recovery", 10, 1, 2, 240, 450, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x70016A0A", 6, 10, barSettings );
@@ -66,7 +66,7 @@ function WardenTemplate:Recovery( override )
 end
 
 function WardenTemplate:March( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "March", 14, 1, 2, 240, 500, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x700105CC", 6, 14, barSettings );
@@ -75,7 +75,7 @@ function WardenTemplate:March( override )
 end
 
 function WardenTemplate:Charge( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Charge", 10, 1, 1, 240, 550, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );

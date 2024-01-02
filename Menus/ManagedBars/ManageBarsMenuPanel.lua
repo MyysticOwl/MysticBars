@@ -6,19 +6,19 @@
 
 ManageBarsMenuPanel = class();
 
-ManageBarsMenuPanel.utils = MyysticUI.Menus.Core.UI.MenuUtils();
+ManageBarsMenuPanel.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 function ManageBarsMenuPanel:Draw(parentNode, barId, barValue)
 
 	-- -----------------------   SLOTS	  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.SlotsPanel(barId, barValue));
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.SlotsPanel(barId, barValue));
 
 	-- -----------------------   COLOR  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.ColorPanel(barId, barValue));
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.ColorPanel(barId, barValue));
 
 	-- -----------------------   TRIGGERS  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.TriggersPanel(barId, barValue));
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.TriggersPanel(barId, barValue));
 
 	-- -----------------------   CLASS BUFF TRIGGERS  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MyysticUI.Menus.Controls.ClassBuffPanel(barId, barValue));
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.ClassBuffPanel(barId, barValue));
 end

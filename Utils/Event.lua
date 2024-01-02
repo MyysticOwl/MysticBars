@@ -1,5 +1,5 @@
 
-import "MyysticUI.Utils.Class";
+import "MysticBars.Utils.Class";
 
 local EventMetatable;
 local EventInfo;

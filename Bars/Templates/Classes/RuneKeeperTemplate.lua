@@ -7,7 +7,7 @@
 RuneKeeperTemplate = class();
 
 function RuneKeeperTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	templateService:RegisterBarCreator( "Restoration Skill", 			"Restoration", 	self.Restoration );
 	templateService:RegisterBarCreator( "DPS Attonement Skill", 		"Attun 1-10", 	self.Attun110 );
@@ -22,7 +22,7 @@ function RuneKeeperTemplate:Constructor()
 end
 
 function RuneKeeperTemplate:Restoration( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Restoration", 4, 1, 1, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( false, false, barSettings );
@@ -34,7 +34,7 @@ function RuneKeeperTemplate:Restoration( override )
 end
 
 function RuneKeeperTemplate:Attun7( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Attun 7", 2, 5, 1, 468, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -48,7 +48,7 @@ function RuneKeeperTemplate:Attun7( override )
 end
 
 function RuneKeeperTemplate:Attun4( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Attun 4", 24, 6, 1, 429, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -63,7 +63,7 @@ function RuneKeeperTemplate:Attun4( override )
 end
 
 function RuneKeeperTemplate:Attun1( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Attun 1", 20, 3, 1, 387, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -75,7 +75,7 @@ function RuneKeeperTemplate:Attun1( override )
 end
 
 function RuneKeeperTemplate:Attun1019( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Attun 10-19", 1, 1, 1, 508, 336, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -85,7 +85,7 @@ function RuneKeeperTemplate:Attun1019( override )
 end
 
 function RuneKeeperTemplate:Attun13( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Attun 13", 12, 2, 1, 547, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -96,7 +96,7 @@ function RuneKeeperTemplate:Attun13( override )
 end
 
 function RuneKeeperTemplate:Attun16( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Attun 16", 18, 3, 1, 585, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -108,7 +108,7 @@ function RuneKeeperTemplate:Attun16( override )
 end
 
 function RuneKeeperTemplate:Attun19( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Attun 19", 41, 3, 1, 623, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
@@ -120,7 +120,7 @@ function RuneKeeperTemplate:Attun19( override )
 end
 
 function RuneKeeperTemplate:Attun110( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Attun 1-10", 1, 1, 1, 508, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );

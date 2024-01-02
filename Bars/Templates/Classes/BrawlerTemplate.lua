@@ -7,13 +7,13 @@
 BrawlerTemplate = class();
 
 function BrawlerTemplate:Constructor()
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 	templateService:RegisterBarCreator( "Battle Flow 3+", 	"Battle Flow 3+", self.BattleFlow3 );
 	templateService:ConstructBars();
 end
 
 function BrawlerTemplate:BattleFlow3( override )
-	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( override, "Battle Flow 3+", 1, 6, 3, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );

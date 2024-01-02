@@ -6,17 +6,17 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Service";
-import "MyysticUI.Utils.Table";
-import "MyysticUI.Bars.Events.BuffEvents";
-import "MyysticUI.Bars.Events.KeyEvents";
-import "MyysticUI.Bars.Events.StatEvents";
-import "MyysticUI.Bars.Events.ClassSpecificEvents";
-import "MyysticUI.Bars.Events.MiscEvents";
-import "MyysticUI.Services.SettingsService"
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Service";
+import "MysticBars.Utils.Table";
+import "MysticBars.Bars.Events.BuffEvents";
+import "MysticBars.Bars.Events.KeyEvents";
+import "MysticBars.Bars.Events.StatEvents";
+import "MysticBars.Bars.Events.ClassSpecificEvents";
+import "MysticBars.Bars.Events.MiscEvents";
+import "MysticBars.Services.SettingsService"
 
-SkillsService = class( MyysticUI.Utils.Service );
+SkillsService = class( MysticBars.Utils.Service );
 
 SkillsService.mounts = {}
 SkillsService.mountedCombat = {}
@@ -44,7 +44,7 @@ end
 
 function SkillsService:BuildSkillLists()
 	if (not self.built) then
-		local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 		local trainedSkills = playerService.player:GetTrainedSkills();
 

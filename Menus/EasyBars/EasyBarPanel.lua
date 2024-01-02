@@ -7,18 +7,18 @@
 import "Turbine";
 import "Turbine.UI";
 import "Turbine.UI.Lotro";
-import "MyysticUI.Menus.Core.UI.AutoListBox";
-import "MyysticUI.Menus.Core.UI.MenuUtils";
-import "MyysticUI.Menus.Controls.BasePanel";
+import "MysticBars.Menus.Core.UI.AutoListBox";
+import "MysticBars.Menus.Core.UI.MenuUtils";
+import "MysticBars.Menus.Controls.BasePanel";
 
-EasyBarPanel = class(MyysticUI.Menus.Controls.BasePanel);
+EasyBarPanel = class(MysticBars.Menus.Controls.BasePanel);
 
-EasyBarPanel.menuItems = MyysticUI.Menus.MainMenuItems();
+EasyBarPanel.menuItems = MysticBars.Menus.MainMenuItems();
 
 function EasyBarPanel:Constructor()
-	MyysticUI.Menus.Controls.BasePanel.Constructor(self, nil, nil);
+	MysticBars.Menus.Controls.BasePanel.Constructor(self, nil, nil);
 
-	self.templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+	self.templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 	local easyBars = self.templateService:GetEasyBars();
 	local column = 0;
 	local row = 0;
@@ -45,8 +45,8 @@ function EasyBarPanel:Constructor()
 			end
 
 			easycheck.CheckedChanged = function (args)
-				local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
-				local menuService = SERVICE_CONTAINER:GetService(MyysticUI.Services.MenuService);
+				local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+				local menuService = SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService);
 
 				local id, actualBar = self:GetBarMatch(barName);
 				if ( actualBar ~= nil ) then
@@ -56,7 +56,7 @@ function EasyBarPanel:Constructor()
 					barService:LoadQuickslots();
 					barService:RefreshBars();
 					menuService:GetMenu():Refresh(true);
-					SERVICE_CONTAINER:GetService(MyysticUI.Services.InventoryService):NotifyClients();
+					SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 				end
 			end
 		end
@@ -75,7 +75,7 @@ function EasyBarPanel:EnableTriggers(enabled)
 end
 
 function EasyBarPanel:GetBarMatch(barName)
-	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	for key, value in opairs (settingsService:GetBars()) do
 		if (value.barName == barName and value.barName ~= nil) then

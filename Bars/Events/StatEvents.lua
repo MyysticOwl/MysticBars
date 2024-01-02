@@ -6,19 +6,19 @@
 
 import "Turbine.Gameplay";
 import "Turbine.UI";
-import "MyysticUI.Utils.Class";
-import "MyysticUI.Utils.Table";
+import "MysticBars.Utils.Class";
+import "MysticBars.Utils.Table";
 
 StatEvents = class( Turbine.Object  );
 
 function StatEvents:Constructor( regEvents )
-	local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-	local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	self.registeredEvents = regEvents;
 	
 	eventService:AddCallback( playerService.player, "MoraleChanged", function( sender, args )
-		local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-		local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+		local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
+		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 		local value = playerService.player:GetMorale() / playerService.player:GetMaxMorale();
 		if ( value ~= 1 ) then
@@ -29,8 +29,8 @@ function StatEvents:Constructor( regEvents )
 		eventService:NotifyClients();
 	end);
 	eventService:AddCallback( playerService.player, "PowerChanged", function( sender, args )
-		local eventService = SERVICE_CONTAINER:GetService(MyysticUI.Services.EventService);
-		local playerService = SERVICE_CONTAINER:GetService(MyysticUI.Services.PlayerService);
+		local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
+		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 		local value = playerService.player:GetPower() / playerService.player:GetMaxPower();
 		if ( value ~= 1 ) then
