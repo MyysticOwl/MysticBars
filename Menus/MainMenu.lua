@@ -112,6 +112,7 @@ function MainMenu:Constructor()
 		local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 		barService:RefreshBars();
 
+		self:Refresh();
 	end
 
 	self:Refresh();

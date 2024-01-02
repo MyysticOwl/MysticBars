@@ -22,7 +22,7 @@ function EasyBarPanel:Constructor()
 	local easyBars = self.templateService:GetEasyBars();
 	local column = 0;
 	local row = 0;
-	local leftPad = 200;
+	local leftPad = 160;
 	local topPad = 30;
 
 	if ( easyBars ~= nil ) then
@@ -62,7 +62,7 @@ function EasyBarPanel:Constructor()
 		end
 	end
 
-	self:SetHeight(row * 50);
+	self:SetHeight(row * 40);
 
 	self:DisplaySettings();
 end

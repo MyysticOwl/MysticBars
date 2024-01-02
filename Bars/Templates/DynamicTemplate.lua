@@ -4,59 +4,50 @@
 --
 -- RESPECT!
 
+import "MyysticUI.Utils.Decimal2Hex"
+
 DynamicTemplate = class();
 
 function DynamicTemplate:Constructor()
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
 
-	--TOtemplateService:RegisterBarCreator( "Mounts", "Mounts", self.Mounts );
+	local skillsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SkillsService);
+	skillsService:BuildSkillLists();
+	for key, skillSet in pairs ( skillsService:GetSkillSets() ) do
+		local callback = function()
+			local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
+			local skillsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SkillsService);
+			skillsService:BuildSkillLists();
+		
+			local rows = 1;
+			local cols = skillSet.skillCount;
+			if (skillSet.skillCount >= 5) then
+				rows = skillSet.skillCount / 5;
+				cols = 5;
+			end
+			templateService:CreateBar( false, skillSet.title, 1, rows, cols, 200, 200, QUICKSLOTBAR, function(localBarSettings)
+				MyysticUI.Bars.Templates.DynamicTemplate.PopulateShortcuts(self, skillSet.skills, localBarSettings);
+			end);
+		end
+
+		templateService:RegisterBarCreator( skillSet.title, skillSet.title, callback, skillSet.title, autoCreate );
+	end
+
 	templateService:ConstructBars();
 end
 
-function DynamicTemplate:Mounts()
+function DynamicTemplate:PopulateShortcuts(list, localBarSettings)
 	local templateService = SERVICE_CONTAINER:GetService(MyysticUI.Services.TemplateService);
-	local skillsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SkillsService);
-	skillsService:BuildSkillLists();
 
-	--	override, name, level, rows, columns, x, y, barType, createdCallback )
-	templateService:CreateBar( false, "Mounts", 1, 5, 5, 200, 200, QUICKSLOTBAR, function(localBarSettings)
-		for key, skill in pairs ( skillsService.travel ) do
-			local skillInfo = skill:GetSkillInfo();
-			local possibleHex = "0x" .. dec2hex(skillInfo:GetIconImageID());
+	local count = 0;
+	for key, skill in pairs ( list ) do
+		local possibleHex = MyysticUI.Utils.Decimal2Hex(skill);
 
-			if (ShortcutLookup[possibleHex]) then
-				templateService:AddShortcut( key, ShortcutLookup[possibleHex].shortcut, 6, 1, localBarSettings );
-			else
---				Turbine.Shell.WriteLine("Missing: " .. possibleHex .. " desc: " .. skillInfo:GetDescription());
-			end
+		if (ShortcutLookup[possibleHex]) then
+			count = count + 1;
+			templateService:AddShortcut( count, ShortcutLookup[possibleHex].shortcut, 6, 1, localBarSettings );
+		-- else
+		-- 	Turbine.Shell.WriteLine("Missing: " .. possibleHex .. " desc: " .. skillInfo:GetDescription());
 		end
-	end);
-end
-
-function dec2hex( num )
-	if (type( num ) ~= "number") then
-		num = tonumber( num )
 	end
-	if num == 0 or num == nil then return '0' end
-
-   local neg = false
-   if num < 0 then
-	   neg = true
-	   num = num * -1
-   end
-
-   local hexstr    = '0123456789ABCDEF'
-   local result    = ''
-
-   while num > 0 do
-	   local n = math.mod( num, 16 )
-	   result      = string.sub( hexstr, n + 1, n + 1 ) .. result
-	   num         = math.floor( num / 16 )
-   end
-
-   if neg then
-	   result = '-' .. result
-   end
-
-   return result
 end

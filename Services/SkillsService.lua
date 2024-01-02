@@ -28,7 +28,7 @@ SkillsService.class = {}
 SkillsService.skirmish = {}
 SkillsService.corruption = {}
 
-SkillsService.mountCount = 0;
+SkillsService.mountsCount = 0;
 SkillsService.mountedCombatCount = 0;
 SkillsService.petsCount = 0;
 SkillsService.travelCount = 0;
@@ -53,6 +53,7 @@ function SkillsService:BuildSkillLists()
 			local info = skill:GetSkillInfo();
 			local name = string.lower(info:GetName());
 			local description = string.lower(info:GetDescription());
+			local image = info:GetIconImageID()
 
 			-- Turbine.Shell.WriteLine( "t: " .. info:GetType());
 			-- Turbine.Shell.WriteLine( "i: " .. info:GetIconImageID());
@@ -66,7 +67,7 @@ function SkillsService:BuildSkillLists()
 				if (self.class[self.classCount] == nil) then
 					self.class[self.classCount] = {};
 				end
-				self.class[self.classCount]["masteries"] = skill;
+				self.class[self.classCount]["masteries"] = image;
 				self.classCount = self.classCount + 1;
 				found = true;
 			end
@@ -76,7 +77,7 @@ function SkillsService:BuildSkillLists()
 				if (self.class[self.classCount] == nil) then
 					self.class[self.classCount] = {};
 				end
-				self.class[self.classCount]["stances"] = skill;
+				self.class[self.classCount]["stances"] = image;
 				self.classCount = self.classCount + 1;
 				found = true;
 			end
@@ -89,7 +90,7 @@ function SkillsService:BuildSkillLists()
 				if (self.class[self.classCount] == nil) then
 					self.class[self.classCount] = {};
 				end
-				self.class[self.classCount]["pet"] = skill;
+				self.class[self.classCount]["pet"] = image;
 				self.classCount = self.classCount + 1;
 				found = true;
 			end
@@ -101,7 +102,7 @@ function SkillsService:BuildSkillLists()
 				string.find(name, "muster at") ~= nil or
 				string.find(name, "muster in") ~= nil) and found == false) then
 
-				self.travel[self.travelCount] = skill;
+				self.travel[self.travelCount] = image;
 				self.travelCount = self.travelCount + 1;
 				found = true;
 			end
@@ -113,7 +114,7 @@ function SkillsService:BuildSkillLists()
 				string.find(description, "with you") ~= nil or
 				string.find(description, "brings out") ~= nil) and found == false) then
 
-				self.pets[self.petsCount] = skill;
+				self.pets[self.petsCount] = image;
 				self.petsCount = self.petsCount + 1;
 				found = true;
 			end
@@ -124,7 +125,7 @@ function SkillsService:BuildSkillLists()
 				string.find(description, "your steed") ~= nil or
 				string.find(description, "to ride") ~= nil) and found == false) then
 
-				self.mountedCombat[self.mountedCombatCount] = skill;
+				self.mountedCombat[self.mountedCombatCount] = image;
 				self.mountedCombatCount = self.mountedCombatCount + 1;
 				found = true;
 			end
@@ -136,34 +137,93 @@ function SkillsService:BuildSkillLists()
 				string.find(name, "boar") ~= nil or
 				string.find(name, "steed") ~= nil) and found == false) then
 
-				self.mounts[self.mountCount] = skill;
-				self.mountCount = self.mountCount + 1;
+				self.mounts[self.mountsCount] = image;
+				self.mountsCount = self.mountsCount + 1;
 				found = true;
 			end
 
 			if ((string.find(name, "track") ~= nil) and found == false) then
-				self.crafting[self.craftingCount] = skill;
+				self.crafting[self.craftingCount] = image;
 				self.craftingCount = self.craftingCount + 1;
 				found = true;
 			end
 
 			if ((string.find(description, "your soldier") ~= nil) and found == false) then
-				self.skirmish[self.skirmishCount] = skill;
+				self.skirmish[self.skirmishCount] = image;
 				self.skirmishCount = self.skirmishCount + 1;
 				found = true;
 			end
 
 			if ((string.find(description, "remove a corruption") ~= nil) and found == false) then
-				self.corruption[self.corruptionCount] = skill;
+				self.corruption[self.corruptionCount] = image;
 				self.corruptionCount = self.corruptionCount + 1;
 				--found = true; NOT FOR THIS ONE!
 			end
 
 			if (found == false) then
-				self.skills[self.skillsCount] = skill;
+				self.skills[self.skillsCount] = image;
 				self.skillsCount = self.skillsCount + 1;
 			end
 		end
 		self.built = true;
 	end
+end
+
+function SkillsService:GetSkillSets()
+	return {
+		mounts = {
+			skills = self.mounts,
+			skillCount = self.mountsCount,
+			title = "Mounts",
+			autoCreate = true
+		},
+		mountedCombat = {
+			skills = self.mountedCombat,
+			skillCount = self.mountedCombatCount,
+			title = "Mounted Combat",
+			autoCreate = true
+		},
+		pets = {
+			skills = self.pets,
+			skillCount = self.petsCount,
+			title = "Pets",
+			autoCreate = true
+		},
+		travel = {
+			skills = self.travel,
+			skillCount = self.travelCount,
+			title = "Travel",
+			autoCreate = true
+		},
+		skills = {
+			skills = self.skills,
+			skillCount = self.skillsCount,
+			title = "Skills",
+			autoCreate = true
+		},
+		crafting = {
+			skills = self.crafting,
+			skillCount = self.craftingCount,
+			title = "Crafting",
+			autoCreate = true
+		},
+		-- class = {
+		-- 	skills = self.class,
+		-- 	skillCount = self.classCount,
+		-- 	title = "Class",
+		-- 	autoCreate = true
+		-- },
+		skirmish = {
+			skills = self.skirmish,
+			skillCount = self.skirmishCount,
+			title = "Skirmish",
+			autoCreate = true
+		},
+		corruption = {
+			skills = self.corruption,
+			skillCount = self.corruptionCount,
+			title = "Corruption",
+			autoCreate = true
+		}
+	};
 end

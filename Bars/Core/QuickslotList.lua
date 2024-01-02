@@ -82,12 +82,16 @@ function QuickslotList:RefreshQuickslots()
 		end
 	end
 
+	Turbine.Shell.WriteLine("refresh: " .. barSettings.quickslotCount);
 	for i = barSettings.quickslotCount + 1, self.count, 1 do
 		self.quickslots[i]:SetVisible( false );
 		self.quickslots[i]:SetParent( nil );
 		self.quickslots[i]:SetShortcut( nil );
 		self.quickslots[i] = nil;
 	end
+
+	-- local dump = MyysticUI.Utils.TableDump();
+	-- dump.Dump(barSettings.quickslots);
 
 	for i=self.count + 1, barSettings.quickslotCount do
 		self.quickslots[i] = Turbine.UI.Lotro.Quickslot();
@@ -99,6 +103,7 @@ function QuickslotList:RefreshQuickslots()
 		self.quickslots[i]:SetUseOnRightClick( true );
 
 		self.quickslots[i].DragDrop = function( sender, args )
+			Turbine.Shell.WriteLine("test1");
 			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
@@ -155,6 +160,7 @@ function QuickslotList:RefreshQuickslots()
 		end
 
 		self.quickslots[i].DragEnter = function( sender, args )
+			Turbine.Shell.WriteLine("test2");
 			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
 			if ( barService ~= nil ) then
@@ -165,6 +171,7 @@ function QuickslotList:RefreshQuickslots()
 			end
 		end
 		self.quickslots[i].DragLeave = function( sender, args )
+			Turbine.Shell.WriteLine("test3");
 			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
 
@@ -180,6 +187,7 @@ function QuickslotList:RefreshQuickslots()
 		end
 
 		self.quickslots[i].MouseDown = function( sender, args )
+			Turbine.Shell.WriteLine("test4");
 			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
 			if ( barService ~= nil ) then
@@ -191,6 +199,7 @@ function QuickslotList:RefreshQuickslots()
 			end
 		end
 		self.quickslots[i].MouseClick = function( sender,args )
+			Turbine.Shell.WriteLine("test5");
 			--Turbine.UI.Lotro.Quickslot()
 			local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 			local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
@@ -215,6 +224,7 @@ end
 
 function QuickslotList:ClearQuickslots()
 	self.isClearingQuickslots = true;
+	Turbine.Shell.WriteLine("CLEARING");
 	for key, value in pairs (self.quickslots) do
 		value:SetVisible( false );
 		value:SetParent( nil );

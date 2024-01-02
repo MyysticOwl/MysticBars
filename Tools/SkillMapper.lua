@@ -26,7 +26,7 @@ function dec2hex( num )
    return result
 end
 
-import "MyysticUI.Tools.ShortcutLooksupData"
+import "MyysticUI.ShortcutLooksupData"
 
 local column = 0;
 local row = 0;
@@ -61,7 +61,7 @@ for i = 1, trainedSkills:GetCount() do
 	local skillInfo = skill:GetSkillInfo();
 	local possibleHex = "0x" .. dec2hex(skillInfo:GetIconImageID());
 
-	if (possibleHex ~= nil and ShortcutLookup[possibleHex] == nil) then
+	if (ShortcutLookup[possibleHex] == nil) then
 		if (data[possibleHex] == nil) then
 			missing = missing + 1;
 			local left = 60 + (leftPad * column);

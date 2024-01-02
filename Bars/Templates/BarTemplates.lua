@@ -20,7 +20,7 @@ import "MyysticUI.Bars.Templates.SkirmishTemplate"
 import "MyysticUI.Bars.Templates.MonsterPlayTemplate"
 import "MyysticUI.Bars.Templates.PotionsTemplate"
 import "MyysticUI.Bars.Templates.DynamicTemplate"
-import "MyysticUI.Tools.ShortcutLooksupData"
+import "MyysticUI.ShortcutLooksupData"
 
 BarTemplates = class();
 
@@ -51,36 +51,36 @@ function BarTemplates:CheckTemplates()
 
 	templateService:SetPlayerLevel( playerService.player:GetLevel() );
 
-	MyysticUI.Bars.Templates.DynamicTemplate();
+	-- MyysticUI.Bars.Templates.DynamicTemplate();
 
-	if ( playerClass == Turbine.Gameplay.Class.Beorning ) then
-		MyysticUI.Bars.Templates.Classes.BeorningTemplate();
-	elseif ( playerClass == self.Brawler ) then
-		MyysticUI.Bars.Templates.Classes.BrawlerTemplate();
-	elseif ( playerClass == Turbine.Gameplay.Class.Burglar ) then
-		MyysticUI.Bars.Templates.Classes.BurglarTemplate();
-	elseif ( playerClass == Turbine.Gameplay.Class.Captain ) then
-		MyysticUI.Bars.Templates.Classes.CaptainTemplate();
-	elseif ( playerClass == Turbine.Gameplay.Class.Champion ) then
-		MyysticUI.Bars.Templates.Classes.ChampionTemplate();
-	elseif ( playerClass == Turbine.Gameplay.Class.Guardian ) then
-		MyysticUI.Bars.Templates.Classes.GuardianTemplate();
-	elseif ( playerClass == Turbine.Gameplay.Class.Hunter ) then
-		MyysticUI.Bars.Templates.Classes.HunterTemplate();
-	elseif ( playerClass == Turbine.Gameplay.Class.LoreMaster ) then
-		MyysticUI.Bars.Templates.Classes.LoreMasterTemplate();
-	elseif ( playerClass == self.Mariner ) then
-		MyysticUI.Bars.Templates.Classes.MarinerTemplate();
-	elseif ( playerClass == Turbine.Gameplay.Class.Minstrel ) then
-		MyysticUI.Bars.Templates.Classes.MinstrelTemplate();
-	elseif ( playerClass == Turbine.Gameplay.Class.RuneKeeper ) then
-		MyysticUI.Bars.Templates.Classes.RuneKeeperTemplate();
-	elseif ( playerClass == Turbine.Gameplay.Class.Warden ) then
-		MyysticUI.Bars.Templates.Classes.WardenTemplate();
-	end
+	-- if ( playerClass == Turbine.Gameplay.Class.Beorning ) then
+	-- 	MyysticUI.Bars.Templates.Classes.BeorningTemplate();
+	-- elseif ( playerClass == self.Brawler ) then
+	-- 	MyysticUI.Bars.Templates.Classes.BrawlerTemplate();
+	-- elseif ( playerClass == Turbine.Gameplay.Class.Burglar ) then
+	-- 	MyysticUI.Bars.Templates.Classes.BurglarTemplate();
+	-- elseif ( playerClass == Turbine.Gameplay.Class.Captain ) then
+	-- 	MyysticUI.Bars.Templates.Classes.CaptainTemplate();
+	-- elseif ( playerClass == Turbine.Gameplay.Class.Champion ) then
+	-- 	MyysticUI.Bars.Templates.Classes.ChampionTemplate();
+	-- elseif ( playerClass == Turbine.Gameplay.Class.Guardian ) then
+	-- 	MyysticUI.Bars.Templates.Classes.GuardianTemplate();
+	-- elseif ( playerClass == Turbine.Gameplay.Class.Hunter ) then
+	-- 	MyysticUI.Bars.Templates.Classes.HunterTemplate();
+	-- elseif ( playerClass == Turbine.Gameplay.Class.LoreMaster ) then
+	-- 	MyysticUI.Bars.Templates.Classes.LoreMasterTemplate();
+	-- elseif ( playerClass == self.Mariner ) then
+	-- 	MyysticUI.Bars.Templates.Classes.MarinerTemplate();
+	-- elseif ( playerClass == Turbine.Gameplay.Class.Minstrel ) then
+	-- 	MyysticUI.Bars.Templates.Classes.MinstrelTemplate();
+	-- elseif ( playerClass == Turbine.Gameplay.Class.RuneKeeper ) then
+	-- 	MyysticUI.Bars.Templates.Classes.RuneKeeperTemplate();
+	-- elseif ( playerClass == Turbine.Gameplay.Class.Warden ) then
+	-- 	MyysticUI.Bars.Templates.Classes.WardenTemplate();
+	-- end
 
-	MyysticUI.Bars.Templates.SkirmishTemplate();
-	MyysticUI.Bars.Templates.PotionsTemplate();
+	-- MyysticUI.Bars.Templates.SkirmishTemplate();
+	-- MyysticUI.Bars.Templates.PotionsTemplate();
 
 	settingsService:SaveSettings();
 

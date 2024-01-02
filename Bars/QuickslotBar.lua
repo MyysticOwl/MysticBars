@@ -115,6 +115,7 @@ function QuickslotBar:Constructor(barid)
 end
 
 function QuickslotBar:PositionChanged(sender, args)
+	Turbine.Shell.WriteLine("PositionChanged" .. self.id);
 	SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
 		local settings = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):GetSettings();
 		if (settings.barMode ~= NORMAL_MODE or (dragBarAvailable and self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true)) then
@@ -224,7 +225,7 @@ end
 
 function QuickslotBar:RegisterBarExtension(extBar, index, extensionBarID)
 	local settingsService = SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService);
-
+	Turbine.Shell.WriteLine("RegisterBarExtension" .. self.id);
 	SERVICE_CONTAINER:GetService(MyysticUI.Services.SettingsService):UpdateBarSettings(extensionBarID,
 		function(barSettings)
 			if (barSettings.connectionQuickslotID ~= index or barSettings.connectionBarID ~= self.id) then

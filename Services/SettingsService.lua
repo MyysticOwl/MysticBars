@@ -115,6 +115,7 @@ function SettingsService:SaveSettings( profile )
 		end
 	end
 	if ( profile == nil ) then
+		Turbine.Shell.WriteLine("SaveSettings");
 		Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", self.profiles, function (success, error)
 			if (not success) then
 				Turbine.Shell.WriteLine("Error Saving... " .. error);
@@ -241,19 +242,22 @@ end
 function SettingsService:SetBarSettings(barid, bar, doNotRefresh, force)
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
-	--Turbine.Shell.WriteLine("SetBarSettings: " .. barid);
+	Turbine.Shell.WriteLine("SetBarSettings: " .. barid);
 
 	if ( barid ~= nil and barService  ~= nil and (barService:Alive( barid ) or force)) then
-				self.settings.bars[barid] = bar;
+		self.settings.bars[barid] = bar;
+		
+		Turbine.Shell.WriteLine("SetBarSettings2: " .. barid);
 
 		self:SaveSettings();
 		if ( doNotRefresh == nil and barService ~= nil ) then
+			Turbine.Shell.WriteLine("SetBarSettings3: " .. barid);
 			barService:RefreshBars();
 		end
 	end
 end
 
-function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallback, force)
+function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallback, force, doNotRefresh)
 	local barSettings = self:GetBarSettings( barid );
 
 	if (self.working == false) then
@@ -261,14 +265,14 @@ function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallba
 
 		local updatedSettings = updateCallback(barSettings);
 
-		self:SetBarSettings( barid, updatedSettings, nil, force );
+		self:SetBarSettings( barid, updatedSettings, doNotRefresh, force );
 		self.working = false;
+
+		if (completeCallback ~= nil) then
+			completeCallback(updatedSettings);
+		end
 	else
 		Turbine.Shell.WriteLine("Too many requests too fast");
-	end
-
-	if (completeCallback ~= nil) then
-		completeCallback(updatedSettings);
 	end
 end
 
