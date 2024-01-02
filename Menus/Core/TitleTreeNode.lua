@@ -53,7 +53,6 @@ function TitleTreeNode:Constructor(text, topPadding, addBarType, extension)
         self.extension:SetBackground("MyysticUI/Menus/Core/Resources/button_extension_on.tga");
         settingsService.settings.barMode = EXTENSION_MODE;
       else
-        Turbine.Shell.WriteLine("closed");
         self.extension:SetBackground("MyysticUI/Menus/Core/Resources/button_extension_off.tga");
         settingsService.settings.barMode = NORMAL_MODE;
       end

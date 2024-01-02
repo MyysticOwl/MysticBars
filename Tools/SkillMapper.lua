@@ -90,7 +90,6 @@ for i = 1, trainedSkills:GetCount() do
 			quickslot:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
 			quickslot:SetBackColor(Turbine.UI.Color(1, 0, 1, 0));
 			if (data[possibleHex] ~= nil and data[possibleHex].shortcut ~= nil and data[possibleHex].shortcut ~= "") then
-				Turbine.Shell.WriteLine("creating shortcut " .. possibleHex .. " " .. data[possibleHex].shortcut);
 				local shortcut = Turbine.UI.Lotro.Shortcut(Turbine.UI.Lotro.ShortcutType.Skill, data[possibleHex].shortcut);
 				quickslot:SetShortcut(shortcut);
 			end

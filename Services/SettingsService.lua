@@ -115,7 +115,6 @@ function SettingsService:SaveSettings( profile )
 		end
 	end
 	if ( profile == nil ) then
-		Turbine.Shell.WriteLine("SaveSettings");
 		Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", self.profiles, function (success, error)
 			if (not success) then
 				Turbine.Shell.WriteLine("Error Saving... " .. error);
@@ -242,16 +241,11 @@ end
 function SettingsService:SetBarSettings(barid, bar, doNotRefresh, force)
 	local barService = SERVICE_CONTAINER:GetService(MyysticUI.Services.BarService);
 
-	Turbine.Shell.WriteLine("SetBarSettings: " .. barid);
-
 	if ( barid ~= nil and barService  ~= nil and (barService:Alive( barid ) or force)) then
 		self.settings.bars[barid] = bar;
 		
-		Turbine.Shell.WriteLine("SetBarSettings2: " .. barid);
-
 		self:SaveSettings();
 		if ( doNotRefresh == nil and barService ~= nil ) then
-			Turbine.Shell.WriteLine("SetBarSettings3: " .. barid);
 			barService:RefreshBars();
 		end
 	end
