@@ -37,6 +37,11 @@ If you load it and you don't see errors on the console window, look in the upper
 ************************************
 CHANGE HISTORY
 ************************************
+v3.1.2
+-Fixes Internationalization
+- add German
+- Adds DragBars
+- Adds Tooltips for icons.
 v3.1.0
 -Complete redesign & rearchitecture of code.
 -Services injected
