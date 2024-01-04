@@ -7,10 +7,6 @@
 import "MysticBars.Bars.Core.QuickslotList";
 import "MysticBars.Bars.Core.ItemList";
 
-dragBarAvailable = pcall( function(sender,args)
-	import "Deusdictum.UI.DragBar";
-end );
-
 BaseBar = class( Turbine.UI.Window );
 
 function BaseBar:Constructor()
@@ -30,12 +26,13 @@ function BaseBar:Constructor()
 	self:SetPosition( barSettings.x, barSettings.y );
  
 	self:Create();
-	if ( dragBarAvailable == true and barSettings.barType ~= EXTENSIONBAR ) then
+
+	if ( barSettings.barType ~= EXTENSIONBAR ) then
 		local title = barSettings.barName;
 		if ( barSettings.barName == nil or barSettings.barName == "" ) then
 			title = "Bar:" .. self.id;
 		end
-		self.DragBar = Deusdictum.UI.DragBar( self, title, true );
+		self.DragBar = MysticBars.Menus.Core.UI.DragBar( self, title, true );
 		self.DragBar:SetAllowsHUDHiding( false, true );
 		self.DragBar.PositionChanged = function(sender,args)
 			self:PositionChanged(sender,args);
@@ -98,7 +95,7 @@ function BaseBar:Refresh()
 	end
 	
 	self:SetPosition( barSettings.x, barSettings.y );
-	if ( dragBarAvailable == true and barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
+	if ( barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
 		self.DragBar:Refresh();
 	end
 

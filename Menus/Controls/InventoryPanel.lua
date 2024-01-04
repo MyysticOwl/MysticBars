@@ -18,16 +18,16 @@ function InventoryPanel:Constructor(barId, barValue)
 
 	self:SetHeight(190);
 
-	self.utils:AddLabelBox(self.panelBackground, "Category Based: ", 120, selectionHeight, nil, 5, 5);
+	self.utils:AddLabelBox(self.panelBackground, L["Category Based:"], 120, selectionHeight, nil, 5, 5);
 	self.visibilityList = self.utils:AddCheckedComboBox(self.panelBackground, 8, 300, 20, 115, 5);
 
-	self.utils:AddLabelBox(self.panelBackground, "Name Based:", 120, selectionHeight, nil, 5, 30);
+	self.utils:AddLabelBox(self.panelBackground, L["Name Based:"], 120, selectionHeight, nil, 5, 30);
 	self.nameList = self.utils:AddCheckedComboBox(self.panelBackground, 6, 300, 20, 90, 30);
 
-	self.utils:AddLabelBox(self.panelBackground, "Add Name Filter:", 120, selectionHeight, nil, 5, 60);
+	self.utils:AddLabelBox(self.panelBackground, L["Add Name Filter:"], 120, selectionHeight, nil, 5, 60);
 	self.filterName = self.utils:AddTextBox(self.panelBackground, "", selectionWidth, selectionHeight + 10, nil, 120, 60);
 
-	self.utils:AddButton(self.panelBackground, "Add", buttonWidth, selectionHeight, function(sender, args)
+	self.utils:AddButton(self.panelBackground, L["Add"], buttonWidth, selectionHeight, function(sender, args)
 		if (self.filterName:GetText() ~= "") then
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId,
 				function(barSettings)
@@ -46,7 +46,7 @@ function InventoryPanel:Constructor(barId, barValue)
 		end
 	end, 300, 60);
 
-	self.countCheckBox = self.utils:AddCheckBox(self.panelBackground, "Quantity Based:", selectionWidth + 100,
+	self.countCheckBox = self.utils:AddCheckBox(self.panelBackground, L["Quantity Based:"], selectionWidth + 100,
 		selectionHeight, nil, 5, 90);
 	self.utils:CreateCheckBoxCallback(self.countCheckBox, barId, { "events", "inventory", "useCount" },
 		function(sender, args)

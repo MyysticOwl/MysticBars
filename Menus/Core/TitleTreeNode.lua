@@ -24,6 +24,7 @@ function TitleTreeNode:Constructor(text, topPadding, addBarType, extension)
     self.add:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.add:SetMouseVisible(true);
     self.add:SetBackground("MysticBars/Menus/Core/Resources/add_icon.tga");
+    MysticBars.Menus.Core.UI.Tooltip(self.add, L["Bar Visibility"]);
     self.add.MouseDown = function(args)
       local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
@@ -46,6 +47,7 @@ function TitleTreeNode:Constructor(text, topPadding, addBarType, extension)
     self.extension:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.extension:SetMouseVisible(true);
     self.extension:SetBackground("MysticBars/Menus/Core/Resources/button_extension_off.tga");
+    MysticBars.Menus.Core.UI.Tooltip(self.extension, L["Extension Mode"]);
     self.extension.MouseDown = function(args)
       local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 

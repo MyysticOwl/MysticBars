@@ -54,7 +54,6 @@ function InventoryService:NotifyClients( type, specificItem )
 	local backpack = playerService.player:GetBackpack();
 
 	for key, value in pairs (self.clients) do
-		local visible = false;
 		local barSettings = settingsService:GetBarSettings( key );
 		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
@@ -62,7 +61,7 @@ function InventoryService:NotifyClients( type, specificItem )
 			local qlist = value.bar:GetQuickslotList();
 			if ( qlist ~= nil and ( type == self.ADD or specificItem == nil) ) then
 				qlist:ClearQuickslots();
-				for i=1, backpack:GetSize(), 1 do 
+				for i=1, backpack:GetSize(), 1 do
 					local item = backpack:GetItem(i);
 					if ( item ~= nil ) then
 						self:Inventory( value, barSettings, self.ADD, item );

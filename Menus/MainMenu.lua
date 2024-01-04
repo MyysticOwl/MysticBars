@@ -9,6 +9,7 @@ import "Turbine.UI";
 import "Turbine.UI.Lotro";
 import "MysticBars.Utils.Class";
 import "MysticBars.Utils.Table";
+import "MysticBars.Utils.FontMetrics";
 import "MysticBars.Menus.Core.UI.ComboBox";
 import "MysticBars.Menus.Core.UI.AutoListBox";
 import "MysticBars.Menus.Core.UI.MenuUtils";
@@ -17,7 +18,6 @@ import "MysticBars.Menus.GeneralMenuPanel";
 import "MysticBars.Menus.EasyBars.EasyBarMenuItems";
 import "MysticBars.Menus.EasyBars.EasyBarPanel";
 import "MysticBars.Menus.InventoryBars.InventoryBarsMenuItems";
-import "MysticBars.Menus.InventoryBars.InventoryBarMenuPanel";
 import "MysticBars.Menus.InventoryBars.InventoryMenuPanel";
 import "MysticBars.Menus.ManagedBars.ExtensionBarMenuPanel";
 import "MysticBars.Menus.ManagedBars.ManageBarsMenuItems";
@@ -25,7 +25,6 @@ import "MysticBars.Menus.ManagedBars.ManageBarsMenuPanel";
 import "MysticBars.Menus.Core.BaseTitleTreeNode";
 import "MysticBars.Menus.Core.TitleTreeNode";
 import "MysticBars.Menus.Core.BarsTitleTreeNode";
-
 import "MysticBars.Menus.Controls.BasePanel";
 import "MysticBars.Menus.Controls.ClassBuffPanel";
 import "MysticBars.Menus.Controls.ColorPanel";
@@ -34,11 +33,30 @@ import "MysticBars.Menus.Controls.InventoryPanel";
 import "MysticBars.Menus.Controls.PredefinedExtensionPanel";
 import "MysticBars.Menus.Controls.SlotsPanel";
 import "MysticBars.Menus.Controls.TriggersPanel";
+import "MysticBars.Menus.Core.UI.Tooltip"
+import "MysticBars.Menus.Core.UI.DragBar"
 
 windowHeight = 500;
 
 selectionWidth = 160;
 selectionHeight = 20;
+
+local language = Turbine.Engine.GetLanguage();
+
+_G.locale = (language == Turbine.Language.German and "de" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "en" )));
+_G.L = {}
+
+-- since English & German are supported at release, load their locale files directly
+if (locale == "en" or locale == "de" or locale == "fr") then
+  import ("MysticBars.Menus.Localization."..locale);
+-- for all other languages, we now load the English locale file first, then load the language specific file (which may only override some values) only if it exists
+else
+  import ("MysticBars.Menus.Localization.en");
+  pcall(import, ("MysticBars.Menus.Localization."..locale));
+end
+
+_G.control2LightColor = Turbine.UI.Color(0.95,0.85,0.55);  -- light gold, somewhat white
+_G.controlDisabledColor = Turbine.UI.Color(0.42,0.42,0.4); -- dark grey
 
 SCREENWIDTH = Turbine.UI.Display.GetWidth();
 SCREENHEIGHT = Turbine.UI.Display.GetHeight();
@@ -62,7 +80,7 @@ function MainMenu:Constructor()
 
 	self.editButton = Turbine.UI.Lotro.Button();
 	self.editButton:SetParent(self);
-	self.editButton:SetText( "Edit Mode" );
+	self.editButton:SetText( L["Edit Mode"] );
 	self.editButton:SetSize( 100, 30 );
 	self.editButton:SetMultiline(true);
 	self.editButton:SetPosition(2, 20);
@@ -83,13 +101,13 @@ function MainMenu:Constructor()
 
 	local treeRoot = self.tree:GetNodes();
 
-	self.easyBars = MysticBars.Menus.Core.TitleTreeNode("Easy Bars", 1);
+	self.easyBars = MysticBars.Menus.Core.TitleTreeNode(L["Easy Bars"], 1);
 	treeRoot:Add(self.easyBars);
 
-	self.managedBars = MysticBars.Menus.Core.TitleTreeNode("Quickslot Bars", 1, QUICKSLOTBAR, true);
+	self.managedBars = MysticBars.Menus.Core.TitleTreeNode(L["Quickslot Bars"], 1, QUICKSLOTBAR, true);
 	treeRoot:Add(self.managedBars);
 
-	self.inventoryBars = MysticBars.Menus.Core.TitleTreeNode("Inventory Bars", 1, TABBED_INV_BAR);
+	self.inventoryBars = MysticBars.Menus.Core.TitleTreeNode(L["Inventory Bars"], 1, TABBED_INV_BAR);
 	treeRoot:Add(self.inventoryBars);
 
 	MysticBars.Menus.EasyBars.EasyBarMenuItems(self, self.easyBars);

@@ -17,24 +17,24 @@ function ExtensionPanel:Constructor( barId, barValue )
 
 	self:SetHeight(140);
 
-	self.utils:AddLabelBox( self.panelBackground, "Orientation:", selectionWidth + 100, selectionHeight + 5, nil, 5, 5 );
+	self.utils:AddLabelBox( self.panelBackground, L["Orientation:"], selectionWidth + 100, selectionHeight + 5, nil, 5, 5 );
 	self.orientationList = self.utils:AddComboBox(self.panelBackground, 10, 200, 20, 120, 5);
-	self.orientationList:AddItem( "Left",  "Left" );
-	self.orientationList:AddItem( "Right", "Right" );
-	self.orientationList:AddItem( "Up",    "Up" );
-	self.orientationList:AddItem( "Down",  "Down" );
+	self.orientationList:AddItem( L["Left"],  "Left" );
+	self.orientationList:AddItem( L["Right"], "Right" );
+	self.orientationList:AddItem( L["Up"],    "Up" );
+	self.orientationList:AddItem( L["Down"],  "Down" );
 
-	self.utils:AddLabelBox( self.panelBackground, "Attached quickslot Moused Over:", selectionWidth + 200, selectionHeight + 5, nil, 5, 30 );
+	self.utils:AddLabelBox( self.panelBackground, L["On Mouseover:"], selectionWidth + 200, selectionHeight + 5, nil, 5, 30 );
 	self.mousedOverList = self.utils:AddComboBox(self.panelBackground, 10, 200, 20, 240, 30);
-	self.mousedOverList:AddItem( "Show Extension(s)", SHOW_EXTENSIONS );
-	self.mousedOverList:AddItem( "Show & Rollup Selection", ROLL_UP_SELECTION );
-	self.mousedOverList:AddItem( "Select Random Shortcut", SELECT_RANDOM_SHORTCUT );
-	self.mousedOverList:AddItem( "Cycle Shortcuts", CYCLE_EXTENSIONS );
+	self.mousedOverList:AddItem( L["Show Extension(s)"], SHOW_EXTENSIONS );
+	self.mousedOverList:AddItem( L["Show & Rollup Selection"], ROLL_UP_SELECTION );
+	self.mousedOverList:AddItem( L["Select Random Shortcut"], SELECT_RANDOM_SHORTCUT );
+	self.mousedOverList:AddItem( L["Cycle Shortcuts"], CYCLE_EXTENSIONS );
 
-	self.utils:AddLabelBox( self.panelBackground, "Stop displaying when:", selectionWidth + 200, selectionHeight + 5, nil, 5, 60 );
+	self.utils:AddLabelBox( self.panelBackground, L["Stop displaying when:"], selectionWidth + 200, selectionHeight + 5, nil, 5, 60 );
 	self.removalList = self.utils:AddComboBox(self.panelBackground, 10, 200, 20, 150, 60);
-	self.removalList:AddItem( "Mouse Leaves Bar", 1 );
-	self.removalList:AddItem( "Combat has ended", 2 );
+	self.removalList:AddItem( L["Mouse Leaves Bar"], 1 );
+	self.removalList:AddItem( L["Combat has ended"], 2 );
 
 	self:DisplaySettings();
 end

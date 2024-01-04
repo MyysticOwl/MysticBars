@@ -63,7 +63,9 @@ function SettingsService:LoadSettings( profile )
 		playerSettings = self.profiles[ playersName ];
 	end
 
-	if ( Turbine.Engine:GetLocale() == "de" or Turbine.Engine:GetLocale() == "fr" ) then
+	local language = Turbine.Engine.GetLanguage();
+	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
+	if ( locale == "de" or locale == "fr" ) then
 		self.settings = { };
 		self:deepcopyLoadConvertInts( playerSettings, self.settings );
 	else
@@ -76,7 +78,7 @@ function SettingsService:LoadSettings( profile )
 		self.settings.bars = { };
 	end
 	if ( self.settings.menuLanguage == nil ) then
-		self.settings.menuLanguage = Turbine.Engine:GetLocale();
+		self.settings.menuLanguage = locale;
 	end
 	if ( self.settings.nextBarId == nil ) then
 		self.settings.nextBarId = 1;
@@ -94,14 +96,21 @@ end
 function SettingsService:SaveSettings( profile )
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
-	if ( Turbine.Engine:GetLocale() == "de" or Turbine.Engine:GetLocale() == "fr" ) then
+	local language = Turbine.Engine.GetLanguage();
+	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
+
+	if ( locale == "de" or locale == "fr" or locale == "ru" ) then
 		local temp = { };
 		if ( profile == nil ) then
 			self:deepcopySaveConvertInts( self.settings, temp );
 			self.profiles[ playerService.player:GetName() ] = temp;
 		else
 			self:deepcopySaveConvertInts( profile, temp );
-			Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", temp, function () end);
+			Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", temp, function (success, error)
+				if (not success) then
+					Turbine.Shell.WriteLine("Error Saving... " .. error);
+				end
+			end);
 		end
 	else
 		if ( profile == nil ) then

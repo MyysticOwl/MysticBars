@@ -18,7 +18,7 @@ function PredefinedExtensionPanel:Constructor( barId, barValue )
 
 	self:SetHeight(120);
 
-	self.utils:AddLabelBox( self.panelBackground, "This will change shortcuts on the current bar perminately!!!!", selectionWidth + 150, selectionHeight + 10, 5, 5 );
+	self.utils:AddLabelBox( self.panelBackground, L["This will change shortcuts on the current bar perminately!!!!"], selectionWidth + 150, selectionHeight + 10, 5, 5 );
 
 	self.typeList = self.utils:AddComboBox(self.panelBackground, 3, 200, 20, 5, 30);
 

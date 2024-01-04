@@ -117,7 +117,7 @@ end
 function QuickslotBar:PositionChanged(sender, args)
 	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
 		local settings = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):GetSettings();
-		if (settings.barMode ~= NORMAL_MODE or (dragBarAvailable and self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true)) then
+		if (settings.barMode ~= NORMAL_MODE or (self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true)) then
 			local x, y = self:GetPosition();
 
 			barSettings.relationalX = x / DISPLAYWIDTH;

@@ -24,19 +24,19 @@ function SlotsPanel:Constructor(barId, barValue, isExtension)
 	self.isExtension = isExtension;
 
 	if (self.isExtension == false) then
-		self.sb = self.utils:AddScrollBar(self.panelBackground, 1, 1, 100, 200, selectionHeight + 20, nil, "Rows:", 5, 5,
+		self.sb = self.utils:AddScrollBar(self.panelBackground, 1, 1, 100, 200, selectionHeight + 20, nil, L["Rows:"], 5, 5,
 			5);
-		self.sb2 = self.utils:AddScrollBar(self.panelBackground, 1, 1, 50, 200, selectionHeight + 20, nil, "Columns:",
+		self.sb2 = self.utils:AddScrollBar(self.panelBackground, 1, 1, 50, 200, selectionHeight + 20, nil, L["Columns:"],
 			200, 5, 30);
 	else
-		self.extSb = self.utils:AddScrollBar(self.panelBackground, 1, 1, 50, 200, selectionHeight + 20, nil, "Count:", 5,
+		self.extSb = self.utils:AddScrollBar(self.panelBackground, 1, 1, 50, 200, selectionHeight + 20, nil, L["Count:"], 5,
 			5, 20);
 	end
-	self.spacingSB = self.utils:AddScrollBar(self.panelBackground, 1, 0, 50, 200, selectionHeight + 20, nil, "Spacing:",
+	self.spacingSB = self.utils:AddScrollBar(self.panelBackground, 1, 0, 50, 200, selectionHeight + 20, nil, L["Spacing:"],
 		5, 40, 20);
 	self.utils:CreateScrollBarCallback(self.spacingSB, barId, { "quickslotSpacing" });
 
-	self.sizeSB = self.utils:AddScrollBar(self.panelBackground, 36, 0, 99, 200, selectionHeight + 20, nil, "Size:", 200,
+	self.sizeSB = self.utils:AddScrollBar(self.panelBackground, 36, 0, 99, 200, selectionHeight + 20, nil, L["Size:"], 200,
 		40, 5);
 	self.utils:CreateScrollBarCallback(self.sizeSB, barId, { "quickslotSize" }, nil, nil, function(sender, args)
 		SERVICE_CONTAINER:GetService(MysticBars.Services.BarService):RefreshBars();

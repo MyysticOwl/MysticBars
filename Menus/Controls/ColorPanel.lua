@@ -17,22 +17,22 @@ function ColorPanel:Constructor( barId, barValue )
 
 	self:SetHeight(190);
 
-	self.useBackgroundCheckBox  = self.utils:AddCheckBox( self.panelBackground, "Use Background Color on Bar", selectionWidth + 150, selectionHeight, nil, 5, 5 );
+	self.useBackgroundCheckBox  = self.utils:AddCheckBox( self.panelBackground, L["Use Background Color on Bar"], selectionWidth + 150, selectionHeight, nil, 5, 5 );
 	self.utils:CreateCheckBoxCallback( self.useBackgroundCheckBox, barId, { "useBackgroundColor" } );
 
-	self.bgRSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, "Red:", 30, 40, -5 );
+	self.bgRSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, L["Red:"], 30, 40, -5 );
 	self.utils:CreateScrollBarCallback( self.bgRSB, barId, { "backgroundColorRed" }, nil, 100);
-	self.bgGSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, "Green:", 230, 40, 10 );
+	self.bgGSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, L["Green:"], 230, 40, 10 );
 	self.utils:CreateScrollBarCallback( self.bgGSB, barId, { "backgroundColorGreen" }, nil, 100);
-	self.bgBSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, "Blue:", 30, 80 );
+	self.bgBSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, L["Blue:"], 30, 80 );
 	self.utils:CreateScrollBarCallback( self.bgBSB, barId, { "backgroundColorBlue" }, nil, 100);
-	self.bgASB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, "Opacity:", 230, 80, 25 );
+	self.bgASB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, L["Opacity:"], 230, 80, 25 );
 	self.utils:CreateScrollBarCallback( self.bgASB, barId, { "opacity" }, nil, 100);
 
-	self.useFadingCheckBox  = self.utils:AddCheckBox( self.panelBackground, "Remove Override when moused over?", selectionWidth + 200, selectionHeight, nil, 30, 120 );
+	self.useFadingCheckBox  = self.utils:AddCheckBox( self.panelBackground, L["On Mouseover:"], selectionWidth + 200, selectionHeight, nil, 30, 120 );
 	self.utils:CreateCheckBoxCallback( self.useFadingCheckBox, barId, { "useFading" } );
 
-	self.fadeOpacitySelection = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, "Override Opacity:", 60, 150, 95 );
+	self.fadeOpacitySelection = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, L["Override Opacity:"], 60, 150, 95 );
 	self.utils:CreateScrollBarCallback( self.fadeOpacitySelection, barId, { "fadeOpacity" }, nil, 100 );
 
 	self:DisplaySettings();

@@ -25,6 +25,7 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
   self.plus:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.plus:SetBackground(0x41007E27);
   self.plus:SetMouseVisible(false);
+  MysticBars.Menus.Core.UI.Tooltip(self.plus, L["Add Bar"]);
 
   self.barName = self.utils:AddTextBox(self, text, selectionWidth, selectionHeight, nil, self.plus:GetLeft() + self.plus:GetWidth() + 5, 4 );
   self.barName.TextChanged = function( sender, args )
@@ -41,6 +42,7 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
   self.visible:SetPosition(200,4);
   self.visible:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.visible:SetMouseVisible(true);
+  MysticBars.Menus.Core.UI.Tooltip(self.visible, L["Bar Visibility"]);
   self.visible.MouseDown = function(args)
         SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
       barSettings.visible = not barSettings.visible;
@@ -58,6 +60,7 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
   self.lock:SetBackground("MysticBars/Menus/Core/Resources/button_unlocked.tga");
   self.lock:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.lock:SetMouseVisible(true);
+  MysticBars.Menus.Core.UI.Tooltip(self.lock, L["Lock Bar"]);
   self.lock.MouseDown = function(args)
         SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
       barSettings.locked = not barSettings.locked;
@@ -75,6 +78,7 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
   self.delete:SetBackground("MysticBars/Menus/Core/Resources/titlebar_X_2_sepia.tga");
   self.delete:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
   self.delete:SetMouseVisible(true);
+  MysticBars.Menus.Core.UI.Tooltip(self.delete, L["Remove Bar"]);
   self.delete.MouseDown = function(args)
     local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
     self:SetExpanded(not self:IsExpanded());

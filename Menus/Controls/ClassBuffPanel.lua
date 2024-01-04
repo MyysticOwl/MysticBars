@@ -22,18 +22,18 @@ function ClassBuffPanel:Constructor( barId, barValue )
 
 	self.eventCheckboxes = { };
 
-	self.utils:AddLabelBox( self.panelBackground, "Triggered When:", 120, selectionHeight, nil, 5, 5 );
+	self.utils:AddLabelBox( self.panelBackground, L["Triggered When:"], 120, selectionHeight, nil, 5, 5 );
 
 	self.triggerList = self.utils:AddComboBox(self.panelBackground, 10, 200, 20, 120, 5);
-	self.triggerList:AddItem( "Buffs Active", 1 );
-	self.triggerList:AddItem( "Buffs Not Active", 2 );
+	self.triggerList:AddItem( L["Buffs Active"], 1 );
+	self.triggerList:AddItem( L["Buffs Not Active"], 2 );
 
 	self.utils:AddLabelBox( self.panelBackground, "Buffs:", 120, selectionHeight, nil, 5, 30 );
 	self.buffList = self.utils:AddCheckedComboBox(self.panelBackground, 5, 300, 20, 50, 30);
 
 	if ( playerClass == Turbine.Gameplay.Class.Burglar ) then
 	elseif ( playerClass == Turbine.Gameplay.Class.Champion ) then
-		self.eventCheckboxes[CHAMPION_FERVOR] = self.utils:AddCheckBox( self.panelBackground, "Fervor between:", selectionWidth + 15, selectionHeight, nil, 5, 50 );
+		self.eventCheckboxes[CHAMPION_FERVOR] = self.utils:AddCheckBox( self.panelBackground, L["Fervor between:"], selectionWidth + 15, selectionHeight, nil, 5, 50 );
 		self.eventCheckboxes[CHAMPION_FERVOR].CheckedChanged = function( sender, args )
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
 				if ( barSettings.events == nil ) then
@@ -51,13 +51,13 @@ function ClassBuffPanel:Constructor( barId, barValue )
 			end);
 		end
 
-		self.championSbMin = self.utils:AddScrollBar( self.panelBackground, 1, 1, 5, 100, selectionHeight + 15, nil, "Min:", 30, 80, 15 );
+		self.championSbMin = self.utils:AddScrollBar( self.panelBackground, 1, 1, 5, 100, selectionHeight + 15, nil, L["Min:"], 30, 80, 15 );
 		self.utils:CreateScrollBarCallback( self.championSbMin, barId, { "events", "classRange", CHAMPION_FERVOR, "minValue" } );
 
-		self.championSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 1, 5, 100, selectionHeight + 15, nil, "Max:", 130, 80, 15 );
+		self.championSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 1, 5, 100, selectionHeight + 15, nil, L["Max:"], 130, 80, 15 );
 		self.utils:CreateScrollBarCallback( self.championSbMax, barId, { "events", "classRange", CHAMPION_FERVOR, "maxValue" } );
 	elseif ( playerClass == Turbine.Gameplay.Class.RuneKeeper ) then
-		self.eventCheckboxes[RK_ATTUNEMENT] = self.utils:AddCheckBox( self.panelBackground, "Attunement between:", selectionWidth + 15, selectionHeight, nil, 5, 50 );
+		self.eventCheckboxes[RK_ATTUNEMENT] = self.utils:AddCheckBox( self.panelBackground, L["Attunement between:"], selectionWidth + 15, selectionHeight, nil, 5, 50 );
 		self.eventCheckboxes[RK_ATTUNEMENT].CheckedChanged = function( sender, args )
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
 				if ( self.eventCheckboxes[RK_ATTUNEMENT]:IsChecked() == true) then
@@ -82,18 +82,18 @@ function ClassBuffPanel:Constructor( barId, barValue )
 				return barSettings;
 			end);
 		end
-		self.utils:AddLabelBox( self.panelBackground, "10 = Balanced;Lower numbers = Damage;Higher numbers Healing:", 500, selectionHeight, nil, 30, 80 );
+		self.utils:AddLabelBox( self.panelBackground, L["10 = Balanced;Lower numbers = Damage;Higher numbers Healing:"], 500, selectionHeight, nil, 30, 80 );
 
-		self.rkSbMin = self.utils:AddScrollBar( self.panelBackground, 1, 1, 19, 100, selectionHeight + 20, nil, "Min:", 30, 100, 15 );
+		self.rkSbMin = self.utils:AddScrollBar( self.panelBackground, 1, 1, 19, 100, selectionHeight + 20, nil, L["Min:"], 30, 100, 15 );
 		self.utils:CreateScrollBarCallback( self.rkSbMin, barId, { "events", "classRange", RK_ATTUNEMENT, "minValue" } );
 
-		self.rkSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 1, 19, 100, selectionHeight + 20, nil, "Max:", 130, 100, 20 );
+		self.rkSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 1, 19, 100, selectionHeight + 20, nil, L["Max:"], 130, 100, 20 );
 		self.utils:CreateScrollBarCallback( self.rkSbMax, barId, { "events", "classRange", RK_ATTUNEMENT, "maxValue" } );
 
 		self.rkSbMin:SetValue( 0 );
 		self.rkSbMax:SetValue( 0 );
 	elseif ( playerClass == Turbine.Gameplay.Class.Hunter ) then
-		self.eventCheckboxes[HUNTER_FOCUS] = self.utils:AddCheckBox( self.panelBackground, "Focus between:", selectionWidth + 15, selectionHeight, nil, 5, 50 );
+		self.eventCheckboxes[HUNTER_FOCUS] = self.utils:AddCheckBox( self.panelBackground, L["Focus between:"], selectionWidth + 15, selectionHeight, nil, 5, 50 );
 		self.eventCheckboxes[HUNTER_FOCUS].CheckedChanged = function( sender, args )
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
 				if ( self.eventCheckboxes[HUNTER_FOCUS]:IsChecked() == true ) then
@@ -119,10 +119,10 @@ function ClassBuffPanel:Constructor( barId, barValue )
 			end);
 		end
 
-		self.hunterSbMin = self.utils:AddScrollBar( self.panelBackground, 1, 1, 9, 100, selectionHeight + 20, nil, "Min:", 30, 80, 15 );
+		self.hunterSbMin = self.utils:AddScrollBar( self.panelBackground, 1, 1, 9, 100, selectionHeight + 20, nil, L["Min:"], 30, 80, 15 );
 		self.utils:CreateScrollBarCallback( self.hunterSbMin, barId, { "events", "classRange", HUNTER_FOCUS, "minValue" } );
 
-		self.hunterSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 1, 9, 100, selectionHeight + 20, nil, "Max:", 130, 80, 15 );
+		self.hunterSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 1, 9, 100, selectionHeight + 20, nil, L["Max:"], 130, 80, 15 );
 		self.utils:CreateScrollBarCallback( self.hunterSbMax, barId, { "events", "classRange", HUNTER_FOCUS, "maxValue" } );
 
 		self.hunterSbMin:SetValue( 0 );

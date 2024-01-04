@@ -43,7 +43,7 @@ function InventoryBaseBar:Constructor()
 
 		local settings = settingsService:GetSettings();
 		local barSettings = settingsService:GetBarSettings( self.id );
-		if ( settings.barMode ~= NORMAL_MODE or ( dragBarAvailable and self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then
+		if ( settings.barMode ~= NORMAL_MODE or ( self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then
 			local x,y = self:GetPosition();
 
 			barSettings.relationalX = x / DISPLAYWIDTH;
@@ -120,11 +120,10 @@ end
 
 function InventoryBaseBar:Create()
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local barSettings = settingsService:GetBarSettings( self.id );
 
 	self.quickslotList = MysticBars.Bars.Core.ItemList( self.id );
 	self.quickslotList:SetParent( self );
-	
+
 	self.qsCreated = true;
 	self:Refresh();
 end
