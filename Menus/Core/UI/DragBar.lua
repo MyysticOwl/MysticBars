@@ -10,22 +10,22 @@ local deltaButtonAvailable = pcall( function( ) import "Deusdictum.UI.DeltaButto
 
 local defaultDragBarResources = {
 	  Bar = {
-				  Normal="Deusdictum/Resources/DragBarBar.tga"
-				, Dragged="Deusdictum/Resources/DragBarBar_Dragged.tga"
+				  Normal="MysticBars/Menus/Core/Resources/DragBarBar.tga"
+				, Dragged="MysticBars/Menus/Core/Resources/DragBarBar_Dragged.tga"
 			}
 	, Corner = {
-				  Normal="Deusdictum/Resources/DragBarCorner.tga"
-				, Dragged="Deusdictum/Resources/DragBarCorner_Dragged.tga"
+				  Normal="MysticBars/Menus/Core/Resources/DragBarCorner.tga"
+				, Dragged="MysticBars/Menus/Core/Resources/DragBarCorner_Dragged.tga"
 			   }
 	, Hover = {
-				  TopLeft="Deusdictum/Resources/DragBarHoverBox_TopLeft.tga"
-				, Top="Deusdictum/Resources/DragBarHoverBox_Top.tga"
-				, TopRight="Deusdictum/Resources/DragBarHoverBox_TopRight.tga"
-				, Left="Deusdictum/Resources/DragBarHoverBox_Left.tga"
-				, Right="Deusdictum/Resources/DragBarHoverBox_Right.tga"
-				, BottomLeft="Deusdictum/Resources/DragBarHoverBox_BottomLeft.tga"
-				, Bottom="Deusdictum/Resources/DragBarHoverBox_Bottom.tga"
-				, BottomRight="Deusdictum/Resources/DragBarHoverBox_BottomRight.tga"
+				  TopLeft="MysticBars/Menus/Core/Resources/DragBarHoverBox_TopLeft.tga"
+				, Top="MysticBars/Menus/Core/Resources/DragBarHoverBox_Top.tga"
+				, TopRight="MysticBars/Menus/Core/Resources/DragBarHoverBox_TopRight.tga"
+				, Left="MysticBars/Menus/Core/Resources/DragBarHoverBox_Left.tga"
+				, Right="MysticBars/Menus/Core/Resources/DragBarHoverBox_Right.tga"
+				, BottomLeft="MysticBars/Menus/Core/Resources/DragBarHoverBox_BottomLeft.tga"
+				, Bottom="MysticBars/Menus/Core/Resources/DragBarHoverBox_Bottom.tga"
+				, BottomRight="MysticBars/Menus/Core/Resources/DragBarHoverBox_BottomRight.tga"
 			  }
 };
 
