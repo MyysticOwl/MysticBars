@@ -22,19 +22,22 @@ function ClassSpecificEvents:Constructor( regEvents )
 	if ( self.registeredEvents.classRange == nil ) then
 		self.registeredEvents.classRange = { };
 	end
- 
+
 	if ( playerService.player:GetClass() == Turbine.Gameplay.Class.Burglar ) then
-		eventService:AddCallback( att, "StanceChanged", function( sender, args )
-			eventService:NotifyClients();
-		end);
-		eventService.AddCallback( self, att, "IsCriticalTier1Changed", function( sender, args )
-			self.registeredEvents.classRange[ "Crit Tier1" ] = att:IsCriticalTier1Available();
-			eventService:NotifyClients();
-		end);
-		eventService.AddCallback( self, att, "IsCriticalTier2Changed", function( sender, args )
-			self.registeredEvents.classRange[ "Crit Tier2" ] = att:IsCriticalTier2Available();
-			eventService:NotifyClients();
-		end);
+		-- eventService:AddCallback( att, "StanceChanged", function( sender, args )
+		-- 	Turbine.Shell.WriteLine("Bur Stance Change");
+		-- 	eventService:NotifyClients();
+		-- end);
+		-- eventService.AddCallback( self, att, "IsCriticalTier1Changed", function( sender, args )
+		-- 	Turbine.Shell.WriteLine("Bur Cri1 Change");
+		-- 	self.registeredEvents.classRange[ "Crit Tier1" ] = att:IsCriticalTier1Available();
+		-- 	eventService:NotifyClients();
+		-- end);
+		-- eventService.AddCallback( self, att, "IsCriticalTier2Changed", function( sender, args )
+		-- 	Turbine.Shell.WriteLine("Bur Cri2 Change");
+		-- 	self.registeredEvents.classRange[ "Crit Tier2" ] = att:IsCriticalTier2Available();
+		-- 	eventService:NotifyClients();
+		-- end);
 	elseif ( playerService.player:GetClass() == Turbine.Gameplay.Class.Champion ) then
 		self.registeredEvents.classRange[ CHAMPION_FERVOR ] = att:GetFervor();
 		eventService:AddCallback( att, "FervorChanged", function( sender, args )

@@ -24,7 +24,7 @@ function InventoryMenuPanel:Draw(parentNode, barId, barValue)
 	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.InventoryPanel(barId, barValue));
 
 	-- -----------------------   TRIGGERS  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.TriggersPanel(barId, barValue));
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.TriggersPanel(parentNode, barId, barValue));
 
 	-- -----------------------   SLOTS	  0000000000000000000000000000
 	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.SlotsPanel(barId, barValue));

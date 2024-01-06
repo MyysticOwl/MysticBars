@@ -24,7 +24,7 @@ end
 
 function HunterTemplate:Stance( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
-	
+
 	return templateService:CreateBar( override, "Stance", 6, 1, 4, 240, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( false, false, barSettings );
 		templateService:SetTrigger( templateService.CTRL, nil, barSettings );

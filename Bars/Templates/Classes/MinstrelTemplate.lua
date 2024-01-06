@@ -9,7 +9,7 @@ MinstrelTemplate = class();
 function MinstrelTemplate:Constructor()
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	templateService:RegisterBarCreator( "War-Speech Skills", 		"War-speech", 		self.WarSpeech );
+	templateService:RegisterBarCreator( "Dissonance Skills", 		"Dissonance", 		self.Dissonance );
 	templateService:RegisterBarCreator( "Stances", 				"Stances", 			self.Stances );
 	templateService:RegisterBarCreator( "Coda", 					"Coda", 			self.Coda );
 	templateService:RegisterBarCreator( "Anthem Skills", 			"Anthems", 			self.Anthems );
@@ -17,12 +17,12 @@ function MinstrelTemplate:Constructor()
 	templateService:ConstructBars();
 end
 
-function MinstrelTemplate:WarSpeech( override )
+function MinstrelTemplate:Dissonance( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( override, "War-speech", 14, 1, 3, 240, 300, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar( override, "Dissonance", 14, 1, 3, 240, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
-		templateService:SetBuffTrigger( "War-speech", barSettings );
+		templateService:SetBuffTrigger( "Dissonance", barSettings );
 		templateService:AddShortcut( 1, "0x7000B69A", 6, 14, barSettings );
 		templateService:AddShortcut( 2, "0x7000B69B", 6, 34, barSettings );
 		templateService:AddShortcut( 3, "0x7000F250", 6, 56, barSettings );
@@ -53,7 +53,7 @@ function MinstrelTemplate:Anthems( override )
 
 	return templateService:CreateBar( override, "Anthems", 6, 1, 6, 240, 450, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
-		templateService:SetBuffTrigger( "Ballad Tier 3, barSettings" );
+		templateService:SetBuffTrigger( "Ballad Tier 3, barSettings", barSettings );
 		templateService:AddShortcut( 1, "0x7000317F", 6, 6, barSettings );
 		templateService:AddShortcut( 2, "0x70003E88", 6, 18, barSettings );
 		templateService:AddShortcut( 3, "0x70003E7F", 6, 20, barSettings );

@@ -12,8 +12,11 @@ import "MysticBars.Menus.Core.UI.MenuUtils";
 
 ClassBuffPanel = class(MysticBars.Menus.Controls.BasePanel);
 
-function ClassBuffPanel:Constructor( barId, barValue )
+function ClassBuffPanel:Constructor( parent, barId, barValue, buffs )
 	MysticBars.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
+
+	self.parentNode = parent;
+	self.buffs = buffs;
 
 	self:SetHeight(140);
 
@@ -29,7 +32,7 @@ function ClassBuffPanel:Constructor( barId, barValue )
 	self.triggerList:AddItem( L["Buffs Not Active"], 2 );
 
 	self.utils:AddLabelBox( self.panelBackground, "Buffs:", 120, selectionHeight, nil, 5, 30 );
-	self.buffList = self.utils:AddCheckedComboBox(self.panelBackground, 5, 300, 20, 50, 30);
+	self.buffList = self.utils:AddCheckedComboBox(self.panelBackground, 4, 300, 20, 50, 30);
 
 	if ( playerClass == Turbine.Gameplay.Class.Burglar ) then
 	elseif ( playerClass == Turbine.Gameplay.Class.Champion ) then
@@ -43,6 +46,7 @@ function ClassBuffPanel:Constructor( barId, barValue )
 					barSettings.events.classRange = { };
 				end
 				if ( self.eventCheckboxes[CHAMPION_FERVOR]:IsChecked() == true) then
+					self:HideBar(barSettings);
 					barSettings.events.classRange[CHAMPION_FERVOR].active = true;
 				else
 					barSettings.events.classRange[CHAMPION_FERVOR].active = false;
@@ -67,6 +71,7 @@ function ClassBuffPanel:Constructor( barId, barValue )
 					barSettings.events.classRange = { };
 				end
 				if ( self.eventCheckboxes[RK_ATTUNEMENT]:IsChecked() == true) then
+					self:HideBar(barSettings);
 					barSettings.events.classRange[RK_ATTUNEMENT].active = true;
 				else
 					barSettings.events.classRange[RK_ATTUNEMENT].active = false;
@@ -93,6 +98,7 @@ function ClassBuffPanel:Constructor( barId, barValue )
 					barSettings.events.classRange = { };
 				end
 				if ( self.eventCheckboxes[MARINER_BALANCE]:IsChecked() == true) then
+					self:HideBar(barSettings);
 					barSettings.events.classRange[MARINER_BALANCE].active = true;
 				else
 					barSettings.events.classRange[MARINER_BALANCE].active = false;
@@ -112,24 +118,17 @@ function ClassBuffPanel:Constructor( barId, barValue )
 		self.eventCheckboxes[HUNTER_FOCUS] = self.utils:AddCheckBox( self.panelBackground, L["Focus between:"], selectionWidth + 15, selectionHeight, nil, 5, 50 );
 		self.eventCheckboxes[HUNTER_FOCUS].CheckedChanged = function( sender, args )
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
-				if ( self.eventCheckboxes[HUNTER_FOCUS]:IsChecked() == true ) then
-					if ( barSettings.events == nil ) then
-						barSettings.events = { };
-					end
-					if ( barSettings.events.classRange == nil ) then
-						barSettings.events.classRange = { };
-					end
-					barSettings.events.classRange[HUNTER_FOCUS] = { };
-					barSettings.events.classRange[HUNTER_FOCUS].minValue = 1;
-					barSettings.events.classRange[HUNTER_FOCUS].maxValue = 1;
-					self.hunterSbMin:SetValue( 1 );
-					self.hunterSbMax:SetValue( 9 );
-				elseif ( barSettings.events ~= nil and barSettings.events.classRange ~= nil and barSettings.events.classRange[HUNTER_FOCUS] ~= nil) then
-					self.hunterSbMin:SetValue( 0 );
-					self.hunterSbMax:SetValue( 0 );
-					barSettings.events.classRange[HUNTER_FOCUS].maxValue = nil;
-					barSettings.events.classRange[HUNTER_FOCUS].minValue = nil;
-					barSettings.events.classRange[HUNTER_FOCUS] = nil;
+				if ( barSettings.events == nil ) then
+					barSettings.events = { };
+				end
+				if ( barSettings.events.classRange == nil ) then
+					barSettings.events.classRange = { };
+				end
+				if ( self.eventCheckboxes[HUNTER_FOCUS]:IsChecked() == true) then
+					self:HideBar(barSettings);
+					barSettings.events.classRange[HUNTER_FOCUS].active = true;
+				else
+					barSettings.events.classRange[HUNTER_FOCUS].active = false;
 				end
 				return barSettings;
 			end);
@@ -140,9 +139,6 @@ function ClassBuffPanel:Constructor( barId, barValue )
 
 		self.hunterSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 1, 9, 100, selectionHeight + 20, nil, L["Max:"], 130, 80, 15 );
 		self.utils:CreateScrollBarCallback( self.hunterSbMax, barId, { "events", "classRange", HUNTER_FOCUS, "maxValue" } );
-
-		self.hunterSbMin:SetValue( 0 );
-		self.hunterSbMax:SetValue( 0 );
 	end
 
 	self:DisplaySettings();
@@ -159,11 +155,19 @@ function ClassBuffPanel:DisplaySettings()
 		localBarSettings.events = { };
 	end
 
+	self.buffList:Clear();
+
+	for key, value in opairs( self.buffs ) do
+		self.buffList:AddItem( key, key );
+	end
+
+	self.buffList:SetSelections( localBarSettings.events.effects );
     self.buffList.SelectedIndexChanged = function(sender, args)
 		local selections = self.buffList:GetSelections();
 		if ( selections ~= nil ) then
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
 				-- ALWAYS RESET THE CATEGORIES
+				self:HideBar(barSettings);
 				barSettings.events.effects = { };
 				for key, value in pairs( selections ) do
 					if ( barSettings.events.effects[value] == nil ) then
@@ -176,15 +180,6 @@ function ClassBuffPanel:DisplaySettings()
 			end);
 		end
 	end
-	self.buffList:Clear();
-
-	local events = eventService:GetRegisteredEvents();
-	if ( events.classes ~= nil and events.classes[ playerClass ] ~= nil and events.classes[ playerClass ].effects ~= nil ) then
-		for key, value in opairs( events.classes[ playerClass ].effects ) do
-			self.buffList:AddItem( value.description, value );
-		end
-	end
-	self.buffList:SetSelections( localBarSettings.events.effects );
 
     self.triggerList.SelectedIndexChanged = function(sender, args)
 		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
@@ -245,5 +240,12 @@ end
 function ClassBuffPanel:EnableTriggers( enabled )
 	for key, value in pairs (self.eventCheckboxes) do
 		value:SetDisabled( not enabled );
+	end
+end
+
+function ClassBuffPanel:HideBar(barSettings)
+	barSettings.visible = false;
+	if (self.parentNode.visible ~= nil) then
+		self.parentNode.visible:Hide();
 	end
 end

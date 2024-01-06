@@ -12,6 +12,8 @@ import "MysticBars.Utils.TableDeepCopy";
 
 SettingsService = class( MysticBars.Utils.Service );
 
+SettingsService.buffProfiles = {};
+
 function SettingsService:Constructor()
 	self.PARTIAL = 1;
 	self.ALL = 2;
@@ -130,6 +132,60 @@ function SettingsService:SaveSettings( profile )
 			end
 		end);
 	end
+end
+
+function SettingsService:LoadBuffs()
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
+
+	self.buffProfiles = Turbine.PluginData.Load( Turbine.DataScope.Server, "MysticBarsBuffs", function(args) end);
+	if ( self.buffProfiles == nil ) then
+		self.buffProfiles = { };
+	end
+
+	local playersName = playerService.player:GetName();
+	local playerBuffs = self.buffProfiles[ playersName ];
+	if ( playerBuffs == nil ) then
+		self.buffProfiles[ playersName ] = { };
+		playerBuffs = self.buffProfiles[ playersName ];
+	end
+
+	local language = Turbine.Engine.GetLanguage();
+	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
+	if ( locale == "de" or locale == "fr" ) then
+		self.buffs = { };
+		self:deepcopyLoadConvertInts( playerBuffs, self.buffs );
+	else
+		self.buffs = playerBuffs;
+	end
+
+	return self.buffs;
+end
+
+function SettingsService:SaveBuffs(buffs)
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
+	local playersName = playerService.player:GetName();
+
+	self.buffProfiles[ playersName ] = buffs;
+
+	local language = Turbine.Engine.GetLanguage();
+	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
+
+	if ( locale == "de" or locale == "fr" or locale == "ru" ) then
+		local temp = { };
+		self:deepcopySaveConvertInts( self.buffProfiles, temp );
+		Turbine.PluginData.Save( Turbine.DataScope.Server, "MysticBarsBuffs", temp, function (success, error)
+			if (not success) then
+				Turbine.Shell.WriteLine("Error Saving... " .. error);
+			end
+		end);
+		return self.buffProfiles;
+	end
+	Turbine.PluginData.Save( Turbine.DataScope.Server, "MysticBarsBuffs", self.buffProfiles, function (success, error)
+		if (not success) then
+			Turbine.Shell.WriteLine("Error Saving... " .. error);
+		end
+	end);
+	return self.buffProfiles;
 end
 
 function SettingsService:GetBars( localBarType )

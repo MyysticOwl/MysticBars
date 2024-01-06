@@ -20,34 +20,19 @@ function BuffEvents:Constructor( regEvents )
     local effects = playerService.player:GetEffects();
 	for i = 1, effects:GetCount() do
 		local effect = effects:Get(i);
-		local name = effect:GetName();
-		
-		if ( self.registeredEvents.classes[ playerClass ] ~= nil and self.registeredEvents.classes[ playerClass ].effects ~= nil and self.registeredEvents.classes[ playerClass ].effects[name] ~= nil ) then
-			self.registeredEvents.classes[ playerClass ].effects[name].count = self.registeredEvents.classes[ playerClass ].effects[name].count + 1;
-		end
 
-		local category = effect:GetCategory();
-		if ( self.registeredEvents.categories ~= nil and self.registeredEvents.categories[category] ~= nil ) then
-			self.registeredEvents.categories[category].count = self.registeredEvents.categories[category].count + 1;
-		end
+		self:RegisterBuff(effect, playerClass);
 	end
 
 	eventService:AddCallback( effects, "EffectAdded", function(sender, args)
 		local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
-		
+
 		local effects = playerService.player:GetEffects()
 		local effect = effects:Get(args.Index);
 
-		local name = effect:GetName();
-		if ( self.registeredEvents.classes[ playerClass ] ~= nil and self.registeredEvents.classes[ playerClass ].effects[name] ~= nil ) then
-			self.registeredEvents.classes[ playerClass ].effects[name].count = self.registeredEvents.classes[ playerClass ].effects[name].count + 1;
-		end
+		self:RegisterBuff(effect, playerClass);
 
-		local category = effect:GetCategory();
-		if ( self.registeredEvents.categories[category] ~= nil ) then
-			self.registeredEvents.categories[category].count = self.registeredEvents.categories[category].count + 1;
-		end
 		eventService:NotifyClients();
 	end);
 
@@ -56,15 +41,8 @@ function BuffEvents:Constructor( regEvents )
 		
 		local effect = args.Effect;
 
-		local name = effect:GetName();
-		if ( self.registeredEvents.classes[ playerClass ] ~= nil and self.registeredEvents.classes[ playerClass ].effects[name] ~= nil ) then
-			self.registeredEvents.classes[ playerClass ].effects[name].count = self.registeredEvents.classes[ playerClass ].effects[name].count - 1;
-		end
+		self:DeregisterBuff(effect, playerClass);
 
-		local category = effect:GetCategory();
-		if ( self.registeredEvents.categories[category] ~= nil ) then
-			self.registeredEvents.categories[category].count = self.registeredEvents.categories[category].count - 1;
-		end
 		eventService:NotifyClients();
 	end);
 
@@ -73,23 +51,46 @@ function BuffEvents:Constructor( regEvents )
 
 		local effect = args.Effect;
 
-		local name = effect:GetName();
-		if ( self.registeredEvents.classes[ playerClass ].effects[name] ~= nil ) then
-			self.registeredEvents.classes[ playerClass ].effects[name].count = self.registeredEvents.classes[ playerClass ].effects[name].count - 1;
-		end
+		self:DeregisterBuff(effect, playerClass);
 
-		local category = effect:GetCategory();
-		if ( self.registeredEvents.categories[category] ~= nil ) then
-			self.registeredEvents.categories[category].count = self.registeredEvents.categories[category].count - 1;
-		end
 		eventService:NotifyClients();
 	end);
 end
 
+function BuffEvents:RegisterBuff(effect, playerClass)
+	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
+	eventService:ValidateBuff(effect);
+
+	local name = effect:GetName();
+	if ( self.registeredEvents.classes[ playerClass ] ~= nil and self.registeredEvents.classes[ playerClass ].effects ~= nil and self.registeredEvents.classes[ playerClass ].effects[name] ~= nil ) then
+		self.registeredEvents.classes[ playerClass ].effects[name].count = self.registeredEvents.classes[ playerClass ].effects[name].count + 1;
+	end
+	local category = effect:GetCategory();
+	if ( self.registeredEvents.categories ~= nil and self.registeredEvents.categories[category] ~= nil ) then
+		self.registeredEvents.categories[category].count = self.registeredEvents.categories[category].count + 1;
+	end
+end
+
+function BuffEvents:DeregisterBuff(effect, playerClass)
+	local name = effect:GetName();
+	if ( self.registeredEvents.classes[ playerClass ] ~= nil and self.registeredEvents.classes[ playerClass ].effects[name] ~= nil ) then
+		self.registeredEvents.classes[ playerClass ].effects[name].count = self.registeredEvents.classes[ playerClass ].effects[name].count - 1;
+	end
+
+	local category = effect:GetCategory();
+	if ( self.registeredEvents.categories[category] ~= nil ) then
+		self.registeredEvents.categories[category].count = self.registeredEvents.categories[category].count - 1;
+	end
+end
+
 function BuffEvents:CheckVisibility( barSettings )
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
+	local playerClass = playerService.playerClass;
+
 	local visible = false;
+
 	-- Send all Effect based events to all clients
-	if (barSettings.events.effects ~= nil and self.registeredEvents.classes[ playerClass ] ~= nil and self.registeredEvents.classes[ playerClass ].effects ~= nil ) then
+	if (barSettings.events.effects ~= nil and self.registeredEvents.classes[ playerClass ] ~= nil) then
 		if ( barSettings.events.triggered.triggerOnClassBuffActive == true ) then
 			for key2, value2 in pairs (self.registeredEvents.classes[ playerClass ].effects) do
 				if ( value2 ~= nil and value2.count > 0 and barSettings.events.effects[ key2 ] == true ) then

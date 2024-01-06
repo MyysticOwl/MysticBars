@@ -52,6 +52,9 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
       self:Refresh();
     end);
   end
+  self.visible.Hide = function()
+    self.visible:SetBackground("MysticBars/Menus/Core/Resources/button_notvisible.tga");
+  end
 
   self.lock = Turbine.UI.Control();
   self.lock:SetParent(self);

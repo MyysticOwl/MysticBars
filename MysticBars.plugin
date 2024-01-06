@@ -3,7 +3,7 @@
 	<Information>
 		<Name>MysticBars</Name>
 		<Author>MyysticOwl</Author>
-		<Version>v3.1.4</Version>
+		<Version>v3.1.5</Version>
 		<Image>MysticBars/Menus/Core/Resources/myysticowl.tga</Image>
 		<Description>The concept is a Bar (quickbar) manager.
 MysticBars (previously TonicBars) will allow you to create Easy Bars, Quickslot Bars and Inventory Bars and manage different attributes for them.

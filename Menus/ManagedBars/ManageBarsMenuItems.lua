@@ -19,6 +19,7 @@ end
 
 function ManageBarsMenuItems:Refresh(mainMenu, parent)
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 
 	menu = mainMenu;
 
@@ -27,7 +28,7 @@ function ManageBarsMenuItems:Refresh(mainMenu, parent)
 	for key, value in pairs (bars) do
 		local node = MysticBars.Menus.Core.BarsTitleTreeNode(self.menuItems:GetBarName(key, value), 1, key, value);
 		parent:GetChildNodes():Add(node);
-		self.panel:Draw(node, key, value);
+		self.panel:Draw(node, key, value, eventService.buffs);
 
 		for extKey, extValue in pairs (extensions) do
 			if (extValue.barType == EXTENSIONBAR and extValue.connectionBarID == key) then

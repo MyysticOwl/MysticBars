@@ -17,6 +17,8 @@ import "MysticBars.Bars.Events.MiscEvents";
 
 EventService = class( MysticBars.Utils.Service );
 
+EventService.buffs = nil;
+
 function EventService:Constructor()
 	self.effectsRegistered = false;
 	self.currentClass = 0;
@@ -59,6 +61,21 @@ function EventService:UnregisterForEvents( rid )
 end
 
 function EventService:StartManager()
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	if (self.buffs == nil) then
+		self.buffs = settingsService:LoadBuffs();
+		if (self.buffs == nil) then
+			self.buffs = {};
+		end
+	end
+
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
+	local playerClass = playerService.playerClass;
+
+	for key, value in pairs(self.buffs) do
+		self:RegisterEffect(key, playerClass);
+	end
+
 	self.buffEvents = MysticBars.Bars.Events.BuffEvents( self.registeredEvents );
 	self.keyEvents = MysticBars.Bars.Events.KeyEvents( self.registeredEvents );
 	self.classEvents = MysticBars.Bars.Events.ClassSpecificEvents( self.registeredEvents );
@@ -94,10 +111,9 @@ function EventService:NotifyClients()
 	end
 end
 
-function EventService:RegisterEffect( englishSkillName, descriptionString, name, class )
+function EventService:RegisterEffect( name, class )
 	if ( self.currentClass ~= class ) then
 		self.currentClass = class;
-		self.currentIndex = 1;
 	end
 	if ( self.registeredEvents.classes[ class ] == nil ) then
 		self.registeredEvents.classes[ class ] = { };
@@ -108,11 +124,7 @@ function EventService:RegisterEffect( englishSkillName, descriptionString, name,
 	if ( self.registeredEvents.classes[ class ].effects[name] == nil ) then
 		self.registeredEvents.classes[ class ].effects[name] = { };
 	end
-	self.registeredEvents.classes[ class ].effects[name].index = self.currentIndex;
-	self.registeredEvents.classes[ class ].effects[name].description = descriptionString;
-	self.registeredEvents.classes[ class ].effects[name].englishSkillName = englishSkillName;
 	self.registeredEvents.classes[ class ].effects[name].count = 0;
-	self.currentIndex = self.currentIndex + 1;
 end
 
 function EventService:RegisterCategory( descriptionString, category )
@@ -142,3 +154,17 @@ function EventService:AddCallback(object, event, callback)
     end
     return callback;
 end
+
+function EventService:ValidateBuff(buff)
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
+	local playerClass = playerService.playerClass;
+
+	self:RegisterEffect(buff:GetName(), playerClass);
+
+	if (self.buffs[buff:GetName()] == nil) then
+		self.buffs[buff:GetName()] = true;
+		settingsService:SaveBuffs(self.buffs);
+	end
+end
+

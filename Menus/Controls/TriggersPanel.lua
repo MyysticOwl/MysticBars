@@ -12,8 +12,10 @@ import "MysticBars.Menus.Core.UI.MenuUtils";
 
 TriggersPanel = class(MysticBars.Menus.Controls.BasePanel);
 
-function TriggersPanel:Constructor( barId, barValue )
+function TriggersPanel:Constructor( parent, barId, barValue )
 	MysticBars.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
+
+	self.parentNode = parent;
 
 	self:SetHeight(140);
 
@@ -64,7 +66,11 @@ function TriggersPanel:DisplaySettings()
 	self.triggerList.SelectedIndexChanged = function(sender, args)
 		local selections = self.triggerList:GetSelections();
 		if ( selections ~= nil ) then
-						SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+				barSettings.visible = false;
+				if (self.parentNode.visible ~= nil) then
+					self.parentNode.visible:Hide(barSettings);
+				end
 				-- ALWAYS RESET THE CATEGORIES
 				barSettings.events.triggered = { };
 				for key, value in pairs( selections ) do
