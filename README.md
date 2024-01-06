@@ -37,6 +37,15 @@ If you load it and you don't see errors on the console window, look in the upper
 ************************************
 CHANGE HISTORY
 ************************************
+v3.1.4
+-Added Mariner specifc triffers
+-Fixing Guardians
+-Fixed menu display size issues
+-Fixed class bar activitations
+-Added addtional effect categories.
+v3.1.3
+-Fixes DragBar images.
+-Use standard CTL-\ to move MysticBars around.
 v3.1.2
 -Fixes Internationalization
 - add German
