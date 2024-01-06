@@ -17,6 +17,8 @@ L["Min:"] = "Min:";
 L["Max:"] = "Max:";
 L["Attunement between:"] = "Attunement between:";
 L["10 = Balanced;Lower numbers = Damage;Higher numbers Healing:"] = "10 = Balanced;Lower numbers = Damage;Higher numbers Healing:";
+L["Balance between:"] = "Balance between:";
+L["25 = Balanced;Lower numbers = Aft;Higher numbers Fore:"] = "25 = Balanced;Lower numbers = Aft;Higher numbers Fore:";
 L["Focus between:"] = "Focus between:";
 L["Use Background Color on Bar"] = "Use Background Color on Bar";
 L["Red:"] = "Red:";

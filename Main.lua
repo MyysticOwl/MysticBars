@@ -75,4 +75,5 @@ Turbine.Plugin.Unload = function(self, sender, args)
 	SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService):GetMenu():Destroy();
 end
 
+-- import "MysticBars.Tools.EasyBarMapper"
 -- import "MysticBars.Tools.SkillMapper"

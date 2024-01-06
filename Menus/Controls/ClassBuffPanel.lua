@@ -60,27 +60,20 @@ function ClassBuffPanel:Constructor( barId, barValue )
 		self.eventCheckboxes[RK_ATTUNEMENT] = self.utils:AddCheckBox( self.panelBackground, L["Attunement between:"], selectionWidth + 15, selectionHeight, nil, 5, 50 );
 		self.eventCheckboxes[RK_ATTUNEMENT].CheckedChanged = function( sender, args )
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+				if ( barSettings.events == nil ) then
+					barSettings.events = { }; 
+				end
+				if ( barSettings.events.classRange == nil ) then
+					barSettings.events.classRange = { };
+				end
 				if ( self.eventCheckboxes[RK_ATTUNEMENT]:IsChecked() == true) then
-					if ( barSettings.events == nil ) then
-						barSettings.events = { }; 
-					end
-					if ( barSettings.events.classRange == nil ) then
-						barSettings.events.classRange = { };
-					end
-					barSettings.events.classRange[RK_ATTUNEMENT] = { };
-					barSettings.events.classRange[RK_ATTUNEMENT].minValue = 1;
-					barSettings.events.classRange[RK_ATTUNEMENT].maxValue = 1;
-					self.rkSbMin:SetValue( 1 );
-					self.rkSbMax:SetValue( 19 );
-				elseif ( barSettings.events ~= nil and barSettings.events.classRange ~= nil and barSettings.events.classRange[RK_ATTUNEMENT] ~= nil) then
-					self.rkSbMin:SetValue( 0 );
-					self.rkSbMax:SetValue( 0 );
-					barSettings.events.classRange[RK_ATTUNEMENT].maxValue = nil;
-					barSettings.events.classRange[RK_ATTUNEMENT].minValue = nil;
-					barSettings.events.classRange[RK_ATTUNEMENT] = nil;
+					barSettings.events.classRange[RK_ATTUNEMENT].active = true;
+				else
+					barSettings.events.classRange[RK_ATTUNEMENT].active = false;
 				end
 				return barSettings;
 			end);
+			
 		end
 		self.utils:AddLabelBox( self.panelBackground, L["10 = Balanced;Lower numbers = Damage;Higher numbers Healing:"], 500, selectionHeight, nil, 30, 80 );
 
@@ -89,9 +82,32 @@ function ClassBuffPanel:Constructor( barId, barValue )
 
 		self.rkSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 1, 19, 100, selectionHeight + 20, nil, L["Max:"], 130, 100, 20 );
 		self.utils:CreateScrollBarCallback( self.rkSbMax, barId, { "events", "classRange", RK_ATTUNEMENT, "maxValue" } );
+	elseif ( playerClass == Mariner ) then
+		self.eventCheckboxes[MARINER_BALANCE] = self.utils:AddCheckBox( self.panelBackground, L["Balance between:"], selectionWidth + 15, selectionHeight, nil, 5, 50 );
+		self.eventCheckboxes[MARINER_BALANCE].CheckedChanged = function( sender, args )
+			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+				if ( barSettings.events == nil ) then
+					barSettings.events = { }; 
+				end
+				if ( barSettings.events.classRange == nil ) then
+					barSettings.events.classRange = { };
+				end
+				if ( self.eventCheckboxes[MARINER_BALANCE]:IsChecked() == true) then
+					barSettings.events.classRange[MARINER_BALANCE].active = true;
+				else
+					barSettings.events.classRange[MARINER_BALANCE].active = false;
+				end
+				return barSettings;
+			end);
+			
+		end
+		self.utils:AddLabelBox( self.panelBackground, L["25 = Balanced;Lower numbers = Aft;Higher numbers Fore:"], 500, selectionHeight, nil, 30, 80 );
 
-		self.rkSbMin:SetValue( 0 );
-		self.rkSbMax:SetValue( 0 );
+		self.marinerSbMin = self.utils:AddScrollBar( self.panelBackground, 1, 25, 50, 100, selectionHeight + 20, nil, L["Min:"], 30, 100, 15 );
+		self.utils:CreateScrollBarCallback( self.marinerSbMin, barId, { "events", "classRange", MARINER_BALANCE, "minValue" } );
+
+		self.marinerSbMax = self.utils:AddScrollBar( self.panelBackground, 1, 25, 50, 100, selectionHeight + 20, nil, L["Max:"], 130, 100, 20 );
+		self.utils:CreateScrollBarCallback( self.marinerSbMax, barId, { "events", "classRange", MARINER_BALANCE, "maxValue" } );
 	elseif ( playerClass == Turbine.Gameplay.Class.Hunter ) then
 		self.eventCheckboxes[HUNTER_FOCUS] = self.utils:AddCheckBox( self.panelBackground, L["Focus between:"], selectionWidth + 15, selectionHeight, nil, 5, 50 );
 		self.eventCheckboxes[HUNTER_FOCUS].CheckedChanged = function( sender, args )
@@ -214,6 +230,15 @@ function ClassBuffPanel:DisplaySettings()
 		self.eventCheckboxes[RK_ATTUNEMENT]:SetChecked(false);
 		self.rkSbMin:SetValue( 0 );
 		self.rkSbMax:SetValue( 0 );
+	end
+	if ( self.marinerSbMin ~= nil and localBarSettings.events ~= nil and localBarSettings.events.classRange ~= nil and localBarSettings.events.classRange[MARINER_BALANCE] ~= nil ) then
+		self.eventCheckboxes[MARINER_BALANCE]:SetChecked(localBarSettings.events.classRange[MARINER_BALANCE].active);
+		self.marinerSbMin:SetValue( localBarSettings.events.classRange[MARINER_BALANCE].minValue );
+		self.marinerSbMax:SetValue( localBarSettings.events.classRange[MARINER_BALANCE].maxValue );
+	elseif (self.eventCheckboxes[MARINER_BALANCE] ~= nil) then
+		self.eventCheckboxes[MARINER_BALANCE]:SetChecked(false);
+		self.marinerSbMin:SetValue( 25 );
+		self.marinerSbMax:SetValue( 25 );
 	end
 end
 

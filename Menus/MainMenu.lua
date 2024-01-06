@@ -36,11 +36,6 @@ import "MysticBars.Menus.Controls.TriggersPanel";
 import "MysticBars.Menus.Core.UI.Tooltip"
 import "MysticBars.Menus.Core.UI.DragBar"
 
-windowHeight = 500;
-
-selectionWidth = 160;
-selectionHeight = 20;
-
 local language = Turbine.Engine.GetLanguage();
 
 _G.locale = (language == Turbine.Language.German and "de" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "en" )));
@@ -60,6 +55,11 @@ _G.controlDisabledColor = Turbine.UI.Color(0.42,0.42,0.4); -- dark grey
 
 SCREENWIDTH = Turbine.UI.Display.GetWidth();
 SCREENHEIGHT = Turbine.UI.Display.GetHeight();
+
+windowHeight = SCREENHEIGHT - 200;
+selectionWidth = 160;
+selectionHeight = 20;
+
 
 MainMenu = class( Turbine.UI.Control );
 
@@ -137,7 +137,7 @@ function MainMenu:Constructor()
 end
 
 function MainMenu:SizeChanged(args)
-	self:Refresh();
+		self:Refresh();
 end
 
 function MainMenu:Refresh(destroy)
@@ -163,7 +163,8 @@ function MainMenu:Refresh(destroy)
 	end
 
 	if (self.tree) then
-		self.tree:SetSize(w - 40, h);
+		self.tree:SetSize(w - 40, windowHeight - 50);
+		self.scrollBar:SetHeight(windowHeight - 50);
 
 		local root = self.tree:GetNodes();
 		for i=1,self.tree:GetNodes():GetCount() do

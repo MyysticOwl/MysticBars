@@ -29,10 +29,11 @@ function EventService:Constructor()
 	end
 	self.registeredEvents.playerInCombat = false;
 
-	self:RegisterCategory( "Diseased", Turbine.Gameplay.EffectCategory.Disease );
-	self:RegisterCategory( "Feared", 	Turbine.Gameplay.EffectCategory.Fear );
-	self:RegisterCategory( "Poisoned", Turbine.Gameplay.EffectCategory.Poison );
-	self:RegisterCategory( "Wounded", 	Turbine.Gameplay.EffectCategory.Wound );
+	for key, value in pairs(Turbine.Gameplay.EffectCategory) do
+		if (key ~= "IsA") then
+			self:RegisterCategory( key, value );
+		end
+	end
 end
 
 function EventService:RegisterForEvents( registerant, rid )
@@ -67,7 +68,7 @@ end
 
 function EventService:NotifyClients()
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	
+
 	if ( self.clients == nil ) then
 		self.clients = { };
 	end

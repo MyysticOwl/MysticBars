@@ -56,6 +56,10 @@ TRIGGER_TYPES_GT		= 2;
 TRIGGER_TYPES_LT		= 3;
 TRIGGER_TYPES_BETWEEN	= 4;
 
+Brawler = 215;
+Mariner = 216;
+
 CHAMPION_FERVOR = "Fervor";
 HUNTER_FOCUS = "Focus";
 RK_ATTUNEMENT = "Attunement";
+MARINER_BALANCE = "Balance";
