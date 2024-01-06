@@ -28,8 +28,8 @@ function WardenTemplate:Stance( override )
 		templateService:SetBuffTrigger( "Determination", barSettings );
 		templateService:SetBuffTrigger( "Assailment", barSettings );
 		templateService:SetBGColor( 0.35, 1, 0, 0, barSettings );
-		templateService:AddShortcut( 1, "0x70014832", 6, 10, barSettings );
-		templateService:AddShortcut( 2, "0x7000ECD7", 6, 20, barSettings );
+		templateService:AddShortcut( 1, "0x7003639B", 6, 10, barSettings );
+		templateService:AddShortcut( 2, "0x7003639C", 6, 20, barSettings );
 		templateService:AddShortcut( 3, "0x70014799", 6, 30, barSettings );
 	end);
 end
