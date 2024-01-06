@@ -2,7 +2,7 @@
 <PluginConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Id>370</Id>
   <Name>MysticBars</Name>
-  <Version>v3.1.0</Version>
+  <Version>v3.1.4</Version>
   <Author>MyysticOwl</Author>
   <InfoUrl>http://lotrointerface.com/downloads/info370-TonicBars.html</InfoUrl>
   <DownloadUrl>http://www.lotrointerface.com/downloads/download370</DownloadUrl>
