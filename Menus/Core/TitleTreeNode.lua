@@ -1,3 +1,4 @@
+
 TitleTreeNode = class(MysticBars.Menus.Core.BaseTitleTreeNode);
 
 function TitleTreeNode:Constructor(text, topPadding, addBarType, extension)

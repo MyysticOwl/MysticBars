@@ -4,8 +4,6 @@
 -- Added support for DeltaButton / a button to rotate the target window
 -- Added Z order correction for Rotator when dragging.
 
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
 local deltaButtonAvailable = pcall( function( ) import "Deusdictum.UI.DeltaButton"; end );
 
 local defaultDragBarResources = {

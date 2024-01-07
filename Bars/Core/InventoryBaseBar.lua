@@ -4,9 +4,6 @@
 --
 -- RESPECT!
 
-import "MysticBars.Utils.Class";
-import "MysticBars.Menus.Core.UI.Window";
-
 InventoryBaseBar = class( MysticBars.Bars.Core.BaseBar );
 
 function InventoryBaseBar:Constructor()

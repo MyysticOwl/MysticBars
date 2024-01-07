@@ -4,16 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine";
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
-import "MysticBars.Utils.Class";
-import "MysticBars.Utils.TableDump";
-import "MysticBars.Menus.Core.UI.ComboBox";
-import "MysticBars.Menus.Core.UI.AutoListBox";
-import "MysticBars.Menus.Core.UI.MenuUtils";
-import "MysticBars.Menus.InventoryBars.InventoryMenuPanel";
-
 InventoryBarsMenuItems = class();
 
 InventoryBarsMenuItems.panel = MysticBars.Menus.InventoryBars.InventoryMenuPanel();

@@ -4,12 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine";
-import "MysticBars.Utils.Class";
-import "MysticBars.Menus.Core.UI.MenuUtils";
-import "MysticBars.Menus.Controls.ExtensionPanel"
-import "MysticBars.Menus.Controls.PredefinedExtensionPanel"
-
 ExtensionBarMenuPanel = class();
 
 ExtensionBarMenuPanel.utils = MysticBars.Menus.Core.UI.MenuUtils();

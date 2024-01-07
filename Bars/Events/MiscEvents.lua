@@ -4,10 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine.Gameplay";
-import "Turbine.UI";
-import "MysticBars.Utils.Class";
-
 MiscEvents = class( Turbine.Object  );
 
 function MiscEvents:Constructor( regEvents )

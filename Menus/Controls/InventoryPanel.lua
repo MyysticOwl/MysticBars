@@ -4,13 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine";
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
-import "MysticBars.Menus.Core.UI.AutoListBox";
-import "MysticBars.Menus.Core.UI.MenuUtils";
-import "MysticBars.Menus.Core.UI.CheckedComboBox";
-
 InventoryPanel = class(MysticBars.Menus.Controls.BasePanel);
 
 function InventoryPanel:Constructor(barId, barValue)

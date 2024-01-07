@@ -3,21 +3,15 @@
 -- in respect for borrowing said authors code.
 -- RESPECT!
 
-import "Turbine";
-import "Turbine.UI";
-import "MysticBars.Utils.Class";
-import "MysticBars.Utils.Service";
-import "MysticBars.Bars.Core.BaseBar";
-import "MysticBars.Bars.QuickslotBar";
-import "MysticBars.Bars.ExtensionBar";
-import "MysticBars.Bars.TabbedInventoryBar";
-import "MysticBars.Bars.WindowInventoryBar";
-
 BarService = class( MysticBars.Utils.Service );
+
+BarService.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "BarService" );
 
 function BarService:Constructor()
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	
+
+	self.Log:Debug("constructor");
+
 	self.working = false;
 	RegisteredBars = { };
 
@@ -25,6 +19,8 @@ function BarService:Constructor()
 end
 
 function BarService:RefreshBars()
+	self.Log:Debug("RefreshBars");
+
 	for key, value in pairs (RegisteredBars) do
 		value:Refresh();
 	end
@@ -32,6 +28,8 @@ end
 
 function BarService:Add( barType, cBarID, cQuickslotID )
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+
+	self.Log:Debug("Add type:" .. " id:" .. cBarID);
 
 	local bar = nil;
 	if ( self.working == false ) then

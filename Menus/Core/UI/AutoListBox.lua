@@ -3,10 +3,6 @@
 -- in respect for borrowing said authors code.
 -- RESPECT!
 
-import "Turbine";
-import "Turbine.UI";
-import "MysticBars.Utils.Class";
-
 AutoListBox = class( Turbine.UI.ListBox );
 
 function AutoListBox:Constructor( optionalWidth, optionalHeight )

@@ -1,5 +1,3 @@
-import "Turbine.UI";
-import "MysticBars.Menus.Core.UI.Label"
 
 Tooltip = class(Turbine.UI.Window);
 

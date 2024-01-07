@@ -4,21 +4,7 @@
 --
 -- RESPECT!
 
-import "MysticBars.Utils.Type";
-import "MysticBars.Utils.ServiceContainer";
-import "MysticBars.Bars.Templates.BarTemplates"
-import "MysticBars.Menus.MainMenu";
-import "MysticBars.Services.TemplateService";
-import "MysticBars.Services.EventService"
-import "MysticBars.Services.InventoryService"
-import "MysticBars.Services.PlayerService"
-import "MysticBars.Services.SkillsService"
-import "MysticBars.Services.SettingsService"
-import "MysticBars.Services.BarService"
-import "MysticBars.Services.MenuService"
-import "MysticBars.Enumerations";
-
-import "MysticBars.Utils.TableDump";
+import "MysticBars";
 
 --local player = Turbine.Gameplay.LocalPlayer.GetInstance();
 -- local dump = MysticBars.Utils.TableDump();

@@ -3,10 +3,6 @@
 -- in respect for borrowing said authors code.
 -- RESPECT!
 
-import "Turbine";
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
-
 ItemList = class( Turbine.UI.Control );
 
 function ItemList:Constructor( bid )

@@ -4,8 +4,6 @@
 --
 -- RESPECT!
 
-import "MysticBars.Utils.Decimal2Hex"
-
 DynamicTemplate = class();
 
 function DynamicTemplate:Constructor()

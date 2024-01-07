@@ -4,22 +4,14 @@
 --
 -- RESPECT!
 
-import "Turbine.Gameplay";
-import "Turbine.UI";
-import "MysticBars.Utils.Class";
-import "MysticBars.Utils.Service";
-import "MysticBars.Utils.Table";
-import "MysticBars.Bars.Events.BuffEvents";
-import "MysticBars.Bars.Events.KeyEvents";
-import "MysticBars.Bars.Events.StatEvents";
-import "MysticBars.Bars.Events.ClassSpecificEvents";
-import "MysticBars.Bars.Events.MiscEvents";
-
 EventService = class( MysticBars.Utils.Service );
 
+EventService.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "EventService" );
 EventService.buffs = nil;
 
 function EventService:Constructor()
+	self.Log:Debug("constructor");
+
 	self.effectsRegistered = false;
 	self.currentClass = 0;
 
@@ -39,6 +31,8 @@ function EventService:Constructor()
 end
 
 function EventService:RegisterForEvents( registerant, rid )
+	self.Log:Debug("RegisterForEvents");
+
 	if ( self.clients == nil ) then
 		self.clients = { };
 	end
@@ -53,6 +47,8 @@ function EventService:RegisterForEvents( registerant, rid )
 end
 
 function EventService:UnregisterForEvents( rid )
+	self.Log:Debug("UnregisterForEvents");
+
 	if ( self.clients ~= nil and self.clients[rid] ~= nil ) then
 		self.clients[rid].registered = false;
 		self.clients[rid].bar = nil;
@@ -61,6 +57,8 @@ function EventService:UnregisterForEvents( rid )
 end
 
 function EventService:StartManager()
+	self.Log:Debug("StartManager");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	if (self.buffs == nil) then
 		self.buffs = settingsService:LoadBuffs();

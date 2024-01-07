@@ -1,3 +1,4 @@
+
 BaseTitleTreeNode = class(Turbine.UI.TreeNode);
 
 function BaseTitleTreeNode:Constructor(text, topPadding, addBarType)

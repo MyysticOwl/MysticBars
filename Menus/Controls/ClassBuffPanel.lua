@@ -4,12 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine";
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
-import "MysticBars.Menus.Core.UI.AutoListBox";
-import "MysticBars.Menus.Core.UI.MenuUtils";
-
 ClassBuffPanel = class(MysticBars.Menus.Controls.BasePanel);
 
 function ClassBuffPanel:Constructor( parent, barId, barValue, buffs )

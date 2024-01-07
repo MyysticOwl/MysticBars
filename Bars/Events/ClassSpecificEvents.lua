@@ -4,12 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine.Gameplay";
-import "Turbine.UI";
-import "MysticBars.Utils.Class";
-import "MysticBars.Utils.Table";
-import "MysticBars.Utils.TableDump"
-
 ClassSpecificEvents = class( Turbine.Object  );
 
 function ClassSpecificEvents:Constructor( regEvents )
@@ -22,6 +16,12 @@ function ClassSpecificEvents:Constructor( regEvents )
 	if ( self.registeredEvents.classRange == nil ) then
 		self.registeredEvents.classRange = { };
 	end
+
+	-- local dump = MysticBars.Utils.TableDump();
+	-- dump.Dump(getmetatable(att));
+
+	Turbine.Shell.WriteLine("scriptVersion: " .. Turbine.Engine.GetScriptVersion());
+	Turbine.Engine.ScriptLog("Made it here");
 
 	if ( playerService.player:GetClass() == Turbine.Gameplay.Class.Burglar ) then
 		-- eventService:AddCallback( att, "StanceChanged", function( sender, args )

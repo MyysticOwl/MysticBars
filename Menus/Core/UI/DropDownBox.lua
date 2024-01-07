@@ -1,10 +1,6 @@
 --[[ Fix this shit! Needs proper open()/close() functions, and supply a method to 
 display listbox outside of class!]]--
 
-import "Turbine.UI";
-import "MysticBars.Utils.Class";
-import "Turbine";
-import "MysticBars.Menus.Core.UI.DropDownBoxItem";
 DropDownBox = class( Turbine.UI.Control );
 function DropDownBox:Constructor(itemList)
 	Turbine.UI.Control.Constructor( self);

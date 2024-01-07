@@ -4,9 +4,6 @@
 --
 -- RESPECT!
 
-import "MysticBars.Bars.Core.QuickslotList";
-import "MysticBars.Bars.Core.ItemList";
-
 BaseBar = class( Turbine.UI.Window );
 
 function BaseBar:Constructor()

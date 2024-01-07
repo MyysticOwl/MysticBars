@@ -4,8 +4,6 @@
 --
 -- RESPECT!
 
-import "MysticBars.Menus.MainMenuItems";
-
 EasyBarMenuItems = class();
 
 EasyBarMenuItems.menuItems = MysticBars.Menus.MainMenuItems();

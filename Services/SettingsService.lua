@@ -4,12 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine";
-import "MysticBars.Utils.Class";
-import "MysticBars.Utils.Service";
-import "Turbine.Gameplay";
-import "MysticBars.Utils.TableDeepCopy";
-
 SettingsService = class( MysticBars.Utils.Service );
 
 SettingsService.buffProfiles = {};

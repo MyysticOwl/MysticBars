@@ -3,15 +3,6 @@
 -- in respect for borrowing said authors code.
 -- RESPECT!
 
-import "Turbine";
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
-import "MysticBars.Utils.Class";
-import "MysticBars.Utils.Table";
-import "MysticBars.Menus.Core.UI.ComboBox";
-import "MysticBars.Menus.Core.UI.AutoListBox";
-import "MysticBars.Menus.Core.UI.Slider";
-
 MenuUtils = class( Turbine.Object );
 
 MenuUtils.list = { };

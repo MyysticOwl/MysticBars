@@ -4,11 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine.Gameplay";
-import "Turbine.UI";
-import "MysticBars.Utils.Class";
-import "MysticBars.Utils.Service";
-
 InventoryService = class( MysticBars.Utils.Service );
 
 function InventoryService:Constructor()

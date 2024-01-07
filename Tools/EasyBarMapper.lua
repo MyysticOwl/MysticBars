@@ -1,5 +1,3 @@
-import "MysticBars.ShortcutLooksupData"
-
 local column = 0;
 local row = 0;
 local leftPad = 200;

@@ -16,11 +16,6 @@ import "MysticBars.Bars.Templates.Classes.MarinerTemplate"
 import "MysticBars.Bars.Templates.Classes.MinstrelTemplate"
 import "MysticBars.Bars.Templates.Classes.RuneKeeperTemplate"
 import "MysticBars.Bars.Templates.Classes.WardenTemplate"
-import "MysticBars.Bars.Templates.SkirmishTemplate"
-import "MysticBars.Bars.Templates.MonsterPlayTemplate"
-import "MysticBars.Bars.Templates.PotionsTemplate"
-import "MysticBars.Bars.Templates.DynamicTemplate"
-import "MysticBars.ShortcutLooksupData"
 
 BarTemplates = class();
 

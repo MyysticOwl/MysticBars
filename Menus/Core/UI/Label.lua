@@ -1,4 +1,3 @@
-import "Turbine.UI";
 
 Label = class(Turbine.UI.Label);
 

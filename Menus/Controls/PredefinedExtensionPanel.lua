@@ -4,13 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine";
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
-import "MysticBars.Menus.Core.UI.AutoListBox";
-import "MysticBars.Menus.Core.UI.MenuUtils";
-import "MysticBars.Utils.Decimal2Hex"
-
 PredefinedExtensionPanel = class(MysticBars.Menus.Controls.BasePanel);
 
 function PredefinedExtensionPanel:Constructor( barId, barValue )

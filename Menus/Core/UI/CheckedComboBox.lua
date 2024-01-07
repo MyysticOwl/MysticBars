@@ -1,6 +1,3 @@
-import "Turbine.UI"
-import "MysticBars.Menus.Core.UI.ComboBox";
-import "MysticBars.Menus.Core.UI.MenuUtils";
 
 CheckedComboBox = class(MysticBars.Menus.Core.UI.ComboBox);
 

@@ -4,9 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
-
 Tab = class( Turbine.UI.Window );
 
 tabSize = 14;

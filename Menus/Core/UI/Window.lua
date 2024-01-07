@@ -1,8 +1,4 @@
 
-import "Turbine";
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
-
 Window = class( Turbine.UI.Lotro.GoldWindow );
 
 function Window:Constructor()

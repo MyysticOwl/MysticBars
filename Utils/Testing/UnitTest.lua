@@ -1,0 +1,49 @@
+UnitTest = class();
+
+-- A table to contain all of the unit test classes that have been created.
+local unitTestRegistry = { };
+
+---	Gets the full name of the unit test.
+---
+---	@returns
+---		The full name of the unittest.
+function UnitTest:GetName()
+	Turbine.Shell.WriteLine("GetByName " .. self:GetType():GetFullName());
+	return self:GetType():GetFullName();
+end
+
+---	Gets all of the unittest that have been loaded.
+---
+---	@returns
+---		A table of the unit test names to the unit test class.
+function UnitTest.GetUnitTests()
+	Turbine.Shell.WriteLine("GetAllTests");
+	return Table.Copy( unitTestRegistry );
+end
+
+---	Gets a unit test by its name. If there is no unit test this will
+---	return nil.
+---
+---	@param name
+---		The name of the unit test to get.
+---
+---	@returns
+---		The unit test class if it was found otherwise nil.
+function UnitTest.GetUnitTestByName( name )
+	Turbine.Shell.WriteLine("GetByName " .. name);
+	return unitTestRegistry[name];
+end
+
+---	Global function for creating unit tests.
+_G.unittest = function()
+	local utest = class( UnitTest );
+	
+	-- The class is only partially initialized at this point. It has enough
+	-- that I can use GetName to grab it's name and register it into the
+	-- registry.
+	local unitTestInstance = utest();
+	
+	unitTestRegistry[unitTestInstance:GetName()] = utest;
+
+	return utest;
+end

@@ -1,6 +1,4 @@
-import "Turbine.UI";
-import "MysticBars.Utils.Class";
-import "Turbine";
+
 DropDownBoxItem = class( Turbine.UI.Control );
 function DropDownBoxItem:Constructor(label,width)
 	Turbine.UI.Control.Constructor( self );

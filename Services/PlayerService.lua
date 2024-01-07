@@ -4,18 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine.Gameplay";
-import "Turbine.UI";
-import "MysticBars.Utils.Class";
-import "MysticBars.Utils.Service";
-import "MysticBars.Utils.Table";
-import "MysticBars.Bars.Events.BuffEvents";
-import "MysticBars.Bars.Events.KeyEvents";
-import "MysticBars.Bars.Events.StatEvents";
-import "MysticBars.Bars.Events.ClassSpecificEvents";
-import "MysticBars.Bars.Events.MiscEvents";
-import "MysticBars.Services.SettingsService"
-
 PlayerService = class( MysticBars.Utils.Service );
 
 PlayerService.player = nil

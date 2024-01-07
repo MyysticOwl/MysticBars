@@ -4,13 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine";
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
-import "MysticBars.Menus.Core.UI.AutoListBox";
-import "MysticBars.Menus.Core.UI.MenuUtils";
-import "MysticBars.Menus.Controls.BasePanel";
-
 EasyBarPanel = class(MysticBars.Menus.Controls.BasePanel);
 
 EasyBarPanel.menuItems = MysticBars.Menus.MainMenuItems();

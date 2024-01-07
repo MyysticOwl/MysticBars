@@ -4,8 +4,6 @@
 --
 -- RESPECT!
 
-import "MysticBars.Menus.ManagedBars.ManageBarsMenuPanel";
-
 ManageBarsMenuItems = class();
 
 ManageBarsMenuItems.panel = MysticBars.Menus.ManagedBars.ManageBarsMenuPanel();

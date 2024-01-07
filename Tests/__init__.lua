@@ -1,0 +1,2 @@
+
+import "MysticBars.Tests.BarServiceTest";

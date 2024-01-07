@@ -4,11 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine.Gameplay";
-import "Turbine.UI";
-import "MysticBars.Utils.Class";
-import "MysticBars.Utils.Table";
-
 StatEvents = class( Turbine.Object  );
 
 function StatEvents:Constructor( regEvents )

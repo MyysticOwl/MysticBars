@@ -4,12 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine";
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
-import "MysticBars.Menus.Core.UI.AutoListBox";
-import "MysticBars.Menus.Core.UI.MenuUtils";
-
 TriggersPanel = class(MysticBars.Menus.Controls.BasePanel);
 
 function TriggersPanel:Constructor( parent, barId, barValue )

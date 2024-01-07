@@ -4,12 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine";
-import "Turbine.UI";
-import "Turbine.UI.Lotro";
-import "MysticBars.Menus.Core.UI.AutoListBox";
-import "MysticBars.Menus.Core.UI.MenuUtils";
-
 ColorPanel = class(MysticBars.Menus.Controls.BasePanel);
 
 function ColorPanel:Constructor( barId, barValue )

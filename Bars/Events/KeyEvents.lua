@@ -4,11 +4,6 @@
 --
 -- RESPECT!
 
-import "Turbine.Gameplay";
-import "Turbine.UI";
-import "MysticBars.Utils.Class";
-import "MysticBars.Utils.Table";
-
 KeyEvents = class( Turbine.UI.Control  );
 
 function KeyEvents:Constructor( regEvents )

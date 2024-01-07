@@ -1,4 +1,3 @@
-import "Turbine.UI";
 
 Slider = class(Turbine.UI.Control);
 

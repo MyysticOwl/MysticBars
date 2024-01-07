@@ -1,4 +1,3 @@
-import "Turbine.UI";
 
 ComboBox = class(Turbine.UI.Control);
 
