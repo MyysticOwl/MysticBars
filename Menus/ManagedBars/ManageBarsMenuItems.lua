@@ -32,7 +32,7 @@ function ManageBarsMenuItems:Refresh(mainMenu, parent)
 
 		for extKey, extValue in pairs (extensions) do
 			if (extValue.barType == EXTENSIONBAR and extValue.connectionBarID == key) then
-				local node = MysticBars.Menus.Core.BarsTitleTreeNode(self.menuItems:GetBarName(extKey, extValue), 1);
+				local node = MysticBars.Menus.Core.BarsTitleTreeNode(self.menuItems:GetBarName(extKey, extValue), 1, extKey);
 				parent:GetChildNodes():Add(node);
 				self.extensionsBarPanel:Draw(node, extKey, extValue);
 			end

@@ -3,12 +3,13 @@ BarsTitleTreeNode = class(Turbine.UI.TreeNode);
 
 BarsTitleTreeNode.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
-function BarsTitleTreeNode:Constructor(text, topPadding, barId)
+function BarsTitleTreeNode:Constructor(text, topPadding, barId, showVisibility)
 	Turbine.UI.TreeNode.Constructor(self);
 
   self.listeners = {}
 
   self.barId = barId;
+  self.showVisibility = showVisibility;
 
   self.height = 29;
   self.padding = topPadding;
@@ -29,31 +30,32 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId)
 
   self.barName = self.utils:AddTextBox(self, text, selectionWidth, selectionHeight, nil, self.plus:GetLeft() + self.plus:GetWidth() + 5, 4 );
   self.barName.TextChanged = function( sender, args )
-        SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+    SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
       barSettings.barName = self.barName:GetText();
       return barSettings;
-    end, function(barSettings)
     end);
   end
 
-  self.visible = Turbine.UI.Control();
-  self.visible:SetParent(self);
-  self.visible:SetSize(20,20);
-  self.visible:SetPosition(200,4);
-  self.visible:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-  self.visible:SetMouseVisible(true);
-  MysticBars.Menus.Core.UI.Tooltip(self.visible, L["Bar Visibility"]);
-  self.visible.MouseDown = function(args)
-        SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
-      barSettings.visible = not barSettings.visible;
-      return barSettings;
-    end, function(barSettings)
-      self:SetExpanded(not self:IsExpanded());
-      self:Refresh();
-    end);
-  end
-  self.visible.Hide = function()
-    self.visible:SetBackground("MysticBars/Menus/Core/Resources/button_notvisible.tga");
+  if (showVisibility ~= nil) then 
+    self.visible = Turbine.UI.Control();
+    self.visible:SetParent(self);
+    self.visible:SetSize(20,20);
+    self.visible:SetPosition(200,4);
+    self.visible:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
+    self.visible:SetMouseVisible(true);
+    MysticBars.Menus.Core.UI.Tooltip(self.visible, L["Bar Visibility"]);
+    self.visible.MouseDown = function(args)
+          SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+        barSettings.visible = not barSettings.visible;
+        return barSettings;
+      end, function(barSettings)
+        self:SetExpanded(not self:IsExpanded());
+        self:Refresh();
+      end);
+    end
+    self.visible.Hide = function()
+      self.visible:SetBackground("MysticBars/Menus/Core/Resources/button_notvisible.tga");
+    end
   end
 
   self.lock = Turbine.UI.Control();
@@ -180,7 +182,9 @@ function BarsTitleTreeNode:Refresh(width)
     local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
     local barSettings = settingsService:GetBarSettings( self.barId );
 
-    self.visible:SetBackground(barSettings.visible and "MysticBars/Menus/Core/Resources/button_visible.tga" or "MysticBars/Menus/Core/Resources/button_notvisible.tga");
+    if (self.showVisibility ~= nil) then
+      self.visible:SetBackground(barSettings.visible and "MysticBars/Menus/Core/Resources/button_visible.tga" or "MysticBars/Menus/Core/Resources/button_notvisible.tga");
+    end
     self.lock:SetBackground(barSettings.locked and "MysticBars/Menus/Core/Resources/button_locked.tga" or "MysticBars/Menus/Core/Resources/button_unlocked.tga");
   end
 end

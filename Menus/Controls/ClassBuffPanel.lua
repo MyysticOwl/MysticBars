@@ -18,7 +18,7 @@ function ClassBuffPanel:Constructor( parent, barId, barValue, buffs )
 	self.parentNode = parent;
 	self.buffs = buffs;
 
-	self:SetHeight(140);
+	self:SetHeight(240);
 
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local playerClass = playerService.playerClass;
@@ -32,7 +32,7 @@ function ClassBuffPanel:Constructor( parent, barId, barValue, buffs )
 	self.triggerList:AddItem( L["Buffs Not Active"], 2 );
 
 	self.utils:AddLabelBox( self.panelBackground, "Buffs:", 120, selectionHeight, nil, 5, 30 );
-	self.buffList = self.utils:AddCheckedComboBox(self.panelBackground, 4, 300, 20, 50, 30);
+	self.buffList = self.utils:AddCheckedComboBox(self.panelBackground, 9, 300, 20, 50, 30);
 
 	if ( playerClass == Turbine.Gameplay.Class.Burglar ) then
 	elseif ( playerClass == Turbine.Gameplay.Class.Champion ) then
