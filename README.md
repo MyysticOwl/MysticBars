@@ -37,6 +37,10 @@ If you load it and you don't see errors on the console window, look in the upper
 ************************************
 CHANGE HISTORY
 ************************************
+v3.1.6
+-Fixed a bunch of issues with Extension Bars (locking, naming, refreshing)
+-Internally setup logging managers
+-Internally fixed includes
 v3.1.5
 -GIANT fix incoming. All Buff bars were broken... new fix add tons of functionality. Bars can now be triggered from ANY buff "seen" on a character. This might not work the first load of the plugin but should after playing your character and reloading MysticBars! These Buffs are tracked in a new user file "MysticBarsBuffs.plugindata". These are populated in the "Buffs" section of Bar Settings.
 -Auto HIDE a bar when Trigger options are selected (Buffs, Triggers, Class specific like hunter focus, furvor, attunement, balance, etc.)
