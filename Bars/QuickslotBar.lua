@@ -170,6 +170,13 @@ function QuickslotBar:Refresh()
 	MysticBars.Bars.Core.BaseBar.Refresh(self);
 	self.tab:Refresh();
 
+	if (self.extensionBars ~= nil) then
+		for key, value in pairs(self.extensionBars) do
+			if (value ~= nil) then
+				value.bar:Refresh();
+			end
+		end
+	end
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService)
 	eventService:NotifyClients();
 end

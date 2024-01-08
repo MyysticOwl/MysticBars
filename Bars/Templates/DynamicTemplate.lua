@@ -16,11 +16,11 @@ function DynamicTemplate:Constructor()
 			local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 			local skillsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SkillsService);
 			skillsService:BuildSkillLists();
-		
+
 			local rows = 1;
 			local cols = skillSet.skillCount;
 			if (skillSet.skillCount >= 5) then
-				rows = skillSet.skillCount / 5;
+				rows = math.ceil(skillSet.skillCount / 5);
 				cols = 5;
 			end
 			templateService:CreateBar( false, skillSet.title, 1, rows, cols, 200, 200, QUICKSLOTBAR, function(localBarSettings)

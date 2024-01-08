@@ -99,8 +99,7 @@ function BaseBar:Refresh()
 	self.quickslotList:SetAllowDrop( not barSettings.locked );
 	self.quickslotList:SetMaxItemsPerLine( barSettings.quickslotColumns );
 	local showQuickslots = (settings.barMode ~= NORMAL_MODE) or barSettings.locked == false;
-	local lockQuickslots = barSettings.locked and settings.barMode == NORMAL_MODE;
-	self.quickslotList:Refresh( showQuickslots, lockQuickslots );
+	self.quickslotList:Refresh( showQuickslots, barSettings.locked );
 
 	self:SetBarSize();
 end

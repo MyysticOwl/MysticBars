@@ -67,7 +67,7 @@ function BarsTitleTreeNode:Constructor(text, topPadding, barId, showVisibility)
   self.lock:SetMouseVisible(true);
   MysticBars.Menus.Core.UI.Tooltip(self.lock, L["Lock Bar"]);
   self.lock.MouseDown = function(args)
-        SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+    SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
       barSettings.locked = not barSettings.locked;
       return barSettings;
     end, function(barSettings)
