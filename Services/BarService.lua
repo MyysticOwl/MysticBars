@@ -27,6 +27,8 @@ function BarService:RefreshBars()
 end
 
 function BarService:Add( barType, cBarID, cQuickslotID )
+	self.Log:Debug("Add");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local bar = nil;
@@ -75,6 +77,8 @@ function BarService:Add( barType, cBarID, cQuickslotID )
 end
 
 function BarService:Remove( barid, removeSettingsWhenNil )
+	self.Log:Debug("Remove");
+
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
@@ -107,6 +111,8 @@ function BarService:Remove( barid, removeSettingsWhenNil )
 end
 
 function BarService:Copy( barid, bartype )
+	self.Log:Debug("Copy");
+	
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
@@ -120,6 +126,8 @@ function BarService:Copy( barid, bartype )
 end
 
 function BarService:Reset( barid )
+	self.Log:Debug("Reset");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	if ( barid ~= nil and self.working == false ) then
@@ -137,6 +145,8 @@ function BarService:Reset( barid )
 end
 
 function BarService:Construct( storedBars, second )
+	self.Log:Debug("Construct");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	for key, value in pairs (storedBars) do
@@ -171,14 +181,20 @@ function BarService:Construct( storedBars, second )
 end
 
 function BarService:GetBars()
+	self.Log:Debug("GetBars");
+
 	return RegisteredBars;
 end
 
 function BarService:ShowExtensionBarMenu( barid )
+	self.Log:Debug("ShowExtensionBarMenu");
+
 	RegisteredBars[ barid ]:ShowBarMenu();
 end
 
 function BarService:UpdateBarExtensions()
+	self.Log:Debug("UpdateBarExtensions");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	for key, value in pairs (RegisteredBars) do
@@ -192,6 +208,8 @@ function BarService:UpdateBarExtensions()
 end
 
 function BarService:Alive( barid )
+	self.Log:Debug("Alive");
+
 	if ( RegisteredBars[barid] == nil ) then
 		return false;
 	else
@@ -200,6 +218,8 @@ function BarService:Alive( barid )
 end
 
 function BarService:LoadQuickslots()
+	self.Log:Debug("LoadQuickslots");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	for key, value in pairs (RegisteredBars) do

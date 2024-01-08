@@ -5,11 +5,15 @@
 
 ItemList = class( Turbine.UI.Control );
 
+ItemList.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "ItemList", false );
+
 function ItemList:Constructor( bid )
 	Turbine.UI.Control.Constructor( self );
 
+	self.Log:Debug("Constructor");
+
 	self.id = bid;
-	
+
 	self.quickslots = { };
 	self.items = { };
 	self.currentIemCount = 0;
@@ -22,13 +26,18 @@ function ItemList:Constructor( bid )
 end
 
 function ItemList:ClearItems()
+	self.Log:Debug("ClearItems");
 end
 
 function ItemList:SetMaxItemsPerLine( maxPerLine )
+	self.Log:Debug("SetMaxItemsPerLine");
+
 	self.itemsPerLine = maxPerLine;
 end
 
 function ItemList:Refresh()
+	self.Log:Debug("Refresh");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
@@ -60,6 +69,8 @@ function ItemList:Refresh()
 end
 
 function ItemList:RefreshQuickslots()
+	self.Log:Debug("RefreshQuickslots");
+
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -108,6 +119,8 @@ function ItemList:RefreshQuickslots()
 end
 
 function ItemList:ClearQuickslots()
+	self.Log:Debug("ClearQuickslots");
+
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
@@ -137,6 +150,8 @@ function ItemList:ClearQuickslots()
 end
 
 function ItemList:GetQuickslotLocation( index )
+	self.Log:Debug("GetQuickslotLocation");
+
 	if ( index <= self.count ) then
 		local x, y = self.quickslots[index]:GetPosition();
 		local x2, y2 = self:PointToScreen( x, y );
@@ -148,6 +163,8 @@ function ItemList:GetQuickslotLocation( index )
 end
 
 function ItemList:SetupExtensionSlot( bars, index )
+	self.Log:Debug("SetupExtensionSlot");
+
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
@@ -194,6 +211,8 @@ function ItemList:SetupExtensionSlot( bars, index )
 end
 
 function ItemList:AddItem( item )
+	self.Log:Debug("AddItem");
+
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
@@ -218,6 +237,8 @@ function ItemList:AddItem( item )
 end
 
 function ItemList:RemoveItem( item )
+	self.Log:Debug("RemoveItem");
+	
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 	local found = nil;

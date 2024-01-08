@@ -11,7 +11,11 @@ import "MysticBars.Bars.Core.Tab"
 
 TabbedInventoryBar = class( MysticBars.Bars.Core.InventoryBaseBar );
 
+TabbedInventoryBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "TabbedInventoryBar", false );
+
 function TabbedInventoryBar:Constructor( barid )
+	self.Log:Debug("Constructor");
+
 	self.id = barid;
 
 	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
@@ -31,6 +35,8 @@ end
 function TabbedInventoryBar:Create()
 	MysticBars.Bars.Core.InventoryBaseBar.Create( self );
 
+	self.Log:Debug("Create");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
@@ -43,6 +49,8 @@ function TabbedInventoryBar:Create()
 end
 
 function TabbedInventoryBar:Remove()
+	self.Log:Debug("Remove");
+
 	if ( self.tab ~= nil ) then
 		self.tab:SetHidden( true );
 		self.tab = nil;
@@ -50,6 +58,8 @@ function TabbedInventoryBar:Remove()
 end
 
 function TabbedInventoryBar:SetBGColor( color )
+	self.Log:Debug("SetBGColor");
+
 	self:SetBackColor( color );
 	if ( self.tab ~= nil ) then
 		self.tab:SetBackColor( color );
@@ -57,6 +67,8 @@ function TabbedInventoryBar:SetBGColor( color )
 end
 
 function TabbedInventoryBar:Refresh()
+	self.Log:Debug("Refresh");
+
 	MysticBars.Bars.Core.InventoryBaseBar.Refresh( self );
 	if ( self.tab ~= nil ) then
 		self.tab:Refresh();
@@ -64,6 +76,8 @@ function TabbedInventoryBar:Refresh()
 end
 
 function TabbedInventoryBar:SetMenuBackColor( selected )
+	self.Log:Debug("SetMenuBackColor");
+
 	MysticBars.Bars.Core.BaseBar.SetMenuBackColor( self, selected, INVENTORY_MODE );
 	self:SetBackColor( Turbine.UI.Color(1,1,1,1) );
 	if ( self.tab ~= nil ) then

@@ -64,9 +64,13 @@ function MainMenu:Constructor()
 	self.inventoryBars = MysticBars.Menus.Core.TitleTreeNode(L["Inventory Bars"], 1, TABBED_INV_BAR);
 	treeRoot:Add(self.inventoryBars);
 
-	MysticBars.Menus.EasyBars.EasyBarMenuItems(self, self.easyBars);
-	MysticBars.Menus.ManagedBars.ManageBarsMenuItems(self, self.managedBars);
-	MysticBars.Menus.InventoryBars.InventoryBarsMenuItems(self, self.inventoryBars);
+	self.generalSettings = MysticBars.Menus.Core.TitleTreeNode(L["General Settings"], 1);
+	treeRoot:Add(self.generalSettings);
+
+	MysticBars.Menus.EasyBarMenuItems(self, self.easyBars);
+	MysticBars.Menus.ManageBarsMenuItems(self, self.managedBars);
+	MysticBars.Menus.InventoryBarsMenuItems(self, self.inventoryBars);
+	MysticBars.Menus.GeneralMenuItems(self, self.generalSettings);
 
 	self.editButton.MouseClick = function( sender, args )
 		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
@@ -101,10 +105,12 @@ function MainMenu:Refresh(destroy)
 		self.easyBars:GetChildNodes():Clear();
 		self.managedBars:GetChildNodes():Clear();
 		self.inventoryBars:GetChildNodes():Clear();
+		self.generalSettings:GetChildNodes():Clear();
 
-		MysticBars.Menus.EasyBars.EasyBarMenuItems(self, self.easyBars);
-		MysticBars.Menus.ManagedBars.ManageBarsMenuItems(self, self.managedBars);
-		MysticBars.Menus.InventoryBars.InventoryBarsMenuItems(self, self.inventoryBars);
+		MysticBars.Menus.EasyBarMenuItems(self, self.easyBars);
+		MysticBars.Menus.ManageBarsMenuItems(self, self.managedBars);
+		MysticBars.Menus.InventoryBarsMenuItems(self, self.inventoryBars);
+		MysticBars.Menus.GeneralMenuItems(self, self.generalSettings);
 
 		self.easyBars:SetExpanded(not self.easyBars:IsExpanded());
 		self.easyBars:SetExpanded(not self.easyBars:IsExpanded());
@@ -114,6 +120,9 @@ function MainMenu:Refresh(destroy)
 
 		self.inventoryBars:SetExpanded(not self.inventoryBars:IsExpanded());
 		self.inventoryBars:SetExpanded(not self.inventoryBars:IsExpanded());
+
+		self.generalSettings:SetExpanded(not self.generalSettings:IsExpanded());
+		self.generalSettings:SetExpanded(not self.generalSettings:IsExpanded());
 	end
 
 	if (self.tree) then

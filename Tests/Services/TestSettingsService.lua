@@ -1,0 +1,144 @@
+-- CreaquickslotRowsted by MyysticOwl
+-- The use of this code requires the permission of the author.
+-- Permission can be atained by contacting MyysticOwl at: MyysticOwl@gmail.com
+--
+-- RESPECT!
+
+TestSettingsService = class( MysticBars.Utils.Service );
+
+TestSettingsService.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "TestSettingsService" );
+
+function TestSettingsService:Constructor()
+	self.Log:Debug("Constructor");
+	self.settings = {nextBarId=1}
+end
+
+function TestSettingsService:GetSettings()
+	self.Log:Debug("GetSettings");
+	return self.settings;
+end
+
+function TestSettingsService:LoadSettings( profile )
+	self.Log:Debug("LoadSettings");
+
+	return self.settings;
+end
+
+function TestSettingsService:SaveSettings( profile )
+	self.Log:Debug("SaveSettings");
+end
+
+function TestSettingsService:LoadBuffs()
+	self.Log:Debug("LoadBuffs");
+	return {};
+end
+
+function TestSettingsService:SaveBuffs(buffs)
+	self.Log:Debug("SaveBuffs");
+
+	return {};
+end
+
+function TestSettingsService:GetBars( localBarType )
+	self.Log:Debug("GetBars");
+	return {};
+end
+
+function TestSettingsService:GetBarSettings( barid )
+	self.Log:Debug("GetBarSettings");
+
+	local bar = { };
+	bar.quickslots = { };
+	bar.x = 103;
+	bar.y = 161;
+	bar.barType = 1;
+	bar.quickslotCount = 5;
+	bar.quickslotColumns = 1;
+	bar.quickslotRows = bar.quickslotCount / bar.quickslotColumns;
+	bar.visible = true;
+	bar.locked = false;
+	bar.onMouseOver = SHOW_EXTENSIONS;
+	bar.opacity = 1.0;
+	bar.quickslotSpacing = 1;
+	bar.quickslotSize = 36;
+	bar.useBackgroundColor = false;
+	bar.backgroundColorRed = 0;
+	bar.backgroundColorGreen = 0;
+	bar.backgroundColorBlue = 0;
+	bar.useFading = false;
+	bar.fadeOpacity = 1;
+	bar.events = { };
+	bar.events.triggered = { };
+	bar.events.triggered.healthTrigger = 0.25;
+	bar.events.triggered.powerTrigger = 0.25;
+	bar.events.triggered.triggerOnClassBuffActive = true;
+	bar.events.inventory = { };
+	bar.events.inventory.quantity = 50;
+	return bar;
+end
+
+function TestSettingsService:MigrateTriggerParam(path, newpath, parameter)
+	self.Log:Debug("MigrateTriggerParam");
+end
+
+function TestSettingsService:SetBarSettings(barid, bar, doNotRefresh, force)
+	self.Log:Debug("SetBarSettings");
+end
+
+function TestSettingsService:UpdateBarSettings(barid, updateCallback, completeCallback, force, doNotRefresh)
+	self.Log:Debug("UpdateBarSettings");
+end
+
+function TestSettingsService:SaveQuickslots( bar, qSlots, save )
+	self.Log:Debug("SaveQuickslots");
+end
+
+function TestSettingsService:LoadQuickslots( bar, qSlots )
+	self.Log:Debug("LoadQuickslots");
+end
+
+function SetShortcut( shortcut, qSlots, key )
+	qSlots[key]:SetShortcut( shortcut );
+end
+
+function TestSettingsService:IncrementNextId()
+	self.Log:Debug("IncrementNextId");
+
+	self.settings.nextBarId = self.settings.nextBarId + 1;
+end
+
+function TestSettingsService:LoadHelper()
+end
+
+function TestSettingsService:SetWrapperSettings( theWrapperSettings )
+	self.Log:Debug("SetWrapperSettings");
+end
+
+function TestSettingsService:GetProfiles()
+	self.Log:Debug("GetProfiles");
+
+	return {};
+end
+
+function TestSettingsService:GetProfileBars( profile )
+	self.Log:Debug("GetProfileBars");
+
+	return {};
+end
+
+function TestSettingsService:ResetAllBars()
+	self.Log:Debug("ResetAllBars");
+end
+
+
+function TestSettingsService:CopyProfile( profileToCopy, copyType, barid, myBar )
+	self.Log:Debug("CopyProfile");
+end
+
+function TestSettingsService:CopyBars(profileToCopy, copyType, barid, myBar)
+	self.Log:Debug("CopyBars");
+end
+
+function TestSettingsService:CreatePath( copyProfile )
+	self.Log:Debug("CreatePath");
+end

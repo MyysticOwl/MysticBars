@@ -33,6 +33,16 @@ end
 function TestRunner:EndTest( unitTest, test, success, result )
 end
 
+function TestRunner:RunAllUnitTests()
+	local tests = UnitTest.GetUnitTests();
+
+	local testsToRun = {};
+	for key, value in pairs(tests) do
+		testsToRun[key] = value;
+	end
+	return self:RunUnitTestSet( testsToRun );
+end
+
 function TestRunner:RunUnitTestByName( name )
 	Turbine.Shell.WriteLine( "RunUnitTestByName " .. name);
 	local unitTestClass = UnitTest.GetUnitTestByName( name );

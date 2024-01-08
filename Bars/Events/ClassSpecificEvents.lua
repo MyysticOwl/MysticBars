@@ -6,7 +6,11 @@
 
 ClassSpecificEvents = class( Turbine.Object  );
 
+ClassSpecificEvents.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "ClassSpecificEvents", false );
+
 function ClassSpecificEvents:Constructor( regEvents )
+	self.Log:Debug("Constructor");
+
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
@@ -75,6 +79,8 @@ function ClassSpecificEvents:Constructor( regEvents )
 end
 
 function ClassSpecificEvents:CheckVisibility( barSettings )
+	self.Log:Debug("CheckVisibility");
+
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 	local visible = false;

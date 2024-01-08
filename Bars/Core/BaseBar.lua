@@ -6,8 +6,12 @@
 
 BaseBar = class( Turbine.UI.Window );
 
+BaseBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "BaseBar", false );
+
 function BaseBar:Constructor()
 	Turbine.UI.Window.Constructor( self );
+
+	self.Log:Debug("Constructor");
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -48,9 +52,12 @@ function BaseBar:Constructor()
 end
 
 function BaseBar:PositionChanged( sender, args )
+	self.Log:Debug("PositionChanged");
 end
 
 function BaseBar:Create()
+	self.Log:Debug("Create");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
@@ -64,10 +71,14 @@ function BaseBar:Create()
 end
 
 function BaseBar:ClearQuickslots()
+	self.Log:Debug("ClearQuickslots");
+
 	self.quickslotList:ClearQuickslots();
 end
 
 function BaseBar:Refresh()
+	self.Log:Debug("Refresh");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -105,6 +116,8 @@ function BaseBar:Refresh()
 end
 
 function BaseBar:SetMenuBackColor( selected, barMode )
+	self.Log:Debug("SetMenuBackColor");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
 	if ( selected ) then
@@ -113,10 +126,14 @@ function BaseBar:SetMenuBackColor( selected, barMode )
 end
 
 function BaseBar:SetBarSize()
+	self.Log:Debug("SetBarSize");
+
 	self:SetSize( self.quickslotList:GetWidth(), self.quickslotList:GetHeight() );
 end
 
 function BaseBar:DetermineVisiblity()
+	self.Log:Debug("DetermineVisiblity");
+
 	if ( not self.f12HideBar  ) then --or self.inventoryShowBar ) then
 		self:SetVisible( true );
 	else
@@ -125,16 +142,23 @@ function BaseBar:DetermineVisiblity()
 end
 
 function BaseBar:F12Pressed()
+	self.Log:Debug("F12Pressed");
+
 	self.f12HideBar = not self.f12HideBar;
 end
 
 function BaseBar:InventoryPressed()
+	self.Log:Debug("InventoryPressed");
 end
 
 function BaseBar:GetQuickslotList()
+	self.Log:Debug("GetQuickslotList");
+
 	return self.quickslotList;
 end
 
 function BaseBar:GetID()
+	self.Log:Debug("GetID");
+
 	return self.id;
 end

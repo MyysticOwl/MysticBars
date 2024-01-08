@@ -6,7 +6,11 @@
 
 InventoryService = class( MysticBars.Utils.Service );
 
+InventoryService.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "InventoryService" );
+
 function InventoryService:Constructor()
+	self.Log:Debug("Constructor");
+
 	self.ADD = 1;
 	self.REMOVE = 2;
 	
@@ -19,6 +23,8 @@ function InventoryService:Constructor()
 end
 
 function InventoryService:RegisterForEvents( registerant, rid )
+	self.Log:Debug("RegisterForEvents");
+
 	if ( self.clients == nil ) then
 		self.clients = { };
 	end
@@ -33,6 +39,8 @@ function InventoryService:RegisterForEvents( registerant, rid )
 end
 
 function InventoryService:UnregisterForEvents( rid )
+	self.Log:Debug("UnregisterForEvents");
+
 	if ( self.clients ~= nil and self.clients[rid] ~= nil ) then
 		self.clients[rid].registered = false;
 		self.clients[rid].bar = nil;
@@ -41,6 +49,8 @@ function InventoryService:UnregisterForEvents( rid )
 end
 
 function InventoryService:NotifyClients( type, specificItem )
+	self.Log:Debug("NotifyClients");
+
 	if ( self.clients == nil ) then
 		self.clients = { };
 	end
@@ -71,6 +81,8 @@ function InventoryService:NotifyClients( type, specificItem )
 end
 
 function InventoryService:Inventory( barObject, barSettings, type, item )
+	self.Log:Debug("Inventory");
+
 	if ( barSettings.events ~= nil and barSettings.events.inventory ~= nil ) then
 		if ( type == nil or type == self.ADD ) then
 			if ( barSettings.events.inventory.useCount ~= nil and barSettings.events.inventory.useCount == true and item:GetQuantity() >= barSettings.events.inventory["quantity"] ) then
@@ -99,10 +111,14 @@ function InventoryService:Inventory( barObject, barSettings, type, item )
 end
 
 function InventoryService:GetRegisteredEvents()
+	self.Log:Debug("GetRegisteredEvents");
+
 	return self.registeredEvents;
 end
 
 function InventoryService:RegisterForBackpackCallbacks()
+	self.Log:Debug("RegisterForBackpackCallbacks");
+
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local backpack = playerService.player:GetBackpack();

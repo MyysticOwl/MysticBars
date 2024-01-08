@@ -6,6 +6,7 @@ Logger = class();
 -- Initialize static constants for log colors.
 function Logger:Constructor( name )
 	self.name = name;
+	self.active = true;
 
 	self.logLevelColor = { };
 	self.logLevelColor[LogLevel.Debug] = "FF00FF";
@@ -13,7 +14,7 @@ function Logger:Constructor( name )
 	self.logLevelColor[LogLevel.Error] = "FF0000";
 	self.logLevelColor[LogLevel.Warn] = "FFFF00";
 
-	self.level = LogLevel.Info;
+	self.level = LogLevel.Warn;
 
 	self:SetFormat( "<rgb=#999999>(Script)</rgb> [%date] [%logger] %level: <rgb=#%color>%message</rgb>" );
 end
@@ -87,25 +88,25 @@ function Logger:GetTimestamp()
 end
 
 function Logger:Debug( message )
-	if ( self.level <= LogLevel.Debug ) then
+	if ( self.active and self.level <= LogLevel.Debug ) then
 		self:Write( LogLevel.Debug, message );
 	end
 end
 
 function Logger:Info( message )
-	if ( self.level <= LogLevel.Info ) then
+	if ( self.active and self.level <= LogLevel.Info ) then
 		self:Write( LogLevel.Info, message );
 	end
 end
 
 function Logger:Warn( message )
-	if ( self.level <= LogLevel.Warn ) then
+	if ( self.active and self.level <= LogLevel.Warn ) then
 		self:Write( LogLevel.Warn, message );
 	end
 end
 
 function Logger:Error( message )
-	if ( self.level <= LogLevel.Error ) then
+	if ( self.active and self.level <= LogLevel.Error ) then
 		self:Write( LogLevel.Error, message );
 	end
 end

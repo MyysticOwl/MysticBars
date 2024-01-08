@@ -6,7 +6,11 @@
 
 MiscEvents = class( Turbine.Object  );
 
+MiscEvents.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "MiscEvents", false );
+
 function MiscEvents:Constructor( regEvents )
+	self.Log:Debug("Constructor");
+
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	self.registeredEvents = regEvents;
@@ -62,6 +66,8 @@ function MiscEvents:Constructor( regEvents )
 end
 
 function MiscEvents:CheckVisibility( barSettings )
+	self.Log:Debug("CheckVisibility");
+
 	local visible = false;
 	-- Send all Keypress based events to all clients
 	if ( (self.registeredEvents.playerInCombat == true and barSettings.events.triggered ~= nil and barSettings.events.triggered.displayInCombat == true) or

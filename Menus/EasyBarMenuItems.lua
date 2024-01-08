@@ -11,5 +11,5 @@ EasyBarMenuItems.menuItems = MysticBars.Menus.MainMenuItems();
 function EasyBarMenuItems:Constructor(mainMenu, parent)
 	self.templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	parent:GetChildNodes():Add(MysticBars.Menus.EasyBars.EasyBarPanel());
+	parent:GetChildNodes():Add(MysticBars.Menus.Controls.EasyBarPanel());
 end

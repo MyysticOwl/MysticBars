@@ -6,9 +6,9 @@
 
 ManageBarsMenuItems = class();
 
-ManageBarsMenuItems.panel = MysticBars.Menus.ManagedBars.ManageBarsMenuPanel();
+ManageBarsMenuItems.panel = MysticBars.Menus.ManageBarsMenuPanel();
 ManageBarsMenuItems.menuItems = MysticBars.Menus.MainMenuItems();
-ManageBarsMenuItems.extensionsBarPanel = MysticBars.Menus.ManagedBars.ExtensionBarMenuPanel();
+ManageBarsMenuItems.extensionsBarPanel = MysticBars.Menus.ExtensionBarMenuPanel();
 ManageBarsMenuItems.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 function ManageBarsMenuItems:Constructor(mainMenu, parent)

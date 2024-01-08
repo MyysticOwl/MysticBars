@@ -6,10 +6,14 @@
 
 Tab = class( Turbine.UI.Window );
 
+Tab.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "Tab", false );
+
 tabSize = 14;
 
 function Tab:Constructor( window )
 	Turbine.UI.Window.Constructor( self );
+
+	self.Log:Debug("Constructor");
 
 	self.targetWindow = window;
 	self.hidden = false;
@@ -48,6 +52,8 @@ function Tab:Constructor( window )
 end
 
 function Tab:SetHidden( hide )
+	self.Log:Debug("SetHidden");
+
 	if ( hide ~= self.hidden ) then
 		self.hidden = hide;
 		self:Refresh();
@@ -55,6 +61,8 @@ function Tab:SetHidden( hide )
 end
 
 function Tab:Refresh()
+	self.Log:Debug("Refresh");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();	
 

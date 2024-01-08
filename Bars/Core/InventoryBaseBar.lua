@@ -6,8 +6,12 @@
 
 InventoryBaseBar = class( MysticBars.Bars.Core.BaseBar );
 
+InventoryBaseBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "InventoryBaseBar", false );
+
 function InventoryBaseBar:Constructor()
 	MysticBars.Bars.Core.BaseBar.Constructor( self );
+
+	self.Log:Debug("Constructor");
 
 	self.faded = true;
 	self.isVisible = true;
@@ -116,6 +120,8 @@ function InventoryBaseBar:Constructor()
 end
 
 function InventoryBaseBar:Create()
+	self.Log:Debug("Create");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	self.quickslotList = MysticBars.Bars.Core.ItemList( self.id );
@@ -126,10 +132,14 @@ function InventoryBaseBar:Create()
 end
 
 function InventoryBaseBar:SetBGColor( color )
+	self.Log:Debug("SetBGColor");
+
 	self:SetBackColor( color );
 end
 
 function InventoryBaseBar:Refresh()
+	self.Log:Debug("Refresh");
+
 	MysticBars.Bars.Core.BaseBar.Refresh( self );
 	
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
@@ -137,6 +147,8 @@ function InventoryBaseBar:Refresh()
 end
 
 function InventoryBaseBar:ClearQuickslots()
+	self.Log:Debug("ClearQuickslots");
+
 	self.quickslotList:ClearQuickslots();
 	--self.quickslotList:SetVisible( false );
 	--self.quickslotList:SetBackColor( Turbine.UI.Color( 0, 0, 0, 0) );
@@ -148,6 +160,8 @@ end
 --
 -- It is recommended to call: "eventService:NotifyClients();" if needed.
 function InventoryBaseBar:DetermineVisiblity( eventValue, force )
+	self.Log:Debug("DetermineVisiblity");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
 	local barSettings = settingsService:GetBarSettings( self.id );

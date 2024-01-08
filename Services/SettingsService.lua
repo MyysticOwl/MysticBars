@@ -6,9 +6,13 @@
 
 SettingsService = class( MysticBars.Utils.Service );
 
+SettingsService.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "SettingsService" );
+
 SettingsService.buffProfiles = {};
 
 function SettingsService:Constructor()
+	self.Log:Debug("Constructor");
+
 	self.PARTIAL = 1;
 	self.ALL = 2;
 	self.BAR = 3;
@@ -37,10 +41,14 @@ function SettingsService:Constructor()
 end
 
 function SettingsService:GetSettings()
+	self.Log:Debug("GetSettings");
+
 	return self.settings;
 end
 
 function SettingsService:LoadSettings( profile )
+	self.Log:Debug("LoadSettings");
+
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 	if ( profile == nil ) then
@@ -90,6 +98,8 @@ function SettingsService:LoadSettings( profile )
 end
 
 function SettingsService:SaveSettings( profile )
+	self.Log:Debug("SaveSettings");
+
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 	local language = Turbine.Engine.GetLanguage();
@@ -129,6 +139,8 @@ function SettingsService:SaveSettings( profile )
 end
 
 function SettingsService:LoadBuffs()
+	self.Log:Debug("LoadBuffs");
+
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 	self.buffProfiles = Turbine.PluginData.Load( Turbine.DataScope.Server, "MysticBarsBuffs", function(args) end);
@@ -156,6 +168,8 @@ function SettingsService:LoadBuffs()
 end
 
 function SettingsService:SaveBuffs(buffs)
+	self.Log:Debug("SaveBuffs");
+
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local playersName = playerService.player:GetName();
 
@@ -183,6 +197,8 @@ function SettingsService:SaveBuffs(buffs)
 end
 
 function SettingsService:GetBars( localBarType )
+	self.Log:Debug("GetBars");
+
 	if ( localBarType == nil ) then
 		return self.settings.bars
 	else
@@ -200,6 +216,8 @@ function SettingsService:GetBars( localBarType )
 end
 
 function SettingsService:GetBarSettings( barid )
+	self.Log:Debug("GetBarSettings");
+
 	local bar = self.settings.bars[barid]
 	if ( bar == nil ) then
 		bar = { };
@@ -318,6 +336,8 @@ function SettingsService:GetBarSettings( barid )
 end
 
 function SettingsService:MigrateTriggerParam(path, newpath, parameter)
+	self.Log:Debug("MigrateTriggerParam");
+
 	if (path[parameter] ~= nil) then
 		if (newpath[parameter] == nil) then
 			newpath[parameter] = {};
@@ -327,9 +347,9 @@ function SettingsService:MigrateTriggerParam(path, newpath, parameter)
 	end
 end
 
-
-
 function SettingsService:SetBarSettings(barid, bar, doNotRefresh, force)
+	self.Log:Debug("SetBarSettings");
+
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 	if ( barid ~= nil and barService  ~= nil and (barService:Alive( barid ) or force)) then
@@ -343,6 +363,8 @@ function SettingsService:SetBarSettings(barid, bar, doNotRefresh, force)
 end
 
 function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallback, force, doNotRefresh)
+	self.Log:Debug("UpdateBarSettings");
+
 	local barSettings = self:GetBarSettings( barid );
 
 	if (self.working == false) then
@@ -362,6 +384,8 @@ function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallba
 end
 
 function SettingsService:SaveQuickslots( bar, qSlots, save )
+	self.Log:Debug("SaveQuickslots");
+
 	if ( self.loading ) then
 		return;
 	end
@@ -385,6 +409,8 @@ function SettingsService:SaveQuickslots( bar, qSlots, save )
 end
 
 function SettingsService:LoadQuickslots( bar, qSlots )
+	self.Log:Debug("LoadQuickslots");
+
 	self.loading = true;
 	for key, value in pairs (bar.quickslots) do
 		if( value.Type ~= 0 and value.Data ~= "" ) then
@@ -407,6 +433,8 @@ function SetShortcut( shortcut, qSlots, key )
 end
 
 function SettingsService:IncrementNextId()
+	self.Log:Debug("IncrementNextId");
+
 	self.settings.nextBarId = self.settings.nextBarId + 1;
 end
 
@@ -414,6 +442,8 @@ function SettingsService:LoadHelper()
 end
 
 function SettingsService:SetWrapperSettings( theWrapperSettings )
+	self.Log:Debug("SetWrapperSettings");
+
 	self.settings.wrapperSettings = theWrapperSettings;
 	self:SaveSettings();
 end
@@ -527,16 +557,21 @@ function SettingsService:deepcopy(a, b)
         return b;
 end
 
-
 function SettingsService:GetProfiles()
+	self.Log:Debug("GetProfiles");
+
 	return self.profiles;
 end
 
 function SettingsService:GetProfileBars( profile )
+	self.Log:Debug("GetProfileBars");
+
 	return self.profiles[ profile ].bars;
 end
 
 function SettingsService:ResetAllBars()
+	self.Log:Debug("ResetAllBars");
+
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 	self:SaveSettings();
@@ -545,11 +580,15 @@ function SettingsService:ResetAllBars()
 	end
 	barService:Construct( self.settings.bars, true );
 
+	barService:RefreshBars();
+	barService:LoadQuickslots();
 	SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 end
 
 
 function SettingsService:CopyProfile( profileToCopy, copyType, barid, myBar )
+	self.Log:Debug("CopyProfile");
+
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
@@ -568,6 +607,8 @@ function SettingsService:CopyProfile( profileToCopy, copyType, barid, myBar )
 end
 
 function SettingsService:CopyBars(profileToCopy, copyType, barid, myBar)
+	self.Log:Debug("CopyBars");
+	
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
 	local realProfile = nil;
@@ -604,6 +645,8 @@ function SettingsService:CopyBars(profileToCopy, copyType, barid, myBar)
 end
 
 function SettingsService:CreatePath( copyProfile )
+	self.Log:Debug("CreatePath");
+
 	if (  copyProfile == nil ) then
 		 copyProfile = { };
 	end

@@ -15,13 +15,16 @@ function LogManager.GetInstance()
 	return LogManager.Instance;
 end
 
-function LogManager.GetLogger( name )
+function LogManager.GetLogger( name, active )
 	local instance = LogManager:GetInstance();
 
 	local logger = instance.loggers[name];
 
 	if ( logger == nil ) then
 		logger = instance:CreateLogger( name );
+		if (active == false) then
+			logger.active = false;
+		end
 		instance.loggers[name] = logger;
 	end
 
@@ -30,4 +33,37 @@ end
 
 function LogManager:CreateLogger( name )
 	return Logger( name );
+end
+
+function LogManager:LoadLoggers()
+	local logs = Turbine.PluginData.Load( Turbine.DataScope.Account, "MysticBarsLogging", function(logs)
+		self:Load(logs);
+	end);
+
+	self:Load(logs);
+	return logs;
+end
+
+function LogManager:Load(logs)
+	local instance = LogManager:GetInstance();
+	if (logs ~= nil) then
+		for key, value in pairs(logs) do
+			instance.loggers[key].active = value.active;
+			instance.loggers[key].level = value.level;
+		end
+	end
+end
+
+function LogManager:DumpLoggers()
+	local instance = LogManager:GetInstance();
+
+	local loggers = {};
+	for key, value in pairs(instance.loggers) do
+		Turbine.Shell.WriteLine("Found Log ".. key);
+		loggers[key] = {active = value.active, level = value.level};
+	end
+
+	Turbine.PluginData.Save( Turbine.DataScope.Account, "MysticBarsLogging", loggers, function (success, error)
+		Turbine.Shell.WriteLine("Logging dump complete!");
+	end);
 end

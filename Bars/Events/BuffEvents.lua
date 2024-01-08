@@ -6,7 +6,11 @@
 
 BuffEvents = class( Turbine.Object  );
 
+BuffEvents.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "BuffEvents", false );
+
 function BuffEvents:Constructor( regEvents )
+	self.Log:Debug("Constructor");
+
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local playerClass = playerService.playerClass;
@@ -53,6 +57,8 @@ function BuffEvents:Constructor( regEvents )
 end
 
 function BuffEvents:RegisterBuff(effect, playerClass)
+	self.Log:Debug("RegisterBuff");
+
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 	eventService:ValidateBuff(effect);
 
@@ -67,6 +73,8 @@ function BuffEvents:RegisterBuff(effect, playerClass)
 end
 
 function BuffEvents:DeregisterBuff(effect, playerClass)
+	self.Log:Debug("DeregisterBuff");
+
 	local name = effect:GetName();
 	if ( self.registeredEvents.classes[ playerClass ] ~= nil and self.registeredEvents.classes[ playerClass ].effects[name] ~= nil ) then
 		self.registeredEvents.classes[ playerClass ].effects[name].count = self.registeredEvents.classes[ playerClass ].effects[name].count - 1;
@@ -79,6 +87,8 @@ function BuffEvents:DeregisterBuff(effect, playerClass)
 end
 
 function BuffEvents:CheckVisibility( barSettings )
+	self.Log:Debug("CheckVisibility");
+
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local playerClass = playerService.playerClass;
 

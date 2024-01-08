@@ -5,6 +5,9 @@
 -- RESPECT!
 
 TemplateService = class( MysticBars.Utils.Service );
+
+TemplateService.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "TemplateService", false );
+
 TemplateService.HEALTH = 1;
 TemplateService.POWER = 11;
 
@@ -13,6 +16,8 @@ TemplateService.ALT = 4;
 TemplateService.SHIFT = 5;
 
 function TemplateService:Constructor()
+	self.Log:Debug("Constructor");
+
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
@@ -21,6 +26,8 @@ function TemplateService:Constructor()
 end
 
 function TemplateService:RegisterBarCreator( description, barname, callback, disable )
+	self.Log:Debug("RegisterBarCreator");
+
 	if ( self.RegisteredEasyBars == nil ) then
 		self.RegisteredEasyBars = { };
 	end
@@ -37,6 +44,8 @@ function TemplateService:RegisterBarCreator( description, barname, callback, dis
 end
 
 function TemplateService:ConstructBars()
+	self.Log:Debug("ConstructBars");
+
 	for key, value in pairs (self.RegisteredEasyBars) do
 		if ( value.disableAutoCreate == nil ) then
 			value.callback();
@@ -45,15 +54,21 @@ function TemplateService:ConstructBars()
 end
 
 function TemplateService:GetEasyBars()
+	self.Log:Debug("GetEasyBars");
+
 	return self.RegisteredEasyBars;
 end
 
 function TemplateService:SetPlayerLevel( newLevel )
+	self.Log:Debug("SetPlayerLevel");
+
 	self.level = newLevel;
 end
 
 -- Create Quickslot Bar                           Name -      Rows - Columns - X coord - Y coord
 function TemplateService:CreateBar( override, name, level, rows, columns, x, y, barType, createdCallback )
+	self.Log:Debug("CreateBar");
+
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
@@ -133,6 +148,8 @@ function TemplateService:CreateBar( override, name, level, rows, columns, x, y, 
 end
 
 function TemplateService:SetBar( barid )
+	self.Log:Debug("SetBar");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	if ( barid ~= nil ) then
@@ -143,6 +160,8 @@ end
 
 -- Set it to trigger on health                Bar ID - When to trigger
 function TemplateService:SetTrigger( statType, percent, localBarSettings )
+	self.Log:Debug("SetTrigger");
+
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -184,6 +203,8 @@ end
 
 -- Set it to trigger on Buff                 
 function TemplateService:SetBuffTriggerOptions( whenActive, Anding, localBarSettings )
+	self.Log:Debug("SetBuffTriggerOptions");
+
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -203,6 +224,8 @@ end
 
 -- Set it to trigger on Buff                Bar ID - When to trigger
 function TemplateService:SetBuffTrigger( buff, localBarSettings )
+	self.Log:Debug("SetBuffTrigger");
+
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -218,6 +241,8 @@ end
 
 -- Set it to trigger on name                Bar ID - When to trigger
 function TemplateService:SetClassRangeTrigger( name, theMin, theMax, localBarSettings )
+	self.Log:Debug("SetClassRangeTrigger");
+
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };
@@ -236,6 +261,8 @@ end
 
 --                                       Bar ID  a  r  g  b
 function TemplateService:SetBGColor( a, r, g, b, localBarSettings )
+	self.Log:Debug("SetBGColor");
+
 	if ( self.barid ~= nil ) then
 		localBarSettings.useBackgroundColor = true;
 		localBarSettings.opacity = a;
@@ -247,6 +274,8 @@ end
 
 --                               Bar ID - Location - Hex for Shortcut
 function TemplateService:AddShortcut( location, sData, sType, level, localBarSettings )
+	self.Log:Debug("AddShortcut");
+
 	if ( self.barid ~= nil and (level == nil or self.level >= level) ) then
 		if ( localBarSettings.quickslots == nil ) then
 			localBarSettings.quickslots = { };
@@ -263,6 +292,8 @@ end
 
 --                               Bar ID - Location - Hex for Shortcut
 function TemplateService:SetInventoryFilter( filter, localBarSettings )
+	self.Log:Debug("SetInventoryFilter");
+
 	if ( self.barid ~= nil ) then
 		if ( localBarSettings.events == nil ) then
 			localBarSettings.events = { };

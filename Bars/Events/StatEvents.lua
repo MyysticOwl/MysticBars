@@ -6,7 +6,11 @@
 
 StatEvents = class( Turbine.Object  );
 
+StatEvents.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "StatEvents", false );
+
 function StatEvents:Constructor( regEvents )
+	self.Log:Debug("Constructor");
+
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	self.registeredEvents = regEvents;
@@ -38,6 +42,8 @@ function StatEvents:Constructor( regEvents )
 end
 
 function StatEvents:CheckVisibility( barSettings )
+	self.Log:Debug("CheckVisibility");
+
 	local visible = false;
 	if ( (self.registeredEvents.healthTriggerActive ~= nil and barSettings.events.triggered.healthTrigger ~= nil and
 		  self.registeredEvents.healthTriggerActive <= barSettings.events.triggered.healthTrigger and

@@ -8,7 +8,6 @@ local unitTestRegistry = { };
 ---	@returns
 ---		The full name of the unittest.
 function UnitTest:GetName()
-	Turbine.Shell.WriteLine("GetByName " .. self:GetType():GetFullName());
 	return self:GetType():GetFullName();
 end
 
@@ -17,7 +16,6 @@ end
 ---	@returns
 ---		A table of the unit test names to the unit test class.
 function UnitTest.GetUnitTests()
-	Turbine.Shell.WriteLine("GetAllTests");
 	return Table.Copy( unitTestRegistry );
 end
 
@@ -30,7 +28,6 @@ end
 ---	@returns
 ---		The unit test class if it was found otherwise nil.
 function UnitTest.GetUnitTestByName( name )
-	Turbine.Shell.WriteLine("GetByName " .. name);
 	return unitTestRegistry[name];
 end
 

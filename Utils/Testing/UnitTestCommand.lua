@@ -3,7 +3,12 @@ UnitTestCommand = class( Turbine.ShellCommand );
 function UnitTestCommand:Execute( command, arguments )
 	local runner = ShellTestRunner();
 	runner:SetVerbose( true );
-	runner:RunUnitTestByName( arguments );
+
+	if (arguments == nil or arguments == "") then
+		runner:RunAllUnitTests();
+	else
+		runner:RunUnitTestByName( arguments );
+	end
 end
 
 function UnitTestCommand:GetHelp()

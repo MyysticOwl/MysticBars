@@ -6,8 +6,12 @@
 
 KeyEvents = class( Turbine.UI.Control  );
 
+KeyEvents.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "KeyEvents", false );
+
 function KeyEvents:Constructor( regEvents )
 	Turbine.UI.Control.Constructor( self );
+
+	self.Log:Debug("Constructor");
 
 	self.registeredEvents = regEvents;
 	self:SetWantsKeyEvents( true );
@@ -93,6 +97,8 @@ function KeyEvents:Constructor( regEvents )
 end
 
 function KeyEvents:CheckVisibility( barSettings, value, force )
+	self.Log:Debug("CheckVisibility");
+
 	local visible = false;
 	-- Send all Keypress based events to all clients
 	if ( (self.registeredEvents.altIsDown ~= nil and barSettings.events.triggered.isAlt == true) or

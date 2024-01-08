@@ -6,7 +6,7 @@
 
 InventoryBarsMenuItems = class();
 
-InventoryBarsMenuItems.panel = MysticBars.Menus.InventoryBars.InventoryMenuPanel();
+InventoryBarsMenuItems.panel = MysticBars.Menus.InventoryMenuPanel();
 InventoryBarsMenuItems.menuItems = MysticBars.Menus.MainMenuItems();
 InventoryBarsMenuItems.utils = MysticBars.Menus.Core.UI.MenuUtils();
 

@@ -6,12 +6,16 @@
 
 PlayerService = class( MysticBars.Utils.Service );
 
+PlayerService.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "PlayerService" );
+
 PlayerService.player = nil
 PlayerService.playerClass = nil
 PlayerService.playerClassAttributes = nil
 PlayerService.realClassSet = nil
 
 function PlayerService:Constructor()
+	self.Log:Debug("Constructor");
+
 	function GetPlayer()
 		self.player = Turbine.Gameplay.LocalPlayer.GetInstance();
 		self.playerClass = self.player:GetClass();
@@ -26,6 +30,8 @@ function PlayerService:Constructor()
 end
 
 function PlayerService:Build()
+	self.Log:Debug("Build");
+
 	if ( self.playerClass == nil ) then
 		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 

@@ -5,8 +5,12 @@
 
 QuickslotList = class( Turbine.UI.Control );
 
+QuickslotList.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "QuickslotList", false );
+
 function QuickslotList:Constructor( bid )
 	Turbine.UI.Control.Constructor( self );
+
+	self.Log:Debug("Constructor");
 
 	self.id = bid;
 	
@@ -20,13 +24,18 @@ function QuickslotList:Constructor( bid )
 end
 
 function QuickslotList:ClearItems()
+	self.Log:Debug("ClearItems");
 end
 
 function QuickslotList:SetMaxItemsPerLine( maxPerLine )
+	self.Log:Debug("SetMaxItemsPerLine");
+
 	self.itemsPerLine = maxPerLine;
 end
 
 function QuickslotList:Refresh( showAllQuickslots, lockQuickslots )
+	self.Log:Debug("Refresh");
+
 	self:RefreshQuickslots();
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
@@ -58,6 +67,8 @@ function QuickslotList:Refresh( showAllQuickslots, lockQuickslots )
 end
 
 function QuickslotList:RefreshQuickslots()
+	self.Log:Debug("RefreshQuickslots");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
@@ -104,7 +115,7 @@ function QuickslotList:RefreshQuickslots()
 
 			if ( barService ~= nil and barService:Alive( self.id ) ) then
 
-				local bars = barService.GetBars();
+				local bars = barService:GetBars();
 				if ( barService.originItem ~= nil and barService.performingDrop == nil ) then
 					barService.performingDrop = true;
 					local origindata = barService.originData;
@@ -214,6 +225,8 @@ function QuickslotList:RefreshQuickslots()
 end
 
 function QuickslotList:ClearQuickslots()
+	self.Log:Debug("ClearQuickslots");
+
 	self.isClearingQuickslots = true;
 	for key, value in pairs (self.quickslots) do
 		value:SetVisible( false );
@@ -231,6 +244,8 @@ function QuickslotList:ClearQuickslots()
 end
 
 function QuickslotList:GetQuickslotLocation( index )
+	self.Log:Debug("GetQuickslotLocation");
+
 	if ( index <= self.count ) then
 		local x, y = self.quickslots[index]:GetPosition();
 		local x2, y2 = self:PointToScreen( x, y );
@@ -242,6 +257,8 @@ function QuickslotList:GetQuickslotLocation( index )
 end
 
 function QuickslotList:SetupExtensionSlot( bars, index )
+	self.Log:Debug("SetupExtensionSlot");
+
 	if ( index <= self.count ) then
 		self.extensions = bars;
 		

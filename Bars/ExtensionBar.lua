@@ -5,7 +5,11 @@
 
 ExtensionBar = class( MysticBars.Bars.Core.BaseBar );
 
+ExtensionBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "ExtensionBar", false );
+
 function ExtensionBar:Constructor( barid )
+	self.Log:Debug("Constructor");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 
@@ -46,17 +50,23 @@ function ExtensionBar:Constructor( barid )
 end
 
 function ExtensionBar:Create()
+	self.Log:Debug("Create");
+
 	self.quickslotList = MysticBars.Bars.Core.QuickslotList( self.id );
 	MysticBars.Bars.Core.BaseBar.Create( self );
 end
 
 function ExtensionBar:CheckMakeVisible()
+	self.Log:Debug("CheckMakeVisible");
+
 	if ( self.keepVisible == false ) then
 		self:SetVisible( false );
 	end
 end
 
 function ExtensionBar:Show( visible )
+	self.Log:Debug("Show");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	if ( visible ) then
@@ -108,6 +118,8 @@ function ExtensionBar:Show( visible )
 end
 
 function ExtensionBar:Setup( pX, pY )
+	self.Log:Debug("Setup");
+
 	self.positionX = pX;
 	self.positionY = pY;
 
@@ -116,6 +128,8 @@ function ExtensionBar:Setup( pX, pY )
 end
 
 function ExtensionBar:SetupPosition( refresh )
+	self.Log:Debug("SetupPosition");
+
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
@@ -160,6 +174,8 @@ function ExtensionBar:SetupPosition( refresh )
 end
 
 function ExtensionBar:Created()
+	self.Log:Debug("Created");
+
 	if ( self.created ~= nil and self.created == true) then
 		return true;
 	else
@@ -168,16 +184,22 @@ function ExtensionBar:Created()
 end
 
 function ExtensionBar:Refresh()
+	self.Log:Debug("Refresh");
+
 	self:SetupPosition( false );
 	MysticBars.Bars.Core.BaseBar.Refresh( self );
 	self:SetupPosition( false );
 end
 
 function ExtensionBar:SetBGColor( color )
+	self.Log:Debug("SetBGColor");
+
 	self:SetBackColor( color );
 end
 
 function ExtensionBar:ShowBarMenu()
+	self.Log:Debug("ShowBarMenu");
+
 	local orientationMenu = Turbine.UI.ContextMenu();
 
 	local menuItems = orientationMenu:GetItems();
@@ -208,6 +230,8 @@ function ExtensionBar:ShowBarMenu()
 end
 
 function ExtensionBar:SetOrientation( orientation )
+	self.Log:Debug("SetOrientation");
+
 	if ( orientation == nil or (orientation ~= "Left" and orientation ~= "Right" and orientation ~= "Up" and orientation ~= "Down") ) then
 		return nil
 	else
@@ -229,6 +253,8 @@ function ExtensionBar:SetOrientation( orientation )
 end
 
 function ExtensionBar:SelectRandomShortcut( parentBar, quickslotToReplace )
+	self.Log:Debug("SelectRandomShortcut");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local i = 0;
@@ -249,6 +275,8 @@ function ExtensionBar:SelectRandomShortcut( parentBar, quickslotToReplace )
 end
 
 function ExtensionBar:CycleShortcut( parentBar, quickslotToReplace, args )
+	self.Log:Debug("CycleShortcut");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -264,6 +292,8 @@ function ExtensionBar:CycleShortcut( parentBar, quickslotToReplace, args )
 end
 
 function ExtensionBar:RollupSelection( parentBar, indexToUse )
+	self.Log:Debug("RollupSelection");
+
 	local quickslot = self:GetQuickslotList().quickslots[ indexToUse ];
 	if ( quickslot ~= nil and quickslot:GetShortcut() ~= nil ) then
 		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
@@ -278,6 +308,8 @@ function ExtensionBar:RollupSelection( parentBar, indexToUse )
 end
 
 function ExtensionBar:FindNthQuickslot( selection )
+	self.Log:Debug("FindNthQuickslot");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -292,6 +324,8 @@ function ExtensionBar:FindNthQuickslot( selection )
 end
 
 function ExtensionBar:SetMenuBackColor( selected, barMode )
+	self.Log:Debug("SetMenuBackColor");
+
 	MysticBars.Bars.Core.BaseBar.SetMenuBackColor( self, selected, EXTENSION_MODE );
 	self:SetBackColor( Turbine.UI.Color(1,1,1,0) );
 end

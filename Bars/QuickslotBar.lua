@@ -9,7 +9,11 @@ import "MysticBars.Bars.Core.Tab"
 
 QuickslotBar = class(MysticBars.Bars.Core.BaseBar);
 
+QuickslotBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "QuickslotBar", false );
+
 function QuickslotBar:Constructor(barid)
+	self.Log:Debug("Constructor");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings(self.id);
 
@@ -115,6 +119,8 @@ function QuickslotBar:Constructor(barid)
 end
 
 function QuickslotBar:PositionChanged(sender, args)
+	self.Log:Debug("PositionChanged");
+
 	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
 		local settings = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):GetSettings();
 		if (settings.barMode ~= NORMAL_MODE or (self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true)) then
@@ -136,6 +142,8 @@ function QuickslotBar:PositionChanged(sender, args)
 end
 
 function QuickslotBar:Create()
+	self.Log:Debug("Create");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings(self.id);
 
@@ -155,6 +163,8 @@ function QuickslotBar:Create()
 end
 
 function QuickslotBar:Remove()
+	self.Log:Debug("Remove");
+
 	if (self.tab ~= nil) then
 		self.tab:SetHidden(true);
 		self.tab = nil;
@@ -162,12 +172,16 @@ function QuickslotBar:Remove()
 end
 
 function QuickslotBar:SetBGColor(color)
+	self.Log:Debug("SetBGColor");
+
 	self:SetBackColor(color);
 	self.tab:SetBackColor(color);
 end
 
 function QuickslotBar:Refresh()
 	MysticBars.Bars.Core.BaseBar.Refresh(self);
+
+	self.Log:Debug("Refresh");
 	self.tab:Refresh();
 
 	if (self.extensionBars ~= nil) then
@@ -186,6 +200,8 @@ end
 --
 -- It is recommended to call: "eventService:NotifyClients();" if needed.
 function QuickslotBar:DetermineVisiblity(eventValue, force)
+	self.Log:Debug("DetermineVisiblity");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
 	local barSettings = settingsService:GetBarSettings(self.id);
@@ -207,6 +223,8 @@ function QuickslotBar:DetermineVisiblity(eventValue, force)
 end
 
 function QuickslotBar:ClearQuickslots(removed)
+	self.Log:Debug("ClearQuickslots");
+
 	self.quickslotList:ClearQuickslots();
 	if (self.extensionBars ~= nil and removed ~= nil) then
 		for key, value in pairs(self.extensionBars) do
@@ -220,6 +238,8 @@ function QuickslotBar:ClearQuickslots(removed)
 end
 
 function QuickslotBar:UpdateBarExtensions()
+	self.Log:Debug("UpdateBarExtensions");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings(self.id);
 	if (self.extensionBars == nil) then
@@ -233,6 +253,8 @@ function QuickslotBar:UpdateBarExtensions()
 end
 
 function QuickslotBar:RegisterBarExtension(extBar, index, extensionBarID)
+	self.Log:Debug("RegisterBarExtension");
+
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(extensionBarID,
 		function(barSettings)
@@ -267,6 +289,8 @@ function QuickslotBar:RegisterBarExtension(extBar, index, extensionBarID)
 end
 
 function QuickslotBar:SetMenuBackColor(selected, barMode)
+	self.Log:Debug("SetMenuBackColor");
+
 	MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, selected, QUICKSLOT_MODE);
 	if (barMode == QUICKSLOT_MODE) then
 		self:SetBackColor(Turbine.UI.Color(1, 0, 1, 0));

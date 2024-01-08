@@ -6,6 +6,8 @@
 
 SkillsService = class( MysticBars.Utils.Service );
 
+SkillsService.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "SkillsService" );
+
 SkillsService.mounts = {}
 SkillsService.mountedCombat = {}
 SkillsService.pets = {}
@@ -27,10 +29,14 @@ SkillsService.skirmishCount = 0;
 SkillsService.corruptionCount = 0;
 
 function SkillsService:Constructor()
+	self.Log:Debug("Constructor");
+
 	self.built = false;
 end
 
 function SkillsService:BuildSkillLists()
+	self.Log:Debug("BuildSkillLists");
+
 	if (not self.built) then
 		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
@@ -158,6 +164,8 @@ function SkillsService:BuildSkillLists()
 end
 
 function SkillsService:GetSkillSets()
+	self.Log:Debug("GetSkillSets");
+
 	return {
 		mounts = {
 			skills = self.mounts,

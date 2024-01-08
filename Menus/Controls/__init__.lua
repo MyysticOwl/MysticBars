@@ -6,3 +6,5 @@ import "MysticBars.Menus.Controls.InventoryPanel";
 import "MysticBars.Menus.Controls.PredefinedExtensionPanel";
 import "MysticBars.Menus.Controls.SlotsPanel";
 import "MysticBars.Menus.Controls.TriggersPanel";
+import "MysticBars.Menus.Controls.EasyBarPanel";
+import "MysticBars.Menus.Controls.GeneralMenuPanel";
