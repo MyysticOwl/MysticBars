@@ -29,8 +29,6 @@ end
 function BarService:Add( barType, cBarID, cQuickslotID )
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
-	self.Log:Debug("Add type:" .. " id:" .. cBarID);
-
 	local bar = nil;
 	if ( self.working == false ) then
 		self.working = true;
