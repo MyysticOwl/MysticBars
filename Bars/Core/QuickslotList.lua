@@ -215,7 +215,7 @@ function QuickslotList:RefreshQuickslots()
 			end
 		end
 	end
-	
+
 	self.loading = false;
 	self.count = barSettings.quickslotCount;
 end

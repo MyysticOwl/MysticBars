@@ -110,7 +110,7 @@ function ItemList:RefreshQuickslots()
 					barService:ShowExtensionBarMenu( barid );
 					menu:Refresh( barid );
 				end
-			end				
+			end
 		end
 	end
 	
