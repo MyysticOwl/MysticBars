@@ -89,7 +89,7 @@ function QuickbarListTest:TestConstruction()
     Assert.IsTrue(quickbarList ~= nil, "Bar service can't be constructed");
 end
 
-function QuickbarListTest:TestConstruction()
+function QuickbarListTest:SlotCount()
     local quickbarList = MysticBars.Bars.Core.QuickslotList(1);
     quickbarList:Refresh(false, false);
 
@@ -97,6 +97,6 @@ function QuickbarListTest:TestConstruction()
     for key,value in pairs(quickbarList.quickslots) do
         count = count + 1;
     end
-    
+
     Assert.IsTrue(count == 5, "Bar service can't be constructed");
 end

@@ -71,7 +71,7 @@ function SettingsService:LoadSettings( profile )
 	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
 	if ( locale == "de" or locale == "fr" ) then
 		self.settings = { };
-		self:deepcopyLoadConvertInts( playerSettings, self.settings );
+		DeepcopyLoadConvertInts( playerSettings, self.settings );
 	else
 		self.settings = playerSettings;
 	end
@@ -108,10 +108,10 @@ function SettingsService:SaveSettings( profile )
 	if ( locale == "de" or locale == "fr" or locale == "ru" ) then
 		local temp = { };
 		if ( profile == nil ) then
-			self:deepcopySaveConvertInts( self.settings, temp );
+			DeepcopySaveConvertInts( self.settings, temp );
 			self.profiles[ playerService.player:GetName() ] = temp;
 		else
-			self:deepcopySaveConvertInts( profile, temp );
+			DeepcopySaveConvertInts( profile, temp );
 			Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", temp, function (success, error)
 				if (not success) then
 					Turbine.Shell.WriteLine("Error Saving... " .. error);
@@ -159,7 +159,7 @@ function SettingsService:LoadBuffs()
 	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
 	if ( locale == "de" or locale == "fr" ) then
 		self.buffs = { };
-		self:deepcopyLoadConvertInts( playerBuffs, self.buffs );
+		DeepcopyLoadConvertInts( playerBuffs, self.buffs );
 	else
 		self.buffs = playerBuffs;
 	end
@@ -180,7 +180,7 @@ function SettingsService:SaveBuffs(buffs)
 
 	if ( locale == "de" or locale == "fr" or locale == "ru" ) then
 		local temp = { };
-		self:deepcopySaveConvertInts( self.buffProfiles, temp );
+		DeepcopySaveConvertInts( self.buffProfiles, temp );
 		Turbine.PluginData.Save( Turbine.DataScope.Server, "MysticBarsBuffs", temp, function (success, error)
 			if (not success) then
 				Turbine.Shell.WriteLine("Error Saving... " .. error);
@@ -207,7 +207,7 @@ function SettingsService:GetBars( localBarType )
 		for key, value in pairs (self.settings.bars) do
 			if ( value.barType == localBarType and value ~= nil ) then
 				self.tempBars[key] = {};
-				self:deepcopy( self.settings.bars[key], self.tempBars[key] );
+				Deepcopy( self.settings.bars[key], self.tempBars[key] );
 				i = i + 1;
 			end
 		end
@@ -448,115 +448,6 @@ function SettingsService:SetWrapperSettings( theWrapperSettings )
 	self:SaveSettings();
 end
 
-function SettingsService:deepcopySaveConvertInts(a, b)
-        if type(a) ~= "table" or type(b) ~= "table" then
-                error("both parameters must be of type table but recieved " ..type(a)..
-                        " and " .. type(b));
-        else
-                for k,v in pairs(a) do
-                        -- if the type is a table, we'll need to recurse.
-                        if type(v) ~= "table" then
-							local l, y;
-							if ( type( k ) == "number" ) then
-								l = "INTEGER:" .. tostring( k );
-							else
-								l = k;
-							end
-							if ( type( v ) == "number" ) then
-								y = "INTEGER:" .. tostring( v );
-							else
-								y = v;
-							end
-                            b[l] = y;
-                        else
-                            local x = {}
-                            self:deepcopySaveConvertInts(v, x);
-
-							local l;
-							if ( type( k ) == "number" ) then
-								l = "INTEGER:" .. tostring( k );
-							else
-								l = k;
-							end
-							b[l] = x;
-                        end       
-                end
-        end
-        return b;
-end
-
-
-function SettingsService:deepcopyLoadConvertInts(a, b)
-        if type(a) ~= "table" or type(b) ~= "table" then
-                error("both parameters must be of type table but recieved " ..type(a)..
-                        " and " .. type(b));
-        else
-                for k,v in pairs(a) do
-                        -- if the type is a table, we'll need to recurse.
-                        if type(v) ~= "table" then
-							local l, y;
-							if ( type( k ) == "string" ) then
-								local temp, count = string.gsub( k, "INTEGER:", "");
-								if ( count > 0 ) then
-									l = tonumber( temp );
-								else
-									l = temp;
-								end
-							else
-								l = k;
-							end
-							if ( type( v ) == "string" ) then
-								local temp, count = string.gsub( v, "INTEGER:", "");
-								if ( count > 0 ) then
-									y = tonumber( temp );
-								else
-									y = temp;
-								end
-							else
-								y = v;
-							end
-                            b[l] = y;
-                        else
-                            local x = {}
-                            self:deepcopyLoadConvertInts(v, x);
-
-							local l;
-							if ( type( k ) == "string" ) then
-								local temp, count = string.gsub( k, "INTEGER:", "");
-								if ( count > 0 ) then
-									l = tonumber( temp );
-								else
-									l = temp;
-								end
-							else
-								l = k;
-							end
-							b[l] = x;
-                        end       
-                end
-        end
-        return b;
-end
-
-function SettingsService:deepcopy(a, b)
-        if type(a) ~= "table" or type(b) ~= "table" then
-                error("both parameters must be of type table but recieved " ..type(a)..
-                        " and " .. type(b));
-        else
-                for k,v in pairs(a) do
-                        -- if the type is a table, we'll need to recurse.
-                        if type(v) ~= "table" then
-                                b[k] = v;
-                        else
-                                local x = {}
-                                self:deepcopy(v, x);
-                                b[k] = x;
-                        end       
-                end
-        end
-        return b;
-end
-
 function SettingsService:GetProfiles()
 	self.Log:Debug("GetProfiles");
 
@@ -623,7 +514,7 @@ function SettingsService:CopyBars(profileToCopy, copyType, barid, myBar)
 
 	self:CreatePath( copyProfile );
 
-	self:deepcopy( realProfile.bars[barid], copyProfile.bars[ copyProfile.nextBarId ] );
+	Deepcopy( realProfile.bars[barid], copyProfile.bars[ copyProfile.nextBarId ] );
 	
 	if ( copyType == self.PARTIAL ) then
 		copyProfile.bars[ copyProfile.nextBarId ].quickslots = nil;
@@ -636,7 +527,7 @@ function SettingsService:CopyBars(profileToCopy, copyType, barid, myBar)
 		for key, value in opairs ( realProfile.bars ) do
 			if ( value.barType == EXTENSIONBAR and value.connectionBarID == barid ) then
 				self:CreatePath( copyProfile );
-				self:deepcopy( realProfile.bars[key], copyProfile.bars[ copyProfile.nextBarId ] );
+				Deepcopy( realProfile.bars[key], copyProfile.bars[ copyProfile.nextBarId ] );
 				copyProfile.bars[ copyProfile.nextBarId ].connectionBarID = newQuickslotBar;
 				copyProfile.nextBarId = copyProfile.nextBarId + 1;				
 			end

@@ -257,7 +257,7 @@ function QuickslotList:SetupExtensionSlot( bars, index )
 
 	if ( index <= self.count ) then
 		self.extensions = bars;
-		
+
 		self.quickslots[ index ].MouseEnter = function(sender,args)
 			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 			local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);

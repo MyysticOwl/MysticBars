@@ -1,6 +1,7 @@
 import "MysticBars.Utils.Class";
 import "MysticBars.Utils.Compare";
 import "MysticBars.Utils.Decimal2Hex";
+import "MysticBars.Utils.DeepCopy";
 import "MysticBars.Utils.Enum";
 import "MysticBars.Utils.Event";
 import "MysticBars.Utils.FontMetrics";

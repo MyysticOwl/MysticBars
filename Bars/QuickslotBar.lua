@@ -5,7 +5,7 @@
 -- RESPECT!
 
 import "MysticBars.Utils.Class";
-import "MysticBars.Bars.Core.Tab"
+import "MysticBars.Bars.Core.Tab";
 
 QuickslotBar = class(MysticBars.Bars.Core.BaseBar);
 
@@ -189,8 +189,7 @@ function QuickslotBar:Refresh()
 			end
 		end
 	end
-	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService)
-	eventService:NotifyClients();
+	SERVICE_CONTAINER:GetService(MysticBars.Services.EventService):NotifyClients();
 end
 
 -- This function should ONLY be called by the Event Manager. Doing so in any other copacity
