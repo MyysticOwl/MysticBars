@@ -186,6 +186,12 @@ function BarService:GetBars()
 	return RegisteredBars;
 end
 
+function BarService:GetBar( barId )
+	self.Log:Debug("GetBar");
+
+	return RegisteredBars[ barId ];
+end
+
 function BarService:ShowExtensionBarMenu( barid )
 	self.Log:Debug("ShowExtensionBarMenu");
 

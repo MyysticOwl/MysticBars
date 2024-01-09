@@ -8,8 +8,8 @@ InventoryBaseBar = class( MysticBars.Bars.Core.BaseBar );
 
 InventoryBaseBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "InventoryBaseBar", false );
 
-function InventoryBaseBar:Constructor()
-	MysticBars.Bars.Core.BaseBar.Constructor( self );
+function InventoryBaseBar:Constructor( barId )
+	MysticBars.Bars.Core.BaseBar.Constructor( self, barId );
 
 	self.Log:Debug("Constructor");
 

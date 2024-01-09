@@ -7,13 +7,13 @@ QuickslotList = class( Turbine.UI.Control );
 
 QuickslotList.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "QuickslotList", false );
 
-function QuickslotList:Constructor( bid )
+function QuickslotList:Constructor( barId )
 	Turbine.UI.Control.Constructor( self );
 
 	self.Log:Debug("Constructor");
 
-	self.id = bid;
-	
+	self.id = barId;
+
 	self.quickslots = { };
 	self.count = 0;
 	self.itemsPerLine = 0;
@@ -89,7 +89,6 @@ function QuickslotList:RefreshQuickslots()
 		end
 	end
 
-
 	for i = barSettings.quickslotCount + 1, self.count, 1 do
 		self.quickslots[i]:SetVisible( false );
 		self.quickslots[i]:SetParent( nil );
@@ -97,15 +96,12 @@ function QuickslotList:RefreshQuickslots()
 		self.quickslots[i] = nil;
 	end
 
-	-- local dump = MysticBars.Utils.TableDump();
-	-- dump.Dump(barSettings.quickslots);
-
 	for i=self.count + 1, barSettings.quickslotCount do
 		self.quickslots[i] = Turbine.UI.Lotro.Quickslot();
 		self.quickslots[i].index = i;
 		self.quickslots[i].locked = barSettings.locked;
 		self.quickslots[i]:SetParent( self );
-		--self.quickslots[i]:SetStretchMode(1);
+		self.quickslots[i]:SetStretchMode(1);
 		self.quickslots[i]:SetSize( barSettings.quickslotSize, barSettings.quickslotSize );
 		self.quickslots[i]:SetUseOnRightClick( true );
 

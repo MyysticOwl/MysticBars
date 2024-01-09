@@ -7,13 +7,11 @@ ExtensionBar = class( MysticBars.Bars.Core.BaseBar );
 
 ExtensionBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "ExtensionBar", false );
 
-function ExtensionBar:Constructor( barid )
+function ExtensionBar:Constructor( barId )
 	self.Log:Debug("Constructor");
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local barSettings = settingsService:GetBarSettings( self.id );
-
-	self.id = barid;
+	local barSettings = settingsService:GetBarSettings( barId );
 
 	local changedBarSettings = false;
 	self.faded = false;
@@ -34,7 +32,7 @@ function ExtensionBar:Constructor( barid )
 	self.keepVisible = false;
 	self.cycleCount = 0;
 	
-	MysticBars.Bars.Core.BaseBar.Constructor( self );
+	MysticBars.Bars.Core.BaseBar.Constructor( self, barId );
 
 	self.quickslotList.loading = true;
 	settingsService:LoadQuickslots( barSettings, self.quickslotList.quickslots );

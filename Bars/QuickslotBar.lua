@@ -11,14 +11,12 @@ QuickslotBar = class(MysticBars.Bars.Core.BaseBar);
 
 QuickslotBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "QuickslotBar", false );
 
-function QuickslotBar:Constructor(barid)
+function QuickslotBar:Constructor(barId)
 	self.Log:Debug("Constructor");
+	MysticBars.Bars.Core.BaseBar.Constructor(self, barId);
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings(self.id);
-
-	self.id = barid;
-	MysticBars.Bars.Core.BaseBar.Constructor(self);
 
 	self.quickslotList.loading = true;
 	settingsService:LoadQuickslots(barSettings, self.quickslotList.quickslots);

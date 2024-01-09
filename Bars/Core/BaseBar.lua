@@ -8,8 +8,10 @@ BaseBar = class( Turbine.UI.Window );
 
 BaseBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "BaseBar", false );
 
-function BaseBar:Constructor()
+function BaseBar:Constructor(barId)
 	Turbine.UI.Window.Constructor( self );
+
+	self.id = barId;
 
 	self.Log:Debug("Constructor");
 

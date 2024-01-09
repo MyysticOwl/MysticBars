@@ -8,4 +8,4 @@ import "MysticBars.Utils.Testing.UnitTestCommand";
 
 unitTestCommand = MysticBars.Utils.Testing.UnitTestCommand();
 
-Turbine.Shell.AddCommand( "mysticbars_unittest", unitTestCommand );
+Turbine.Shell.AddCommand( "mb_unittests", unitTestCommand );

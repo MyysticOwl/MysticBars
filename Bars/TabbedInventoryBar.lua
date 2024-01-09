@@ -16,9 +16,7 @@ TabbedInventoryBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "TabbedI
 function TabbedInventoryBar:Constructor( barid )
 	self.Log:Debug("Constructor");
 
-	self.id = barid;
-
-	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
+	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(barid, function(barSettings)
 		if (barSettings.barType ~= TABBED_INV_BAR) then
 			barSettings.barType = TABBED_INV_BAR;
 			barSettings.quickslotRows = 1;
@@ -29,7 +27,7 @@ function TabbedInventoryBar:Constructor( barid )
 		return barSettings;
 	end, nil, true);
 
-	MysticBars.Bars.Core.InventoryBaseBar.Constructor( self );
+	MysticBars.Bars.Core.InventoryBaseBar.Constructor( self, barid );
 end
 
 function TabbedInventoryBar:Create()
