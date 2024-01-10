@@ -65,245 +65,180 @@ function TemplateService:SetPlayerLevel( newLevel )
 	self.level = newLevel;
 end
 
--- Create Quickslot Bar                           Name -      Rows - Columns - X coord - Y coord
-function TemplateService:CreateBar( override, name, level, rows, columns, x, y, barType, createdCallback )
+function TemplateService:CreateBar( name, rows, columns, x, y, barType, createdCallback )
 	self.Log:Debug("CreateBar");
 
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
-	if ( barType == nil ) then
-		barType = QUICKSLOTBAR;
-	end
-	if ( level == nil or self.level >= level or override ~= nil ) then
-		local foundbar = nil;
-		for key, value in pairs (settingsService:GetBars()) do
-			if ( value.barName == name ) then
-				foundbar = key;
-			end
-		end
-		local theSettings = settingsService:GetSettings();
-		local autoBarID, autoBarSettings;
-		if ( theSettings.autoCreatedBars ~= nil ) then
-			for key, value in pairs (theSettings.autoCreatedBars) do
-				if ( value.barName == name ) then
-					autoBarID = key;
-					autoBarSettings = value;
-				end
-			end
-		end
-		if ( override == true and foundbar ~= nil ) then
-			if ( theSettings.autoCreatedBars ~= nil and theSettings.autoCreatedBars[ foundbar ] ~= nil ) then
-				barService:Remove( foundbar );
-				foundbar = nil;
-			end
-		end
-		if ( override ~= nil or ( autoBarID == nil and foundbar == nil ) ) then
-			self.barid = barService:Add( barType, autoBarID );
-			local localBarSettings = settingsService:GetBarSettings( self.barid );
-			if ( theSettings.autoCreatedBars == nil ) then
-				theSettings.autoCreatedBars = { };
-			end
-			if ( theSettings.autoCreatedBars[self.barid] == nil ) then
-				theSettings.autoCreatedBars[self.barid] = { };
-			end
-			theSettings.autoCreatedBars[self.barid].barName = name;
+	local barSettings = settingsService:FindBar(name);
+	if ( barSettings == nil ) then
 
-			localBarSettings.barName = name;
-			if ( rows ~= nil ) then
-				localBarSettings.quickslotRows = rows;
-			end
-			if ( columns ~= nil ) then
-				localBarSettings.quickslotColumns = columns;
-			end
-			if ( rows ~= nil and columns ~= nil ) then
-				localBarSettings.quickslotCount = rows * columns;
-			end
-			localBarSettings.x = x;
-			localBarSettings.y = y;
+		barSettings = settingsService:NewBar();
+		barSettings.barType = QUICKSLOTBAR;
+		barSettings.barName = name;
+		barSettings.quickslotRows = rows;
+		barSettings.quickslotColumns = columns;
+		barSettings.quickslotCount = rows * columns;
+		barSettings.x = x;
+		barSettings.y = y;
 
-			if (createdCallback ~= nil) then
-				createdCallback(localBarSettings);
-				settingsService:SetBarSettings(self.barid, localBarSettings, nil, true);
-			end
-		else
-			self.barid = foundbar;
-		end
+		createdCallback(barSettings);
 
-		local menuService = SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService);
-		if (menuService ~= nil) then
-			theSettings = settingsService:GetSettings();
-			local mode = theSettings.barMode;
-
-			menuService:GetMenu():Refresh();
-
-			theSettings = settingsService:GetSettings();
-			theSettings.barMode = mode;
-		end
-	else
-		self.barid = nil;
+		barService:AddQuickslotBar( barSettings );
 	end
 
-	return self.barid, settingsService:GetBarSettings( self.barid );
+	local menuService = SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService)
+	if (menuService ~= nil) then
+		menuService:GetMenu():Refresh();
+	end
+
+	return barSettings;
 end
 
-function TemplateService:SetBar( barid )
-	self.Log:Debug("SetBar");
+-- function TemplateService:SetBar( barid )
+-- 	self.Log:Debug("SetBar");
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+-- 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
-	if ( barid ~= nil ) then
-		self.barid = barid;
-		return settingsService:GetBarSettings( barid );
-	end
-end
+-- 	return settingsService:GetBarSettings( barid );
+-- end
 
 -- Set it to trigger on health                Bar ID - When to trigger
-function TemplateService:SetTrigger( statType, percent, localBarSettings )
+function TemplateService:SetTrigger( statType, percent, barSettings )
 	self.Log:Debug("SetTrigger");
 
-	if ( self.barid ~= nil ) then
-		if ( localBarSettings.events == nil ) then
-			localBarSettings.events = { };
-		end
-		if ( localBarSettings.events.triggered == nil ) then
-			localBarSettings.events.triggered = { };
-		end
-		if ( localBarSettings.events.triggered.categories == nil ) then
-			localBarSettings.events.triggered.categories = { };
-		end
+	if ( barSettings.events == nil ) then
+		barSettings.events = { };
+	end
+	if ( barSettings.events.triggered == nil ) then
+		barSettings.events.triggered = { };
+	end
+	if ( barSettings.events.triggered.categories == nil ) then
+		barSettings.events.triggered.categories = { };
+	end
 
-		localBarSettings.visible = false;
+	barSettings.visible = false;
 
-		if ( statType == TemplateService.HEALTH ) then
-			localBarSettings.events.triggered.displayOnHealth = true;
-			localBarSettings.events.triggered.healthTrigger = (percent / 100);
-		elseif ( statType == TemplateService.POWER ) then
-			localBarSettings.events.triggered.displayOnPower = true;
-			localBarSettings.events.triggered.powerTrigger = (percent / 100);
+	if ( statType == TemplateService.HEALTH ) then
+		barSettings.events.triggered.displayOnHealth = true;
+		barSettings.events.triggered.healthTrigger = (percent / 100);
+	elseif ( statType == TemplateService.POWER ) then
+		barSettings.events.triggered.displayOnPower = true;
+		barSettings.events.triggered.powerTrigger = (percent / 100);
 
-		elseif ( statType == Turbine.Gameplay.EffectCategory.Disease ) then
-			localBarSettings.events.triggered.categories[statType] = true;
-		elseif ( statType == Turbine.Gameplay.EffectCategory.Fear ) then
-			localBarSettings.events.triggered.categories[statType] = true;
-		elseif ( statType == Turbine.Gameplay.EffectCategory.Poison ) then
-			localBarSettings.events.triggered.categories[statType] = true;
-		elseif ( statType == Turbine.Gameplay.EffectCategory.Wound ) then
-			localBarSettings.events.triggered.categories[statType] = true;
+	elseif ( statType == Turbine.Gameplay.EffectCategory.Disease ) then
+		barSettings.events.triggered.categories[statType] = true;
+	elseif ( statType == Turbine.Gameplay.EffectCategory.Fear ) then
+		barSettings.events.triggered.categories[statType] = true;
+	elseif ( statType == Turbine.Gameplay.EffectCategory.Poison ) then
+		barSettings.events.triggered.categories[statType] = true;
+	elseif ( statType == Turbine.Gameplay.EffectCategory.Wound ) then
+		barSettings.events.triggered.categories[statType] = true;
 
-		elseif ( statType == TemplateService.CTRL ) then
-			localBarSettings.events.triggered.isControl = true;
-		elseif ( statType == TemplateService.ALT ) then
-			localBarSettings.events.triggered.isAlt = true;
-		elseif ( statType == TemplateService.SHIFT ) then
-			localBarSettings.events.triggered.isShift = true;
-		end
+	elseif ( statType == TemplateService.CTRL ) then
+		barSettings.events.triggered.isControl = true;
+	elseif ( statType == TemplateService.ALT ) then
+		barSettings.events.triggered.isAlt = true;
+	elseif ( statType == TemplateService.SHIFT ) then
+		barSettings.events.triggered.isShift = true;
 	end
 end
 
 -- Set it to trigger on Buff                 
-function TemplateService:SetBuffTriggerOptions( whenActive, Anding, localBarSettings )
+function TemplateService:SetBuffTriggerOptions( whenActive, Anding, barSettings )
 	self.Log:Debug("SetBuffTriggerOptions");
 
-	if ( self.barid ~= nil ) then
-		if ( localBarSettings.events == nil ) then
-			localBarSettings.events = { };
-		end
-		if ( localBarSettings.events.triggered == nil ) then
-			localBarSettings.events.triggered = { };
-		end
-		localBarSettings.visible = false;
-		localBarSettings.events.triggered.triggerOnClassBuffActive = whenActive;
-		if ( Anding ) then
-			localBarSettings.events.triggered.triggerBuffType = "and";
-		else
-			localBarSettings.events.triggered.triggerBuffType = "or";
-		end
+	if ( barSettings.events == nil ) then
+		barSettings.events = { };
+	end
+	if ( barSettings.events.triggered == nil ) then
+		barSettings.events.triggered = { };
+	end
+	barSettings.visible = false;
+	barSettings.events.triggered.triggerOnClassBuffActive = whenActive;
+	if ( Anding ) then
+		barSettings.events.triggered.triggerBuffType = "and";
+	else
+		barSettings.events.triggered.triggerBuffType = "or";
 	end
 end
 
 -- Set it to trigger on Buff                Bar ID - When to trigger
-function TemplateService:SetBuffTrigger( buff, localBarSettings )
+function TemplateService:SetBuffTrigger( buff, barSettings )
 	self.Log:Debug("SetBuffTrigger");
 
-	if ( self.barid ~= nil ) then
-		if ( localBarSettings.events == nil ) then
-			localBarSettings.events = { };
-		end
-		if ( localBarSettings.events.effects == nil ) then
-			localBarSettings.events.effects = { };
-		end
-		if ( localBarSettings.events.effects[buff] == nil ) then
-			localBarSettings.events.effects[buff] = true;
-		end
+	if ( barSettings.events == nil ) then
+		barSettings.events = { };
+	end
+	if ( barSettings.events.effects == nil ) then
+		barSettings.events.effects = { };
+	end
+	if ( barSettings.events.effects[buff] == nil ) then
+		barSettings.events.effects[buff] = true;
 	end
 end
 
 -- Set it to trigger on name                Bar ID - When to trigger
-function TemplateService:SetClassRangeTrigger( name, theMin, theMax, localBarSettings )
+function TemplateService:SetClassRangeTrigger( name, theMin, theMax, barSettings )
 	self.Log:Debug("SetClassRangeTrigger");
 
-	if ( self.barid ~= nil ) then
-		if ( localBarSettings.events == nil ) then
-			localBarSettings.events = { };
-		end
-		if ( localBarSettings.events.classRange == nil ) then
-			localBarSettings.events.classRange = { };
-		end
-		if ( localBarSettings.events.classRange[name] == nil ) then
-			localBarSettings.events.classRange[name] = { };
-			localBarSettings.events.classRange[name].active = true;
-			localBarSettings.events.classRange[name].minValue = theMin;
-			localBarSettings.events.classRange[name].maxValue = theMax;
-		end
+	if ( barSettings.events == nil ) then
+		barSettings.events = { };
+	end
+	if ( barSettings.events.classRange == nil ) then
+		barSettings.events.classRange = { };
+	end
+	if ( barSettings.events.classRange[name] == nil ) then
+		barSettings.events.classRange[name] = { };
+		barSettings.events.classRange[name].active = true;
+		barSettings.events.classRange[name].minValue = theMin;
+		barSettings.events.classRange[name].maxValue = theMax;
 	end
 end
 
 --                                       Bar ID  a  r  g  b
-function TemplateService:SetBGColor( a, r, g, b, localBarSettings )
+function TemplateService:SetBGColor( a, r, g, b, barSettings )
 	self.Log:Debug("SetBGColor");
 
-	if ( self.barid ~= nil ) then
-		localBarSettings.useBackgroundColor = true;
-		localBarSettings.opacity = a;
-		localBarSettings.backgroundColorRed = r;
-		localBarSettings.backgroundColorGreen = g;
-		localBarSettings.backgroundColorBlue = b;
-	end
+	barSettings.useBackgroundColor = true;
+	barSettings.opacity = a;
+	barSettings.backgroundColorRed = r;
+	barSettings.backgroundColorGreen = g;
+	barSettings.backgroundColorBlue = b;
 end
 
 --                               Bar ID - Location - Hex for Shortcut
-function TemplateService:AddShortcut( location, sData, sType, level, localBarSettings )
+function TemplateService:AddShortcut( location, sData, sType, level, barSettings )
 	self.Log:Debug("AddShortcut");
 
-	if ( self.barid ~= nil and (level == nil or self.level >= level) ) then
-		if ( localBarSettings.quickslots == nil ) then
-			localBarSettings.quickslots = { };
+	if ( level == nil or self.level >= level ) then
+		if ( barSettings.quickslots == nil ) then
+			barSettings.quickslots = { };
 		end
-		if ( localBarSettings.quickslots[location] == nil ) then
-			localBarSettings.quickslots[location] = { };
+		if ( barSettings.quickslots[location] == nil ) then
+			barSettings.quickslots[location] = { };
 		end
-		if ( localBarSettings.quickslots[location].Data == nil ) then
-			localBarSettings.quickslots[location].Data = sData;
-			localBarSettings.quickslots[location].Type = sType;
+		if ( barSettings.quickslots[location].Data == nil ) then
+			barSettings.quickslots[location].Data = sData;
+			barSettings.quickslots[location].Type = sType;
 		end
 	end
+	return barSettings;
 end
 
 --                               Bar ID - Location - Hex for Shortcut
-function TemplateService:SetInventoryFilter( filter, localBarSettings )
+function TemplateService:SetInventoryFilter( filter, barSettings )
 	self.Log:Debug("SetInventoryFilter");
 
-	if ( self.barid ~= nil ) then
-		if ( localBarSettings.events == nil ) then
-			localBarSettings.events = { };
-		end
-		if ( localBarSettings.events.inventory == nil ) then
-			localBarSettings.events.inventory = { };
-		end
-		if ( localBarSettings.events.inventory.nameFilters == nil ) then
-			localBarSettings.events.inventory.nameFilters = { };
-		end
-		localBarSettings.events.inventory.nameFilters[ filter ] = true;
+	if ( barSettings.events == nil ) then
+		barSettings.events = { };
 	end
+	if ( barSettings.events.inventory == nil ) then
+		barSettings.events.inventory = { };
+	end
+	if ( barSettings.events.inventory.nameFilters == nil ) then
+		barSettings.events.inventory.nameFilters = { };
+	end
+	barSettings.events.inventory.nameFilters[ filter ] = true;
 end

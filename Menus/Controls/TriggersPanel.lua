@@ -82,6 +82,10 @@ function TriggersPanel:DisplaySettings()
 
 	self.healthTriggerCheckBox:SetChecked( localBarSettings.events.triggered.displayOnHealth );
 	self.powerTriggerCheckBox:SetChecked( localBarSettings.events.triggered.displayOnPower );
+	if (localBarSettings.events.triggered.healthTrigger == nil) then
+		localBarSettings.events.triggered.healthTrigger = 0;
+		localBarSettings.events.triggered.powerTrigger = 0;
+	end
 	self.healthSB:SetValue( localBarSettings.events.triggered.healthTrigger * 100 );
 	self.powerSB:SetValue( localBarSettings.events.triggered.powerTrigger * 100 );
 end

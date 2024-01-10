@@ -29,7 +29,6 @@ SERVICE_CONTAINER:AddService(MysticBars.Services.BarService(), MysticBars.Servic
 SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService):Build();
 
 SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
-SERVICE_CONTAINER:GetService(MysticBars.Services.BarService):UpdateBarExtensions();
 
 MysticBars.Bars.Templates.BarTemplates():CheckTemplates();
 

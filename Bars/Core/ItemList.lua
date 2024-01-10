@@ -103,14 +103,6 @@ function ItemList:RefreshQuickslots()
 			self.quickslots[i]:SetSize( barSettings.quickslotSize, barSettings.quickslotSize );
 			self.quickslots[i]:SetVisible( true );
 			self.quickslots[i]:SetItem( self.items[i] );
-			self.quickslots[i].MouseClick = function( sender,args )
-				local settings = settingsService:GetSettings();
-				if ( barService:Alive( self.id ) and args.Button == 2 and settings.barMode == EXTENSION_MODE) then
-					local barid = barService:Add( EXTENSIONBAR, self.id, i );
-					barService:ShowExtensionBarMenu( barid );
-					menu:Refresh( barid );
-				end
-			end
 		end
 	end
 	
@@ -120,9 +112,6 @@ end
 
 function ItemList:ClearQuickslots()
 	self.Log:Debug("ClearQuickslots");
-
-	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	self.isClearingQuickslots = true;
 	for key, value in pairs (self.quickslots) do
@@ -143,8 +132,6 @@ function ItemList:ClearQuickslots()
 	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
 		self.currentIemCount = 0;
 		return barSettings;
-	end, function()
-		--SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 	end);
 	self.isClearingQuickslots = false;
 end

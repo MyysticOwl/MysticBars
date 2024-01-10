@@ -45,9 +45,7 @@ function EasyBarPanel:Constructor()
 				if ( actualBar ~= nil ) then
 					barService:Remove( id );
 				else
-					local id = value.callback( self, true );
-					barService:LoadQuickslots();
-					barService:RefreshBars();
+					local id = value.callback( self );
 					menuService:GetMenu():Refresh(true);
 					SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 				end

@@ -1,3 +1,5 @@
+
+
 function DeepcopySaveConvertInts(a, b)
     if type(a) ~= "table" or type(b) ~= "table" then
             error("both parameters must be of type table but recieved " ..type(a)..
@@ -20,7 +22,7 @@ function DeepcopySaveConvertInts(a, b)
                         b[l] = y;
                     else
                         local x = {}
-                        self:deepcopySaveConvertInts(v, x);
+                        DeepcopySaveConvertInts(v, x);
 
                         local l;
                         if ( type( k ) == "number" ) then
@@ -68,7 +70,7 @@ function DeepcopyLoadConvertInts(a, b)
                         b[l] = y;
                     else
                         local x = {}
-                        self:deepcopyLoadConvertInts(v, x);
+                        DeepcopyLoadConvertInts(v, x);
 
                         local l;
                         if ( type( k ) == "string" ) then
@@ -99,7 +101,7 @@ function Deepcopy(a, b)
                             b[k] = v;
                     else
                             local x = {}
-                            self:deepcopy(v, x);
+                            Deepcopy(v, x);
                             b[k] = x;
                     end       
             end

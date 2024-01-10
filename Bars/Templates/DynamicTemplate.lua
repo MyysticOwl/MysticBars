@@ -23,7 +23,7 @@ function DynamicTemplate:Constructor()
 				rows = math.ceil(skillSet.skillCount / 5);
 				cols = 5;
 			end
-			templateService:CreateBar( false, skillSet.title, 1, rows, cols, 200, 200, QUICKSLOTBAR, function(localBarSettings)
+			templateService:CreateBar( skillSet.title, rows, cols, 200, 200, QUICKSLOTBAR, function(localBarSettings)
 				MysticBars.Bars.Templates.DynamicTemplate.PopulateShortcuts(self, skillSet.skills, localBarSettings);
 			end);
 		end

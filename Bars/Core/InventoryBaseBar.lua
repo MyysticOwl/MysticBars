@@ -6,11 +6,10 @@
 
 InventoryBaseBar = class( MysticBars.Bars.Core.BaseBar );
 
-InventoryBaseBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "InventoryBaseBar", false );
+InventoryBaseBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "InventoryBaseBar" );
 
-function InventoryBaseBar:Constructor( barId )
-	MysticBars.Bars.Core.BaseBar.Constructor( self, barId );
-
+function InventoryBaseBar:Constructor( barSettings )
+	MysticBars.Bars.Core.BaseBar.Constructor( self, barSettings );
 	self.Log:Debug("Constructor");
 
 	self.faded = true;
@@ -34,28 +33,6 @@ function InventoryBaseBar:Constructor( barId )
 		if ( barService ~= nil and barService:Alive( self.id ) and barSettings.useFading == true ) then
 			self.faded = true;
 			self:Refresh();
-		end
-	end
-	self.PositionChanged = function( sender, args )
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-
-		--Turbine.Shell.WriteLine("InvBar: PositionChanged: " .. self.id);
-
-		local settings = settingsService:GetSettings();
-		local barSettings = settingsService:GetBarSettings( self.id );
-		if ( settings.barMode ~= NORMAL_MODE or ( self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then
-			local x,y = self:GetPosition();
-
-			barSettings.relationalX = x / DISPLAYWIDTH;
-			barSettings.relationalY = y / DISPLAYHEIGHT;
-	
-			barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
-			barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
-
-			if ( barService ~= nil and barService:Alive( self.id ) ) then
-				settingsService:SetBarSettings( self.id, barSettings );
-			end
 		end
 	end
 	self.MouseDown = function( sender, args )
@@ -82,6 +59,7 @@ function InventoryBaseBar:Constructor( barId )
 		local left, top = self:GetPosition();
 
 		if ( barService ~= nil and barService:Alive( self.id ) and settings.barMode ~= NORMAL_MODE and self.dragging ) then
+			-- Turbine.Shell.WriteLine("MouseMove: " .. self.id );
 			self:SetPosition( left + ( args.X - self.dragStartX ), top + ( args.Y - self.dragStartY ) );
 			self.dragged = true;
 		end
@@ -122,8 +100,6 @@ end
 function InventoryBaseBar:Create()
 	self.Log:Debug("Create");
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-
 	self.quickslotList = MysticBars.Bars.Core.ItemList( self.id );
 	self.quickslotList:SetParent( self );
 
@@ -137,22 +113,18 @@ function InventoryBaseBar:SetBGColor( color )
 	self:SetBackColor( color );
 end
 
-function InventoryBaseBar:Refresh()
+function InventoryBaseBar:Refresh( sender )
 	self.Log:Debug("Refresh");
 
-	MysticBars.Bars.Core.BaseBar.Refresh( self );
-	
-	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
-	eventService:NotifyClients();
+	MysticBars.Bars.Core.BaseBar.Refresh( self, sender );
+
+	SERVICE_CONTAINER:GetService(MysticBars.Services.EventService):NotifyClients();
 end
 
 function InventoryBaseBar:ClearQuickslots()
 	self.Log:Debug("ClearQuickslots");
 
 	self.quickslotList:ClearQuickslots();
-	--self.quickslotList:SetVisible( false );
-	--self.quickslotList:SetBackColor( Turbine.UI.Color( 0, 0, 0, 0) );
-	--self.quickslotList = nil;
 end
 
 -- This function should ONLY be called by the Event Manager. Doing so in any other copacity

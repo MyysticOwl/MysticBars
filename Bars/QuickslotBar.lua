@@ -9,23 +9,13 @@ import "MysticBars.Bars.Core.Tab";
 
 QuickslotBar = class(MysticBars.Bars.Core.BaseBar);
 
-QuickslotBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "QuickslotBar", false );
+QuickslotBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "QuickslotBar" );
 
-function QuickslotBar:Constructor(barId)
+function QuickslotBar:Constructor( barSettings )
 	self.Log:Debug("Constructor");
-	MysticBars.Bars.Core.BaseBar.Constructor(self, barId);
+	MysticBars.Bars.Core.BaseBar.Constructor(self, barSettings);
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local barSettings = settingsService:GetBarSettings(self.id);
-
-	self.quickslotList.loading = true;
-	settingsService:LoadQuickslots(barSettings, self.quickslotList.quickslots);
-	self.quickslotList.loading = false;
-
-	if (barSettings.barType ~= QUICKSLOTBAR) then
-		barSettings.barType = QUICKSLOTBAR;
-		settingsService:SetBarSettings(self.id, barSettings);
-	end
+	self:UpdateBarExtensions();
 
 	self.faded = true;
 	self.isVisible = true;
@@ -37,7 +27,7 @@ function QuickslotBar:Constructor(barId)
 
 		if (barService:Alive(self.id) and barSettings.useFading == true) then
 			self.faded = false;
-			self:Refresh();
+			self:Refresh("QuickslotBar:MouseEnter");
 		end
 	end
 	self.MouseLeave = function(sender, args)
@@ -47,7 +37,7 @@ function QuickslotBar:Constructor(barId)
 
 		if (barService:Alive(self.id) and barSettings.useFading == true) then
 			self.faded = true;
-			self:Refresh();
+			self:Refresh("QuickslotBar:MouseLeave");
 		end
 	end
 	self.MouseDown = function(sender, args)
@@ -75,10 +65,9 @@ function QuickslotBar:Constructor(barId)
 		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 		if (barService:Alive(self.id) and settings.barMode ~= NORMAL_MODE and self.dragging) then
-			self:SetPosition(left + (args.X - self.dragStartX), top + (args.Y - self.dragStartY));
+			-- Turbine.Shell.WriteLine("MouseMove: " .. self.id );
 			self.dragged = true;
-			-- Turbine.Shell.WriteLine("MouseMove: " .. self.id )
-			barService:UpdateBarExtensions();
+			self:SetPosition(left + (args.X - self.dragStartX), top + (args.Y - self.dragStartY));
 		end
 	end
 	self.MouseUp = function(sender, args)
@@ -110,18 +99,16 @@ function QuickslotBar:Constructor(barId)
 		end
 	end
 
-	self:UpdateBarExtensions();
-
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService)
 	eventService:RegisterForEvents(self, self.id);
 end
 
 function QuickslotBar:PositionChanged(sender, args)
-	self.Log:Debug("PositionChanged");
+	self.Log:Debug("PositionChanged " .. self.id);
 
-	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
-		local settings = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):GetSettings();
-		if (settings.barMode ~= NORMAL_MODE or (self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true)) then
+	local settings = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):GetSettings();
+	if ( settings.barMode ~= NORMAL_MODE or ( self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then
+		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
 			local x, y = self:GetPosition();
 
 			barSettings.relationalX = x / DISPLAYWIDTH;
@@ -129,33 +116,29 @@ function QuickslotBar:PositionChanged(sender, args)
 
 			barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
 			barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
-		end
-		return barSettings;
-	end, function()
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-		if (barService ~= nil) then
-			barService:UpdateBarExtensions();
-		end
-	end);
+			return barSettings;
+		end, function(barSettings)
+			self:SetPosition( barSettings.x, barSettings.y );
+			self.tab:Refresh();
+			self:UpdateBarExtensions();
+		end);
+	end
 end
 
 function QuickslotBar:Create()
 	self.Log:Debug("Create");
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local barSettings = settingsService:GetBarSettings(self.id);
-
-	self.quickslotList = MysticBars.Bars.Core.QuickslotList(self.id);
+	self.quickslotList = MysticBars.Bars.Core.QuickslotList(self, self.barSettings);
 	self.quickslotList:SetParent(self);
 
-	local title = barSettings.barName;
-	if (barSettings.barName == nil or barSettings.barName == "") then
+	local title = self.barSettings.barName;
+	if (self.barSettings.barName == nil or self.barSettings.barName == "") then
 		title = "Bar:" .. self.id;
 	end
 	self.tab = MysticBars.Bars.Core.Tab(self, title);
 
 	self.qsCreated = true;
-	self:Refresh();
+	self:Refresh("QuickslotBar:Create", true);
 
 	self.quickslotList:SetPosition(0, 0);
 end
@@ -176,16 +159,20 @@ function QuickslotBar:SetBGColor(color)
 	self.tab:SetBackColor(color);
 end
 
-function QuickslotBar:Refresh()
-	MysticBars.Bars.Core.BaseBar.Refresh(self);
+function QuickslotBar:Refresh( sender, drawShortcuts )
+	MysticBars.Bars.Core.BaseBar.Refresh( self, sender );
 
-	self.Log:Debug("Refresh");
+	self.Log:Debug("Refresh " .. self.id .. " --" .. sender);
 	self.tab:Refresh();
+
+	if (drawShortcuts) then
+		self.quickslotList:LoadQuickslots();
+	end
 
 	if (self.extensionBars ~= nil) then
 		for key, value in pairs(self.extensionBars) do
 			if (value ~= nil) then
-				value.bar:Refresh();
+				value.bar:Refresh(sender);
 			end
 		end
 	end
@@ -227,6 +214,7 @@ function QuickslotBar:ClearQuickslots(removed)
 		for key, value in pairs(self.extensionBars) do
 			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
+			self.extensionBars[key].bar:SetVisible(false);
 			barService:Remove(self.extensionBars[key].bar:GetID());
 			self.extensionBars[key].bar = nil;
 			self.extensionBars[key] = nil;
@@ -235,10 +223,6 @@ function QuickslotBar:ClearQuickslots(removed)
 end
 
 function QuickslotBar:UpdateBarExtensions()
-	self.Log:Debug("UpdateBarExtensions");
-
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local barSettings = settingsService:GetBarSettings(self.id);
 	if (self.extensionBars == nil) then
 		return;
 	end
@@ -262,14 +246,13 @@ function QuickslotBar:RegisterBarExtension(extBar, index, extensionBarID)
 			return barSettings;
 		end, function()
 		SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
-	end, true);
+	end);
 
-	local barSettings = settingsService:GetBarSettings(self.id);
 	if (self.nextExtension == nil) then
 		self.nextExtension = 1;
 	end
 
-	if (barSettings.barType == QUICKSLOTBAR) then
+	if (self.barSettings.barType == QUICKSLOTBAR) then
 		if (self.extensionBars == nil) then
 			self.extensionBars = {};
 		end

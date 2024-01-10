@@ -5,14 +5,16 @@
 
 QuickslotList = class( Turbine.UI.Control );
 
-QuickslotList.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "QuickslotList", false );
+QuickslotList.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "QuickslotList" );
 
-function QuickslotList:Constructor( barId )
+function QuickslotList:Constructor( parent, barSettings )
 	Turbine.UI.Control.Constructor( self );
 
 	self.Log:Debug("Constructor");
 
-	self.id = barId;
+	self.bar = parent;
+	self.id = barSettings.id;
+	self.barSettings = barSettings;
 
 	self.quickslots = { };
 	self.count = 0;
@@ -28,13 +30,11 @@ function QuickslotList:ClearItems()
 end
 
 function QuickslotList:SetMaxItemsPerLine( maxPerLine )
-	self.Log:Debug("SetMaxItemsPerLine");
-
 	self.itemsPerLine = maxPerLine;
 end
 
 function QuickslotList:Refresh( showAllQuickslots, lockQuickslots )
-	self.Log:Debug("Refresh");
+	self.Log:Debug("Refresh " .. self.id);
 
 	self:RefreshQuickslots();
 
@@ -67,7 +67,7 @@ function QuickslotList:Refresh( showAllQuickslots, lockQuickslots )
 end
 
 function QuickslotList:RefreshQuickslots()
-	self.Log:Debug("RefreshQuickslots");
+	self.Log:Debug("RefreshQuickslots " .. self.id);
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -149,14 +149,14 @@ function QuickslotList:RefreshQuickslots()
 					end
 
 					if ( self.isClearingQuickslots == false and self.loading == false) then
-						settingsService:SaveQuickslots( barSettings, self.quickslots, false );
-						settingsService:SaveQuickslots( barSettings2, bars[originbar].quickslotList.quickslots );
+						self:SaveQuickslots( );
+						self:SaveQuickslots( originbar, bars[originbar].quickslotList.quickslots );
 					end
 
 					barService.performingDrop = nil;
 					barService.ActiveObject = nil;
 				elseif ( self.isClearingQuickslots == false and self.loading == false) then
-					settingsService:SaveQuickslots( barSettings, self.quickslots, false );
+					self:SaveQuickslots( );
 				end
 			end
 		end
@@ -179,8 +179,7 @@ function QuickslotList:RefreshQuickslots()
 				self.quickslots[barService.originItem]:SetShortcut( nil );
 	
 				if ( self.isClearingQuickslots == false and self.loading == false) then
-					local barSettings = settingsService:GetBarSettings( self.id );
-					settingsService:SaveQuickslots( barSettings, self.quickslots );
+					self:SaveQuickslots();
 				end
 				self.quickslots[barService.originItem]:SetVisible( true );
 			end
@@ -205,9 +204,11 @@ function QuickslotList:RefreshQuickslots()
 			local settings = settingsService:GetSettings();
 			local bSettings = settingsService:GetBarSettings( self.id );
 			if ( barService ~= nil and barService:Alive( self.id ) and args.Button == 2 and settings.barMode == EXTENSION_MODE) then
-				local barid = barService:Add( EXTENSIONBAR, self.id, sender.index );
-				barService:ShowExtensionBarMenu( barid );
-				barService:UpdateBarExtensions();
+				local newBarSettings = settingsService:NewBar();
+				newBarSettings.barType = EXTENSIONBAR;
+				local barid, extBar = barService:AddExtensionBar( newBarSettings, self.id, i );
+				extBar:ShowBarMenu();
+				self.bar:UpdateBarExtensions();
 				SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService):GetMenu():Refresh(true);
 			elseif( barService ~= nil and barService:Alive( self.id ) and args.Button == 1 and settings.barMode == NORMAL_MODE and bSettings.onMouseOver == ROLL_UP_SELECTION ) then
 				local thebars = barService:GetBars();
@@ -240,7 +241,7 @@ function QuickslotList:ClearQuickslots()
 end
 
 function QuickslotList:GetQuickslotLocation( index )
-	self.Log:Debug("GetQuickslotLocation");
+	self.Log:Debug("GetQuickslotLocation " .. self.id);
 
 	if ( index <= self.count ) then
 		local x, y = self.quickslots[index]:GetPosition();
@@ -286,7 +287,7 @@ function QuickslotList:SetupExtensionSlot( bars, index )
 
 			if ( barService ~= nil and barService:Alive( self.id ) and self.entered == true ) then
 				for key, value in pairs (self.extensions) do
-					local barSettings = settingsService:GetBarSettings( value.bar );
+					local barSettings = settingsService:GetBarSettings( value.bar.id );
 					if ( value.quickslot == index and (barSettings.onMouseOver == SHOW_EXTENSIONS or barSettings.onMouseOver == ROLL_UP_SELECTION) ) then
 						value.bar:Show( false );
 					end
@@ -297,4 +298,62 @@ function QuickslotList:SetupExtensionSlot( bars, index )
 	else
 		Turbine.Shell.WriteLine( "ERROR 29 ExtensionSlot not removed corretly." );
 	end
+end
+
+function QuickslotList:SaveQuickslots( barId, quickslots )
+	self.Log:Debug("SaveQuickslots");
+
+	if ( self.loading ) then
+		return;
+	end
+
+	if (barId == nil) then
+		barId = self.id;
+	end
+	if (quickslots == nil) then
+		quickslots = self.quickslots;
+	end
+
+	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
+		barSettings.quickslots = nil;
+		barSettings.quickslots = { };
+	
+		for key, value in pairs (quickslots) do
+			local shortcut = value:GetShortcut();
+			if( shortcut:GetType() ~= 0 and shortcut:GetData() ~= "" ) then
+				if ( barSettings.quickslots[key] == nil ) then
+					barSettings.quickslots[key] = { };
+				end
+				barSettings.quickslots[key].Type = shortcut:GetType();
+				barSettings.quickslots[key].Data = shortcut:GetData();
+			end
+		end
+		return barSettings;
+	end);
+end
+
+function QuickslotList:LoadQuickslots()
+	self.Log:Debug("LoadQuickslots " .. self.id);
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.id );
+
+	self.loading = true;
+	for key, value in pairs (barSettings.quickslots) do
+		if( value.Type ~= 0 and value.Data ~= "" ) then
+			local shortcut = Turbine.UI.Lotro.Shortcut( value.Type, value.Data );
+			if ( pcall( SetShortcut, shortcut, self.quickslots, key ) == false ) then
+				value = nil;
+				dirty = true;
+			end
+		end
+	end
+	self.loading = false;
+
+	if (dirty == true) then
+		self:SaveQuickslots()
+	end
+end
+
+function SetShortcut( shortcut, qSlots, key )
+	qSlots[key]:SetShortcut( shortcut );
 end

@@ -6,17 +6,14 @@
 
 BaseBar = class( Turbine.UI.Window );
 
-BaseBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "BaseBar", false );
+BaseBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "BaseBar" );
 
-function BaseBar:Constructor(barId)
+function BaseBar:Constructor( barSettings )
 	Turbine.UI.Window.Constructor( self );
-
-	self.id = barId;
-
 	self.Log:Debug("Constructor");
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local barSettings = settingsService:GetBarSettings( self.id );
+	self.id = barSettings.id;
+	self.barSettings = barSettings;
 
 	self.dragged = false;
 	self.qsCreated = false;
@@ -26,6 +23,7 @@ function BaseBar:Constructor(barId)
 
 	self:SetMouseVisible( true );
 	self:SetAllowDrop( true );
+
 	self:SetPosition( barSettings.x, barSettings.y );
  
 	self:Create();
@@ -38,6 +36,7 @@ function BaseBar:Constructor(barId)
 		self.DragBar = MysticBars.Menus.Core.UI.DragBar( self, title, true );
 		self.DragBar:SetAllowsHUDHiding( false, true );
 		self.DragBar.PositionChanged = function(sender,args)
+			self.Log:Debug("DragBar:PositionChanged");
 			self:PositionChanged(sender,args);
 		end
 		self.DragEnable = function(sender,args)
@@ -54,22 +53,18 @@ function BaseBar:Constructor(barId)
 end
 
 function BaseBar:PositionChanged( sender, args )
-	self.Log:Debug("PositionChanged");
 end
 
 function BaseBar:Create()
 	self.Log:Debug("Create");
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local barSettings = settingsService:GetBarSettings( self.id );
-
 	self.quickslotList:SetParent( self );
-	self.quickslotList:SetMaxItemsPerLine( barSettings.quickslotColumns );
+	self.quickslotList:SetMaxItemsPerLine( self.barSettings.quickslotColumns );
 	self.quickslotList:SetPosition(0, 0 );
 
 	self.qsCreated = true;
 
-	self:Refresh();
+	self:Refresh("BaseBar:Create");
 end
 
 function BaseBar:ClearQuickslots()
@@ -78,41 +73,46 @@ function BaseBar:ClearQuickslots()
 	self.quickslotList:ClearQuickslots();
 end
 
-function BaseBar:Refresh()
-	self.Log:Debug("Refresh");
+function BaseBar:Refresh( sender )
+	self.Log:Debug("Refresh " .. sender);
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
 	local barSettings = settingsService:GetBarSettings( self.id );
+	if (self.barSettings == nil) then
+		return; -- This bar is dead;
+	else
+		self.barSettings = barSettings;
+	end
+
 	if ( settings.barMode == NORMAL_MODE ) then
 		if ( self.faded ) then
-			self:SetOpacity( barSettings.fadeOpacity );
+			self:SetOpacity( self.barSettings.fadeOpacity );
 		else
 			self:SetOpacity( 1 );
 		end
-		if ( barSettings.useBackgroundColor == true ) then
-			local tempColor = Turbine.UI.Color( barSettings.opacity, barSettings.backgroundColorRed, barSettings.backgroundColorGreen, barSettings.backgroundColorBlue);
+		if ( self.barSettings.useBackgroundColor == true ) then
+			local tempColor = Turbine.UI.Color( self.barSettings.opacity, self.barSettings.backgroundColorRed, self.barSettings.backgroundColorGreen, self.barSettings.backgroundColorBlue);
 			self:SetBGColor( tempColor );
 		else
 			self:SetBGColor( Turbine.UI.Color( 0, 0, 0, 0) );
 		end
-		if ( barSettings.barType == EXTENSIONBAR ) then
+		if ( self.barSettings.barType == EXTENSIONBAR ) then
 			self:SetVisible( false );
 		end
 	else
 		self:SetMenuBackColor( self.id == settings.selectedBar, settings.barMode );
 		self:SetVisible( true );
 	end
-	
-	self:SetPosition( barSettings.x, barSettings.y );
-	if ( barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
+
+	if ( self.barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
 		self.DragBar:Refresh();
 	end
 
-	self.quickslotList:SetAllowDrop( not barSettings.locked );
-	self.quickslotList:SetMaxItemsPerLine( barSettings.quickslotColumns );
-	local showQuickslots = (settings.barMode ~= NORMAL_MODE) or barSettings.locked == false;
-	self.quickslotList:Refresh( showQuickslots, barSettings.locked );
+	self.quickslotList:SetAllowDrop( not self.barSettings.locked );
+	self.quickslotList:SetMaxItemsPerLine( self.barSettings.quickslotColumns );
+	local showQuickslots = (settings.barMode ~= NORMAL_MODE) or self.barSettings.locked == false;
+	self.quickslotList:Refresh( showQuickslots, self.barSettings.locked );
 
 	self:SetBarSize();
 end

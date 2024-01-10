@@ -8,72 +8,100 @@ BarService = class( MysticBars.Utils.Service );
 BarService.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "BarService" );
 
 function BarService:Constructor()
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-
 	self.Log:Debug("constructor");
 
 	self.working = false;
 	RegisteredBars = { };
 
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	self:Construct( settingsService:GetBars() );
 end
 
-function BarService:RefreshBars()
+function BarService:RefreshBars( drawShortcuts )
 	self.Log:Debug("RefreshBars");
 
 	for key, value in pairs (RegisteredBars) do
-		value:Refresh();
+		value:Refresh( "RefreshBars", drawShortcuts );
 	end
 end
 
-function BarService:Add( barType, cBarID, cQuickslotID )
+function BarService:Add( barType )
 	self.Log:Debug("Add");
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local barSettings = settingsService:NewBar();
 
 	local bar = nil;
-	if ( self.working == false ) then
-		self.working = true;
-		local settings = settingsService:GetSettings();
-		local added = settings.nextBarId;
-		if ( cBarID ~= nil and barType ~= EXTENSIONBAR ) then
-			added = cBarID;
-		end
 
-		if ( barType == QUICKSLOTBAR ) then
-			bar = MysticBars.Bars.QuickslotBar( added );
-		elseif ( barType == EXTENSIONBAR ) then
-			local barSettings = settingsService:GetBarSettings( cBarID );
-			added = settings.nextBarId;
-			if ( barSettings.barType == QUICKSLOTBAR ) then
-				bar = MysticBars.Bars.ExtensionBar( added );
-				RegisteredBars[cBarID]:RegisterBarExtension( bar, cQuickslotID, added );
-			else
-				Turbine.Shell.WriteLine( "You can not add an extension to an extension." );
-			end
-		elseif ( barType == TABBED_INV_BAR ) then
-			bar = MysticBars.Bars.TabbedInventoryBar( added );
-		elseif ( barType == WINDOW_INV_BAR ) then
-			bar = MysticBars.Bars.WindowInventoryBar( added );
-		end
-		if ( bar ~= nil ) then
-			RegisteredBars[added] = bar;
-			if ( added == settings.nextBarId ) then
-				settingsService:IncrementNextId();
-			end
-			local barSettings = settingsService:GetBarSettings( added );
-			barSettings.barType = barType;
-			settingsService:SetBarSettings( added, barSettings, nil, true );
-			self.working = false;
-			return added;
-		else
-			self.working = false;
-			return nil;
-		end
-	else
-		Turbine.Shell.WriteLine( "Your actions are occuring too quickly, please slow down." );
-		return nil;
+	if (barType == QUICKSLOTBAR) then
+		barSettings.barType = QUICKSLOTBAR;
+		bar = self:AddQuickslotBar(barSettings);
+	elseif (barType == EXTENSIONBAR) then
+		barSettings.barType = EXTENSIONBAR;
+		bar = self:AddExtensionBar(barSettings);
+	elseif (barType == TABBED_INV_BAR) then
+		barSettings.barType = TABBED_INV_BAR;
+		bar = self:AddTabbedInventoryBar(barSettings);
 	end
+
+	return barSettings, bar;
+end
+
+function BarService:AddQuickslotBar( barSettings )
+	self.Log:Debug("AddQuickslotBar id:" .. barSettings.id);
+
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	settingsService:SetBarSettings( barSettings );
+
+	local bar = MysticBars.Bars.QuickslotBar( barSettings );
+	RegisteredBars[ barSettings.id ] = bar;
+
+	return barSettings, bar;
+end
+
+function BarService:AddExtensionBar( newBarSettings, connectingBarId, connectingSlotNumber )
+	self.Log:Debug("AddExtensionBar " .. connectingBarId);
+
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( connectingBarId );
+
+	local bar = nil;
+	if ( barSettings.barType == QUICKSLOTBAR ) then
+		newBarSettings.locked = true;
+		newBarSettings.orientation = "Right";
+		newBarSettings.barTermination = 1;
+
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+		settingsService:SetBarSettings( newBarSettings );
+
+		bar = MysticBars.Bars.ExtensionBar( newBarSettings );
+		RegisteredBars[connectingBarId]:RegisterBarExtension( bar, connectingSlotNumber, newBarSettings.id );
+
+	else
+		Turbine.Shell.WriteLine( "You can not add an extension to an extension." );
+	end
+
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	settingsService:SetBarSettings( barSettings );
+
+	return barSettings, bar;
+end
+
+function BarService:AddTabbedInventoryBar( barSettings )
+	self.Log:Debug("AddInventoryBar");
+
+	barSettings.quickslotRows = 1;
+	barSettings.quickslotColumns = 4;
+	barSettings.quickslotCount = 12;
+	barSettings.visible = true;
+
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	settingsService:SetBarSettings( barSettings );
+
+	local bar = MysticBars.Bars.TabbedInventoryBar( barSettings );
+	RegisteredBars[ barSettings.id ] = bar;
+
+	return barSettings, bar;
 end
 
 function BarService:Remove( barid, removeSettingsWhenNil )
@@ -85,8 +113,6 @@ function BarService:Remove( barid, removeSettingsWhenNil )
 	if ( barid ~= nil and RegisteredBars[barid] ~= nil ) then
 		eventService:UnregisterForEvents( barid );
 
-		RegisteredBars[barid]:SetVisible( false );
-		RegisteredBars[barid]:SetParent( nil );
 		if ( removeSettingsWhenNil == nil ) then
 			RegisteredBars[barid]:ClearQuickslots( true );
 		else
@@ -95,12 +121,13 @@ function BarService:Remove( barid, removeSettingsWhenNil )
 		if ( RegisteredBars[barid].Remove ~= nil ) then
 			RegisteredBars[barid]:Remove()
 		end
+		RegisteredBars[barid]:SetParent( nil );
 		RegisteredBars[barid]:SetVisible( false );
 		RegisteredBars[barid]:SetBackColor( Turbine.UI.Color( 0, 0, 0, 0) );
 		RegisteredBars[barid] = nil;
 
 		if ( removeSettingsWhenNil == nil ) then
-			settingsService:SetBarSettings( barid, nil, nil, true);
+			settingsService:ClearBarSettings( barid);
 		end
 
 		local menuService = SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService)
@@ -134,10 +161,10 @@ function BarService:Reset( barid )
 		self.working = true;	
 		local barsettings = settingsService:GetBarSettings( barid );
 		local tempType = barsettings.barType;
-		settingsService:SetBarSettings( barid, nil, false );
+		settingsService:ClearBarSettings( barid );
 		barsettings = settingsService:GetBarSettings( barid );
 		barsettings.barType = tempType;
-		settingsService:SetBarSettings( barid, barsettings );
+		settingsService:SetBarSettings( barsettings );
 		self.working = false;
 	else
 		return nil;
@@ -151,29 +178,24 @@ function BarService:Construct( storedBars, second )
 
 	for key, value in pairs (storedBars) do
 		if ( value.barType == QUICKSLOTBAR ) then
-			local bar = MysticBars.Bars.QuickslotBar( tonumber(key) );
+			local bar = MysticBars.Bars.QuickslotBar( value );
 			RegisteredBars[tonumber(key)] = bar;
 		end
 		if ( value.barType == TABBED_INV_BAR ) then
-			local bar = MysticBars.Bars.TabbedInventoryBar( tonumber(key) );
-			RegisteredBars[tonumber(key)] = bar;
-		end
-		if ( value.barType == WINDOW_INV_BAR ) then
-			local bar = MysticBars.Bars.WindowInventoryBar( tonumber(key) );
+			local bar = MysticBars.Bars.TabbedInventoryBar( value );
 			RegisteredBars[tonumber(key)] = bar;
 		end
 	end
 
 	for key, value in pairs (storedBars) do
 		if ( value.barType == EXTENSIONBAR ) then
-			local bar = MysticBars.Bars.ExtensionBar( key );
-			local attachedbarSettings = settingsService:GetBarSettings( key );
-			local thebar = RegisteredBars[attachedbarSettings.connectionBarID];
+			local bar = MysticBars.Bars.ExtensionBar( value );
+			local thebar = RegisteredBars[value.connectionBarID];
 			if ( thebar ~= nil ) then
-				thebar:RegisterBarExtension( bar, attachedbarSettings.connectionQuickslotID, key );
+				thebar:RegisterBarExtension( bar, value.connectionQuickslotID, key );
 				RegisteredBars[tonumber(key)] = bar;
 			else
-				settingsService:SetBarSettings( key, nil);
+				settingsService:ClearBarSettings( key);
 				Turbine.Shell.WriteLine( "We found extension bar without a main bar. Deleting. Thank the community for the fix." );
 			end
 		end
@@ -192,27 +214,6 @@ function BarService:GetBar( barId )
 	return RegisteredBars[ barId ];
 end
 
-function BarService:ShowExtensionBarMenu( barid )
-	self.Log:Debug("ShowExtensionBarMenu");
-
-	RegisteredBars[ barid ]:ShowBarMenu();
-end
-
-function BarService:UpdateBarExtensions()
-	self.Log:Debug("UpdateBarExtensions");
-
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-
-	for key, value in pairs (RegisteredBars) do
-		local barsettings = settingsService:GetBarSettings( key );
-		if ( barsettings.barType == QUICKSLOTBAR and value ~= nil ) then
-			if (RegisteredBars[ key ].UpdateBarExtensions ~= nil) then
-				RegisteredBars[ key ]:UpdateBarExtensions();
-			end
-		end
-	end
-end
-
 function BarService:Alive( barid )
 	self.Log:Debug("Alive");
 
@@ -220,19 +221,6 @@ function BarService:Alive( barid )
 		return false;
 	else
 		return true;
-	end
-end
-
-function BarService:LoadQuickslots()
-	self.Log:Debug("LoadQuickslots");
-
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-
-	for key, value in pairs (RegisteredBars) do
-		local bSettings = settingsService:GetBarSettings( key );
-		if ( bSettings.barType == QUICKSLOTBAR or bSettings.barType == EXTENSIONBAR ) then
-			settingsService:LoadQuickslots( bSettings, RegisteredBars[ key ]:GetQuickslotList().quickslots );
-		end
 	end
 end
 

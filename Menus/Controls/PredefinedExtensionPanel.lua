@@ -27,7 +27,6 @@ end
 function PredefinedExtensionPanel:DisplaySettings()
     self.typeList.SelectedIndexChanged = function(sender, args)
 		local skillsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SkillsService);
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 		local skillSets = skillsService:GetSkillSets();
 		local skillSet = skillSets[self.typeList:GetSelection()];
@@ -44,14 +43,11 @@ function PredefinedExtensionPanel:DisplaySettings()
 			end
 			barSettings.quickslotCount = skillSet.skillCount;
 			return barSettings;
-		end, nil, true, true);
+		end);
 
 		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-		barService:LoadQuickslots();
-		barService:RefreshBars();
-
-		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-		local barSettings = settingsService:GetBarSettings( self.barId );
+		local bar = barService:GetBar(self.barId);
+		bar:Refresh("PredefinedExtensionPanel", true);
 
 		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
 			local count = 0;
@@ -68,11 +64,10 @@ function PredefinedExtensionPanel:DisplaySettings()
 				end
 			end
 			return barSettings;
-		end, nil, true, true);
+		end);
 
 		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-		barService:LoadQuickslots();
-		barService:RefreshBars();
+		barService:RefreshBars( true );
 	end
 end
 

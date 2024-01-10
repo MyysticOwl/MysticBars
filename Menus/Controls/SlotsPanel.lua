@@ -32,9 +32,7 @@ function SlotsPanel:Constructor(barId, barValue, isExtension)
 
 	self.sizeSB = self.utils:AddScrollBar(self.panelBackground, 36, 0, 99, 200, selectionHeight + 20, nil, L["Size:"], 200,
 		40, 5);
-	self.utils:CreateScrollBarCallback(self.sizeSB, barId, { "quickslotSize" }, nil, nil, function(sender, args)
-		SERVICE_CONTAINER:GetService(MysticBars.Services.BarService):RefreshBars();
-	end);
+	self.utils:CreateScrollBarCallback(self.sizeSB, barId, { "quickslotSize" }, nil, nil);
 
 	self:DisplaySettings();
 end
@@ -73,7 +71,7 @@ function SlotsPanel:DisplaySettings()
 				function(barSettings)
 					barSettings.quickslotCount = self.extSb:GetValue();
 					return barSettings;
-				end, nil, true);
+				end);
 		end
 	end
 	self.spacingSB:SetValue(localBarSettings.quickslotSpacing);

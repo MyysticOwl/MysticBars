@@ -11,23 +11,12 @@ import "MysticBars.Bars.Core.Tab"
 
 TabbedInventoryBar = class( MysticBars.Bars.Core.InventoryBaseBar );
 
-TabbedInventoryBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "TabbedInventoryBar", false );
+TabbedInventoryBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "TabbedInventoryBar" );
 
-function TabbedInventoryBar:Constructor( barid )
+function TabbedInventoryBar:Constructor( barSettings )
 	self.Log:Debug("Constructor");
 
-	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(barid, function(barSettings)
-		if (barSettings.barType ~= TABBED_INV_BAR) then
-			barSettings.barType = TABBED_INV_BAR;
-			barSettings.quickslotRows = 1;
-			barSettings.quickslotColumns = 4;
-			barSettings.quickslotCount = 12;
-			barSettings.visible = true;
-		end
-		return barSettings;
-	end, nil, true);
-
-	MysticBars.Bars.Core.InventoryBaseBar.Constructor( self, barid );
+	MysticBars.Bars.Core.InventoryBaseBar.Constructor( self, barSettings );
 end
 
 function TabbedInventoryBar:Create()
@@ -35,15 +24,32 @@ function TabbedInventoryBar:Create()
 
 	self.Log:Debug("Create");
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local barSettings = settingsService:GetBarSettings( self.id );
-
-	local title = barSettings.barName;
-	if ( barSettings.barName == nil or barSettings.barName == "" ) then
+	local title = self.barSettings.barName;
+	if ( self.barSettings.barName == nil or self.barSettings.barName == "" ) then
 		title = "Bar:" .. self.id;
 	end
 	self.tab = MysticBars.Bars.Core.Tab( self, title );
-	--self.quickslotList:SetPosition(0, 0 );
+end
+
+function TabbedInventoryBar:PositionChanged( sender, args )
+	self.Log:Debug("PositionChanged");
+
+	local settings = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):GetSettings();
+	if ( settings.barMode ~= NORMAL_MODE or ( self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then
+		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
+			local x, y = self:GetPosition();
+
+			barSettings.relationalX = x / DISPLAYWIDTH;
+			barSettings.relationalY = y / DISPLAYHEIGHT;
+
+			barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
+			barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
+			return barSettings;
+		end, function(barSettings)
+			self:SetPosition( barSettings.x, barSettings.y );
+			self.tab:Refresh();
+		end);
+	end
 end
 
 function TabbedInventoryBar:Remove()
@@ -67,7 +73,7 @@ end
 function TabbedInventoryBar:Refresh()
 	self.Log:Debug("Refresh");
 
-	MysticBars.Bars.Core.InventoryBaseBar.Refresh( self );
+	MysticBars.Bars.Core.InventoryBaseBar.Refresh( self, "TabbedInventoryBar:Refresh" );
 	if ( self.tab ~= nil ) then
 		self.tab:Refresh();
 	end

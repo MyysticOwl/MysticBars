@@ -47,16 +47,8 @@ function TestBarService:ShowExtensionBarMenu( barid )
 	self.Log:Debug("ShowExtensionBarMenu");
 end
 
-function TestBarService:UpdateBarExtensions()
-	self.Log:Debug("UpdateBarExtensions");
-end
-
 function TestBarService:Alive( barid )
 	self.Log:Debug("Alive");
-end
-
-function TestBarService:LoadQuickslots()
-	self.Log:Debug("LoadQuickslots");
 end
 
 function TestBarService:ExtensionMousedOver()

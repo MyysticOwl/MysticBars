@@ -5,52 +5,27 @@
 
 ExtensionBar = class( MysticBars.Bars.Core.BaseBar );
 
-ExtensionBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "ExtensionBar", false );
+ExtensionBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "ExtensionBar" );
 
-function ExtensionBar:Constructor( barId )
+function ExtensionBar:Constructor( barSettings )
 	self.Log:Debug("Constructor");
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local barSettings = settingsService:GetBarSettings( barId );
-
-	local changedBarSettings = false;
 	self.faded = false;
-	if ( barSettings.barType ~= EXTENSIONBAR or barSettings.locked ~= true ) then
-		barSettings.barType = EXTENSIONBAR;
-		barSettings.locked = true;
-		changedBarSettings = true;
-	end
-
-	if ( barSettings.orientation == nil ) then
-		barSettings.orientation = "Right";
-		changedBarSettings = true;
-	end
-	if ( barSettings.barTermination == nil ) then
-		barSettings.barTermination = 1;
-		changedBarSettings = true;
-	end
 	self.keepVisible = false;
 	self.cycleCount = 0;
-	
-	MysticBars.Bars.Core.BaseBar.Constructor( self, barId );
 
-	self.quickslotList.loading = true;
-	settingsService:LoadQuickslots( barSettings, self.quickslotList.quickslots );
-	self.quickslotList.loading = false;
+	MysticBars.Bars.Core.BaseBar.Constructor( self, barSettings );
 
-	if ( changedBarSettings ) then
-		settingsService:SetBarSettings( self.id, barSettings );
-	else
-		self:Refresh();
-	end
-	
+	self.quickslotList:LoadQuickslots();
+
+	self:Refresh("ExtensionBar:Constructor");
 	self:SetVisible( false );
 end
 
 function ExtensionBar:Create()
 	self.Log:Debug("Create");
 
-	self.quickslotList = MysticBars.Bars.Core.QuickslotList( self.id );
+	self.quickslotList = MysticBars.Bars.Core.QuickslotList( self, self.barSettings );
 	MysticBars.Bars.Core.BaseBar.Create( self );
 end
 
@@ -125,49 +100,42 @@ function ExtensionBar:Setup( pX, pY )
 	self:SetupPosition();
 end
 
-function ExtensionBar:SetupPosition( refresh )
+function ExtensionBar:SetupPosition()
 	self.Log:Debug("SetupPosition");
 
-	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local newX = nil;
+	local newY = nil;
 
-	if ( barService  ~= nil and barService:Alive( self.id ) ) then
-		local barSettings = settingsService:GetBarSettings( self.id );
-		local changedBarSettings = false;
-		if ( self.created == true ) then
-			if ( barSettings.orientation == "Left" ) then
-				self:SetPosition( self.positionX - self:GetWidth(), self.positionY );
-				if (  barSettings.quickslotCount ~= barSettings.quickslotColumns) then
-					barSettings.quickslotColumns = barSettings.quickslotCount;
-					changedBarSettings = true;
-				end
-			elseif ( barSettings.orientation == "Right" ) then
-				self:SetPosition( self.positionX + barSettings.quickslotSize, self.positionY );
-				if (  barSettings.quickslotCount ~= barSettings.quickslotColumns) then
-					barSettings.quickslotColumns = barSettings.quickslotCount;
-					changedBarSettings = true;
-				end
-			elseif ( barSettings.orientation == "Up" ) then
-				self:SetPosition( self.positionX, self.positionY - self:GetHeight() );
-				if (  barSettings.quickslotColumns ~= 1 ) then
-					barSettings.quickslotColumns = 1;
-					changedBarSettings = true;
-				end
-			elseif ( barSettings.orientation == "Down" ) then
-				self:SetPosition( self.positionX, self.positionY + barSettings.quickslotSize );
-				if (  barSettings.quickslotColumns ~= 1 ) then
-					barSettings.quickslotColumns = 1;
-					changedBarSettings = true;
-				end
+	if ( self.created == true ) then
+		if ( self.barSettings.orientation == "Left" ) then
+			newX = self.positionX - self:GetWidth();
+			newY = self.positionY;
+			if (  self.barSettings.quickslotCount ~= self.barSettings.quickslotColumns) then
+				self.barSettings.quickslotColumns = self.barSettings.quickslotCount;
+			end
+		elseif ( self.barSettings.orientation == "Right" ) then
+			newX = self.positionX + self.barSettings.quickslotSize;
+			newY = self.positionY;
+			if (  self.barSettings.quickslotCount ~= self.barSettings.quickslotColumns) then
+				self.barSettings.quickslotColumns = self.barSettings.quickslotCount;
+			end
+		elseif ( self.barSettings.orientation == "Up" ) then
+			newX = self.positionX;
+			newY = self.positionY - self:GetHeight();
+			if (  self.barSettings.quickslotColumns ~= 1 ) then
+				self.barSettings.quickslotColumns = 1;
+			end
+		elseif ( self.barSettings.orientation == "Down" ) then
+			newX = self.positionX;
+			newY = self.positionY + self.barSettings.quickslotSize;
+			if (  self.barSettings.quickslotColumns ~= 1 ) then
+				self.barSettings.quickslotColumns = 1;
 			end
 		end
-		if ( changedBarSettings ) then
-			settingsService:SetBarSettings( self.id, barSettings, true );
-		else
-			if ( refresh == nil ) then
-				self:Refresh();
-			end
-		end
+	end
+	if (newX ~= nil) then
+		self:SetPosition( newX, newY );
+		MysticBars.Bars.Core.BaseBar.Refresh( self, "ExtensionBar:SetupPosition");
 	end
 end
 
@@ -181,12 +149,15 @@ function ExtensionBar:Created()
 	end
 end
 
-function ExtensionBar:Refresh()
+function ExtensionBar:Refresh( sender, drawShortcuts )
 	self.Log:Debug("Refresh");
 
-	self:SetupPosition( false );
-	MysticBars.Bars.Core.BaseBar.Refresh( self );
-	self:SetupPosition( false );
+	MysticBars.Bars.Core.BaseBar.Refresh( self, sender);
+	self:SetupPosition();
+
+	if (drawShortcuts) then
+		self.quickslotList:LoadQuickslots();
+	end
 end
 
 function ExtensionBar:SetBGColor( color )
@@ -233,19 +204,15 @@ function ExtensionBar:SetOrientation( orientation )
 	if ( orientation == nil or (orientation ~= "Left" and orientation ~= "Right" and orientation ~= "Up" and orientation ~= "Down") ) then
 		return nil
 	else
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
-		local barSettings = settingsService:GetBarSettings( self.id );
-
-		if ( orientation ~= barSettings.orientation and barService  ~= nil and barService:Alive( self.id ) ) then
-			barSettings.orientation = orientation;
-			settingsService:SetBarSettings( self.id, barSettings );
+		if ( orientation ~= self.barSettings.orientation ) then
+			self.barSettings.orientation = orientation;
+			settingsService:SetBarSettings( self.barSettings );
 		else
-			self:Refresh();
+			self:Refresh("ExtensionBar:SetOrientation");
 		end
 		self:SetupPosition();
-		--barService:UpdateBarExtensions();
 		return 1;
 	end
 end
@@ -256,8 +223,8 @@ function ExtensionBar:SelectRandomShortcut( parentBar, quickslotToReplace )
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local i = 0;
-	local barSettings = settingsService:GetBarSettings( self.id );
-	for key, value in pairs ( barSettings.quickslots ) do
+
+	for key, value in pairs ( self.barSettings.quickslots ) do
 		i = i + 1;
 	end
 	if ( i == 0) then
@@ -277,8 +244,7 @@ function ExtensionBar:CycleShortcut( parentBar, quickslotToReplace, args )
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
-	local barSettings = settingsService:GetBarSettings( self.id );
-	self.cycleCount = (self.cycleCount + 1) % (barSettings.quickslotCount + 1);	  -- 0 - quickslot count will return 1 minus the number we want because LUA is 1 based.
+	self.cycleCount = (self.cycleCount + 1) % (self.barSettings.quickslotCount + 1);	  -- 0 - quickslot count will return 1 minus the number we want because LUA is 1 based.
 	if ( self.cycleCount == 0 ) then
 		self.cycleCount = 1;
 	end
@@ -298,8 +264,8 @@ function ExtensionBar:RollupSelection( parentBar, indexToUse )
 		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 		local theBars = barService:GetBars();
-		local barSettings = settingsService:GetBarSettings( self.id );
-		local parentQuickslot = theBars[ barSettings.connectionBarID ]:GetQuickslotList().quickslots[ barSettings.connectionQuickslotID ];		
+
+		local parentQuickslot = theBars[ self.barSettings.connectionBarID ]:GetQuickslotList().quickslots[ self.barSettings.connectionQuickslotID ];		
 		parentQuickslot:SetShortcut( quickslot:GetShortcut() );
 		return;
 	end
@@ -310,8 +276,7 @@ function ExtensionBar:FindNthQuickslot( selection )
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
-	local barSettings = settingsService:GetBarSettings( self.id );
-	for key2, value2 in pairs ( barSettings.quickslots ) do
+	for key2, value2 in pairs ( self.barSettings.quickslots ) do
 		if ( selection - 1 <= 0 ) then
 			return self:GetQuickslotList().quickslots[ key2 ];
 		else

@@ -24,7 +24,7 @@ end
 function RuneKeeperTemplate:Restoration( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( override, "Restoration", 4, 1, 1, 240, 350, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar( "Restoration", 1, 1, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( false, false, barSettings );
 		templateService:SetTrigger( templateService.CTRL, nil, barSettings );
 		templateService:SetBuffTrigger( "Rune of Restoration", barSettings );
@@ -36,7 +36,7 @@ end
 function RuneKeeperTemplate:Attun7( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( override, "Attun 7", 2, 5, 1, 468, 300, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar( "Attun 7", 5, 1, 468, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetClassRangeTrigger( RK_ATTUNEMENT, 1, 7, barSettings);
 		templateService:AddShortcut( 1, "0x7000EEAE", 6, 2, barSettings );
@@ -50,7 +50,7 @@ end
 function RuneKeeperTemplate:Attun4( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( override, "Attun 4", 24, 6, 1, 429, 300, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar( "Attun 4", 6, 1, 429, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetClassRangeTrigger( RK_ATTUNEMENT, 1, 4, barSettings);
 		templateService:AddShortcut( 1, "0x7000EE01", 6, 24, barSettings );
@@ -65,7 +65,7 @@ end
 function RuneKeeperTemplate:Attun1( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( override, "Attun 1", 20, 3, 1, 387, 300, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar( "Attun 1", 3, 1, 387, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetClassRangeTrigger( RK_ATTUNEMENT, 1, 1, barSettings);
 		templateService:AddShortcut( 1, "0x7000EEAF", 6, 20, barSettings );
@@ -77,7 +77,7 @@ end
 function RuneKeeperTemplate:Attun1019( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( override, "Attun 10-19", 1, 1, 1, 508, 336, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar( "Attun 10-19", 1, 1, 508, 336, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetClassRangeTrigger( RK_ATTUNEMENT, 10, 19, barSettings);
 		templateService:AddShortcut( 1, "0x7000EEA8", 6, 1, barSettings );
@@ -87,7 +87,7 @@ end
 function RuneKeeperTemplate:Attun13( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( override, "Attun 13", 12, 2, 1, 547, 300, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar( "Attun 13", 2, 1, 547, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetClassRangeTrigger( RK_ATTUNEMENT, 13, 19, barSettings);
 		templateService:AddShortcut( 1, "0x7000EEA9", 6, 12, barSettings );
@@ -98,7 +98,7 @@ end
 function RuneKeeperTemplate:Attun16( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( override, "Attun 16", 18, 3, 1, 585, 300, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar( "Attun 16", 3, 1, 585, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetClassRangeTrigger( RK_ATTUNEMENT, 16, 19, barSettings);
 		templateService:AddShortcut( 1, "0x7000EEA6", 6, 18, barSettings );
@@ -110,7 +110,7 @@ end
 function RuneKeeperTemplate:Attun19( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( override, "Attun 19", 41, 3, 1, 623, 300, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar( "Attun 19", 3, 1, 623, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetClassRangeTrigger( RK_ATTUNEMENT, 19, 19, barSettings);
 		templateService:AddShortcut( 1, "0x70018636", 6, 42, barSettings );
@@ -122,7 +122,7 @@ end
 function RuneKeeperTemplate:Attun110( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( override, "Attun 1-10", 1, 1, 1, 508, 300, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar( "Attun 1-10", 1, 1, 508, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetClassRangeTrigger( RK_ATTUNEMENT, 1, 10, barSettings);
 		templateService:AddShortcut( 1, "0x7000E96B", 6, 1, barSettings );

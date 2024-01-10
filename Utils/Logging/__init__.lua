@@ -9,5 +9,5 @@ dumpLoggingCommand = MysticBars.Utils.Logging.DumpLoggingCommand();
 loadLoggingCommand = MysticBars.Utils.Logging.LoadLoggingCommand();
 
 
-Turbine.Shell.AddCommand( "mysticbars_dump_loggers", dumpLoggingCommand );
-Turbine.Shell.AddCommand( "mysticbars_load_loggers", loadLoggingCommand );
+Turbine.Shell.AddCommand( "mb_dump_loggers", dumpLoggingCommand );
+Turbine.Shell.AddCommand( "mb_load_loggers", loadLoggingCommand );

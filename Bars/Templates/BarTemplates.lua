@@ -79,6 +79,5 @@ function BarTemplates:CheckTemplates()
 
 	settingsService:SaveSettings();
 
-	barService:LoadQuickslots();
 	barService:RefreshBars();
 end

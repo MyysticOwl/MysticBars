@@ -97,26 +97,14 @@ function TestSettingsService:MigrateTriggerParam(path, newpath, parameter)
 	self.Log:Debug("MigrateTriggerParam");
 end
 
-function TestSettingsService:SetBarSettings(barid, bar, doNotRefresh, force)
+function TestSettingsService:SetBarSettings(barSettings)
 	self.Log:Debug("SetBarSettings");
 
-	self.bars[barid] = bar;
+	self.bars[barSettings.id] = barSettings;
 end
 
 function TestSettingsService:UpdateBarSettings(barid, updateCallback, completeCallback, force, doNotRefresh)
 	self.Log:Debug("UpdateBarSettings");
-end
-
-function TestSettingsService:SaveQuickslots( bar, qSlots, save )
-	self.Log:Debug("SaveQuickslots");
-end
-
-function TestSettingsService:LoadQuickslots( bar, qSlots )
-	self.Log:Debug("LoadQuickslots");
-end
-
-function SetShortcut( shortcut, qSlots, key )
-	qSlots[key]:SetShortcut( shortcut );
 end
 
 function TestSettingsService:IncrementNextId()

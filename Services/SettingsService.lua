@@ -71,7 +71,7 @@ function SettingsService:LoadSettings( profile )
 	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
 	if ( locale == "de" or locale == "fr" ) then
 		self.settings = { };
-		DeepcopyLoadConvertInts( playerSettings, self.settings );
+		MysticBars.Utils.DeepcopyLoadConvertInts( playerSettings, self.settings );
 	else
 		self.settings = playerSettings;
 	end
@@ -85,7 +85,7 @@ function SettingsService:LoadSettings( profile )
 		self.settings.menuLanguage = locale;
 	end
 	if ( self.settings.nextBarId == nil ) then
-		self.settings.nextBarId = 1;
+		self.settings.nextBarId = 0;
 	end
 	if ( self.settings.mainMenuVisible ~= nil ) then
 		self.settings.mainMenuVisible = nil;
@@ -108,10 +108,10 @@ function SettingsService:SaveSettings( profile )
 	if ( locale == "de" or locale == "fr" or locale == "ru" ) then
 		local temp = { };
 		if ( profile == nil ) then
-			DeepcopySaveConvertInts( self.settings, temp );
+			MysticBars.Utils.DeepcopySaveConvertInts( self.settings, temp );
 			self.profiles[ playerService.player:GetName() ] = temp;
 		else
-			DeepcopySaveConvertInts( profile, temp );
+			MysticBars.Utils.DeepcopySaveConvertInts( profile, temp );
 			Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", temp, function (success, error)
 				if (not success) then
 					Turbine.Shell.WriteLine("Error Saving... " .. error);
@@ -159,7 +159,7 @@ function SettingsService:LoadBuffs()
 	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
 	if ( locale == "de" or locale == "fr" ) then
 		self.buffs = { };
-		DeepcopyLoadConvertInts( playerBuffs, self.buffs );
+		MysticBars.Utils.DeepcopyLoadConvertInts( playerBuffs, self.buffs );
 	else
 		self.buffs = playerBuffs;
 	end
@@ -180,7 +180,7 @@ function SettingsService:SaveBuffs(buffs)
 
 	if ( locale == "de" or locale == "fr" or locale == "ru" ) then
 		local temp = { };
-		DeepcopySaveConvertInts( self.buffProfiles, temp );
+		MysticBars.Utils.DeepcopySaveConvertInts( self.buffProfiles, temp );
 		Turbine.PluginData.Save( Turbine.DataScope.Server, "MysticBarsBuffs", temp, function (success, error)
 			if (not success) then
 				Turbine.Shell.WriteLine("Error Saving... " .. error);
@@ -207,7 +207,7 @@ function SettingsService:GetBars( localBarType )
 		for key, value in pairs (self.settings.bars) do
 			if ( value.barType == localBarType and value ~= nil ) then
 				self.tempBars[key] = {};
-				Deepcopy( self.settings.bars[key], self.tempBars[key] );
+				MysticBars.Utils.Deepcopy( self.settings.bars[key], self.tempBars[key] );
 				i = i + 1;
 			end
 		end
@@ -215,124 +215,77 @@ function SettingsService:GetBars( localBarType )
 	end
 end
 
+function SettingsService:FindBar( name )
+	for key, value in pairs (self.settings.bars) do
+		if ( value.barName == name ) then
+			return value;
+		end
+	end
+	return nil;
+end
+
+function SettingsService:NewBar()
+	local bar = { };
+	bar.id = self:IncrementNextId();
+	bar.quickslots = { };
+	bar.x = 103;
+	bar.y = 161;
+	bar.barType = 1;
+	bar.quickslotCount = 5;
+	bar.quickslotColumns = 1;
+	bar.quickslotRows = bar.quickslotCount / bar.quickslotColumns;
+	bar.visible = true;
+	bar.locked = false;
+	bar.onMouseOver = SHOW_EXTENSIONS;
+	bar.opacity = 1.0;
+	bar.quickslotSpacing = 1;
+	bar.quickslotSize = 36;
+	bar.useBackgroundColor = false;
+	bar.backgroundColorRed = 0;
+	bar.backgroundColorGreen = 0;
+	bar.backgroundColorBlue = 0;
+	bar.useFading = false;
+	bar.fadeOpacity = 1;
+	bar.events = { };
+	bar.events.triggered = { };
+	bar.events.triggered.healthTrigger = 0.25;
+	bar.events.triggered.powerTrigger = 0.25;
+	bar.events.triggered.triggerOnClassBuffActive = true;
+	bar.events.inventory = { };
+	bar.events.inventory.quantity = 50;
+
+	return bar;
+end
+
+
 function SettingsService:GetBarSettings( barid )
 	self.Log:Debug("GetBarSettings");
 
-	local bar = self.settings.bars[barid]
-	if ( bar == nil ) then
-		bar = { };
+	if (barid == nil or self.settings.bars == nil or self.settings.bars[barid] == nil) then
+		self.Log:Debug("Attempting to get Bar that is nil or unregistered.");
+		return nil;
 	end
 
-	if ( bar.quickslots == nil ) then
-		bar.quickslots = { };
-	end
+	local barSettings = self.settings.bars[barid];
 
-	if ( bar.x == nil )then
-		bar.x = 103;
-	end
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayInCombat");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayNotInCombat");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayWhileMounted");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayWhileNotMounted");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayWhileCombatMounted");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayWhileNotCombatMounted");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "isControl");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "isAlt");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "isShift");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "categories");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayOnHealth");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "healthTrigger");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayOnPower");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "powerTrigger");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "triggerOnClassBuffActive");
+	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "triggerBuffType");
 
-	if ( bar.y == nil )then	
-		bar.y = 161;
-	end
-
-	if ( bar.barType == nil )then	
-		bar.barType = 1;
-	end
-
-	if ( bar.quickslotCount == nil )then	
-		bar.quickslotCount = 5;
-	end
-
-	if ( bar.quickslotColumns == nil )then
-		bar.quickslotColumns = 1;
-	end
-
-	if ( bar.quickslotRows == nil ) then
-		bar.quickslotRows = bar.quickslotCount / bar.quickslotColumns;
-	end
-
-	if ( bar.visible == nil )then
-		bar.visible = true;
-	end
-
-	if ( bar.locked == nil )then
-		bar.locked = false;
-	end
-
-	if ( bar.onMouseOver == nil ) then
-		bar.onMouseOver = SHOW_EXTENSIONS;
-	end
-
-	if ( bar.opacity == nil )then
-		bar.opacity = 1.0;
-	end
-
-	if ( bar.quickslotSpacing == nil )then
-		bar.quickslotSpacing = 1;
-	end
-
-	if ( bar.quickslotSize == nil )then
-		bar.quickslotSize = 36;
-	end
-
-	if ( bar.useBackgroundColor == nil )then
-		bar.useBackgroundColor = false;
-	end	
-	if ( bar.backgroundColorRed == nil )then
-		bar.backgroundColorRed = 0;
-	end
-	if ( bar.backgroundColorGreen == nil )then
-		bar.backgroundColorGreen = 0;
-	end
-	if ( bar.backgroundColorBlue == nil )then
-		bar.backgroundColorBlue = 0;
-	end
-	if ( bar.useFading == nil )then
-		bar.useFading = false;
-	end	
-	if ( bar.fadeOpacity == nil )then
-		bar.fadeOpacity = 1;
-	end
-	if ( bar.events == nil ) then
-		bar.events = { };
-	end
-	if ( bar.events.triggered == nil ) then
-		bar.events.triggered = { };
-	end
-	if ( bar.events.triggered.healthTrigger == nil )then
-		bar.events.triggered.healthTrigger = 0.25;
-	end
-	if ( bar.events.triggered.powerTrigger == nil )then
-		bar.events.triggered.powerTrigger = 0.25;
-	end
-	if ( bar.events.triggered.triggerOnClassBuffActive == nil ) then
-		bar.events.triggered.triggerOnClassBuffActive = true;
-	end
-	if ( bar.events.inventory == nil )then
-		bar.events.inventory = { };
-	end
-	if ( bar.events.inventory.quantity == nil )then
-		bar.events.inventory.quantity = 50;
-	end
-
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayInCombat");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayNotInCombat");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayWhileMounted");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayWhileNotMounted");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayWhileCombatMounted");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayWhileNotCombatMounted");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "isControl");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "isAlt");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "isShift");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "categories");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayOnHealth");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "healthTrigger");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "displayOnPower");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "powerTrigger");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "triggerOnClassBuffActive");
-	self:MigrateTriggerParam(bar.events, bar.events.triggered, "triggerBuffType");
-
-	return bar
+	return barSettings;
 end
 
 function SettingsService:MigrateTriggerParam(path, newpath, parameter)
@@ -347,95 +300,47 @@ function SettingsService:MigrateTriggerParam(path, newpath, parameter)
 	end
 end
 
-function SettingsService:SetBarSettings(barid, bar, doNotRefresh, force)
-	self.Log:Debug("SetBarSettings");
+function SettingsService:SetBarSettings( updatedSettings )
+	self.Log:Debug("SetBarSettings " .. updatedSettings.id);
+
+	self.settings.bars[ updatedSettings.id ] = updatedSettings;
+	self:SaveSettings();
 
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-
-	if ( barid ~= nil and barService  ~= nil and (barService:Alive( barid ) or force)) then
-		self.settings.bars[barid] = bar;
-		
-		self:SaveSettings();
-		if ( doNotRefresh == nil and barService ~= nil ) then
-			barService:RefreshBars();
+	if (barService ~= nil) then
+		local bar = barService:GetBar(updatedSettings.id);
+		if (bar ~= nil) then
+			bar:Refresh("SettingsService:SetBarSettings");
 		end
 	end
 end
 
-function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallback, force, doNotRefresh)
+function SettingsService:ClearBarSettings( barId )
+	self.Log:Debug("ClearBarSettings");
+
+	self.settings.bars[ barId ] = nil;
+	self:SaveSettings();
+end
+
+function SettingsService:UpdateBarSettings(barid, updateCallback, completeCallback)
 	self.Log:Debug("UpdateBarSettings");
 
 	local barSettings = self:GetBarSettings( barid );
 
-	if (self.working == false) then
-		self.working = true;
+	local updatedSettings = updateCallback(barSettings);
 
-		local updatedSettings = updateCallback(barSettings);
+	self:SetBarSettings( updatedSettings );
 
-		self:SetBarSettings( barid, updatedSettings, doNotRefresh, force );
-		self.working = false;
-
-		if (completeCallback ~= nil) then
-			completeCallback(updatedSettings);
-		end
-	else
-		Turbine.Shell.WriteLine("Too many requests too fast");
+	if (completeCallback ~= nil) then
+		completeCallback(updatedSettings);
 	end
-end
-
-function SettingsService:SaveQuickslots( bar, qSlots, save )
-	self.Log:Debug("SaveQuickslots");
-
-	if ( self.loading ) then
-		return;
-	end
-
-	bar.quickslots = nil;
-	bar.quickslots = { };
-
-	for key, value in pairs (qSlots) do
-		local shortcut = value:GetShortcut();
-		if( shortcut:GetType() ~= 0 and shortcut:GetData() ~= "" ) then
-			if ( bar.quickslots[key] == nil ) then
-				bar.quickslots[key] = { };
-			end
-			bar.quickslots[key].Type = shortcut:GetType();
-			bar.quickslots[key].Data = shortcut:GetData();
-		end
-	end
-	if ( save == nil or save == false ) then
-		self:SaveSettings();
-	end
-end
-
-function SettingsService:LoadQuickslots( bar, qSlots )
-	self.Log:Debug("LoadQuickslots");
-
-	self.loading = true;
-	for key, value in pairs (bar.quickslots) do
-		if( value.Type ~= 0 and value.Data ~= "" ) then
-			local shortcut = Turbine.UI.Lotro.Shortcut( value.Type, value.Data );
-			if ( pcall( SetShortcut, shortcut, qSlots, key ) == false ) then
-				value = nil;
-				dirty = true;
-			end
-		end
-	end
-	self.loading = false;
-
-	if (dirty == true) then
-		self:SaveQuickslots( bar, qSlots )
-	end
-end
-
-function SetShortcut( shortcut, qSlots, key )
-	qSlots[key]:SetShortcut( shortcut );
 end
 
 function SettingsService:IncrementNextId()
 	self.Log:Debug("IncrementNextId");
 
 	self.settings.nextBarId = self.settings.nextBarId + 1;
+	return self.settings.nextBarId;
 end
 
 function SettingsService:LoadHelper()
@@ -472,7 +377,6 @@ function SettingsService:ResetAllBars()
 	barService:Construct( self.settings.bars, true );
 
 	barService:RefreshBars();
-	barService:LoadQuickslots();
 	SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 end
 
@@ -514,7 +418,7 @@ function SettingsService:CopyBars(profileToCopy, copyType, barid, myBar)
 
 	self:CreatePath( copyProfile );
 
-	Deepcopy( realProfile.bars[barid], copyProfile.bars[ copyProfile.nextBarId ] );
+	MysticBars.Utils.Deepcopy( realProfile.bars[barid], copyProfile.bars[ copyProfile.nextBarId ] );
 	
 	if ( copyType == self.PARTIAL ) then
 		copyProfile.bars[ copyProfile.nextBarId ].quickslots = nil;
@@ -527,7 +431,7 @@ function SettingsService:CopyBars(profileToCopy, copyType, barid, myBar)
 		for key, value in opairs ( realProfile.bars ) do
 			if ( value.barType == EXTENSIONBAR and value.connectionBarID == barid ) then
 				self:CreatePath( copyProfile );
-				Deepcopy( realProfile.bars[key], copyProfile.bars[ copyProfile.nextBarId ] );
+				MysticBars.Utils.Deepcopy( realProfile.bars[key], copyProfile.bars[ copyProfile.nextBarId ] );
 				copyProfile.bars[ copyProfile.nextBarId ].connectionBarID = newQuickslotBar;
 				copyProfile.nextBarId = copyProfile.nextBarId + 1;				
 			end

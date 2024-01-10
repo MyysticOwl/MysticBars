@@ -32,7 +32,6 @@ function TitleTreeNode:Constructor(text, topPadding, addBarType, extension)
       self:SetExpanded(false);
 
       local barId = barService:Add(addBarType);
-      barService:RefreshBars();
 
       SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService):GetMenu():Refresh(true);
     end
