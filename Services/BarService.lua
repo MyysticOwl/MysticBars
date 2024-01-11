@@ -104,7 +104,7 @@ function BarService:AddTabbedInventoryBar( barSettings )
 	return barSettings, bar;
 end
 
-function BarService:Remove( barid, removeSettingsWhenNil )
+function BarService:Remove( barid )
 	self.Log:Debug("Remove");
 
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
@@ -113,11 +113,7 @@ function BarService:Remove( barid, removeSettingsWhenNil )
 	if ( barid ~= nil and RegisteredBars[barid] ~= nil ) then
 		eventService:UnregisterForEvents( barid );
 
-		if ( removeSettingsWhenNil == nil ) then
-			RegisteredBars[barid]:ClearQuickslots( true );
-		else
-			RegisteredBars[barid]:ClearQuickslots();
-		end
+		RegisteredBars[barid]:ClearQuickslots( true );
 		if ( RegisteredBars[barid].Remove ~= nil ) then
 			RegisteredBars[barid]:Remove()
 		end
@@ -126,9 +122,7 @@ function BarService:Remove( barid, removeSettingsWhenNil )
 		RegisteredBars[barid]:SetBackColor( Turbine.UI.Color( 0, 0, 0, 0) );
 		RegisteredBars[barid] = nil;
 
-		if ( removeSettingsWhenNil == nil ) then
-			settingsService:ClearBarSettings( barid);
-		end
+		settingsService:ClearBarSettings( barid);
 
 		local menuService = SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService)
 		if (menuService ~= nil) then
@@ -139,7 +133,7 @@ end
 
 function BarService:Copy( barid, bartype )
 	self.Log:Debug("Copy");
-	
+
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
@@ -172,13 +166,19 @@ function BarService:Reset( barid )
 end
 
 function BarService:Construct( storedBars, second )
-	self.Log:Debug("Construct");
+	self.Log:Error("Construct");
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	for key, value in pairs (storedBars) do
-		if ( value.barType == QUICKSLOTBAR ) then
-			local bar = MysticBars.Bars.QuickslotBar( value );
+		if ( value.barType == QUICKSLOTBAR and value ~= nil) then
+			local bar = nil;
+			if (value.id ~= nil) then
+				bar = MysticBars.Bars.QuickslotBar( value );
+			else
+				value.id = tonumber(key);
+				bar = MysticBars.Bars.QuickslotBar( value );
+			end
 			RegisteredBars[tonumber(key)] = bar;
 		end
 		if ( value.barType == TABBED_INV_BAR ) then

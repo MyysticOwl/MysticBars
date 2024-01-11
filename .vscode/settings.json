@@ -16,6 +16,7 @@
     "Lua.diagnostics.disable": [
         "duplicate-set-field"
     ],
+
     "xml.fileAssociations": [
         {
             "pattern": "**/*.plugin",

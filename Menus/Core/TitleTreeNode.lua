@@ -1,6 +1,8 @@
 
 TitleTreeNode = class(MysticBars.Menus.Core.BaseTitleTreeNode);
 
+TitleTreeNode.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "TitleTreeNode" );
+
 function TitleTreeNode:Constructor(text, topPadding, addBarType, extension)
   MysticBars.Menus.Core.BaseTitleTreeNode.Constructor(self, text, topPadding, addBarType);
 

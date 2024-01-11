@@ -15,6 +15,7 @@ function BaseBar:Constructor( barSettings )
 	self.id = barSettings.id;
 	self.barSettings = barSettings;
 
+	self.selected = false;
 	self.dragged = false;
 	self.qsCreated = false;
 	self.isSelectedOnMainMenu = false;
@@ -74,16 +75,36 @@ function BaseBar:ClearQuickslots()
 end
 
 function BaseBar:Refresh( sender )
-	self.Log:Debug("Refresh " .. sender);
+	self.Log:Error("Refresh " .. sender .. " id:" .. self.id);
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
 	local barSettings = settingsService:GetBarSettings( self.id );
-	if (self.barSettings == nil) then
+	if (barSettings == nil) then
 		return; -- This bar is dead;
 	else
 		self.barSettings = barSettings;
 	end
+
+	self:BarSetup();
+
+	if ( self.barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
+		self.DragBar:Refresh();
+	end
+
+	self.quickslotList:SetAllowDrop( not self.barSettings.locked );
+	self.quickslotList:SetMaxItemsPerLine( self.barSettings.quickslotColumns );
+	local showQuickslots = (settings.barMode ~= NORMAL_MODE) or self.barSettings.locked == false;
+	self.quickslotList:Refresh( showQuickslots, self.barSettings.locked );
+
+	self:BarSelected();
+
+	self:SetBarSize();
+end
+
+function BaseBar:BarSetup()
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();
 
 	if ( settings.barMode == NORMAL_MODE ) then
 		if ( self.faded ) then
@@ -104,17 +125,6 @@ function BaseBar:Refresh( sender )
 		self:SetMenuBackColor( self.id == settings.selectedBar, settings.barMode );
 		self:SetVisible( true );
 	end
-
-	if ( self.barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
-		self.DragBar:Refresh();
-	end
-
-	self.quickslotList:SetAllowDrop( not self.barSettings.locked );
-	self.quickslotList:SetMaxItemsPerLine( self.barSettings.quickslotColumns );
-	local showQuickslots = (settings.barMode ~= NORMAL_MODE) or self.barSettings.locked == false;
-	self.quickslotList:Refresh( showQuickslots, self.barSettings.locked );
-
-	self:SetBarSize();
 end
 
 function BaseBar:SetMenuBackColor( selected, barMode )
@@ -124,6 +134,33 @@ function BaseBar:SetMenuBackColor( selected, barMode )
 	local settings = settingsService:GetSettings();
 	if ( selected ) then
 		self:SetOpacity( 0.6 );
+	end
+end
+
+function BaseBar:BarSelected()
+	self.Log:Debug("SetMenuBackColor");
+
+	if ( self.selected ) then
+		self.selectedProirColor = self:GetBackColor();
+		self.selectedProirOpacity = self:GetOpacity();
+		self.selectedProirVisible = self:IsVisible();
+
+		self:SetBGColor( Turbine.UI.Color(1, 1,.5,0) );
+		self:SetOpacity( 1 );
+		self:SetVisible(true);
+		self.quickslotList:Refresh( true, self.barSettings.locked );
+	else
+		self:BarSetup();
+		-- if (self.selectedProirColor ~= nil) then
+		-- 	self:SetBGColor( self.selectedProirColor );
+		-- 	self.selectedProirColor = nil;
+		-- 	self:SetOpacity( self.selectedProirOpacity );
+		-- 	self.selectedProirOpacity = nil;
+		-- 	self:SetVisible( self.selectedProirVisible );
+		-- 	self.selectedProirVisible = nil;
+
+		-- 	self.quickslotList:Refresh( true, self.barSettings.locked );
+		-- end
 	end
 end
 
@@ -141,6 +178,8 @@ function BaseBar:DetermineVisiblity()
 	else
 		self:SetVisible( false );
 	end
+
+	self:BarSelected();
 end
 
 function BaseBar:F12Pressed()

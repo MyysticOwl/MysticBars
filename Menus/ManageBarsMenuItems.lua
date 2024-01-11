@@ -19,8 +19,6 @@ function ManageBarsMenuItems:Refresh(mainMenu, parent)
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 
-	menu = mainMenu;
-
 	local bars = settingsService:GetBars( QUICKSLOTBAR );
 	local extensions = settingsService:GetBars( EXTENSIONBAR );
 	for key, value in pairs (bars) do

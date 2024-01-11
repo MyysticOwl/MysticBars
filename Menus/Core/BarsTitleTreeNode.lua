@@ -1,6 +1,7 @@
 
 BarsTitleTreeNode = class(Turbine.UI.TreeNode);
 
+BarsTitleTreeNode.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "BarsTitleTreeNode" );
 BarsTitleTreeNode.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 function BarsTitleTreeNode:Constructor(text, topPadding, barId, showVisibility)
@@ -190,6 +191,14 @@ function BarsTitleTreeNode:Refresh(width)
 end
 
 function BarsTitleTreeNode:SetSelected(selected)
+  self.Log:Error("BarsTitleTreeNode:SetSelected " .. self.barId);
+
+  local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+  local bar = barService:GetBar(self.barId);
+  bar.selected = selected;
+
+  bar:Refresh("BarsTitleTreeNode:SetSelected");
+
   self.tl:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_left.tga");
   self.t:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_center.tga");
   self.tr:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_right.tga");

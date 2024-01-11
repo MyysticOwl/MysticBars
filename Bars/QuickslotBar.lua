@@ -203,6 +203,8 @@ function QuickslotBar:DetermineVisiblity(eventValue, force)
 			visible = false;
 		end
 		self:SetVisible(visible);
+
+		self:BarSelected();
 	end
 end
 

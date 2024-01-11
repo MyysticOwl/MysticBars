@@ -1,6 +1,8 @@
 
 BaseTitleTreeNode = class(Turbine.UI.TreeNode);
 
+BaseTitleTreeNode.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "BaseTitleTreeNode" );
+
 function BaseTitleTreeNode:Constructor(text, topPadding, addBarType)
   Turbine.UI.TreeNode.Constructor(self);
 
