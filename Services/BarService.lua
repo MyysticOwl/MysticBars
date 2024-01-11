@@ -166,7 +166,7 @@ function BarService:Reset( barid )
 end
 
 function BarService:Construct( storedBars, second )
-	self.Log:Error("Construct");
+	self.Log:Debug("Construct");
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 

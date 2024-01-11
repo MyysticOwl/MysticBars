@@ -183,21 +183,24 @@ function BarsTitleTreeNode:Refresh(width)
     local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
     local barSettings = settingsService:GetBarSettings( self.barId );
 
-    if (self.showVisibility ~= nil) then
-      self.visible:SetBackground(barSettings.visible and "MysticBars/Menus/Core/Resources/button_visible.tga" or "MysticBars/Menus/Core/Resources/button_notvisible.tga");
+    if (barSettings ~= nil) then
+      if (self.showVisibility ~= nil) then
+        self.visible:SetBackground(barSettings.visible and "MysticBars/Menus/Core/Resources/button_visible.tga" or "MysticBars/Menus/Core/Resources/button_notvisible.tga");
+      end
+      self.lock:SetBackground(barSettings.locked and "MysticBars/Menus/Core/Resources/button_locked.tga" or "MysticBars/Menus/Core/Resources/button_unlocked.tga");
     end
-    self.lock:SetBackground(barSettings.locked and "MysticBars/Menus/Core/Resources/button_locked.tga" or "MysticBars/Menus/Core/Resources/button_unlocked.tga");
   end
 end
 
 function BarsTitleTreeNode:SetSelected(selected)
-  self.Log:Error("BarsTitleTreeNode:SetSelected " .. self.barId);
+  self.Log:Debug("BarsTitleTreeNode:SetSelected " .. self.barId);
 
   local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
   local bar = barService:GetBar(self.barId);
-  bar.selected = selected;
-
-  bar:Refresh("BarsTitleTreeNode:SetSelected");
+  if (bar ~= nil) then
+    bar.selected = selected;
+    bar:Refresh("BarsTitleTreeNode:SetSelected");
+  end
 
   self.tl:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_left.tga");
   self.t:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_center.tga");

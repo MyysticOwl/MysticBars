@@ -75,7 +75,7 @@ function BaseBar:ClearQuickslots()
 end
 
 function BaseBar:Refresh( sender )
-	self.Log:Error("Refresh " .. sender .. " id:" .. self.id);
+	self.Log:Debug("Refresh " .. sender .. " id:" .. self.id);
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
