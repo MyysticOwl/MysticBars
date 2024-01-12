@@ -67,26 +67,6 @@ MenuUtils.ICONCOLLAPSE = Turbine.UI.Graphic(RESOURCEDIR .. "collapse_button.tga"
 MenuUtils.ICONCHECKED = Turbine.UI.Graphic(RESOURCEDIR .. "checkbox_02.tga"); -- 16x16
 MenuUtils.ICONCHECKEDEMPTY = Turbine.UI.Graphic(RESOURCEDIR .. "checkbox_02_empty.tga");-- 16x16
 
-function MenuUtils:AddAutoListBox( parentBox, orientation, width, height, top, left, thebgcolor )
-	local box;
-	if ( x ~= nil ) then
-		box = MysticBars.Menus.Core.UI.AutoListBox(width, height);
-		box:SetPosition(top,left);
-	else
-		box = MysticBars.Menus.Core.UI.AutoListBox();
-		box:SetPosition(top,left);
-	end
-	box:SetZOrder(10);
-	box:SetParent( parentBox );
-	box:SetOrientation( orientation );
-	if ( thebgcolor == nil ) then
-		box:SetBackColor( bgColor );
-	else
-		box:SetBackColor( thebgcolor );
-	end
-
-	return box;
-end
 
 function MenuUtils:AddTextBox( parentBox, text, x, y, thebgcolor, left, top )
 	local tb = Turbine.UI.Lotro.TextBox();
@@ -270,20 +250,6 @@ function MenuUtils:BuildItemFromCommandTable( obj, commandTable, value )
 			end
 			obj = obj[commandTable[key]];
 		end
-	end
-end
-
-function MenuUtils:ClearTree(node)
-	if (node.GetNodes ~= nil) then
-		local nodes = node:GetNodes();
-		for i=1, nodes:GetCount(), 1 do
-			self:ClearTree(nodes:Get(i));
-		end
-	else
-		if (node.Clear ~= nil) then
-			node:Clear();
-		end
-		node = nil;
 	end
 end
 

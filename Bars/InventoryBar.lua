@@ -4,13 +4,14 @@
 --
 -- RESPECT!
 
-InventoryBaseBar = class( MysticBars.Bars.Core.BaseBar );
+InventoryBar = class( MysticBars.Bars.Core.BaseBar );
 
-InventoryBaseBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "InventoryBaseBar" );
+InventoryBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "InventoryBaseBar" );
 
-function InventoryBaseBar:Constructor( barSettings )
-	MysticBars.Bars.Core.BaseBar.Constructor( self, barSettings );
+function InventoryBar:Constructor( barSettings )
 	self.Log:Debug("Constructor");
+
+	MysticBars.Bars.Core.BaseBar.Constructor( self, barSettings );
 
 	self.faded = true;
 	self.isVisible = true;
@@ -22,7 +23,7 @@ function InventoryBaseBar:Constructor( barSettings )
 		local barSettings = settingsService:GetBarSettings( self.id );
 		if ( barService ~= nil and barService:Alive( self.id ) and barSettings.useFading == true ) then
 			self.faded = false;
-			self:Refresh();
+			self:Refresh("MouseEnter");
 		end
 	end
 	self.MouseLeave = function(sender,args)
@@ -32,7 +33,7 @@ function InventoryBaseBar:Constructor( barSettings )
 		local barSettings = settingsService:GetBarSettings( self.id );
 		if ( barService ~= nil and barService:Alive( self.id ) and barSettings.useFading == true ) then
 			self.faded = true;
-			self:Refresh();
+			self:Refresh("MouseLeave");
 		end
 	end
 	self.MouseDown = function( sender, args )
@@ -59,7 +60,6 @@ function InventoryBaseBar:Constructor( barSettings )
 		local left, top = self:GetPosition();
 
 		if ( barService ~= nil and barService:Alive( self.id ) and settings.barMode ~= NORMAL_MODE and self.dragging ) then
-			-- Turbine.Shell.WriteLine("MouseMove: " .. self.id );
 			self:SetPosition( left + ( args.X - self.dragStartX ), top + ( args.Y - self.dragStartY ) );
 			self.dragged = true;
 		end
@@ -97,23 +97,49 @@ function InventoryBaseBar:Constructor( barSettings )
 	SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):RegisterForEvents( self, self.id );
 end
 
-function InventoryBaseBar:Create()
-	self.Log:Debug("Create");
+function InventoryBar:Create()
+	self.Log:Error("Create");
 
 	self.quickslotList = MysticBars.Bars.Core.ItemList( self.id );
 	self.quickslotList:SetParent( self );
 
-	self.qsCreated = true;
-	self:Refresh();
+	MysticBars.Bars.Core.BaseBar.Create( self );
+
+	self:Refresh("Create");
 end
 
-function InventoryBaseBar:SetBGColor( color )
-	self.Log:Debug("SetBGColor");
+function InventoryBar:PositionChanged( sender, args )
+	self.Log:Debug("PositionChanged");
 
-	self:SetBackColor( color );
+	local settings = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):GetSettings();
+	if ( settings.barMode ~= NORMAL_MODE or ( self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then
+		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
+			local x, y = self:GetPosition();
+
+			barSettings.relationalX = x / DISPLAYWIDTH;
+			barSettings.relationalY = y / DISPLAYHEIGHT;
+
+			barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
+			barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
+			return barSettings;
+		end, function(barSettings)
+			self:SetPosition( barSettings.x, barSettings.y );
+		end);
+	end
 end
 
-function InventoryBaseBar:Refresh( sender )
+function InventoryBar:SetMenuBackColor(selected, barMode)
+	self.Log:Debug("SetMenuBackColor");
+
+	if (barMode == QUICKSLOT_MODE) then
+		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0, 1, 0), selected, 0.6);
+	else
+		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0.4, 0.6, 0.8), selected, 0.6);
+	end
+end
+
+
+function InventoryBar:Refresh( sender )
 	self.Log:Debug("Refresh");
 
 	MysticBars.Bars.Core.BaseBar.Refresh( self, sender );
@@ -121,7 +147,7 @@ function InventoryBaseBar:Refresh( sender )
 	SERVICE_CONTAINER:GetService(MysticBars.Services.EventService):NotifyClients();
 end
 
-function InventoryBaseBar:ClearQuickslots()
+function InventoryBar:ClearQuickslots()
 	self.Log:Debug("ClearQuickslots");
 
 	self.quickslotList:ClearQuickslots();
@@ -131,7 +157,7 @@ end
 -- can and will cause issues with the visibility of the bars.
 --
 -- It is recommended to call: "eventService:NotifyClients();" if needed.
-function InventoryBaseBar:DetermineVisiblity( eventValue, force )
+function InventoryBar:DetermineVisiblity( eventValue, force )
 	self.Log:Debug("DetermineVisiblity");
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
@@ -150,5 +176,7 @@ function InventoryBaseBar:DetermineVisiblity( eventValue, force )
 			visible = false;
 		end
 		self:SetVisible( visible );
+
+		self:BarSelected();
 	end
 end

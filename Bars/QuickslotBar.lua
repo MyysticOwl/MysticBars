@@ -4,9 +4,6 @@
 --
 -- RESPECT!
 
-import "MysticBars.Utils.Class";
-import "MysticBars.Bars.Core.Tab";
-
 QuickslotBar = class(MysticBars.Bars.Core.BaseBar);
 
 QuickslotBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "QuickslotBar" );
@@ -106,64 +103,32 @@ end
 function QuickslotBar:PositionChanged(sender, args)
 	self.Log:Debug("PositionChanged " .. self.id);
 
-	local settings = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):GetSettings();
-	if ( settings.barMode ~= NORMAL_MODE or ( self.DragBar ~= nil and self.DragBar:IsHUDVisible() == true ) ) then
-		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
-			local x, y = self:GetPosition();
-
-			barSettings.relationalX = x / DISPLAYWIDTH;
-			barSettings.relationalY = y / DISPLAYHEIGHT;
-
-			barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
-			barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
-			return barSettings;
-		end, function(barSettings)
-			self:SetPosition( barSettings.x, barSettings.y );
-			self.tab:Refresh();
-			self:UpdateBarExtensions();
-		end);
-	end
+	self.decorator:PositionChanged(sender, args);
 end
 
 function QuickslotBar:Create()
-	self.Log:Debug("Create");
+	self.Log:Error("Create");
 
 	self.quickslotList = MysticBars.Bars.Core.QuickslotList(self, self.barSettings);
 	self.quickslotList:SetParent(self);
 
-	local title = self.barSettings.barName;
-	if (self.barSettings.barName == nil or self.barSettings.barName == "") then
-		title = "Bar:" .. self.id;
-	end
-	self.tab = MysticBars.Bars.Core.Tab(self, title);
+	MysticBars.Bars.Core.BaseBar.Create( self );
 
-	self.qsCreated = true;
 	self:Refresh("QuickslotBar:Create", true);
 
 	self.quickslotList:SetPosition(0, 0);
-end
-
-function QuickslotBar:Remove()
-	self.Log:Debug("Remove");
-
-	if (self.tab ~= nil) then
-		self.tab:SetHidden(true);
-		self.tab = nil;
-	end
 end
 
 function QuickslotBar:SetBGColor(color)
 	self.Log:Debug("SetBGColor");
 
 	self:SetBackColor(color);
-	self.tab:SetBackColor(color);
 end
 
 function QuickslotBar:Refresh( sender, drawShortcuts )
 	MysticBars.Bars.Core.BaseBar.Refresh( self, sender );
 
 	self.Log:Debug("Refresh " .. self.id .. " --" .. sender);
-	self.tab:Refresh();
 
 	if (drawShortcuts) then
 		self.quickslotList:LoadQuickslots();
@@ -273,12 +238,9 @@ end
 function QuickslotBar:SetMenuBackColor(selected, barMode)
 	self.Log:Debug("SetMenuBackColor");
 
-	MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, selected, QUICKSLOT_MODE);
 	if (barMode == QUICKSLOT_MODE) then
-		self:SetBackColor(Turbine.UI.Color(1, 0, 1, 0));
-		self.tab:SetBackColor(Turbine.UI.Color(1, 0, 1, 0));
+		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0, 1, 0), selected, 0.6);
 	else
-		self:SetBackColor(Turbine.UI.Color(1, 0.4, 0.6, 0.8));
-		self.tab:SetBackColor(Turbine.UI.Color(1, 0.4, 0.6, 0.8));
+		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0.4, 0.6, 0.8), selected, 0.6);
 	end
 end

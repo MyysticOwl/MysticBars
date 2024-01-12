@@ -41,7 +41,7 @@ function BarService:Add( barType )
 		bar = self:AddExtensionBar(barSettings);
 	elseif (barType == TABBED_INV_BAR) then
 		barSettings.barType = TABBED_INV_BAR;
-		bar = self:AddTabbedInventoryBar(barSettings);
+		bar = self:AddInventoryBar(barSettings);
 	end
 
 	return barSettings, bar;
@@ -87,7 +87,7 @@ function BarService:AddExtensionBar( newBarSettings, connectingBarId, connecting
 	return barSettings, bar;
 end
 
-function BarService:AddTabbedInventoryBar( barSettings )
+function BarService:AddInventoryBar( barSettings )
 	self.Log:Debug("AddInventoryBar");
 
 	barSettings.quickslotRows = 1;
@@ -98,7 +98,7 @@ function BarService:AddTabbedInventoryBar( barSettings )
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	settingsService:SetBarSettings( barSettings );
 
-	local bar = MysticBars.Bars.TabbedInventoryBar( barSettings );
+	local bar = MysticBars.Bars.InventoryBar( barSettings );
 	RegisteredBars[ barSettings.id ] = bar;
 
 	return barSettings, bar;
@@ -182,7 +182,7 @@ function BarService:Construct( storedBars, second )
 			RegisteredBars[tonumber(key)] = bar;
 		end
 		if ( value.barType == TABBED_INV_BAR ) then
-			local bar = MysticBars.Bars.TabbedInventoryBar( value );
+			local bar = MysticBars.Bars.InventoryBar( value );
 			RegisteredBars[tonumber(key)] = bar;
 		end
 	end

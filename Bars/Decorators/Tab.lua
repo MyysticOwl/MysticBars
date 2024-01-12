@@ -8,18 +8,19 @@ Tab = class( Turbine.UI.Window );
 
 Tab.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "Tab", false );
 
-tabSize = 14;
+Tab.tabSize = 14;
 
-function Tab:Constructor( window )
+function Tab:Constructor( window, barSettings )
 	Turbine.UI.Window.Constructor( self );
 
 	self.Log:Debug("Constructor");
 
 	self.targetWindow = window;
+	self.barSettings = barSettings;
 	self.hidden = false;
 
-	self:SetSize( self.targetWindow:GetWidth(), tabSize );
-	self:SetPosition( math.max( self.targetWindow:GetLeft(), 0 ), math.max( self.targetWindow:GetTop() - tabSize, 0 ) );
+	self:SetSize( self.targetWindow:GetWidth(), self.tabSize );
+	self:SetPosition( math.max( self.targetWindow:GetLeft(), 0 ), math.max( self.targetWindow:GetTop() - self.tabSize, 0 ) );
 	self:SetBackColor( Turbine.UI.Color(1,1,1,1)  );
 
 	self.Label = Turbine.UI.Label();
@@ -30,7 +31,7 @@ function Tab:Constructor( window )
 	self.Label:SetFont( Turbine.UI.Lotro.Font.Verdana12 );
 	self.Label:SetTextAlignment( Turbine.UI.ContentAlignment.TopCenter );
 	self.Label:SetMouseVisible(false);
-	self.Label:SetSize( self:GetWidth(), tabSize );
+	self.Label:SetSize( self:GetWidth(), self.tabSize );
 	self.Label:SetPosition( 0, 1 );
 	self.Label:SetBackColor( Turbine.UI.Color( 0, 1, 1, 1 ) );
 	self.Label:SetBackColorBlendMode( Turbine.UI.BlendMode.AlphaBlend );
@@ -71,15 +72,14 @@ function Tab:Refresh()
 	else
 		self:SetVisible( true );
 	end
-	local barSettings = settingsService:GetBarSettings( self.targetWindow.id );
-	local title = barSettings.barName;
-	if ( barSettings.barName == nil or barSettings.barName == "" ) then
-		title = "Bar:" .. self.targetWindow.id;
+
+	local title = self.barSettings.barName;
+	if ( self.barSettings.barName == nil or self.barSettings.barName == "" ) then
+		title = "Bar:" .. self.barSettings.id;
 	end
 	self.Label:SetText( title );
-	self:SetSize( self.targetWindow:GetWidth(), tabSize );
-	self.Label:SetSize( self:GetWidth(), tabSize );
-	self:SetPosition( math.max( self.targetWindow:GetLeft(), 0 ), math.max( self.targetWindow:GetTop() - tabSize, 0 ) );
+	self:SetSize( self.targetWindow:GetWidth(), self.tabSize );
+	self.Label:SetSize( self:GetWidth(), self.tabSize );
+	self:SetPosition( math.max( self.targetWindow:GetLeft(), 0 ), math.max( self.targetWindow:GetTop() - self.tabSize, 0 ) );
 	self:SetOpacity( math.max( self.targetWindow:GetOpacity(), 0.4 ) );
-	--self:SetOpacity( 0.4 );
 end

@@ -1,8 +1,18 @@
 
 Window = class( Turbine.UI.Lotro.GoldWindow );
 
-function Window:Constructor()
-	Turbine.UI.Lotro.Window.Constructor( self );
+function Window:Constructor( barSettings )
+	Turbine.UI.Lotro.GoldWindow.Constructor( self );
+
+	self.barSettings = barSettings;
+
+	local title = self.barSettings.barName;
+	if ( self.barSettings.barName == nil or self.barSettings.barName == "" ) then
+		title = "Bar:" .. self.barSettings.id;
+	end
+	self:SetText(title);
+	self:SetMinimumHeight(72);
+
     -- top left corner
     self.topLeft = Turbine.UI.Control();
     self.topLeft:SetParent(self);
@@ -18,7 +28,18 @@ function Window:Constructor()
     self.topRight:SetMouseVisible(false);
     self.topRight:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
     self.topRight:SetBackground("MysticBars/Menus/Core/Resources/box_silver_top_right.tga");
-    
+
+    -- top
+	self.top = Turbine.UI.Control();
+	self.top:SetParent(self);
+	self.top:SetSize(36,36);
+	self.top:SetZOrder(-10);
+	self.top:SetMouseVisible(false);
+	self.top:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
+	self.top:SetBackground("MysticBars/Menus/Core/Resources/box_silver_upper.tga");
+
+    self:SetZOrder(10);
+
     -- bottomLeft
     self.bottomLeft = Turbine.UI.Control();
     self.bottomLeft:SetParent(self);
@@ -55,6 +76,7 @@ function Window:Constructor()
 			local newheight = height + (args.Y - sender.dragStartY);
 			self:SetSize(newwidth, newheight);
 			sender:SetPosition( self:GetWidth() - sender:GetWidth(), self:GetHeight() - sender:GetHeight() );
+			self:SizeChanged(self, nil);
 		end
 	end
 	self.resize.MouseUp = function( sender, args )
@@ -85,81 +107,25 @@ function Window:Constructor()
     self.close.MouseClick = function(sender, args)
         self:Close();
     end
-	
-	self:SetFadeSpeed( 0.2 );
+
 	self:SetOpacity( 1 );
 end
 
-function Window:SetFadeSpeed( value )
-	self.fadeSpeed = 1 / value;
-end
-
 function Window:SetVisible( value )
-	if ( value == true ) then
-		Turbine.UI.Lotro.GoldWindow.SetOpacity( self, 0 );
-		Turbine.UI.Lotro.GoldWindow.SetVisible( self, true );
-		self:SetOpacity( self.realOpacity );
-	else
-		self.hideOnClose = true;
-
-		local savedOpacity = self.realOpacity
-		self:SetOpacity( 0 );
-		self.realOpacity = savedOpacity
-	end
-end
-
-function Window:SetOpacity( value )
-	self.realOpacity = value;
-	self.currentTime = Turbine.Engine.GetGameTime();
-	self.currentOpacity = Turbine.UI.Lotro.GoldWindow.GetOpacity( self );
-	self.targetOpacity = value;
-  
-	if ( self.targetOpacity ~= self.currentOpacity ) then
-		self:SetWantsUpdates( true );
-	end
-end
-
-function Window:Update( sender, args )
-	local newOpacity;
-
-	local now = Turbine.Engine.GetGameTime();
-	local delta = now - self.currentTime;
-	self.currentTime = now;
-
-	delta = delta * self.fadeSpeed;
-
-	if ( self.currentOpacity < self.targetOpacity ) then
-		newOpacity = self.currentOpacity + delta;
-
-		if ( newOpacity > self.targetOpacity ) then
-			self:SetWantsUpdates( false )
-			newOpacity = self.targetOpacity
-		end
-	else
-		newOpacity = self.currentOpacity - delta;
-
-		if ( newOpacity < self.targetOpacity ) then
-			self:SetWantsUpdates( false )
-			newOpacity = self.targetOpacity
-			
-			if ( self.hideOnClose ) then
-				Turbine.UI.Lotro.GoldWindow.SetVisible( self, false );
-				self.hideOnClose = false
-			end
-		end
-	end
-
-	self.currentOpacity = newOpacity;
-	Turbine.UI.Lotro.GoldWindow.SetOpacity( self, newOpacity );
+	Turbine.UI.Lotro.GoldWindow.SetVisible( self, value );
 end
 
 function Window:SetSize(width, height)
     Turbine.UI.Window.SetSize(self, width, height);
 	local offset = 16;
 	self.topLeft:SetPosition(0, offset);
+    self.top:SetPosition(36, offset);
     self.topRight:SetPosition(self:GetWidth() - 36, offset);
+
+    self.top:SetWidth(width - 72);
+
     self.bottomLeft:SetPosition(0, self:GetHeight() - 36 - 2);
     self.bottomRight:SetPosition(self:GetWidth() - 36, self:GetHeight() - 36 - 2);
 	self.resize:SetPosition( self:GetWidth() - self.resize:GetWidth(), self:GetHeight() - self.resize:GetHeight() - 2 );
-	self.close:SetPosition(width - 22, offset + 5);
+	self.close:SetPosition(self:GetWidth() - 26, 10);
 end

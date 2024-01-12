@@ -8,7 +8,7 @@ local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerSer
 skillsService:BuildSkillLists();
 --local trainedSkills = playerService.player:GetTrainedSkills();
 
-TestWindow = MysticBars.Menus.Core.UI.Window();
+TestWindow = MysticBars.Bars.UI.Window();
 TestWindow:SetSize(700, 500);
 TestWindow:SetVisible(true);
 TestWindow:SetText("Skill Mapper");

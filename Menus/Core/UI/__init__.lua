@@ -8,5 +8,4 @@ import "MysticBars.Menus.Core.UI.Label";
 import "MysticBars.Menus.Core.UI.MenuUtils";
 import "MysticBars.Menus.Core.UI.Slider";
 import "MysticBars.Menus.Core.UI.Tooltip";
-import "MysticBars.Menus.Core.UI.Window";
 
