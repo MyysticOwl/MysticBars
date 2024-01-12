@@ -19,7 +19,6 @@ function TemplateService:Constructor()
 	self.Log:Debug("Constructor");
 
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	self.level = playerService.player:GetLevel();
 	self.registeredBars = 1;
@@ -75,7 +74,7 @@ function TemplateService:CreateBar( name, rows, columns, x, y, barType, createdC
 	if ( barSettings == nil ) then
 
 		barSettings = settingsService:NewBar();
-		barSettings.barType = QUICKSLOTBAR;
+		barSettings.barType = barType;
 		barSettings.barName = name;
 		barSettings.quickslotRows = rows;
 		barSettings.quickslotColumns = columns;
@@ -85,7 +84,11 @@ function TemplateService:CreateBar( name, rows, columns, x, y, barType, createdC
 
 		createdCallback(barSettings);
 
-		barService:AddQuickslotBar( barSettings );
+		if (barType == QUICKSLOTBAR) then
+			barService:AddQuickslotBar( barSettings );
+		elseif (barType == TABBED_INV_BAR) then
+			barService:AddTabbedInventoryBar( barSettings );
+		end
 	end
 
 	local menuService = SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService)
@@ -95,14 +98,6 @@ function TemplateService:CreateBar( name, rows, columns, x, y, barType, createdC
 
 	return barSettings;
 end
-
--- function TemplateService:SetBar( barid )
--- 	self.Log:Debug("SetBar");
-
--- 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-
--- 	return settingsService:GetBarSettings( barid );
--- end
 
 -- Set it to trigger on health                Bar ID - When to trigger
 function TemplateService:SetTrigger( statType, percent, barSettings )

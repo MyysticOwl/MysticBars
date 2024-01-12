@@ -314,7 +314,7 @@ function QuickslotList:SaveQuickslots( barId, quickslots )
 		quickslots = self.quickslots;
 	end
 
-	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
+	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)
 		barSettings.quickslots = nil;
 		barSettings.quickslots = { };
 	

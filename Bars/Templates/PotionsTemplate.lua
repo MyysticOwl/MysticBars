@@ -15,7 +15,7 @@ function PotionsTemplate:Constructor()
 	templateService:ConstructBars();
 end
 
-function PotionsTemplate:Health( override )
+function PotionsTemplate:Health()
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( "Athelas", 1, 4, 300, 250, TABBED_INV_BAR, function(localBarSettings)
@@ -24,7 +24,7 @@ function PotionsTemplate:Health( override )
 	end);
 end
 
-function PotionsTemplate:Power( override )
+function PotionsTemplate:Power()
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( "Celebrant", 1, 4, 300, 350, TABBED_INV_BAR, function(localBarSettings)
@@ -33,7 +33,7 @@ function PotionsTemplate:Power( override )
 	end);
 end
 
-function PotionsTemplate:GeneralEffects( override )
+function PotionsTemplate:GeneralEffects()
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
 	return templateService:CreateBar( "Draughts/Salves", 1, 4, 300, 450, TABBED_INV_BAR, function(localBarSettings)
@@ -41,7 +41,7 @@ function PotionsTemplate:GeneralEffects( override )
 		templateService:SetTrigger( Turbine.Gameplay.EffectCategory.Disease, nil, localBarSettings );
 		templateService:SetTrigger( Turbine.Gameplay.EffectCategory.Fear, nil, localBarSettings );
 		templateService:SetTrigger( Turbine.Gameplay.EffectCategory.Poison, nil, localBarSettings );
-		templateService:SetTrigger( Turbine.Gameplay.EffectCategory.Wound, nil, localBarSettings );	
+		templateService:SetTrigger( Turbine.Gameplay.EffectCategory.Wound, nil, localBarSettings );
 		templateService:SetInventoryFilter( "Salve", localBarSettings );
 		templateService:SetInventoryFilter( "Draught", localBarSettings );
 	end);

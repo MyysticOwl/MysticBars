@@ -24,9 +24,6 @@ function ClassSpecificEvents:Constructor( regEvents )
 	-- local dump = MysticBars.Utils.TableDump();
 	-- dump.Dump(getmetatable(att));
 
-	Turbine.Shell.WriteLine("scriptVersion: " .. Turbine.Engine.GetScriptVersion());
-	Turbine.Engine.ScriptLog("Made it here");
-
 	if ( playerService.player:GetClass() == Turbine.Gameplay.Class.Burglar ) then
 		-- eventService:AddCallback( att, "StanceChanged", function( sender, args )
 		-- 	Turbine.Shell.WriteLine("Bur Stance Change");

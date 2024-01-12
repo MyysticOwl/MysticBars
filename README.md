@@ -37,6 +37,11 @@ If you load it and you don't see errors on the console window, look in the upper
 ************************************
 CHANGE HISTORY
 ************************************
+v3.2.0
+-Another cleanup expidition. Perfromance of the entire Plugin should be greaetly improved.
+-Added Hover options in the menu's to help identify bars.
+-Fixed issues loading to and from different language clients. This should work now!
+-Added 
 v3.1.6
 -Fixed a bunch of issues with Extension Bars (locking, naming, refreshing)
 -Internally setup logging managers

@@ -88,6 +88,7 @@ function Logger:GetTimestamp()
 end
 
 function Logger:Debug( message )
+	-- Turbine.Engine.ScriptLog("Made it here");
 	if ( self.active and self.level <= LogLevel.Debug ) then
 		self:Write( LogLevel.Debug, message );
 	end

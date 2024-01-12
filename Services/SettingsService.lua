@@ -67,9 +67,17 @@ function SettingsService:LoadSettings( profile )
 		playerSettings = self.profiles[ playersName ];
 	end
 
+	local usData = true;
+	for key, value in pairs(playerSettings) do
+		if (type( key ) ~= "number" ) then
+			usData = false;
+			break;
+		end
+	end
+
 	local language = Turbine.Engine.GetLanguage();
 	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
-	if ( locale == "de" or locale == "fr" ) then
+	if ( locale == "de" or locale == "fr" or not usData ) then
 		self.settings = { };
 		MysticBars.Utils.DeepcopyLoadConvertInts( playerSettings, self.settings );
 	else
@@ -392,9 +400,9 @@ function SettingsService:CopyProfile( profileToCopy, copyType, barid, myBar )
 	end
 
 	self.profiles[ playerService.player:GetName() ] = self.settings;
-	for key, value in opairs (barService:GetBars()) do
-		barService:Remove( key, false );
-	end
+	-- for key, value in opairs (barService:GetBars()) do
+	-- 	barService:Remove( key, false );
+	-- end
 	self:CopyBars(profileToCopy, copyType, barid, myBar);
 
 	self.settings = self.profiles[ playerService.player:GetName() ];
@@ -419,7 +427,9 @@ function SettingsService:CopyBars(profileToCopy, copyType, barid, myBar)
 	self:CreatePath( copyProfile );
 
 	MysticBars.Utils.Deepcopy( realProfile.bars[barid], copyProfile.bars[ copyProfile.nextBarId ] );
-	
+
+	copyProfile.bars[ copyProfile.nextBarId ].id = copyProfile.nextBarId;
+
 	if ( copyType == self.PARTIAL ) then
 		copyProfile.bars[ copyProfile.nextBarId ].quickslots = nil;
 	end
@@ -432,8 +442,10 @@ function SettingsService:CopyBars(profileToCopy, copyType, barid, myBar)
 			if ( value.barType == EXTENSIONBAR and value.connectionBarID == barid ) then
 				self:CreatePath( copyProfile );
 				MysticBars.Utils.Deepcopy( realProfile.bars[key], copyProfile.bars[ copyProfile.nextBarId ] );
+				copyProfile.bars[ copyProfile.nextBarId ].id = copyProfile.nextBarId;
+
 				copyProfile.bars[ copyProfile.nextBarId ].connectionBarID = newQuickslotBar;
-				copyProfile.nextBarId = copyProfile.nextBarId + 1;				
+				copyProfile.nextBarId = copyProfile.nextBarId + 1;	
 			end
 		end
 	end
