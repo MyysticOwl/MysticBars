@@ -36,17 +36,72 @@ function Tab:Constructor( window, barSettings )
 	self.Label:SetBackColor( Turbine.UI.Color( 0, 1, 1, 1 ) );
 	self.Label:SetBackColorBlendMode( Turbine.UI.BlendMode.AlphaBlend );
 
-	self.MouseDown = function( sender, args )
-		self.targetWindow:MouseDown(args);
+	self.MouseLeave = function(sender, args)
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+		local barSettings = settingsService:GetBarSettings(self.id);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+
+		if (barService:Alive(self.id) and barSettings.useFading == true) then
+			self.faded = true;
+			self:Refresh("Tab:MouseLeave");
+		end
 	end
-	self.MouseMove = function( sender, args )
-		self.targetWindow:MouseMove(args);
+	self.MouseDown = function(sender, args)
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+
+		--if (barService:Alive(self.id) == true) then
+			local settings = settingsService:GetSettings();
+			if (settings.barMode ~= NORMAL_MODE) then
+				if (args.Button == Turbine.UI.MouseButton.Left) then
+					self.dragStartX = args.X;
+					self.dragStartY = args.Y;
+					self.dragging = true;
+					self.dragged = false;
+					-- local barSettings = settingsService:GetBarSettings( self.id );
+					-- Turbine.Shell.WriteLine("MouseDown: " .. self.id )
+				end
+			end
+		--end
 	end
-	self.MouseUp = function( sender, args )
-		self.targetWindow:MouseUp(args);
+	self.MouseMove = function(sender, args)
+		local left, top = self:GetPosition();
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+		local settings = settingsService:GetSettings();
+		--Turbine.Shell.WriteLine("MouseMove: " );
+		if (settings.barMode ~= NORMAL_MODE and self.dragging) then
+			--Turbine.Shell.WriteLine("MouseMove: " .. self.barSettings.id );
+			self.dragged = true;
+			self:SetPosition(left + (args.X - self.dragStartX), top + (args.Y - self.dragStartY));
+		end
 	end
-	self.PositionChanged = function(sender,args)
-		self.targetWindow:PositionChanged(sender,args);
+	self.MouseUp = function(sender, args)
+		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+		--Turbine.Shell.WriteLine("MouseMove: " );
+		if (args.Button == Turbine.UI.MouseButton.Left) then
+			self.dragging = false;
+			--Turbine.Shell.WriteLine("MouseMove: " .. self.barSettings.id );
+			if (self.dragged) then
+				local x, y = self:GetPosition();
+				local validX = x;
+				local validY = y;
+				if (x < 0) then
+					x = 0;
+				end
+
+				if (y < 0) then
+					y = 0;
+				end
+				if (x + self:GetWidth() > Turbine.UI.Display.GetWidth()) then
+					x = Turbine.UI.Display.GetWidth() - self:GetWidth();
+				end
+				if (y + self:GetHeight() > Turbine.UI.Display.GetHeight()) then
+					y = Turbine.UI.Display.GetHeight() - self:GetHeight();
+				end
+
+				self:SetPosition(x, y);
+			end
+		end
 	end
 
 	self:SetVisible( true );
@@ -69,8 +124,10 @@ function Tab:Refresh()
 
 	if ( settings.barMode == NORMAL_MODE or self.hidden == true ) then
 		self:SetVisible( false );
+		self.Label:SetVisible(false);
 	else
 		self:SetVisible( true );
+		self.Label:SetVisible(true);
 	end
 
 	local title = self.barSettings.barName;
@@ -78,8 +135,7 @@ function Tab:Refresh()
 		title = "Bar:" .. self.barSettings.id;
 	end
 	self.Label:SetText( title );
-	self:SetSize( self.targetWindow:GetWidth(), self.tabSize );
-	self.Label:SetSize( self:GetWidth(), self.tabSize );
-	self:SetPosition( math.max( self.targetWindow:GetLeft(), 0 ), math.max( self.targetWindow:GetTop() - self.tabSize, 0 ) );
+	self:SetSize( self.targetWindow:GetWidth() + 2, self.targetWindow:GetHeight() + self.tabSize + 2);
+	self.Label:SetSize( self:GetWidth() + 2, self.tabSize );
 	self:SetOpacity( math.max( self.targetWindow:GetOpacity(), 0.4 ) );
 end

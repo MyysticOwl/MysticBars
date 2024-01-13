@@ -17,97 +17,12 @@ function QuickslotBar:Constructor( barSettings )
 	self.faded = true;
 	self.isVisible = true;
 
-	self.MouseEnter = function(sender, args)
-		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-		local barSettings = settingsService:GetBarSettings(self.id);
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-
-		if (barService:Alive(self.id) and barSettings.useFading == true) then
-			self.faded = false;
-			self:Refresh("QuickslotBar:MouseEnter");
-		end
-	end
-	self.MouseLeave = function(sender, args)
-		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-		local barSettings = settingsService:GetBarSettings(self.id);
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-
-		if (barService:Alive(self.id) and barSettings.useFading == true) then
-			self.faded = true;
-			self:Refresh("QuickslotBar:MouseLeave");
-		end
-	end
-	self.MouseDown = function(sender, args)
-		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-
-		if (barService:Alive(self.id) == true) then
-			local settings = settingsService:GetSettings();
-			if (settings.barMode ~= NORMAL_MODE) then
-				if (args.Button == Turbine.UI.MouseButton.Left) then
-					self.dragStartX = args.X;
-					self.dragStartY = args.Y;
-					self.dragging = true;
-					self.dragged = false;
-					-- local barSettings = settingsService:GetBarSettings( self.id );
-					-- Turbine.Shell.WriteLine("MouseDown: " .. self.id )
-				end
-			end
-		end
-	end
-	self.MouseMove = function(sender, args)
-		local left, top = self:GetPosition();
-		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-		local settings = settingsService:GetSettings();
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-
-		if (barService:Alive(self.id) and settings.barMode ~= NORMAL_MODE and self.dragging) then
-			-- Turbine.Shell.WriteLine("MouseMove: " .. self.id );
-			self.dragged = true;
-			self:SetPosition(left + (args.X - self.dragStartX), top + (args.Y - self.dragStartY));
-		end
-	end
-	self.MouseUp = function(sender, args)
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-
-		if (barService:Alive(self.id) == true and args.Button == Turbine.UI.MouseButton.Left) then
-			self.dragging = false;
-
-			if (self.dragged) then
-				local x, y = self:GetPosition();
-				local validX = x;
-				local validY = y;
-				if (x < 0) then
-					x = 0;
-				end
-
-				if (y < 0) then
-					y = 0;
-				end
-				if (x + self:GetWidth() > Turbine.UI.Display.GetWidth()) then
-					x = Turbine.UI.Display.GetWidth() - self:GetWidth();
-				end
-				if (y + self:GetHeight() > Turbine.UI.Display.GetHeight()) then
-					y = Turbine.UI.Display.GetHeight() - self:GetHeight();
-				end
-
-				self:SetPosition(x, y);
-			end
-		end
-	end
-
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService)
 	eventService:RegisterForEvents(self, self.id);
 end
 
-function QuickslotBar:PositionChanged(sender, args)
-	self.Log:Debug("PositionChanged " .. self.id);
-
-	self.decorator:PositionChanged(sender, args);
-end
-
 function QuickslotBar:Create()
-	self.Log:Error("Create");
+	self.Log:Debug("Create");
 
 	self.quickslotList = MysticBars.Bars.Core.QuickslotList(self, self.barSettings);
 	self.quickslotList:SetParent(self);
@@ -117,12 +32,6 @@ function QuickslotBar:Create()
 	self:Refresh("QuickslotBar:Create", true);
 
 	self.quickslotList:SetPosition(0, 0);
-end
-
-function QuickslotBar:SetBGColor(color)
-	self.Log:Debug("SetBGColor");
-
-	self:SetBackColor(color);
 end
 
 function QuickslotBar:Refresh( sender, drawShortcuts )
@@ -142,51 +51,6 @@ function QuickslotBar:Refresh( sender, drawShortcuts )
 		end
 	end
 	SERVICE_CONTAINER:GetService(MysticBars.Services.EventService):NotifyClients();
-end
-
--- This function should ONLY be called by the Event Manager. Doing so in any other copacity
--- can and will cause issues with the visibility of the bars.
---
--- It is recommended to call: "eventService:NotifyClients();" if needed.
-function QuickslotBar:DetermineVisiblity(eventValue, force)
-	self.Log:Debug("DetermineVisiblity");
-
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local settings = settingsService:GetSettings();
-	local barSettings = settingsService:GetBarSettings(self.id);
-
-	if (settings.barMode == NORMAL_MODE) then
-		local visible = false;
-		if (eventValue ~= nil and eventValue) then
-			visible = true;
-		end
-		if (visible == false and self.isVisible == true) then
-			visible = barSettings.visible;
-		end
-
-		if (self.f12HideBar) then
-			visible = false;
-		end
-		self:SetVisible(visible);
-
-		self:BarSelected();
-	end
-end
-
-function QuickslotBar:ClearQuickslots(removed)
-	self.Log:Debug("ClearQuickslots");
-
-	self.quickslotList:ClearQuickslots();
-	if (self.extensionBars ~= nil and removed ~= nil) then
-		for key, value in pairs(self.extensionBars) do
-			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-
-			self.extensionBars[key].bar:SetVisible(false);
-			barService:Remove(self.extensionBars[key].bar:GetID());
-			self.extensionBars[key].bar = nil;
-			self.extensionBars[key] = nil;
-		end
-	end
 end
 
 function QuickslotBar:UpdateBarExtensions()
@@ -242,5 +106,50 @@ function QuickslotBar:SetMenuBackColor(selected, barMode)
 		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0, 1, 0), selected, 0.6);
 	else
 		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0.4, 0.6, 0.8), selected, 0.6);
+	end
+end
+
+function QuickslotBar:ClearQuickslots(removed)
+	self.Log:Debug("ClearQuickslots");
+
+	self.quickslotList:ClearQuickslots();
+	if (self.extensionBars ~= nil and removed ~= nil) then
+		for key, value in pairs(self.extensionBars) do
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
+
+			self.extensionBars[key].bar:SetVisible(false);
+			barService:Remove(self.extensionBars[key].bar:GetID());
+			self.extensionBars[key].bar = nil;
+			self.extensionBars[key] = nil;
+		end
+	end
+end
+
+-- This function should ONLY be called by the Event Manager. Doing so in any other copacity
+-- can and will cause issues with the visibility of the bars.
+--
+-- It is recommended to call: "eventService:NotifyClients();" if needed.
+function QuickslotBar:DetermineVisiblity(eventValue, force)
+	self.Log:Debug("DetermineVisiblity");
+
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();
+	local barSettings = settingsService:GetBarSettings(self.id);
+
+	if (settings.barMode == NORMAL_MODE) then
+		local visible = false;
+		if (eventValue ~= nil and eventValue) then
+			visible = true;
+		end
+		if (visible == false and self.isVisible == true) then
+			visible = barSettings.visible;
+		end
+
+		if (self.f12HideBar) then
+			visible = false;
+		end
+		self:SetVisible(visible);
+
+		self:BarSelected();
 	end
 end

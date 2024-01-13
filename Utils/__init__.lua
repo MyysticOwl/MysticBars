@@ -11,6 +11,8 @@ import "MysticBars.Utils.String";
 import "MysticBars.Utils.Table";
 import "MysticBars.Utils.TableDeepCopy";
 import "MysticBars.Utils.TableDump";
+import "MysticBars.Utils.Timer";
+import "MysticBars.Utils.TimerManager";
 import "MysticBars.Utils.Type";
 
 import "MysticBars.Utils.Logging"

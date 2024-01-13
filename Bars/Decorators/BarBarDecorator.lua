@@ -74,7 +74,7 @@ function WindowBarDecorator:Create()
 			sender.dragging = false;
 			local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 			settingsService:SetBarSettings(self.barSettings);
-			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 16, self.childWindow.quickslotList:GetHeight() + 40);
+			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 14, self.childWindow.quickslotList:GetHeight() + 40);
 		end
 	end
 
@@ -103,7 +103,8 @@ function WindowBarDecorator:Refresh()
 	if (self.mainWindow ~= nil) then
 		self.mainWindow:SetVisible(self.barSettings.visible);
 		if (self.counter == 0) then
-			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 16, self.childWindow.quickslotList:GetHeight() + 40);
+			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 14,
+				self.childWindow.quickslotList:GetHeight() + 35);
 		end
 	end
 end

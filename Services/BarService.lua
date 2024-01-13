@@ -39,8 +39,8 @@ function BarService:Add( barType )
 	elseif (barType == EXTENSIONBAR) then
 		barSettings.barType = EXTENSIONBAR;
 		bar = self:AddExtensionBar(barSettings);
-	elseif (barType == TABBED_INV_BAR) then
-		barSettings.barType = TABBED_INV_BAR;
+	elseif (barType == INVENTORY_BAR) then
+		barSettings.barType = INVENTORY_BAR;
 		bar = self:AddInventoryBar(barSettings);
 	end
 
@@ -181,7 +181,7 @@ function BarService:Construct( storedBars, second )
 			end
 			RegisteredBars[tonumber(key)] = bar;
 		end
-		if ( value.barType == TABBED_INV_BAR ) then
+		if ( value.barType == INVENTORY_BAR ) then
 			local bar = MysticBars.Bars.InventoryBar( value );
 			RegisteredBars[tonumber(key)] = bar;
 		end

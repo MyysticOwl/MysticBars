@@ -61,7 +61,7 @@ function MainMenu:Constructor()
 	self.managedBars = MysticBars.Menus.Core.TitleTreeNode(L["Quickslot Bars"], 1, QUICKSLOTBAR, true);
 	treeRoot:Add(self.managedBars);
 
-	self.inventoryBars = MysticBars.Menus.Core.TitleTreeNode(L["Inventory Bars"], 1, TABBED_INV_BAR);
+	self.inventoryBars = MysticBars.Menus.Core.TitleTreeNode(L["Inventory Bars"], 1, INVENTORY_BAR);
 	treeRoot:Add(self.inventoryBars);
 
 	self.generalSettings = MysticBars.Menus.Core.TitleTreeNode(L["General Settings"], 1);

@@ -17,7 +17,7 @@ end
 function InventoryBarsMenuItems:Refresh(mainMenu, parent)
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
-	local tab_bars = settingsService:GetBars( TABBED_INV_BAR );
+	local tab_bars = settingsService:GetBars( INVENTORY_BAR );
 	for key, value in pairs (tab_bars) do
 		local node = MysticBars.Menus.Core.BarsTitleTreeNode(self.menuItems:GetBarName(key, value), 1, key, value);
 		parent:GetChildNodes():Add(node);

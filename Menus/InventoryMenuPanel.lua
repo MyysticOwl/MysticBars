@@ -10,6 +10,9 @@ InventoryMenuPanel.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 function InventoryMenuPanel:Draw(parentNode, barId, barValue)
 
+	-- -----------------------   DECORATOR  0000000000000000000000000000
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.DecoratorPanel(barId, barValue));
+
 	-- -----------------------   TRIGGERS  0000000000000000000000000000
 	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.InventoryPanel(barId, barValue));
 

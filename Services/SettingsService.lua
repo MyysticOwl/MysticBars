@@ -238,6 +238,7 @@ function SettingsService:NewBar()
 	bar.quickslots = { };
 	bar.x = 103;
 	bar.y = 161;
+	bar.decorator = TAB_BAR_DECORATOR;
 	bar.barType = 1;
 	bar.quickslotCount = 5;
 	bar.quickslotColumns = 1;
@@ -275,6 +276,9 @@ function SettingsService:GetBarSettings( barid )
 	end
 
 	local barSettings = self.settings.bars[barid];
+	if (barSettings.decorator == nil) then
+		barSettings.decorator = TAB_BAR_DECORATOR;
+	end
 
 	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayInCombat");
 	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayNotInCombat");

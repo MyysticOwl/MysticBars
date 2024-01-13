@@ -15,7 +15,7 @@ function BaseBar:Constructor( barSettings )
 	self.id = barSettings.id;
 	self.barSettings = barSettings;
 
-	if (barSettings.decorator == nil or barSettings.decorator == TAB_BAR_DECORATOR) then
+	if (barSettings.decorator == WINDOW_BAR_DECORATOR) then
 		self.decorator = MysticBars.Bars.Decorators.WindowBarDecorator( self, barSettings );
 	else
 		self.decorator = MysticBars.Bars.Decorators.TabbedBarDecorator( self, barSettings );
@@ -59,11 +59,15 @@ function BaseBar:Constructor( barSettings )
 end
 
 function BaseBar:PositionChanged( sender, args )
-	self.decorator:Refresh();
+	-- self.decorator:Refresh();
 end
 
 function BaseBar:Create()
-	self.Log:Error("Create");
+	self.Log:Debug("Create");
+
+	self.quickslotList.SizeChanged = function (sender, args)
+		self:SetSize(self.quickslotList:GetWidth(), self.quickslotList:GetHeight());
+	end
 
 	self.decorator:Create();
 end
@@ -74,7 +78,7 @@ function BaseBar:ClearQuickslots()
 	self.quickslotList:ClearQuickslots();
 end
 
-function BaseBar:Refresh( sender )
+function BaseBar:Refresh( count )
 	self.Log:Debug("Refresh ");--" .. sender .. " id:" .. self.id);
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
@@ -94,6 +98,7 @@ function BaseBar:Refresh( sender )
 
 	self.quickslotList:SetAllowDrop( not self.barSettings.locked );
 	self.quickslotList:SetMaxItemsPerLine( self.barSettings.quickslotColumns );
+	self.quickslotList:SetCountToShow( count );
 	local showQuickslots = (settings.barMode ~= NORMAL_MODE) or self.barSettings.locked == false;
 	self.quickslotList:Refresh( showQuickslots, self.barSettings.locked );
 
@@ -107,6 +112,16 @@ end
 function BaseBar:BarSetup()
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
+
+	if (self.decorator.tab ~= nil and self.barSettings.decorator == WINDOW_BAR_DECORATOR) then
+		self.decorator:Remove();
+		self.decorator = MysticBars.Bars.Decorators.WindowBarDecorator( self, self.barSettings );
+		self.decorator:Create();
+	elseif (self.decorator.mainWindow ~= nil and self.barSettings.decorator == TAB_BAR_DECORATOR) then
+		self.decorator:Remove();
+		self.decorator = MysticBars.Bars.Decorators.TabbedBarDecorator( self, self.barSettings );
+		self.decorator:Create();
+	end
 
 	if ( settings.barMode == NORMAL_MODE ) then
 		if ( self.faded ) then
@@ -126,12 +141,12 @@ function BaseBar:BarSetup()
 			self:SetVisible( false );
 		end
 	else
-		self:SetMenuBackColor( nil, self.id == settings.selectedBar, settings.barMode );
+		self:SetMenuBackColor( nil, settings.barMode );
 		self:SetVisible( true );
 	end
 end
 
-function BaseBar:SetMenuBackColor( color, selected, opacity )
+function BaseBar:SetMenuBackColor( color, opacity )
 	self.Log:Debug("SetMenuBackColor");
 
 	self:SetBackColor(color);

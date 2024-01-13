@@ -71,3 +71,5 @@ L["Language:"] = "Language:";
 L["English"] = "English";
 L["German"] = "German";
 L["General Settings"] = "General Settings";
+L["Tabbed Bar"] = "Tabbed Bar";
+L["Window Bar"] = "Window Bar";

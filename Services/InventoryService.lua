@@ -13,6 +13,8 @@ function InventoryService:Constructor()
 
 	self.ADD = 1;
 	self.REMOVE = 2;
+
+	self.count = 0;
 	
 	if ( self.registeredEvents == nil ) then
 		self.registeredEvents = { };
@@ -63,8 +65,12 @@ function InventoryService:NotifyClients( type, specificItem )
 		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 		if ( barService ~= null and value ~= nil and value.registered == true and barService:Alive( key ) == true ) then
+			self.count = barSettings.quickslotCount;
+			barSettings.quickslotCount = backpack:GetSize();
+
 			local qlist = value.bar:GetQuickslotList();
 			if ( qlist ~= nil and ( type == self.ADD or specificItem == nil) ) then
+				self.Log:Debug("ItemAdded2");
 				qlist:ClearQuickslots();
 				for i=1, backpack:GetSize(), 1 do
 					local item = backpack:GetItem(i);
@@ -75,7 +81,7 @@ function InventoryService:NotifyClients( type, specificItem )
 			else
 				self:Inventory( value, barSettings, type, specificItem );
 			end
-			value.bar:Refresh();
+			value.bar:Refresh(self.count);
 		end
 	end
 end
@@ -90,7 +96,7 @@ function InventoryService:Inventory( barObject, barSettings, type, item )
 			end
 			if ( barSettings.events.inventory.categories ~= nil ) then
 								for key, value in pairs (barSettings.events.inventory.categories) do
-					--Turbine.Shell.WriteLine( "key:" .. key .. " item:" .. Turbine.Gameplay.ItemCategory[4] );
+					Turbine.Shell.WriteLine( "key:" .. key .. " item:" .. Turbine.Gameplay.ItemCategory[4] );
 					if ( Turbine.Gameplay.ItemCategory[ key ] == item:GetCategory() ) then
 						barObject.bar:GetQuickslotList():AddItem( item );
 					end
@@ -98,7 +104,7 @@ function InventoryService:Inventory( barObject, barSettings, type, item )
 			end
 			if ( barSettings.events.inventory.nameFilters ~= nil ) then
 				for key, value in pairs (barSettings.events.inventory.nameFilters) do
-					--Turbine.Shell.WriteLine( "key:" .. key .. " item:" .. Turbine.Gameplay.ItemCategory[4] );
+					Turbine.Shell.WriteLine( "key:" .. key .. " item:" .. Turbine.Gameplay.ItemCategory[4] );
 					if ( string.find( string.lower(item:GetName()), string.lower(key), 1, true ) ~= nil ) then
 						barObject.bar:GetQuickslotList():AddItem( item );
 					end
@@ -124,6 +130,7 @@ function InventoryService:RegisterForBackpackCallbacks()
 	local backpack = playerService.player:GetBackpack();
 
 	eventService.AddCallback( self, backpack, "ItemAdded", function( sender, args )
+		self.Log:Debug("ItemAdded");
 		self:NotifyClients( self.ADD, args.Item );
 	end);
 	eventService.AddCallback( self, backpack, "ItemRemoved", function( sender, args )

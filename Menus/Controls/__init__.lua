@@ -1,6 +1,7 @@
 import "MysticBars.Menus.Controls.BasePanel";
 import "MysticBars.Menus.Controls.ClassBuffPanel";
 import "MysticBars.Menus.Controls.ColorPanel";
+import "MysticBars.Menus.Controls.DecoratorPanel";
 import "MysticBars.Menus.Controls.ExtensionPanel";
 import "MysticBars.Menus.Controls.InventoryPanel";
 import "MysticBars.Menus.Controls.PredefinedExtensionPanel";

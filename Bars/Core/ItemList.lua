@@ -5,7 +5,7 @@
 
 ItemList = class( Turbine.UI.Control );
 
-ItemList.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "ItemList", false );
+ItemList.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "ItemList" );
 
 function ItemList:Constructor( bid )
 	Turbine.UI.Control.Constructor( self );
@@ -18,6 +18,7 @@ function ItemList:Constructor( bid )
 	self.items = { };
 	self.currentIemCount = 0;
 	self.count = 0;
+	self.countToShow = 0;
 	self.itemsPerLine = 0;
 	self.isClearingQuickslots = false;
 	self.fixQuickslotID = false;
@@ -35,8 +36,12 @@ function ItemList:SetMaxItemsPerLine( maxPerLine )
 	self.itemsPerLine = maxPerLine;
 end
 
+function ItemList:SetCountToShow( count )
+	self.countToShow = tonumber(count);
+end
+
 function ItemList:Refresh()
-	self.Log:Debug("Refresh");
+	self.Log:Debug("Refresh " .. self.itemsPerLine);
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -49,10 +54,14 @@ function ItemList:Refresh()
 	end
 
 	for i = 1, self.count do
-		local x = ((i - 1) % self.itemsPerLine) * ((barSettings.quickslotSize + barSettings.quickslotSpacing) - 4);
-		local y = math.floor((i - 1) / self.itemsPerLine) * ((barSettings.quickslotSize + barSettings.quickslotSpacing) - 4);
-		self.quickslots[i]:SetPosition(x, y);
-		self.quickslots[i]:SetSize(barSettings.quickslotSize, barSettings.quickslotSize);
+		if (self.countToShow ~= nil and i > self.countToShow) then
+			self.quickslots[i]:SetVisible(false);
+		else
+			local x = ((i - 1) % self.itemsPerLine) * ((barSettings.quickslotSize + barSettings.quickslotSpacing) - 4);
+			local y = math.floor((i - 1) / self.itemsPerLine) * ((barSettings.quickslotSize + barSettings.quickslotSpacing) - 4);
+			self.quickslots[i]:SetPosition(x, y);
+			self.quickslots[i]:SetSize(barSettings.quickslotSize, barSettings.quickslotSize);
+		end
 	end
 
 	local ysize = math.floor((self.count - 1) / self.itemsPerLine) * ((barSettings.quickslotSize + barSettings.quickslotSpacing) - 4) + barSettings.quickslotSize;
@@ -75,19 +84,6 @@ function ItemList:RefreshQuickslots()
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 	self.loading = true;
-	
-	if ( self.extensions ~= nil ) then
-		for i = self.currentIemCount + 1, self.count, 1 do
-			for key, value in pairs (self.extensions) do
-				if ( value.quickslot == i ) then
-					local id = self.extensions[ key ].bar:GetID();
-					self.extensions[ key ].quickslot = nil;
-					self.extensions[ key ] = nil;
-					barService:Remove( id );
-				end
-			end
-		end
-	end
 
 	for i = self.currentIemCount + 1, self.count, 1 do
 		self.quickslots[i]:SetVisible( false );
@@ -122,13 +118,6 @@ function ItemList:ClearQuickslots()
 	end
 	self.items = { };
 
-	if ( self.extensions ~= nil ) then
-		for key, value in pairs (self.extensions) do
-			value.quickslot = nil;
-			value = nil;
-		end
-	end
-
 	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.id, function(barSettings)
 		self.currentIemCount = 0;
 		return barSettings;
@@ -151,50 +140,6 @@ end
 
 function ItemList:SetupExtensionSlot( bars, index )
 	self.Log:Debug("SetupExtensionSlot");
-
-	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-
-	if ( index <= self.count ) then
-		self.extensions = bars;
-		
-		self.quickslots[ index ].MouseEnter = function(sender,args)
-			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-
-			if ( barService:Alive( self.id ) and self.entered == false ) then
-				self.entered = true;
-				for key, value in pairs (self.extensions) do
-					local barSettings = settingsService:GetBarSettings( value.bar.id );
-					if ( value.quickslot == index ) then
-						local thebars = barService:GetBars();
-						if ( barSettings.onMouseOver == SHOW_EXTENSIONS or barSettings.onMouseOver == ROLL_UP_SELECTION ) then
-							value.bar:Show( true );
-						elseif ( barSettings.onMouseOver == SELECT_RANDOM_SHORTCUT ) then
-							value.bar:SelectRandomShortcut( thebars[self.id], index );
-						elseif ( barSettings.onMouseOver == CYCLE_EXTENSIONS ) then
-							value.bar:CycleShortcut( thebars[self.id], index, args );
-						end
-					end
-				end
-			end
-		end
-
-		self.quickslots[ index ].MouseLeave = function(sender,args)
-			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-
-			if ( barService:Alive( self.id ) and self.entered == true ) then
-				for key, value in pairs (self.extensions) do
-					local barSettings = settingsService:GetBarSettings( value.bar );
-					if ( value.quickslot == index and (barSettings.onMouseOver == SHOW_EXTENSIONS or barSettings.onMouseOver == ROLL_UP_SELECTION) ) then
-						value.bar:Show( false );
-					end
-				end
-				self.entered = false;
-			end
-		end
-	else
-		Turbine.Shell.WriteLine( "ERROR 29 ExtensionSlot not removed corretly." );
-	end
 end
 
 function ItemList:AddItem( item )

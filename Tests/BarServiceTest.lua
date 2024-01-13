@@ -128,11 +128,11 @@ end
 -- end
 
 function BarServiceTest:TestAddInventorybar()
-    self.barService:Add(TABBED_INV_BAR, 2);
+    self.barService:Add(INVENTORY_BAR, 2);
     local bars = self.barService:GetBars();
     Assert.IsTrue(bars[2] ~= nil, "Bar service can't be constructed");
 
-    self.barService:Add(TABBED_INV_BAR);
+    self.barService:Add(INVENTORY_BAR);
     local bars = self.barService:GetBars();
     Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
 end

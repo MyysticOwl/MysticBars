@@ -10,6 +10,9 @@ ManageBarsMenuPanel.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
 function ManageBarsMenuPanel:Draw(parentNode, barId, barValue, buffs)
 
+	-- -----------------------   DECORATOR  0000000000000000000000000000
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.DecoratorPanel(barId, barValue));
+
 	-- -----------------------   SLOTS	  0000000000000000000000000000
 	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.SlotsPanel(barId, barValue));
 

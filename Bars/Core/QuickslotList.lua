@@ -33,6 +33,10 @@ function QuickslotList:SetMaxItemsPerLine( maxPerLine )
 	self.itemsPerLine = maxPerLine;
 end
 
+function QuickslotList:SetCountToShow( count )
+	self.countToShow = count;
+end
+
 function QuickslotList:Refresh( showAllQuickslots, lockQuickslots )
 	self.Log:Debug("Refresh " .. self.id);
 

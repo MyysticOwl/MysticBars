@@ -11,13 +11,16 @@ function SlotsPanel:Constructor(barId, barValue, isExtension)
 
 	self:SetHeight(80);
 
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local localBarSettings = settingsService:GetBarSettings(self.barId);
+
 	if (isExtension == nil) then
 		isExtension = false;
 	end
 
 	self.isExtension = isExtension;
 
-	if (self.isExtension == false) then
+	if (self.isExtension == false and localBarSettings.barType ~= INVENTORY_BAR) then
 		self.sb = self.utils:AddScrollBar(self.panelBackground, 1, 1, 100, 200, selectionHeight + 20, nil, L["Rows:"], 5, 5,
 			5);
 		self.sb2 = self.utils:AddScrollBar(self.panelBackground, 1, 1, 50, 200, selectionHeight + 20, nil, L["Columns:"],
@@ -41,7 +44,7 @@ function SlotsPanel:DisplaySettings()
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local localBarSettings = settingsService:GetBarSettings(self.barId);
 
-	if (self.isExtension == false) then
+	if (self.isExtension == false and localBarSettings.barType ~= INVENTORY_BAR) then
 		self.sb:SetValue(localBarSettings.quickslotRows);
 		self.sb.ValueChanged = function(sender, args)
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId,
@@ -69,6 +72,7 @@ function SlotsPanel:DisplaySettings()
 		self.extSb.ValueChanged = function(sender, args)
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId,
 				function(barSettings)
+					barSettings.quickslotColumns = self.extSb:GetValue();
 					barSettings.quickslotCount = self.extSb:GetValue();
 					return barSettings;
 				end);
