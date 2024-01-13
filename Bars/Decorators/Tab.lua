@@ -48,9 +48,6 @@ function Tab:Constructor( window, barSettings )
 	end
 	self.MouseDown = function(sender, args)
 		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-
-		--if (barService:Alive(self.id) == true) then
 			local settings = settingsService:GetSettings();
 			if (settings.barMode ~= NORMAL_MODE) then
 				if (args.Button == Turbine.UI.MouseButton.Left) then
@@ -58,8 +55,6 @@ function Tab:Constructor( window, barSettings )
 					self.dragStartY = args.Y;
 					self.dragging = true;
 					self.dragged = false;
-					-- local barSettings = settingsService:GetBarSettings( self.id );
-					-- Turbine.Shell.WriteLine("MouseDown: " .. self.id )
 				end
 			end
 		--end
@@ -68,19 +63,14 @@ function Tab:Constructor( window, barSettings )
 		local left, top = self:GetPosition();
 		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 		local settings = settingsService:GetSettings();
-		--Turbine.Shell.WriteLine("MouseMove: " );
 		if (settings.barMode ~= NORMAL_MODE and self.dragging) then
-			--Turbine.Shell.WriteLine("MouseMove: " .. self.barSettings.id );
 			self.dragged = true;
 			self:SetPosition(left + (args.X - self.dragStartX), top + (args.Y - self.dragStartY));
 		end
 	end
 	self.MouseUp = function(sender, args)
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-		--Turbine.Shell.WriteLine("MouseMove: " );
 		if (args.Button == Turbine.UI.MouseButton.Left) then
 			self.dragging = false;
-			--Turbine.Shell.WriteLine("MouseMove: " .. self.barSettings.id );
 			if (self.dragged) then
 				local x, y = self:GetPosition();
 				local validX = x;

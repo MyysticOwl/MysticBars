@@ -29,12 +29,12 @@ function WindowBarDecorator:Create()
 
 	self.mainWindow:SetVisible(self.barSettings.visible);
 
-	self.mainWindow.PositionChanged = self.PositionChanged;
+	-- self.mainWindow.PositionChanged = self.PositionChanged;
 	self.mainWindow:SetPosition(self.barSettings.x, self.barSettings.y);
 	self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth(), self.childWindow.quickslotList:GetHeight());
 
 	if (self.barSettings.barType == INVENTORY_BAR) then
-		self.mainWindow.right.MouseDown = function(sender, args)
+		self.mainWindow.rightGrab.MouseDown = function(sender, args)
 			sender.dragStartX = args.X;
 			sender.dragStartY = args.Y;
 			sender.dragging = true;
@@ -42,7 +42,7 @@ function WindowBarDecorator:Create()
 
 		local count = SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService).count;
 
-		self.mainWindow.right.MouseMove = function(sender, args)
+		self.mainWindow.rightGrab.MouseMove = function(sender, args)
 			local width, height = self.mainWindow:GetSize();
 
 			if (sender.dragging and self.mainWindow ~= nil and self.childWindow.quickslotList ~= nil and self.childWindow.quickslotList.count ~= nil) then
@@ -70,19 +70,22 @@ function WindowBarDecorator:Create()
 			self.counter = self.counter + 1;
 		end
 
-		self.mainWindow.right.MouseUp = function(sender, args)
+		self.mainWindow.rightGrab.MouseUp = function(sender, args)
 			sender.dragging = false;
 			local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 			settingsService:SetBarSettings(self.barSettings);
 			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 16, self.childWindow.quickslotList:GetHeight() + 40);
 		end
+		self.mainWindow.right.MouseUp = self.mainWindow.rightGrab.MouseUp;
+		self.mainWindow.right.MouseDown = self.mainWindow.rightGrab.MouseDown;
+		self.mainWindow.right.MouseMove = self.mainWindow.rightGrab.MouseMove;
 	end
 
 	self.mainWindow.PositionChanged = function(sender, args)
 		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 		local settings = settingsService:GetSettings();
 
-		if (settings.barMode ~= NORMAL_MODE or (self.childWindow.DragBar ~= nil and self.childWindow.DragBar:IsHUDVisible() == true)) then
+		--if ((self.childWindow.DragBar ~= nil and self.childWindow.DragBar:IsHUDVisible() == true)) then
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barSettings.id, function(barSettings)
 				local x, y = self.mainWindow:GetPosition();
 
@@ -91,9 +94,10 @@ function WindowBarDecorator:Create()
 
 				barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
 				barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
+
 				return barSettings;
 			end);
-		end
+		--end
 	end
 end
 
@@ -108,9 +112,18 @@ function WindowBarDecorator:Refresh()
 	end
 end
 
-function WindowBarDecorator:PositionChanged(sender, args)
-	self.mainWindow:PositionChanged(sender, args);
-end
+-- function WindowBarDecorator:PositionChanged(sender, args)
+-- 	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barSettings.id, function(barSettings)
+-- 		local x, y = self.mainWindow:GetPosition();
+
+-- 		barSettings.relationalX = x / DISPLAYWIDTH;
+-- 		barSettings.relationalY = y / DISPLAYHEIGHT;
+
+-- 		barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
+-- 		barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
+-- 		return barSettings;
+-- 	end);
+-- end
 
 function WindowBarDecorator:SetBackColor(color)
 	self.Log:Debug("SetBackColor");
