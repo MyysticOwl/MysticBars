@@ -29,7 +29,7 @@ function Window:Constructor( barSettings )
 	self.title:SetOutlineColor(Turbine.UI.Color(0.71,0.09,0.09,0.09));
 	self.title:SetFontStyle(Turbine.UI.FontStyle.Outline);
 	self.title:SetFont(Turbine.UI.Lotro.Font.Verdana12);
-    self.title:SetBackColor(Turbine.UI.Color(0.22,0,1));
+    self.title:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.titleColorA, barSettings.decorators.window.titleColorR, barSettings.decorators.window.titleColorG, barSettings.decorators.window.titleColorB));
 	self.title:SetForeColor(Window.TitleColor);
 	self.title:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleCenter);
 	self.title:SetMouseVisible(true);
@@ -41,7 +41,7 @@ function Window:Constructor( barSettings )
     self.center:SetZOrder(-5);
     self.center:SetMouseVisible(false);
     self.center:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-    self.center:SetBackColor(Turbine.UI.Color(1, 0, 0, 0));
+    self.center:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.backColorA, barSettings.decorators.window.backColorR, barSettings.decorators.window.backColorG, barSettings.decorators.window.backColorB));
 
   self.title.MouseDown = function(sender, args)
     if (args.Button == Turbine.UI.MouseButton.Left) then
@@ -275,4 +275,22 @@ function Window:SetSize(width, height)
         self.rightGrab:SetWidth(10);
     end
 	self.close:SetPosition(self:GetWidth() - 26, 10);
+end
+
+function Window:Refresh(barSettings)
+    if (barSettings.decorators.window.titleColor) then
+        self.Log:Error("Refresh1");
+        self.title:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.titleColorA, barSettings.decorators.window.titleColorR, barSettings.decorators.window.titleColorG, barSettings.decorators.window.titleColorB));
+    else
+        self.Log:Error("Refresh2");
+        self.title:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
+    end
+    
+    if (barSettings.decorators.window.backColor) then
+        self.Log:Error("Refresh3");
+        self.center:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.backColorA, barSettings.decorators.window.backColorR, barSettings.decorators.window.backColorG, barSettings.decorators.window.backColorB));
+    else
+        self.Log:Error("Refresh4");
+        self.title:SetBackColor(Turbine.UI.Color(0.7, 0, 0, 0));
+    end
 end

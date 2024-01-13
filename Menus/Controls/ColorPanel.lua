@@ -11,17 +11,27 @@ function ColorPanel:Constructor( barId, barValue )
 
 	self:SetHeight(190);
 
-	self.useBackgroundCheckBox  = self.utils:AddCheckBox( self.panelBackground, L["Use Background Color on Bar"], selectionWidth + 150, selectionHeight, nil, 5, 5 );
-	self.utils:CreateCheckBoxCallback( self.useBackgroundCheckBox, barId, { "useBackgroundColor" } );
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local barSettings = settingsService:GetBarSettings( self.barId );
 
-	self.bgRSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, L["Red:"], 30, 40, -5 );
-	self.utils:CreateScrollBarCallback( self.bgRSB, barId, { "backgroundColorRed" }, nil, 100);
-	self.bgGSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, L["Green:"], 230, 40, 10 );
-	self.utils:CreateScrollBarCallback( self.bgGSB, barId, { "backgroundColorGreen" }, nil, 100);
-	self.bgBSB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, L["Blue:"], 30, 80 );
-	self.utils:CreateScrollBarCallback( self.bgBSB, barId, { "backgroundColorBlue" }, nil, 100);
-	self.bgASB = self.utils:AddScrollBar( self.panelBackground, 0, 0, 100, 200, selectionHeight + 20, nil, L["Opacity:"], 230, 80, 25 );
-	self.utils:CreateScrollBarCallback( self.bgASB, barId, { "opacity" }, nil, 100);
+	local checkbox, picker, colorPreview, opacity = self.utils:AddColorPicker(self.panelBackground, L["Bar Back Color:"],
+	barSettings.backgroundColorRed, barSettings.backgroundColorGreen, barSettings.backgroundColorBlue, 145, 5);
+	self.useBackgroundCheckBox = checkbox;
+	self.bgASB = opacity;
+	self.utils:CreateCheckBoxCallback( checkbox, barId, { "useBackgroundColor" } );
+
+	picker.LeftClick = function ()
+		colorPreview:SetBackColor(picker:GetTurbineColor());
+
+		local red, green, blue = picker:GetRGBColor();
+		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+			self.utils:BuildItemFromCommandTable( barSettings, { "backgroundColorRed" }, red / 255 );
+			self.utils:BuildItemFromCommandTable( barSettings, { "backgroundColorGreen" }, green / 255 );
+			self.utils:BuildItemFromCommandTable( barSettings, { "backgroundColorBlue" }, blue / 255 );
+			return barSettings;
+		end);
+	end
+	self.utils:CreateScrollBarCallback( opacity, barId, { "opacity" }, nil, 150);
 
 	self.useFadingCheckBox  = self.utils:AddCheckBox( self.panelBackground, L["On Mouseover:"], selectionWidth + 200, selectionHeight, nil, 30, 120 );
 	self.utils:CreateCheckBoxCallback( self.useFadingCheckBox, barId, { "useFading" } );
@@ -38,9 +48,9 @@ function ColorPanel:DisplaySettings()
 
 	-- COLOR SETTINGS
 	self.useBackgroundCheckBox:SetChecked( localBarSettings.useBackgroundColor );
-	self.bgRSB:SetValue( localBarSettings.backgroundColorRed * 100 );
-	self.bgGSB:SetValue( localBarSettings.backgroundColorGreen * 100 );
-	self.bgBSB:SetValue( localBarSettings.backgroundColorBlue * 100 );
+	-- self.bgRSB:SetValue( localBarSettings.backgroundColorRed * 100 );
+	-- self.bgGSB:SetValue( localBarSettings.backgroundColorGreen * 100 );
+	-- self.bgBSB:SetValue( localBarSettings.backgroundColorBlue * 100 );
 	self.bgASB:SetValue( localBarSettings.opacity * 100 );
 	self.fadeOpacitySelection:SetValue( localBarSettings.fadeOpacity * 100 );
 	self.useFadingCheckBox:SetChecked( localBarSettings.useFading );

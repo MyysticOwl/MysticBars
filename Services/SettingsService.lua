@@ -262,6 +262,9 @@ function SettingsService:NewBar()
 	bar.events.triggered.triggerOnClassBuffActive = true;
 	bar.events.inventory = { };
 	bar.events.inventory.quantity = 50;
+	bar.decorators = {};
+	bar.decorators.window = {titleColor=false, titleColorA=1, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
+	bar.decorators.tab = {titleColor=true, titleColorA=0, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
 
 	return bar;
 end
@@ -278,6 +281,9 @@ function SettingsService:GetBarSettings( barid )
 	local barSettings = self.settings.bars[barid];
 	if (barSettings.decorator == nil) then
 		barSettings.decorator = TAB_BAR_DECORATOR;
+		barSettings.decorators = {};
+		barSettings.decorators.window = {titleColor=false, titleColorA=1, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
+		barSettings.decorators.tab = {titleColor=true, titleColorA=0, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
 	end
 
 	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayInCombat");

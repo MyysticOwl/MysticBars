@@ -19,7 +19,7 @@ L["10 = Balanced;Lower numbers = Damage;Higher numbers Healing:"] = "10 = Balanc
 L["Balance between:"] = "Balance between:";
 L["25 = Balanced;Lower numbers = Aft;Higher numbers Fore:"] = "25 = Balanced;Lower numbers = Aft;Higher numbers Fore:";
 L["Focus between:"] = "Focus between:";
-L["Use Background Color on Bar"] = "Use Background Color on Bar";
+L["Bar Back Color:"] = "Bar Back Color:";
 L["Red:"] = "Red:";
 L["Green:"] = "Green:";
 L["Blue:"] = "Blue:";
@@ -73,3 +73,5 @@ L["German"] = "German";
 L["General Settings"] = "General Settings";
 L["Tabbed Bar"] = "Tabbed Bar";
 L["Window Bar"] = "Window Bar";
+L["Bar Title Color:"] = "Bar Title Color:";
+L["Bar Back Color:"] = "Bar Back Color:";

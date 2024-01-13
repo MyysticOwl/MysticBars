@@ -184,6 +184,26 @@ function MenuUtils:AddCheckBox( parentBox, text, x, y, thebgcolor, left, top )
 	return cb;
 end
 
+
+function MenuUtils:AddColorPicker( parentBox, text, red, green, blue, left, top )
+	local colorCheckBox  = self:AddCheckBox( parentBox, text, selectionWidth + 150, selectionHeight, nil, 5, top );
+
+	local color = MysticBars.Menus.Core.UI.ColorPicker.Create()
+	color:SetParent(parentBox);
+	color:SetSize(200, 32);
+	color:SetPosition(left, top);
+
+	local colorPreview = Turbine.UI.Control();
+	colorPreview:SetParent(parentBox);
+	colorPreview:SetSize(23,23);
+	colorPreview:SetPosition(left + 220, top);
+	colorPreview:SetBackColor(Turbine.UI.Color(red, green, blue));
+	
+	local opacity = self:AddScrollBar( parentBox, 1, 0, 100, 200, selectionHeight + 20, nil, L["Opacity:"], left + 270, top, 25 );
+
+	return colorCheckBox, color, colorPreview, opacity;
+end
+
 function MenuUtils:CreateCheckBoxCallback( control, barId, commandTable, callbackFunction )
 	control.CheckedChanged = function( sender, args )
 				SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(barId, function(barSettings)

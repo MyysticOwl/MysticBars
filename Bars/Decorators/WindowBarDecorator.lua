@@ -106,6 +106,7 @@ function WindowBarDecorator:Refresh()
 
 	if (self.mainWindow ~= nil) then
 		self.mainWindow:SetVisible(self.barSettings.visible);
+		self.mainWindow:Refresh(self.childWindow.barSettings);
 		if (self.counter == 0) then
 			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 16, self.childWindow.quickslotList:GetHeight() + 40);
 		end
