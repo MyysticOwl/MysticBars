@@ -171,14 +171,11 @@ function BarService:Construct( storedBars, second )
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	for key, value in pairs (storedBars) do
+		if (value.id == nil) then
+			value.id = tonumber(key);
+		end
 		if ( value.barType == QUICKSLOTBAR and value ~= nil) then
-			local bar = nil;
-			if (value.id ~= nil) then
-				bar = MysticBars.Bars.QuickslotBar( value );
-			else
-				value.id = tonumber(key);
-				bar = MysticBars.Bars.QuickslotBar( value );
-			end
+			local bar = MysticBars.Bars.QuickslotBar( value );
 			RegisteredBars[tonumber(key)] = bar;
 		end
 		if ( value.barType == INVENTORY_BAR ) then
