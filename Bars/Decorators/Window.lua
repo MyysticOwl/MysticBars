@@ -24,16 +24,24 @@ function Window:Constructor( barSettings )
 	self.title = Turbine.UI.Label();
 	self.title:SetParent(self);
 	self.title:SetPosition(0,0);
-	self.title:SetSize(0,20);
+	self.title:SetSize(0,12);
 	self.title:SetZOrder(-1);
-	self.title:SetOutlineColor(Turbine.UI.Color(0.95,0.93,0.67,1));
+	self.title:SetOutlineColor(Turbine.UI.Color(0.71,0.09,0.09,0.09));
 	self.title:SetFontStyle(Turbine.UI.FontStyle.Outline);
-	self.title:SetFont(Turbine.UI.Lotro.Font.TrajanPro18);
-    self.title:SetBackColor(Turbine.UI.Color(0.51,1,0,0.17));
+	self.title:SetFont(Turbine.UI.Lotro.Font.Verdana12);
+    self.title:SetBackColor(Turbine.UI.Color(0.22,0,1));
 	self.title:SetForeColor(Window.TitleColor);
 	self.title:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleCenter);
 	self.title:SetMouseVisible(true);
-  self.title:SetVisible(false);
+    self.title:SetVisible(false);
+
+  	-- content label
+    self.center = Turbine.UI.Control();
+    self.center:SetParent(self);
+    self.center:SetZOrder(-5);
+    self.center:SetMouseVisible(false);
+    self.center:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
+    self.center:SetBackColor(Turbine.UI.Color(1, 0, 0, 0));
 
   self.title.MouseDown = function(sender, args)
     if (args.Button == Turbine.UI.MouseButton.Left) then
@@ -241,7 +249,7 @@ function Window:SetSize(width, height)
 	self.titleMid:SetPosition(spacer + 35, -7);
 	self.titleMid:SetWidth(titleWidth - 70);
 	self.titleRight:SetPosition(width - spacer - 35, -7);
-	self.title:SetPosition(spacer + 17, 8);
+	self.title:SetPosition(spacer + 17, 12);
 	self.title:SetWidth(titleWidth - 33);
 
 	self.top:SetPosition(36, offset);
@@ -257,6 +265,9 @@ function Window:SetSize(width, height)
     self.topRight:SetPosition(self:GetWidth() - 36, offset);
     self.bottomLeft:SetPosition(0, height - 36 - 2);
     self.bottomRight:SetPosition(width - 36, height - 36 - 2);
+
+	self.center:SetPosition(3, 5 + offset);
+	self.center:SetSize(width - 4, height - 11 - offset)
 
     if (self.barSettings.barType == INVENTORY_BAR) then
         self.rightGrab:SetPosition(width - 7, height / 2 - 52/2);
