@@ -90,7 +90,7 @@ function TemplateService:CreateBar(override, name, rows, columns, x, y, barType,
 		if (barType == QUICKSLOTBAR) then
 			barService:AddQuickslotBar( barSettings );
 		elseif (barType == INVENTORY_BAR) then
-			barService:AddTabbedInventoryBar( barSettings );
+			barService:AddInventoryBar( barSettings );
 		end
 	end
 

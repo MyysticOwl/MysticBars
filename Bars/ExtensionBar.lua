@@ -55,13 +55,9 @@ function ExtensionBar:Show( visible )
 			self.keepVisible = true;
 		end
 		self.MouseLeave = function(sender,args)
-			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-			
-			if ( barService:Alive( self.id ) ) then
-				local barSettings = settingsService:GetBarSettings( self.id );
-				if ( barSettings.barTermination ~= 2 ) then
-					self.keepVisible = false;
-				end
+			local barSettings = settingsService:GetBarSettings( self.id );
+			if ( barSettings.barTermination ~= 2 ) then
+				self.keepVisible = false;
 			end
 		end
 		self.Update = function(sender,args)

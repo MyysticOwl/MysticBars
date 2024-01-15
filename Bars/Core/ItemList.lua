@@ -7,12 +7,14 @@ ItemList = class( Turbine.UI.Control );
 
 ItemList.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "ItemList" );
 
-function ItemList:Constructor( bid )
+function ItemList:Constructor( parent, barSettings )
 	Turbine.UI.Control.Constructor( self );
 
 	self.Log:Debug("Constructor");
 
-	self.id = bid;
+	self.bar = parent;
+	self.id = barSettings.id;
+	self.barSettings = barSettings;
 
 	self.quickslots = { };
 	self.items = { };
@@ -30,18 +32,15 @@ function ItemList:ClearItems()
 	self.Log:Debug("ClearItems");
 end
 
-function ItemList:SetMaxItemsPerLine( maxPerLine )
-	self.Log:Debug("SetMaxItemsPerLine");
-
-	self.itemsPerLine = maxPerLine;
-end
-
-function ItemList:SetCountToShow( count )
-	self.countToShow = tonumber(count);
-end
-
-function ItemList:Refresh()
+function ItemList:Refresh(barSettings)
 	self.Log:Debug("Refresh " .. self.itemsPerLine);
+
+	if (barSettings ~= nil) then
+		self.barSettings = barSettings;
+	end
+
+	self.itemsPerLine = self.barSettings.quickslotColumns;
+	self.countToShow = self.barSettings.quickslotCount;
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -160,9 +159,7 @@ function ItemList:AddItem( item )
 			self.currentIemCount = self.currentIemCount + 1;
 			self.items[self.currentIemCount] = item;
 			self.items[self.currentIemCount].QuantityChanged = function(sender,args)
-				if ( barService:Alive( self.id ) == true ) then
-					SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
-				end
+				SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 			end	
 		end
 	end

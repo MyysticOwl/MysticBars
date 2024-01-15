@@ -11,6 +11,7 @@ InventoryBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "InventoryBar"
 function InventoryBar:Constructor( barSettings )
 	self.Log:Debug("Constructor");
 
+	self.barSettings = barSettings;
 	MysticBars.Bars.Core.BaseBar.Constructor( self, barSettings );
 
 	self.isVisible = true;
@@ -22,15 +23,17 @@ end
 function InventoryBar:Create()
 	self.Log:Debug("Create");
 
-	self.quickslotList = MysticBars.Bars.Core.ItemList( self.id );
+	self.quickslotList = MysticBars.Bars.Core.ItemList( self, self.barSettings );
 	self.quickslotList:SetParent( self );
 
 	MysticBars.Bars.Core.BaseBar.Create( self );
 
-	self:Refresh("Create");
+	self:Refresh();
+
+	self.quickslotList:SetPosition(0, 0);
 end
 
-function InventoryBar:Refresh( count )
+function InventoryBar:Refresh()
 	self.Log:Debug("Refresh");
 
 	MysticBars.Bars.Core.BaseBar.Refresh( self );
@@ -39,11 +42,9 @@ function InventoryBar:Refresh( count )
 end
 
 function InventoryBar:EditModeRefresh( barSettings )
-	self.Log:Debug("NormalModeRefresh");
+	self.Log:Debug("EditModeRefresh");
 
 	self:SetBackColor(Turbine.UI.Color(0.8,0.63,0.4));
-	self:SetVisible( true );
-	
 	MysticBars.Bars.Core.BaseBar.EditModeRefresh( self, barSettings );
 end
 
@@ -75,7 +76,7 @@ function InventoryBar:DetermineVisiblity( eventValue, force )
 		if ( self.f12HideBar ) then
 			visible = false;
 		end
-		self:SetVisible( visible );
+		self:SetBarVisible(visible);
 
 		self:IsSelected();
 	end

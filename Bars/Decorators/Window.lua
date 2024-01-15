@@ -247,7 +247,6 @@ function Window:SetSize(width, height)
 	self.titleMid:SetPosition(spacer + 35, -7);
 	self.titleMid:SetWidth(titleWidth - 70);
 	self.titleRight:SetPosition(width - spacer - 35, -7);
-    Turbine.Shell.WriteLine("p " .. (spacer + 27) .. " " .. 12 .. " w" .. (titleWidth - 53))
 
     if ( self.barSettings.quickslotColumns >= 3 ) then
         self.title:SetPosition(spacer + 27, 11);

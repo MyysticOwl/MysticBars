@@ -9,7 +9,7 @@ TabbedBarDecorator = class( );
 TabbedBarDecorator.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "TabbedBarDecorator" );
 
 function TabbedBarDecorator:Constructor( childWindow, barSettings )
-	self.Log:Error("Constructor");
+	self.Log:Debug("Constructor");
 
 	self.childWindow = childWindow;
 	self.decorator = nil;
@@ -29,19 +29,21 @@ function TabbedBarDecorator:Constructor( childWindow, barSettings )
 		end
 		self.DragEnable = function(sender,args)
 			if( self.tab ~= nil ) then
-				self.tab:SetHidden( true );
+				self.tab:SetVisible( true );
+				self.tab.Label:SetVisible(true);
 			end
 		end
 		self.DragDisable = function(sender,args)
 			if( self.tab ~= nil ) then
-				self.tab:SetHidden( false );
+				self.tab:SetVisible( false );
+				self.tab.Label:SetVisible(false);
 			end
 		end
 	end
 end
 
 function TabbedBarDecorator:Create()
-	self.Log:Error("Create");
+	self.Log:Debug("Create");
 
 	self.tab = MysticBars.Bars.Decorators.Tab( self.childWindow, self.barSettings );
 	self.tab.PositionChanged = self.PositionChanged;
@@ -72,7 +74,7 @@ function TabbedBarDecorator:Create()
 end
 
 function TabbedBarDecorator:NormalModeRefresh(barSettings)
-	self.Log:Error("NormalModeRefresh");
+	self.Log:Debug("NormalModeRefresh");
 
 	if ( barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
 		self.DragBar:Refresh();
@@ -102,7 +104,7 @@ function TabbedBarDecorator:NormalModeRefresh(barSettings)
 end
 
 function TabbedBarDecorator:EditModeRefresh(barSettings)
-	self.Log:Error("EditModeRefresh");
+	self.Log:Debug("EditModeRefresh");
 
 	if ( barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
 		self.DragBar:Refresh();
@@ -116,24 +118,23 @@ function TabbedBarDecorator:EditModeRefresh(barSettings)
 	self.tab.Label:SetVisible(true);
 
 	self.back:SetPosition(self.barSettings.x, self.barSettings.y);
+	self.back:SetVisible(true);
+	self.childWindow:SetVisible(true);
 end
 
 function TabbedBarDecorator:SetVisible( visible )
-	if (visible == true) then
-		self.Log:Error("SetVisible true");
-	else
-		self.Log:Error("SetVisible false");
-	end
 	self.back:SetVisible(visible);
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
 	if (barSettings == nil) then
-		self.Log:Error("SetVisible barSettings are nil");
+		self.Log:Debug("SetVisible barSettings are nil");
 		return; -- This bar is dead;
 	end
 
 	if ( settingsService:GetSettings().barMode == NORMAL_MODE and self.tab ~= nil and barSettings.decorators.tab.titleColor ~= true) then
+		self.tab:SetVisible(false);
+	elseif (settingsService:GetSettings().barMode == NORMAL_MODE and not barSettings.visible) then
 		self.tab:SetVisible(false);
 	else
 		self.tab:SetVisible(true);
@@ -146,7 +147,7 @@ function TabbedBarDecorator:PositionChanged( sender, args )
 end
 
 function TabbedBarDecorator:SetBackColor( color )
-	self.Log:Error("SetBackColor");
+	self.Log:Debug("SetBackColor");
 
 	if (self.tab ~= nil) then
 		self.tab:SetBackColor( color );
@@ -154,15 +155,21 @@ function TabbedBarDecorator:SetBackColor( color )
 end
 
 function TabbedBarDecorator:SetBGColor(color)
-	self.Log:Error("SetBGColor");
+	self.Log:Debug("SetBGColor");
 
 	self:SetBackColor(color);
 end
 
 function TabbedBarDecorator:Remove()
-	self.Log:Error("Remove");
+	self.Log:Debug("Remove");
 
 	self.childWindow.SizeChanged = nil;
-	self.tab:SetHidden( true );
+
+	self.tab.Label:SetVisible(false);
+	self.tab.Label = nil;
+
+	self.tab:SetVisible( false );
 	self.tab = nil;
+
+	collectgarbage();
 end

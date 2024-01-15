@@ -344,7 +344,7 @@ function SettingsService:SetBarSettings( updatedSettings )
 	if (barService ~= nil) then
 		local bar = barService:GetBar(updatedSettings.id);
 		if (bar ~= nil) then
-			bar:Refresh("SettingsService:SetBarSettings");
+			bar:Refresh();
 		end
 	end
 end

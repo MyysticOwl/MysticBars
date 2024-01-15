@@ -17,7 +17,6 @@ function Tab:Constructor( window, barSettings )
 
 	self.targetWindow = window;
 	self.barSettings = barSettings;
-	self.hidden = false;
 
 	self:SetSize( self:GetWidth(), self.tabSize );
 	self:SetPosition( math.max( self.targetWindow:GetLeft(), 0 ), math.max( self.targetWindow:GetTop() - self.tabSize, 0 ) );
@@ -36,15 +35,6 @@ function Tab:Constructor( window, barSettings )
 	self.Label:SetBackColor( Turbine.UI.Color( 0, 1, 1, 1 ) );
 	self.Label:SetBackColorBlendMode( Turbine.UI.BlendMode.AlphaBlend );
 
-	self.MouseLeave = function(sender, args)
-		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-		local barSettings = settingsService:GetBarSettings(self.id);
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-
-		if (barService:Alive(self.id) and barSettings.useFading == true) then
-			self:Refresh();
-		end
-	end
 	self.MouseDown = function(sender, args)
 		if (args.Button == Turbine.UI.MouseButton.Left) then
 			self.dragStartX = args.X;
@@ -89,15 +79,6 @@ function Tab:Constructor( window, barSettings )
 	end
 
 	self:SetVisible( true );
-end
-
-function Tab:SetHidden( hide )
-	self.Log:Debug("SetHidden");
-
-	if ( hide ~= self.hidden ) then
-		self.hidden = hide;
-		self:Refresh();
-	end
 end
 
 function Tab:Refresh()

@@ -91,9 +91,8 @@ function EventService:NotifyClients()
 		local visible = false;
 		local force = false;
 		local barSettings = settingsService:GetBarSettings( key );
-		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
-		if ( value ~= nil and value.registered == true and barSettings.events ~= nil and barService ~= nil and barService:Alive( key ) == true) then
+		if ( value ~= nil and value.registered == true and barSettings.events ~= nil) then
 			-- Send all Effect based events to all clients
 			visible = visible or self.buffEvents:CheckVisibility( barSettings );
 			visible = visible or self.classEvents:CheckVisibility( barSettings );

@@ -199,7 +199,7 @@ function BarsTitleTreeNode:SetSelected(selected)
   local bar = barService:GetBar(self.barId);
   if (bar ~= nil) then
     bar.selected = selected;
-    bar:Refresh("BarsTitleTreeNode:SetSelected");
+    bar:Refresh();
   end
 
   self.tl:SetBackground("MysticBars/Menus/Core/Resources/social_panel_list_elements_"..(selected and "highlight" or "normal").."_top_left.tga");

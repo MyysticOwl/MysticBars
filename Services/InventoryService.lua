@@ -62,7 +62,7 @@ function InventoryService:NotifyClients( type, specificItem )
 		local barSettings = settingsService:GetBarSettings( key );
 		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
-		if ( barService ~= nil and value ~= nil and value.registered == true and barService:Alive( key ) == true ) then
+		if ( barService ~= nil and value ~= nil and value.registered == true ) then
 			barSettings.quickslotCount = backpack:GetSize();
 
 			local qlist = value.bar:GetQuickslotList();

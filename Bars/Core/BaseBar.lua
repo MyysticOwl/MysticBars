@@ -67,13 +67,11 @@ function BaseBar:Refresh()
 	if (self.decorator.tab ~= nil and self.barSettings.decorator == WINDOW_BAR_DECORATOR) then
 		self.decorator:Remove();
 		self.decorator = nil;
-		collectgarbage();
 		self.decorator = MysticBars.Bars.Decorators.WindowBarDecorator( self, self.barSettings );
 		self.decorator:Create();
 	elseif (self.decorator.mainWindow ~= nil and self.barSettings.decorator == TAB_BAR_DECORATOR) then
 		self.decorator:Remove();
 		self.decorator = nil;
-		collectgarbage();
 		self.decorator = MysticBars.Bars.Decorators.TabbedBarDecorator( self, self.barSettings );
 		self.decorator:Create();
 	end
@@ -109,18 +107,19 @@ function BaseBar:IsSelected()
 		self.decorator:SetBGColor(Turbine.UI.Color(1, 1,.5,0));
 		self:SetOpacity( 1 );
 		self:SetVisible(true);
-		self.quickslotList:Refresh( true, self.barSettings.locked );
+		self.decorator:SetVisible(true);
+		self.quickslotList:Refresh();
 	end
 end
 
 function BaseBar:DetermineVisiblity()
 	self.Log:Debug("DetermineVisiblity");
 
-	if ( not self.f12HideBar  ) then --or self.inventoryShowBar ) then
-		self:SetVisible( true );
-	else
-		self:SetVisible( false );
-	end
+	-- if ( not self.f12HideBar  ) then --or self.inventoryShowBar ) then
+	-- 	self:SetVisible( true );
+	-- else
+	-- 	self:SetVisible( false );
+	-- end
 
 	self:IsSelected();
 end
@@ -160,11 +159,6 @@ function BaseBar:GetID()
 end
 
 function BaseBar:SetBarVisible( visible )
-	if (visible) then
-		self.Log:Error("SetVisible true");
-	else
-		self.Log:Error("SetVisible false");
-	end
 	Turbine.UI.Window.SetVisible(self, visible);
 	if (self.decorator ~= nil) then
 		self.decorator:SetVisible(visible);

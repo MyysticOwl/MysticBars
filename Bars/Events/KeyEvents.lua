@@ -34,20 +34,7 @@ function KeyEvents:Constructor( regEvents )
 			self.registeredEvents.F12 = true;
 			changed = true;
 		end
-		-- if ( args.Action == Turbine.UI.Lotro.Action.Quickslot_1 ) then	-- F12
-		-- 	Turbine.Shell.WriteLine("Quickslot 1 Fired");
-		-- 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
-		-- 	if ( barService  ~= nil and barService:Alive( 1 ) ) then
-		-- 		local bars = barService:GetBars();
-		-- 		local bar1 = bars[1];
-		-- 		local bar1List = bar1:GetQuickslotList();
-		-- 		local quickslot1 = bar1List.quickslots[ 1 ];
-		-- 		local dump = MysticBars.Utils.TableDump();
-		-- 		dump.Dump(getmetatable(quickslot1.__implementation));
-		-- 		quickslot1:MouseClick({["Button"] = 1});
-		-- 	end
-		-- 	changed = true;
-		-- end
+
 		if ( args.Action == Turbine.UI.Lotro.Action.Escape ) then	-- Escape
 			self.registeredEvents.Escape = true;
 			changed = true;

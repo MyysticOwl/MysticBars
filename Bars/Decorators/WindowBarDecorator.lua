@@ -13,6 +13,7 @@ function WindowBarDecorator:Constructor(childWindow, barSettings)
 
 	self.childWindow = childWindow;
 	self.barSettings = barSettings;
+	self.counter = 0;
 
 	self.watchSizeChanges = true;
 	self.changingSizes = false;
@@ -32,13 +33,13 @@ function WindowBarDecorator:Create()
 	self.mainWindow:SetSize(self.childWindow:GetWidth() + 16, self.childWindow:GetHeight() + 36);
 
 	if (self.barSettings.barType == INVENTORY_BAR) then
+		self.dragging = false;
 		self.mainWindow.rightGrab.MouseDown = function(sender, args)
 			sender.dragStartX = args.X;
 			sender.dragStartY = args.Y;
 			sender.dragging = true;
+			self.dragging = true;
 		end
-
-		local count = SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService).count;
 
 		self.mainWindow.rightGrab.MouseMove = function(sender, args)
 			local width, height = self.mainWindow:GetSize();
@@ -57,18 +58,18 @@ function WindowBarDecorator:Create()
 
 				self.barSettings.quickslotColumns = tempCols;
 				self.barSettings.quickslotRows = tempRow;
-				self.barSettings.quickslotCount = count;
-				self.childWindow.quickslotList:SetMaxItemsPerLine(self.barSettings.quickslotColumns);
-				self.childWindow.quickslotList:Refresh();
+				self.childWindow.quickslotList:Refresh(self.barSettings);
 			end
 
 			if (sender.dragging) then
 				self.mainWindow:SetSize(width + (args.X - sender.dragStartX), self.barSettings.quickslotRows * self.barSettings.quickslotSize + 30);
 			end
+			self.counter = self.counter + 1;
 		end
 
 		self.mainWindow.rightGrab.MouseUp = function(sender, args)
 			sender.dragging = false;
+			self.dragging = false;
 			local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 			settingsService:SetBarSettings(self.barSettings);
 			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 16, self.childWindow.quickslotList:GetHeight() + 40);
@@ -79,7 +80,10 @@ function WindowBarDecorator:Create()
 	end
 
 	self.childWindow.SizeChanged = function (sender, args)
-		self.mainWindow:SetSize(self.childWindow:GetWidth() + 16, self.childWindow:GetHeight() + 36);
+		if (self.dragging ~= true) then
+			self.Log:Error("res " .. self.counter);
+			self.mainWindow:SetSize(self.childWindow:GetWidth() + 16, self.childWindow:GetHeight() + 36);
+		end
 	end
 
 	self.mainWindow.PositionChanged = function(sender, args)
@@ -107,6 +111,10 @@ function WindowBarDecorator:NormalModeRefresh( barSettings )
 	if (self.mainWindow ~= nil) then
 		self.mainWindow:SetVisible(barSettings.visible);
 		self.mainWindow:Refresh(barSettings);
+
+		if (self.counter == 0) then
+			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 16, self.childWindow.quickslotList:GetHeight() + 40);
+		end
 
 		if (barSettings.decorators.window.titleColor) then
 			self.mainWindow.title:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.titleColorA, barSettings.decorators.window.titleColorR, barSettings.decorators.window.titleColorG, barSettings.decorators.window.titleColorB));
@@ -168,6 +176,9 @@ function WindowBarDecorator:Remove()
 
 	self.childWindow.SizeChanged = nil;
 	self.childWindow:SetParent(nil);
+
 	self.mainWindow:SetVisible(false);
 	self.mainWindow = nil;
+
+	collectgarbage();
 end

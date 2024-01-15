@@ -48,7 +48,7 @@ function PredefinedExtensionPanel:DisplaySettings()
 		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 		local bar = barService:GetBar(self.barId);
 		if (bar ~= nil) then
-			bar:Refresh("PredefinedExtensionPanel", true);
+			bar:Refresh(true);
 		end
 
 		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)

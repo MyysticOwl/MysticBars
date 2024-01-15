@@ -91,7 +91,7 @@ end
 
 function QuickbarListTest:SlotCount()
     local quickbarList = MysticBars.Bars.Core.QuickslotList(1);
-    quickbarList:Refresh(false, false);
+    quickbarList:Refresh();
 
     local count = 0;
     for key,value in pairs(quickbarList.quickslots) do

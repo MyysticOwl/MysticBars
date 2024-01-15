@@ -28,12 +28,12 @@ function QuickslotBar:Create()
 
 	MysticBars.Bars.Core.BaseBar.Create( self );
 
-	self:Refresh("QuickslotBar:Create", true);
+	self:Refresh( true);
 
 	self.quickslotList:SetPosition(0, 0);
 end
 
-function QuickslotBar:Refresh( sender, drawShortcuts )
+function QuickslotBar:Refresh( drawShortcuts )
 	self.Log:Debug("Refresh");
 	MysticBars.Bars.Core.BaseBar.Refresh( self );
 
@@ -44,7 +44,7 @@ function QuickslotBar:Refresh( sender, drawShortcuts )
 	if (self.extensionBars ~= nil) then
 		for key, value in pairs(self.extensionBars) do
 			if (value ~= nil) then
-				value.bar:Refresh(sender);
+				value.bar:Refresh();
 			end
 		end
 	end
@@ -125,7 +125,7 @@ end
 --
 -- It is recommended to call: "eventService:NotifyClients();" if needed.
 function QuickslotBar:DetermineVisiblity(eventValue, force)
-	self.Log:Error("DetermineVisiblity");
+	self.Log:Debug("DetermineVisiblity");
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local settings = settingsService:GetSettings();
@@ -142,12 +142,6 @@ function QuickslotBar:DetermineVisiblity(eventValue, force)
 
 		if (self.f12HideBar) then
 			visible = false;
-		end
-
-		if (visible) then
-			self.Log:Error("+++++++++++SetVisible true");
-		else
-			self.Log:Error("+++++++++++SetVisible false");
 		end
 		self:SetBarVisible(visible);
 

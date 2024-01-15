@@ -21,7 +21,7 @@ function BarService:RefreshBars( drawShortcuts )
 	self.Log:Debug("RefreshBars");
 
 	for key, value in pairs (RegisteredBars) do
-		value:Refresh( "RefreshBars", drawShortcuts );
+		value:Refresh( drawShortcuts );
 	end
 end
 
@@ -124,6 +124,8 @@ function BarService:Remove( barid )
 
 		settingsService:ClearBarSettings( barid);
 
+		collectgarbage();
+
 		local menuService = SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService)
 		if (menuService ~= nil) then
 			menuService:GetMenu():Refresh(true);
@@ -209,16 +211,6 @@ function BarService:GetBar( barId )
 	self.Log:Debug("GetBar");
 
 	return RegisteredBars[ barId ];
-end
-
-function BarService:Alive( barid )
-	self.Log:Debug("Alive");
-
-	if ( RegisteredBars[barid] == nil ) then
-		return false;
-	else
-		return true;
-	end
 end
 
 function BarService:ExtensionMousedOver()
