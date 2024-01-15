@@ -288,8 +288,8 @@ function SettingsService:GetBarSettings( barid )
 	if (barSettings.decorator == nil) then
 		barSettings.decorator = TAB_BAR_DECORATOR;
 		barSettings.decorators = {};
-		barSettings.decorators.window = {titleColor=false, titleColorA=1, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
-		barSettings.decorators.tab = {titleColor=true, titleColorA=0, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
+		barSettings.decorators.window = {titleColor=false, titleColorA=1, titleColorR=1, titleColorG=1, titleColorB=1, backColor=false, backColorA=1, backColorR=1, backColorG=1, backColorB=1};
+		barSettings.decorators.tab = {titleColor=false, titleColorA=1, titleColorR=1, titleColorG=1, titleColorB=1,backColor=false, backColorA=1, backColorR=1, backColorG=1, backColorB=1};
 	end
 
 	if (barSettings.events == nil) then
