@@ -66,11 +66,16 @@ function TabbedBarDecorator:Create()
 	end
 
 	self.back = Turbine.UI.Window();
+	self.back:SetMouseVisible(true);
 	self.back:SetPosition(self.barSettings.x, self.barSettings.y);
 	self.back:SetVisible(true);
 	self.back:SetSize(self.childWindow:GetSize());
 	self.childWindow:SetParent(self.back);
 	self.childWindow:SetPosition( 0, 0);
+
+	self.childWindow.SizeChanged = function (sender, args)
+		self.back:SetSize(self.childWindow:GetWidth(), self.childWindow:GetHeight());
+	end
 end
 
 function TabbedBarDecorator:NormalModeRefresh(barSettings)

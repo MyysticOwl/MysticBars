@@ -106,7 +106,7 @@ function QuickslotList:RefreshQuickslots()
 
 		self.quickslots[i].DragDrop = function( sender, args )
 			local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-
+			local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 			local bars = barService:GetBars();
 			if ( barService.originItem ~= nil and barService.performingDrop == nil ) then
 				barService.performingDrop = true;

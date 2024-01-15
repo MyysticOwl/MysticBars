@@ -13,7 +13,6 @@ function WindowBarDecorator:Constructor(childWindow, barSettings)
 
 	self.childWindow = childWindow;
 	self.barSettings = barSettings;
-	self.counter = 0;
 
 	self.watchSizeChanges = true;
 	self.changingSizes = false;
@@ -30,7 +29,7 @@ function WindowBarDecorator:Create()
 
 	-- self.mainWindow.PositionChanged = self.PositionChanged;
 	self.mainWindow:SetPosition(self.barSettings.x, self.barSettings.y - 36);
-	self.mainWindow:SetSize(self.childWindow:GetWidth() + 16, self.childWindow:GetHeight() + 36);
+	self.mainWindow:SetSize(self.childWindow:GetWidth() + 12, self.childWindow:GetHeight() + 36);
 
 	if (self.barSettings.barType == INVENTORY_BAR) then
 		self.dragging = false;
@@ -62,9 +61,8 @@ function WindowBarDecorator:Create()
 			end
 
 			if (sender.dragging) then
-				self.mainWindow:SetSize(width + (args.X - sender.dragStartX), self.barSettings.quickslotRows * self.barSettings.quickslotSize + 30);
+				self.mainWindow:SetSize(width + (args.X - sender.dragStartX), self.barSettings.quickslotRows * self.barSettings.quickslotSize + 36);
 			end
-			self.counter = self.counter + 1;
 		end
 
 		self.mainWindow.rightGrab.MouseUp = function(sender, args)
@@ -72,7 +70,7 @@ function WindowBarDecorator:Create()
 			self.dragging = false;
 			local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 			settingsService:SetBarSettings(self.barSettings);
-			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 16, self.childWindow.quickslotList:GetHeight() + 40);
+			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 12, self.childWindow.quickslotList:GetHeight() + 36);
 		end
 		self.mainWindow.right.MouseUp = self.mainWindow.rightGrab.MouseUp;
 		self.mainWindow.right.MouseDown = self.mainWindow.rightGrab.MouseDown;
@@ -81,7 +79,6 @@ function WindowBarDecorator:Create()
 
 	self.childWindow.SizeChanged = function (sender, args)
 		if (self.dragging ~= true) then
-			self.Log:Error("res " .. self.counter);
 			self.mainWindow:SetSize(self.childWindow:GetWidth() + 16, self.childWindow:GetHeight() + 36);
 		end
 	end
@@ -111,10 +108,6 @@ function WindowBarDecorator:NormalModeRefresh( barSettings )
 	if (self.mainWindow ~= nil) then
 		self.mainWindow:SetVisible(barSettings.visible);
 		self.mainWindow:Refresh(barSettings);
-
-		if (self.counter == 0) then
-			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 16, self.childWindow.quickslotList:GetHeight() + 40);
-		end
 
 		if (barSettings.decorators.window.titleColor) then
 			self.mainWindow.title:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.titleColorA, barSettings.decorators.window.titleColorR, barSettings.decorators.window.titleColorG, barSettings.decorators.window.titleColorB));
