@@ -20,7 +20,7 @@ function BaseBar:Constructor( barSettings )
 	else
 		self.decorator = MysticBars.Bars.Decorators.TabbedBarDecorator( self, barSettings );
 	end
-	
+
 	self.selected = false;
 	self.dragged = false;
 	self.isSelectedOnMainMenu = false;
@@ -30,36 +30,10 @@ function BaseBar:Constructor( barSettings )
 	self:SetMouseVisible( true );
 	self:SetAllowDrop( true );
 
---	self:SetPosition( barSettings.x, barSettings.y );
- 
 	self:Create();
-
-	if ( barSettings.barType ~= EXTENSIONBAR ) then
-		local title = barSettings.barName;
-		if ( barSettings.barName == nil or barSettings.barName == "" ) then
-			title = "Bar:" .. self.id;
-		end
-		self.DragBar = MysticBars.Menus.Core.UI.DragBar( self, title, true );
-		self.DragBar:SetAllowsHUDHiding( false, true );
-		self.DragBar.PositionChanged = function(sender,args)
-			self.Log:Debug("DragBar:PositionChanged");
-			self:PositionChanged(sender,args);
-		end
-		self.DragEnable = function(sender,args)
-			if( self.tab ~= nil ) then
-				self.tab:SetHidden( true );
-			end
-		end
-		self.DragDisable = function(sender,args)
-			if( self.tab ~= nil ) then
-				self.tab:SetHidden( false );
-			end
-		end
-	end
 end
 
 function BaseBar:PositionChanged( sender, args )
-	-- self.decorator:Refresh();
 end
 
 function BaseBar:Create()
@@ -90,28 +64,13 @@ function BaseBar:Refresh( count )
 		self.barSettings = barSettings;
 	end
 
-	self:BarSetup();
-
-	if ( self.barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
-		self.DragBar:Refresh();
-	end
+	self:SetBarSize();
 
 	self.quickslotList:SetAllowDrop( not self.barSettings.locked );
 	self.quickslotList:SetMaxItemsPerLine( self.barSettings.quickslotColumns );
 	self.quickslotList:SetCountToShow( count );
 	local showQuickslots = (settings.barMode ~= NORMAL_MODE) or self.barSettings.locked == false;
 	self.quickslotList:Refresh( showQuickslots, self.barSettings.locked );
-
-	self.decorator:Refresh();
-
-	self:BarSelected();
-
-	self:SetBarSize();
-end
-
-function BaseBar:BarSetup()
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local settings = settingsService:GetSettings();
 
 	if (self.decorator.tab ~= nil and self.barSettings.decorator == WINDOW_BAR_DECORATOR) then
 		self.decorator:Remove();
@@ -123,42 +82,12 @@ function BaseBar:BarSetup()
 		self.decorator:Create();
 	end
 
-	if ( settings.barMode == NORMAL_MODE ) then
-		if ( self.faded ) then
-			self:SetOpacity( self.barSettings.fadeOpacity );
-		else
-			self:SetOpacity( 1 );
-		end
-		if ( self.barSettings.useBackgroundColor == true ) then
-			local tempColor = Turbine.UI.Color( self.barSettings.opacity, self.barSettings.backgroundColorRed, self.barSettings.backgroundColorGreen, self.barSettings.backgroundColorBlue);
-			self:SetBGColor( tempColor );
-			self.decorator:SetBackColor(tempColor);
-		else
-			self:SetBGColor( Turbine.UI.Color( 0, 0, 0, 0) );
-			self.decorator:SetBackColor(Turbine.UI.Color( 0, 0, 0, 0));
-		end
-		if ( self.barSettings.barType == EXTENSIONBAR ) then
-			self:SetVisible( false );
-		end
-	else
-		self:SetMenuBackColor( nil, settings.barMode );
-		self:SetVisible( true );
-	end
+	self.decorator:Refresh();
+
+	self:CheckSelection();
 end
 
-function BaseBar:SetMenuBackColor( color, opacity )
-	self.Log:Debug("SetMenuBackColor");
-
-	self:SetBackColor(color);
-	self.decorator:SetBackColor(color);
-	if ( self.selected ) then
-		self:SetOpacity( opacity );
-	end
-end
-
-function BaseBar:BarSelected()
-	self.Log:Debug("SetMenuBackColor");
-
+function BaseBar:CheckSelection()
 	if ( self.selected ) then
 		self:SetBGColor( Turbine.UI.Color(1, 1,.5,0) );
 		self.decorator:SetBGColor(Turbine.UI.Color(1, 1,.5,0));
@@ -180,18 +109,6 @@ function BaseBar:SetBarSize()
 	self.Log:Debug("SetBarSize");
 
 	self:SetSize( self.quickslotList:GetWidth(), self.quickslotList:GetHeight() );
-end
-
-function BaseBar:DetermineVisiblity()
-	self.Log:Debug("DetermineVisiblity");
-
-	if ( not self.f12HideBar  ) then --or self.inventoryShowBar ) then
-		self:SetVisible( true );
-	else
-		self:SetVisible( false );
-	end
-
-	self:BarSelected();
 end
 
 function BaseBar:Remove()
@@ -223,6 +140,8 @@ function BaseBar:GetID()
 end
 
 function BaseBar:SetVisible( visible )
-	Turbine.UI.Window.SetVisible(self, visible);
-	self.decorator:SetVisible(visible);
+	-- Turbine.UI.Window.SetVisible(self, visible);
+	if (self.decorator ~= nil) then
+		self.decorator:SetVisible(visible);
+	end
 end

@@ -15,7 +15,7 @@ end
 function BrawlerTemplate:BattleFlow3( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Battle Flow 3+", 6, 3, 240, 350, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar( override, "Battle Flow 3+", 6, 3, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Battle Flow 3", barSettings );
 		templateService:SetBuffTrigger( "Battle Flow 4", barSettings );

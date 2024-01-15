@@ -64,16 +64,19 @@ function TemplateService:SetPlayerLevel( newLevel )
 	self.level = newLevel;
 end
 
-function TemplateService:CreateBar( name, rows, columns, x, y, barType, createdCallback )
+function TemplateService:CreateBar(override, name, rows, columns, x, y, barType, createdCallback )
 	self.Log:Debug("CreateBar");
 
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	local barSettings = settingsService:FindBar(name);
-	if ( barSettings == nil ) then
-
+	if ( barSettings == nil or override == true ) then
+		
 		barSettings = settingsService:NewBar();
+
+		self:RegisterAutoBar(name, barSettings.id);
+
 		barSettings.barType = barType;
 		barSettings.barName = name;
 		barSettings.quickslotRows = rows;
@@ -82,12 +85,12 @@ function TemplateService:CreateBar( name, rows, columns, x, y, barType, createdC
 		barSettings.x = x;
 		barSettings.y = y;
 
-		createdCallback(barSettings);
+		createdCallback(barSettings); -- If this is nil, there is another issue!
 
 		if (barType == QUICKSLOTBAR) then
 			barService:AddQuickslotBar( barSettings );
 		elseif (barType == INVENTORY_BAR) then
-			barService:AddInventoryBar( barSettings );
+			barService:AddTabbedInventoryBar( barSettings );
 		end
 	end
 
@@ -97,6 +100,18 @@ function TemplateService:CreateBar( name, rows, columns, x, y, barType, createdC
 	end
 
 	return barSettings;
+end
+
+function TemplateService:RegisterAutoBar(name, barId)
+	local settings = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):GetSettings();
+
+	if ( settings.autoCreatedBars == nil ) then
+		settings.autoCreatedBars = { };
+	end
+	if ( settings.autoCreatedBars[barId] == nil ) then
+		settings.autoCreatedBars[barId] = { };
+	end
+	settings.autoCreatedBars[barId].barName = name;
 end
 
 -- Set it to trigger on health                Bar ID - When to trigger

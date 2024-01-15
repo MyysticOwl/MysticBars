@@ -14,24 +14,24 @@ function ColorPanel:Constructor( barId, barValue )
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.barId );
 
-	local checkbox, picker, colorPreview, opacity = self.utils:AddColorPicker(self.panelBackground, L["Bar Back Color:"],
-	barSettings.backgroundColorRed, barSettings.backgroundColorGreen, barSettings.backgroundColorBlue, 145, 5);
-	self.useBackgroundCheckBox = checkbox;
-	self.bgASB = opacity;
-	self.utils:CreateCheckBoxCallback( checkbox, barId, { "useBackgroundColor" } );
+	-- local checkbox, picker, colorPreview, opacity = self.utils:AddColorPicker(self.panelBackground, L["Bar Back Color:"],
+	-- barSettings.backgroundColorRed, barSettings.backgroundColorGreen, barSettings.backgroundColorBlue, 145, 5);
+	-- self.useBackgroundCheckBox = checkbox;
+	-- self.bgASB = opacity;
+	-- self.utils:CreateCheckBoxCallback( checkbox, barId, { "useBackgroundColor" } );
 
-	picker.LeftClick = function ()
-		colorPreview:SetBackColor(picker:GetTurbineColor());
+	-- picker.LeftClick = function ()
+	-- 	colorPreview:SetBackColor(picker:GetTurbineColor());
 
-		local red, green, blue = picker:GetRGBColor();
-		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
-			self.utils:BuildItemFromCommandTable( barSettings, { "backgroundColorRed" }, red / 255 );
-			self.utils:BuildItemFromCommandTable( barSettings, { "backgroundColorGreen" }, green / 255 );
-			self.utils:BuildItemFromCommandTable( barSettings, { "backgroundColorBlue" }, blue / 255 );
-			return barSettings;
-		end);
-	end
-	self.utils:CreateScrollBarCallback( opacity, barId, { "opacity" }, nil, 150);
+	-- 	local red, green, blue = picker:GetRGBColor();
+	-- 	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+	-- 		self.utils:BuildItemFromCommandTable( barSettings, { "backgroundColorRed" }, red / 255 );
+	-- 		self.utils:BuildItemFromCommandTable( barSettings, { "backgroundColorGreen" }, green / 255 );
+	-- 		self.utils:BuildItemFromCommandTable( barSettings, { "backgroundColorBlue" }, blue / 255 );
+	-- 		return barSettings;
+	-- 	end);
+	-- end
+	-- self.utils:CreateScrollBarCallback( opacity, barId, { "opacity" }, nil, 150);
 
 	self.useFadingCheckBox  = self.utils:AddCheckBox( self.panelBackground, L["On Mouseover:"], selectionWidth + 200, selectionHeight, nil, 30, 120 );
 	self.utils:CreateCheckBoxCallback( self.useFadingCheckBox, barId, { "useFading" } );
@@ -47,13 +47,13 @@ function ColorPanel:DisplaySettings()
 	local localBarSettings = settingsService:GetBarSettings( self.barId );
 
 	-- COLOR SETTINGS
-	self.useBackgroundCheckBox:SetChecked( localBarSettings.useBackgroundColor );
+--	self.useBackgroundCheckBox:SetChecked( localBarSettings.useBackgroundColor );
 	-- self.bgRSB:SetValue( localBarSettings.backgroundColorRed * 100 );
 	-- self.bgGSB:SetValue( localBarSettings.backgroundColorGreen * 100 );
 	-- self.bgBSB:SetValue( localBarSettings.backgroundColorBlue * 100 );
-	self.bgASB:SetValue( localBarSettings.opacity * 100 );
-	self.fadeOpacitySelection:SetValue( localBarSettings.fadeOpacity * 100 );
-	self.useFadingCheckBox:SetChecked( localBarSettings.useFading );
+	-- self.bgASB:SetValue( localBarSettings.opacity * 100 );
+	-- self.fadeOpacitySelection:SetValue( localBarSettings.fadeOpacity * 100 );
+	-- self.useFadingCheckBox:SetChecked( localBarSettings.useFading );
 end
 
 function ColorPanel:EnableTriggers( enabled )

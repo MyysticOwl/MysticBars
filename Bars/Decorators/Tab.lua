@@ -110,8 +110,9 @@ function Tab:Refresh()
 	self.Log:Debug("Refresh");
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local settings = settingsService:GetSettings();	
-
+	local settings = settingsService:GetSettings();
+	local barSettings = settingsService:GetBarSettings( self.barSettings.id );
+	
 	if ( settings.barMode == NORMAL_MODE or self.hidden == true ) then
 		self:SetVisible( false );
 		self.Label:SetVisible(false);
@@ -119,6 +120,18 @@ function Tab:Refresh()
 		self:SetVisible( true );
 		self.Label:SetVisible(true);
 	end
+
+	if (barSettings.decorators.tab.titleColor) then
+		self:SetBackColor(Turbine.UI.Color(barSettings.decorators.tab.titleColorA, barSettings.decorators.tab.titleColorR, barSettings.decorators.tab.titleColorG, barSettings.decorators.tab.titleColorB));
+		self.Label:SetBackColor(Turbine.UI.Color(barSettings.decorators.tab.titleColorA, barSettings.decorators.tab.titleColorR, barSettings.decorators.tab.titleColorG, barSettings.decorators.tab.titleColorB));
+    else
+		--self:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
+        --self.Label:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
+    end
+
+    if (barSettings.decorators.tab.backColor == true) then
+		self.targetWindow.quickslotList:SetBackColor(Turbine.UI.Color(barSettings.decorators.tab.backColorA, barSettings.decorators.tab.backColorR, barSettings.decorators.tab.backColorG, barSettings.decorators.tab.backColorB));
+    end
 
 	local title = self.barSettings.barName;
 	if ( self.barSettings.barName == nil or self.barSettings.barName == "" ) then

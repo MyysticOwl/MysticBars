@@ -12,7 +12,7 @@ function DynamicTemplate:Constructor()
 	local skillsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SkillsService);
 	skillsService:BuildSkillLists();
 	for key, skillSet in pairs ( skillsService:GetSkillSets() ) do
-		local callback = function()
+		local callback = function( caller, override )
 			local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 			local skillsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SkillsService);
 			skillsService:BuildSkillLists();
@@ -23,7 +23,7 @@ function DynamicTemplate:Constructor()
 				rows = math.ceil(skillSet.skillCount / 5);
 				cols = 5;
 			end
-			templateService:CreateBar( skillSet.title, rows, cols, 200, 200, QUICKSLOTBAR, function(localBarSettings)
+			templateService:CreateBar( override, skillSet.title, rows, cols, 200, 200, QUICKSLOTBAR, function(localBarSettings)
 				MysticBars.Bars.Templates.DynamicTemplate.PopulateShortcuts(self, skillSet.skills, localBarSettings);
 			end);
 		end
@@ -44,8 +44,6 @@ function DynamicTemplate:PopulateShortcuts(list, localBarSettings)
 		if (ShortcutLookup[possibleHex]) then
 			count = count + 1;
 			templateService:AddShortcut( count, ShortcutLookup[possibleHex].shortcut, 6, 1, localBarSettings );
-		-- else
-		-- 	Turbine.Shell.WriteLine("Missing: " .. possibleHex .. " desc: " .. skillInfo:GetDescription());
 		end
 	end
 end

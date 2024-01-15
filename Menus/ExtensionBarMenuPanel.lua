@@ -18,7 +18,4 @@ function ExtensionBarMenuPanel:Draw(parentNode, barId, barValue)
 
 	-----------------------   SLOTS	  0000000000000000000000000000
 	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.PredefinedExtensionPanel(barId, barValue));
-
-	-- -----------------------   COLOR  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.ColorPanel(barId, barValue));
 end

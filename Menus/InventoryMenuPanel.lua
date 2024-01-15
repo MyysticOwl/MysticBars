@@ -21,7 +21,4 @@ function InventoryMenuPanel:Draw(parentNode, barId, barValue)
 
 	-- -----------------------   SLOTS	  0000000000000000000000000000
 	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.SlotsPanel(barId, barValue));
-
-	-- -----------------------   COLOR  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.ColorPanel(barId, barValue));
 end

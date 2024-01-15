@@ -25,7 +25,7 @@ function Window:Constructor( barSettings )
 	self.title:SetParent(self);
 	self.title:SetPosition(0,0);
 	self.title:SetSize(0,12);
-	self.title:SetZOrder(-1);
+	self.title:SetZOrder(1);
 	self.title:SetOutlineColor(Turbine.UI.Color(0.71,0.09,0.09,0.09));
 	self.title:SetFontStyle(Turbine.UI.FontStyle.Outline);
 	self.title:SetFont(Turbine.UI.Lotro.Font.Verdana12);
@@ -243,14 +243,21 @@ function Window:SetSize(width, height)
     Turbine.UI.Window.SetSize(self, width, height);
 	local offset = 16;
 
-	local titleWidth = math.min(self.titleWidth, width - 72);
+	local titleWidth = math.min(self.titleWidth, width - 12);
 	local spacer = (width - titleWidth) / 2;
 	self.titleLeft:SetPosition(spacer, -7);
 	self.titleMid:SetPosition(spacer + 35, -7);
 	self.titleMid:SetWidth(titleWidth - 70);
 	self.titleRight:SetPosition(width - spacer - 35, -7);
-	self.title:SetPosition(spacer + 17, 12);
-	self.title:SetWidth(titleWidth - 33);
+    Turbine.Shell.WriteLine("p " .. (spacer + 27) .. " " .. 12 .. " w" .. (titleWidth - 53))
+
+    if ( self.barSettings.quickslotColumns >= 3 ) then
+        self.title:SetPosition(spacer + 27, 11);
+	    self.title:SetWidth(titleWidth - 53);
+    else
+        self.title:SetPosition(6, 19);
+	    self.title:SetWidth(40);
+    end
 
 	self.top:SetPosition(36, offset);
 	self.bottom:SetPosition(36, height - 36);
@@ -279,18 +286,26 @@ end
 
 function Window:Refresh(barSettings)
     if (barSettings.decorators.window.titleColor) then
-        self.Log:Error("Refresh1");
         self.title:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.titleColorA, barSettings.decorators.window.titleColorR, barSettings.decorators.window.titleColorG, barSettings.decorators.window.titleColorB));
     else
-        self.Log:Error("Refresh2");
         self.title:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
     end
-    
-    if (barSettings.decorators.window.backColor) then
-        self.Log:Error("Refresh3");
+
+    if (barSettings.decorators.window.backColor == true) then
         self.center:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.backColorA, barSettings.decorators.window.backColorR, barSettings.decorators.window.backColorG, barSettings.decorators.window.backColorB));
     else
-        self.Log:Error("Refresh4");
-        self.title:SetBackColor(Turbine.UI.Color(0.7, 0, 0, 0));
+        self.center:SetBackColor(Turbine.UI.Color(0.7, 0, 0, 0));
+    end
+
+    if (barSettings.quickslotColumns < 3) then
+        self.titleLeft:SetVisible(false);
+        self.titleMid:SetVisible(false);
+        self.titleRight:SetVisible(false);
+        self.close:SetVisible(false);
+    else
+        self.titleLeft:SetVisible(true);
+        self.titleMid:SetVisible(true);
+        self.titleRight:SetVisible(true);
+        self.close:SetVisible(true);
     end
 end

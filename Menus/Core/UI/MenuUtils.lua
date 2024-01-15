@@ -185,23 +185,28 @@ function MenuUtils:AddCheckBox( parentBox, text, x, y, thebgcolor, left, top )
 end
 
 
-function MenuUtils:AddColorPicker( parentBox, text, red, green, blue, left, top )
+function MenuUtils:AddColorPicker( parentBox, text, left, top )
 	local colorCheckBox  = self:AddCheckBox( parentBox, text, selectionWidth + 150, selectionHeight, nil, 5, top );
 
-	local color = MysticBars.Menus.Core.UI.ColorPicker.Create()
+	local color = MysticBars.Menus.Core.UI.ColorPicker()
 	color:SetParent(parentBox);
 	color:SetSize(200, 32);
 	color:SetPosition(left, top);
+
+	local colorPreviewBorder = Turbine.UI.Control();
+	colorPreviewBorder:SetParent(parentBox);
+	colorPreviewBorder:SetSize(25,25);
+	colorPreviewBorder:SetPosition(left + 219, top - 1);
+	colorPreviewBorder:SetBackColor(Turbine.UI.Color(0.5, 0.5, 0));
 
 	local colorPreview = Turbine.UI.Control();
 	colorPreview:SetParent(parentBox);
 	colorPreview:SetSize(23,23);
 	colorPreview:SetPosition(left + 220, top);
-	colorPreview:SetBackColor(Turbine.UI.Color(red, green, blue));
-	
-	local opacity = self:AddScrollBar( parentBox, 1, 0, 100, 200, selectionHeight + 20, nil, L["Opacity:"], left + 270, top, 25 );
 
-	return colorCheckBox, color, colorPreview, opacity;
+	local opacity = self:AddScrollBar( parentBox, 1, 0, 100, 200, selectionHeight + 20, nil, L["Opacity:"], left + 260, top, 25 );
+
+	return colorCheckBox, color, colorPreview, colorPreviewBorder, opacity;
 end
 
 function MenuUtils:CreateCheckBoxCallback( control, barId, commandTable, callbackFunction )

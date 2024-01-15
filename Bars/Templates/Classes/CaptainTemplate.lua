@@ -21,7 +21,7 @@ end
 function CaptainTemplate:Heralds( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Heralds", 1, 3, 240, 300, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Heralds", 1, 3, 240, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( false, false, barSettings );
 		templateService:SetTrigger( templateService.CTRL, nil, barSettings );
 		templateService:SetBuffTrigger( "Banner of War", barSettings );
@@ -37,7 +37,7 @@ end
 function CaptainTemplate:Tier1( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tier1", 1, 2, 240, 350, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tier1", 1, 2, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Battle-readied", barSettings );
 		templateService:AddShortcut( 1, "0x70002FCF", 6, 2, barSettings );
@@ -48,7 +48,7 @@ end
 function CaptainTemplate:Tier2( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tier2", 1, 1, 240, 400, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tier2", 1, 1, 240, 400, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Battle-hardened", barSettings );
 		templateService:AddShortcut( 1, "0x7000AD9A", 6, 30, barSettings );
@@ -59,7 +59,7 @@ end
 function CaptainTemplate:Marks( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Marks", 1, 3, 240, 450, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Marks", 1, 3, 240, 450, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x70003E4F", 6, 12, barSettings );
 		templateService:AddShortcut( 2, "0x70003E4D", 6, 18, barSettings );
 		templateService:AddShortcut( 3, "0x70003E56", 6, 30, barSettings );
@@ -69,7 +69,7 @@ end
 function CaptainTemplate:Tactics( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tactics", 1, 3, 240, 500, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tactics", 1, 3, 240, 500, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x70003E53", 6, 6, barSettings );
 		templateService:AddShortcut( 2, "0x70003E55", 6, 28, barSettings );
 		templateService:AddShortcut( 3, "0x70003E59", 6, 38, barSettings );
@@ -79,7 +79,7 @@ end
 function CaptainTemplate:DefeatResponse( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "DefeatResponse", 1, 4, 240, 550, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "DefeatResponse", 1, 4, 240, 550, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Enemy Defeat Response", barSettings );
 		templateService:AddShortcut( 1, "0x70002F4F", 6, 2, barSettings );

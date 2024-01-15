@@ -21,7 +21,7 @@ end
 function ChampionTemplate:Stance( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Stance", 1, 3, 240, 30, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Stance", 1, 3, 240, 30, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( false, false, barSettings );
 		templateService:SetTrigger( templateService.CTRL, nil, barSettings );
 		templateService:SetBuffTrigger( "Champion's Fervour", barSettings );
@@ -37,7 +37,7 @@ end
 function ChampionTemplate:Tier1( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tier1", 1, 3, 240, 350, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tier1", 1, 3, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Tier1", barSettings );
 		templateService:SetClassRangeTrigger( CHAMPION_FERVOR, 1, 5, barSettings);
@@ -50,7 +50,7 @@ end
 function ChampionTemplate:Tier2( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tier2", 1, 4, 240, 400, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tier2", 1, 4, 240, 400, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Tier2", barSettings );
 		templateService:SetClassRangeTrigger( CHAMPION_FERVOR, 2, 5, barSettings);
@@ -64,7 +64,7 @@ end
 function ChampionTemplate:Tier3( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tier3", 1, 2, 240, 450, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tier3", 1, 2, 240, 450, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Tier3", barSettings );
 		templateService:SetClassRangeTrigger( CHAMPION_FERVOR, 3, 5, barSettings);
@@ -76,7 +76,7 @@ end
 function ChampionTemplate:Tier4( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tier4", 1, 4, 240, 500, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tier4", 1, 4, 240, 500, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Tier4", barSettings );
 		templateService:SetClassRangeTrigger( CHAMPION_FERVOR, 4, 5, barSettings);
@@ -90,7 +90,7 @@ end
 function ChampionTemplate:Tier5( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tier5", 1, 2, 240, 550, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tier5", 1, 2, 240, 550, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Tier5", barSettings );
 		templateService:SetClassRangeTrigger( CHAMPION_FERVOR, 5, 5, barSettings);

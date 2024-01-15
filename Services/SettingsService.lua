@@ -224,6 +224,13 @@ function SettingsService:GetBars( localBarType )
 end
 
 function SettingsService:FindBar( name )
+	if ( self.settings.autoCreatedBars ~= nil ) then
+		for key, value in pairs (self.settings.autoCreatedBars) do
+			if ( value.barName == name ) then
+				return value;
+			end
+		end
+	end
 	for key, value in pairs (self.settings.bars) do
 		if ( value.barName == name ) then
 			return value;
@@ -264,7 +271,7 @@ function SettingsService:NewBar()
 	bar.events.inventory.quantity = 50;
 	bar.decorators = {};
 	bar.decorators.window = {titleColor=false, titleColorA=1, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
-	bar.decorators.tab = {titleColor=true, titleColorA=0, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
+	bar.decorators.tab = {titleColor=true, titleColorA=1, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
 
 	return bar;
 end

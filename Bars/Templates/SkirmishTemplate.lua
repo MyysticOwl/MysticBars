@@ -16,7 +16,7 @@ end
 function SkirmishTemplate:Skirmish( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Skirmishes", 20, 1, 170, 300, QUICKSLOTBAR, function(localBarSettings)
+	return templateService:CreateBar(override, "Skirmishes", 20, 1, 170, 300, QUICKSLOTBAR, function(localBarSettings)
 		templateService:SetBuffTriggerOptions( true, false, localBarSettings );
 		templateService:SetTrigger( templateService.CTRL, nil, localBarSettings );
 		templateService:SetBuffTrigger( "Skirmish : Tier 1", localBarSettings );

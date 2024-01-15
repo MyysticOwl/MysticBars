@@ -22,7 +22,7 @@ end
 function BurglarTemplate:Tier1( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tier1", 1, 1, 240, 300, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tier1", 1, 1, 240, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Critical Response", barSettings );
 		templateService:AddShortcut( 1, "0x70003F0B", 6, 2, barSettings );
@@ -32,7 +32,7 @@ end
 function BurglarTemplate:Tier2( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tier2", 1, 1, 240, 350, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tier2", 1, 1, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x70003F0C", 6, 24, barSettings );
 	end );
 end
@@ -40,7 +40,7 @@ end
 function BurglarTemplate:Tier3( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tier3", 1, 3, 240, 400, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tier3", 1, 3, 240, 400, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Double Edged", barSettings );
 		templateService:AddShortcut( 1, "0x7000FD86", 6, 56, barSettings );
@@ -52,7 +52,7 @@ end
 function BurglarTemplate:Tricks( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Tricks", 1, 4, 240, 450, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Tricks", 1, 4, 240, 450, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x700031FA", 6, 8, barSettings );
 		templateService:AddShortcut( 2, "0x700031E7", 6, 16, barSettings );
 		templateService:AddShortcut( 3, "0x70003200", 6, 26, barSettings );
@@ -63,7 +63,7 @@ end
 function BurglarTemplate:TrickRemovals( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "TrickRemovals", 1, 2, 240, 500, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "TrickRemovals", 1, 2, 240, 500, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 1, "0x70015A04", 6, 20, barSettings );
 		templateService:AddShortcut( 1, "0x70015A04", 6, 52, barSettings );
 		templateService:AddShortcut( 2, "0x70020DD0", 6, 64, barSettings );
@@ -73,7 +73,7 @@ end
 function BurglarTemplate:Mischief( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Mischief", 1, 2, 240, 550, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Mischief", 1, 2, 240, 550, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Mischievous", barSettings );
 		templateService:AddShortcut( 1, "0x7000D440", 6, 30, barSettings );
@@ -84,7 +84,7 @@ end
 function BurglarTemplate:KnockedDown( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "KnockedDown", 1, 1, 240, 600, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "KnockedDown", 1, 1, 240, 600, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Stunned", barSettings );
 		templateService:SetBuffTrigger( "Knocked Down", barSettings );

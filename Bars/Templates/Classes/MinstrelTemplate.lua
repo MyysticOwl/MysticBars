@@ -20,7 +20,7 @@ end
 function MinstrelTemplate:Dissonance( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Dissonance", 1, 3, 240, 300, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Dissonance", 1, 3, 240, 300, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Dissonance", barSettings );
 		templateService:AddShortcut( 1, "0x7000B69A", 6, 14, barSettings );
@@ -32,7 +32,7 @@ end
 function MinstrelTemplate:Stances( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Stances", 1, 2, 240, 350, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Stances", 1, 2, 240, 350, QUICKSLOTBAR, function(barSettings)
 		templateService:AddShortcut( 2, "0x7000B699", 6, 10, barSettings );
 		templateService:AddShortcut( 1, "0x700293C8", 6, 22, barSettings );
 	end);
@@ -41,7 +41,7 @@ end
 function MinstrelTemplate:Coda( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Coda", 1, 1, 240, 400, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Coda", 1, 1, 240, 400, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Ballad Tier 3", barSettings );
 		templateService:AddShortcut( 1, "0x700293C4", 6, 1, barSettings );
@@ -51,7 +51,7 @@ end
 function MinstrelTemplate:Anthems( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Anthems", 1, 6, 240, 450, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Anthems", 1, 6, 240, 450, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Ballad Tier 3, barSettings", barSettings );
 		templateService:AddShortcut( 1, "0x7000317F", 6, 6, barSettings );
@@ -66,7 +66,7 @@ end
 function MinstrelTemplate:Scribe( override )
 	local templateService = SERVICE_CONTAINER:GetService(MysticBars.Services.TemplateService);
 
-	return templateService:CreateBar( "Scribe Stance", 1, 3, 240, 500, QUICKSLOTBAR, function(barSettings)
+	return templateService:CreateBar(override, "Scribe Stance", 1, 3, 240, 500, QUICKSLOTBAR, function(barSettings)
 		templateService:SetBuffTriggerOptions( true, false, barSettings );
 		templateService:SetBuffTrigger( "Scribe Stance", barSettings );
 		templateService:AddShortcut( 1, "0x7000C787", 6, 1, barSettings );

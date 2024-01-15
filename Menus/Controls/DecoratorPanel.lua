@@ -6,99 +6,142 @@
 
 DecoratorPanel = class(MysticBars.Menus.Controls.BasePanel);
 
+DecoratorPanel.Log = MysticBars.Utils.Logging.LogManager.GetLogger("DecoratorPanel");
+
 function DecoratorPanel:Constructor(barId, barSettings)
 	MysticBars.Menus.Controls.BasePanel.Constructor(self, barSettings.id, barSettings);
 
-	self:SetHeight(110);
-	self.barSettings = barSettings;
+	self:SetHeight(160);
 
-	self.tabbed  = self.utils:AddCheckBox( self.panelBackground, L["Tabbed Bar"], selectionWidth + 150, selectionHeight, nil, 5, 5 );
-	self.window  = self.utils:AddCheckBox( self.panelBackground, L["Window Bar"], selectionWidth + 150, selectionHeight, nil, 150, 5 );
+	if (barSettings.barType ~= EXTENSIONBAR) then
 
-	self.decoratorStr = "";
-	if (barSettings.decorator == TAB_BAR_DECORATOR) then
-		self.decoratorStr = "tab";
-	elseif (barSettings.decorator == WINDOW_BAR_DECORATOR) then
-		self.decoratorStr = "window";
+		self.tabbed = self.utils:AddButton(self.panelBackground, L["Tabbed Bar"], buttonWidth, selectionHeight, function(sender, args)
+			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+				barSettings.decorator = TAB_BAR_DECORATOR;
+				self:SetTabVisibility(true);
+				self:SetWindowVisibility(false);
+				return barSettings;
+			end);
+		end, 5, 5);
+		self.window = self.utils:AddButton(self.panelBackground, L["Window Bar"], buttonWidth, selectionHeight, function(sender, args)
+			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+				barSettings.decorator = WINDOW_BAR_DECORATOR;
+				self:SetTabVisibility(false);
+				self:SetWindowVisibility(true);
+				return barSettings;
+			end);
+		end, 100, 5);
+
+		self.tab_checkbox, self.tab_picker, self.tab_colorPreview, self.tab_colorPrevBorder, self.tab_opacity = self.utils:AddColorPicker(self.panelBackground, L["Bar Title Color:"], 145, 30);
+		self.tab_checkbox2, self.tab_picker2, self.tab_colorPreview2, self.tab_colorPrevBorder2, self.tab_opacity2 = self.utils:AddColorPicker(self.panelBackground, L["Bar Back Color:"], 145, 70);
 	end
 
-	self.checkbox, self.picker, self.colorPreview, self.opacity = self.utils:AddColorPicker(self.panelBackground, L["Bar Title Color:"],
-	barSettings.decorators[self.decoratorStr].titleColorR, barSettings.decorators[self.decoratorStr].titleColorG, barSettings.decorators[self.decoratorStr].titleColorB, 145, 30);
+	self.window_checkbox, self.window_picker, self.window_colorPreview, self.window_colorPrevBorder, self.window_opacity = self.utils:AddColorPicker(self.panelBackground, L["Bar Title Color:"], 145, 30);
+	self.window_checkbox2, self.window_picker2, self.window_colorPreview2, self.window_colorPrevBorder2, self.window_opacity2 = self.utils:AddColorPicker(self.panelBackground, L["Bar Back Color:"], 145, 70);
 
-	self.checkbox2, self.picker2, self.colorPreview2, self.opacity2 = self.utils:AddColorPicker(self.panelBackground, L["Bar Back Color:"],
-	barSettings.decorators[self.decoratorStr].backColorR, barSettings.decorators[self.decoratorStr].backColorG, barSettings.decorators[self.decoratorStr].backColorB, 145, 70);
-
-	self:DisplaySettings();
+	if (barSettings.barType ~= EXTENSIONBAR) then
+		if (barSettings.decorator == TAB_BAR_DECORATOR) then
+			self:SetTabVisibility(true);
+			self:SetWindowVisibility(false);
+		else
+			self:SetTabVisibility(false);
+			self:SetWindowVisibility(true);
+		end
+	end
+	self:Reload(barSettings);
 end
 
-function DecoratorPanel:DisplaySettings()
+function DecoratorPanel:SetTabVisibility(visibility)
+	self.tabbed:SetEnabled(not visibility);
+	self.tab_checkbox:SetVisible(visibility);
+	self.tab_picker:SetVisible(visibility);
+	self.tab_colorPreview:SetVisible(visibility);
+	self.tab_colorPrevBorder:SetVisible(visibility);
+	self.tab_opacity:SetVisible(visibility);
+	self.tab_checkbox2:SetVisible(visibility);
+	self.tab_picker2:SetVisible(visibility);
+	self.tab_colorPreview2:SetVisible(visibility);
+	self.tab_colorPrevBorder2:SetVisible(visibility);
+	self.tab_opacity2:SetVisible(visibility);
+end
+
+function DecoratorPanel:SetWindowVisibility(visibility)
+	self.window:SetEnabled(not visibility);
+	self.tabbed:SetEnabled(visibility);
+	self.window_checkbox:SetVisible(visibility);
+	self.window_picker:SetVisible(visibility);
+	self.window_colorPreview:SetVisible(visibility);
+	self.window_colorPrevBorder:SetVisible(visibility);
+	self.window_opacity:SetVisible(visibility);
+	self.window_checkbox2:SetVisible(visibility);
+	self.window_picker2:SetVisible(visibility);
+	self.window_colorPreview2:SetVisible(visibility);
+	self.window_colorPrevBorder2:SetVisible(visibility);
+	self.window_opacity2:SetVisible(visibility);
+end
+
+function DecoratorPanel:Reload(barSettings)
+	if (barSettings.barType ~= EXTENSIONBAR) then
+		self:DisplaySettings("tab", self.tab_checkbox, self.tab_picker, self.tab_colorPreview, self.tab_opacity, 
+								self.tab_checkbox2, self.tab_picker2, self.tab_colorPreview2, self.tab_opacity2);
+	end
+	self:DisplaySettings("window", self.window_checkbox, self.window_picker, self.window_colorPreview, self.window_opacity, 
+								self.window_checkbox2, self.window_picker2, self.window_colorPreview2, self.window_opacity2);
+end
+
+function DecoratorPanel:DisplaySettings(decoratorStr, checkbox, picker, colorPreview, opacity, checkbox2, picker2, colorPreview2, opacity2)
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.barId );
 
-	self.decoratorStr = "tab";
-	if (barSettings.decorator == WINDOW_BAR_DECORATOR) then
-		self.decoratorStr = "window";
-	end
+	checkbox:SetChecked(barSettings.decorators[decoratorStr].titleColor);
 
-	self.tabbed:SetChecked(self.barSettings.decorator == TAB_BAR_DECORATOR);
-	self.window:SetChecked(self.barSettings.decorator == WINDOW_BAR_DECORATOR);
-
-	self.tabbed.CheckedChanged = function( sender, args )
-		if ( self.tabbed:IsChecked() == true and barSettings.decorator ~= TAB_BAR_DECORATOR) then
-			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(barSettings.id, function(barSettings)
-				barSettings.decorator = TAB_BAR_DECORATOR;
-				return barSettings;
-			end, function()
-				self:DisplaySettings();
-			end);
-		end
-	end
-	self.window.CheckedChanged = function( sender, args )
-		if ( self.window:IsChecked() == true and barSettings.decorator ~= WINDOW_BAR_DECORATOR) then
-			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(barSettings.id, function(barSettings)
-				barSettings.decorator = WINDOW_BAR_DECORATOR;
-				return barSettings;
-			end, function()
-				self:DisplaySettings();
-			end);
-		end
-	end
-
-	self.checkbox:SetChecked(barSettings.decorators[self.decoratorStr].titleColor);
-
-	self.utils:CreateCheckBoxCallback( self.checkbox, self.barId, { "decorators", self.decoratorStr, "titleColor" } );
-	self.picker.LeftClick = function ()
-		self.colorPreview:SetBackColor(self.picker:GetTurbineColor());
-
-		local red, green, blue = self.picker:GetRGBColor();
+	self.utils:CreateCheckBoxCallback( checkbox, self.barId, { "decorators", decoratorStr, "titleColor" } );
+	picker:SetColors(barSettings.decorators[decoratorStr].titleColorA, barSettings.decorators[decoratorStr].titleColorR, barSettings.decorators[decoratorStr].titleColorG, barSettings.decorators[decoratorStr].titleColorB);
+	colorPreview:SetBackColor(Turbine.UI.Color(barSettings.decorators[decoratorStr].titleColorA, barSettings.decorators[decoratorStr].titleColorR, barSettings.decorators[decoratorStr].titleColorG, barSettings.decorators[decoratorStr].titleColorB));
+	picker.LeftClick = function ()
+		local red, green, blue = picker:GetRGBColor();
 		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
-			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", self.decoratorStr, "titleColorR" }, red / 255 );
-			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", self.decoratorStr, "titleColorG" }, green / 255 );
-			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", self.decoratorStr, "titleColorB" }, blue / 255 );
+			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", decoratorStr, "titleColorR" }, red / 255 );
+			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", decoratorStr, "titleColorG" }, green / 255 );
+			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", decoratorStr, "titleColorB" }, blue / 255 );
+			colorPreview:SetBackColor(Turbine.UI.Color(barSettings.decorators[decoratorStr].titleColorA, red / 255, green / 255, blue / 255));
 			return barSettings;
 		end);
 	end
-	self.utils:CreateScrollBarCallback( self.opacity, self.barId, { "decorators", self.decoratorStr, "titleColorA" }, nil, 150);
-	self.opacity:SetValue( barSettings.decorators[self.decoratorStr].titleColorA * 100 );
-
-	self.checkbox2:SetChecked(barSettings.decorators[self.decoratorStr].backColor);
-
-	self.utils:CreateCheckBoxCallback( self.checkbox2, self.barId, { "decorators", self.decoratorStr, "backColor" } );
-	self.picker2.LeftClick = function ()
-		self.colorPreview2:SetBackColor(self.picker2:GetTurbineColor());
-
-		local red, green, blue = self.picker2:GetRGBColor();
+	opacity:SetValue( barSettings.decorators[decoratorStr].titleColorA * 100 );
+	opacity.ValueChanged = function( sender, args )
 		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
-			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", self.decoratorStr, "backColorR" }, red / 255 );
-			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", self.decoratorStr, "backColorG" }, green / 255 );
-			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", self.decoratorStr, "backColorB" }, blue / 255 );
+			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", decoratorStr, "titleColorA" }, opacity:GetValue() / 100 );
+			return barSettings;
+		end, function()
+			picker:LeftClick();
+		end);
+	end
+
+	checkbox2:SetChecked(barSettings.decorators[decoratorStr].backColor);
+
+	self.utils:CreateCheckBoxCallback( checkbox2, self.barId, { "decorators", decoratorStr, "backColor" } );
+	picker2:SetColors(barSettings.decorators[decoratorStr].backColorA, barSettings.decorators[decoratorStr].backColorR, barSettings.decorators[decoratorStr].backColorG, barSettings.decorators[decoratorStr].backColorB);
+	colorPreview2:SetBackColor(Turbine.UI.Color(barSettings.decorators[decoratorStr].backColorA, barSettings.decorators[decoratorStr].backColorR, barSettings.decorators[decoratorStr].backColorG, barSettings.decorators[decoratorStr].backColorB));
+	picker2.LeftClick = function ()
+		local red, green, blue = picker2:GetRGBColor();
+		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", decoratorStr, "backColorR" }, red / 255 );
+			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", decoratorStr, "backColorG" }, green / 255 );
+			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", decoratorStr, "backColorB" }, blue / 255 );
+			colorPreview2:SetBackColor(Turbine.UI.Color(barSettings.decorators[decoratorStr].backColorA, red / 255, green / 255, blue / 255));
 			return barSettings;
 		end);
 	end
-	self.utils:CreateScrollBarCallback( self.opacity2, self.barId, { "decorators", self.decoratorStr, "backColorA" }, nil, 150);
-	self.opacity2:SetValue( barSettings.decorators[self.decoratorStr].backColorA * 100 );
-
-
+	opacity2:SetValue( barSettings.decorators[decoratorStr].backColorA * 100 );
+	opacity2.ValueChanged = function( sender, args )
+		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barId, function(barSettings)
+			self.utils:BuildItemFromCommandTable( barSettings, { "decorators", decoratorStr, "backColorA" }, opacity2:GetValue() / 100 );
+			return barSettings;
+		end, function()
+			picker2:LeftClick();
+		end);
+	end
 end
 
 function DecoratorPanel:EnableTriggers(enabled)

@@ -16,9 +16,6 @@ function ManageBarsMenuPanel:Draw(parentNode, barId, barValue, buffs)
 	-- -----------------------   SLOTS	  0000000000000000000000000000
 	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.SlotsPanel(barId, barValue));
 
-	-- -----------------------   COLOR  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.ColorPanel(barId, barValue));
-
 	-- -----------------------   TRIGGERS  0000000000000000000000000000
 	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.TriggersPanel(parentNode, barId, barValue));
 

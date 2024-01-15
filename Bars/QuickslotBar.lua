@@ -99,15 +99,15 @@ function QuickslotBar:RegisterBarExtension(extBar, index, extensionBarID)
 	end
 end
 
-function QuickslotBar:SetMenuBackColor(selected, barMode)
-	self.Log:Debug("SetMenuBackColor");
+-- function QuickslotBar:SetMenuBackColor(selected, barMode)
+-- 	self.Log:Debug("SetMenuBackColor");
 
-	if (barMode == QUICKSLOT_MODE) then
-		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0, 1, 0), selected, 0.6);
-	else
-		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0.4, 0.6, 0.8), selected, 0.6);
-	end
-end
+-- 	if (barMode == QUICKSLOT_MODE) then
+-- 		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0, 1, 0), selected, 0.6);
+-- 	else
+-- 		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0.4, 0.6, 0.8), selected, 0.6);
+-- 	end
+-- end
 
 function QuickslotBar:ClearQuickslots(removed)
 	self.Log:Debug("ClearQuickslots");
@@ -129,27 +129,27 @@ end
 -- can and will cause issues with the visibility of the bars.
 --
 -- It is recommended to call: "eventService:NotifyClients();" if needed.
-function QuickslotBar:DetermineVisiblity(eventValue, force)
-	self.Log:Debug("DetermineVisiblity");
+-- function QuickslotBar:DetermineVisiblity(eventValue, force)
+-- 	self.Log:Debug("DetermineVisiblity");
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local settings = settingsService:GetSettings();
-	local barSettings = settingsService:GetBarSettings(self.id);
+-- 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+-- 	local settings = settingsService:GetSettings();
+-- 	local barSettings = settingsService:GetBarSettings(self.id);
 
-	if (settings.barMode == NORMAL_MODE) then
-		local visible = false;
-		if (eventValue ~= nil and eventValue) then
-			visible = true;
-		end
-		if (visible == false and self.isVisible == true) then
-			visible = barSettings.visible;
-		end
+-- 	if (settings.barMode == NORMAL_MODE) then
+-- 		local visible = false;
+-- 		if (eventValue ~= nil and eventValue) then
+-- 			visible = true;
+-- 		end
+-- 		if (visible == false and self.isVisible == true) then
+-- 			visible = barSettings.visible;
+-- 		end
 
-		if (self.f12HideBar) then
-			visible = false;
-		end
-		self:SetVisible(visible);
+-- 		if (self.f12HideBar) then
+-- 			visible = false;
+-- 		end
+-- 		self:SetVisible(visible);
 
-		self:BarSelected();
-	end
-end
+-- 		self:CheckSelection();
+-- 	end
+-- end

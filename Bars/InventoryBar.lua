@@ -79,6 +79,6 @@ function InventoryBar:DetermineVisiblity( eventValue, force )
 		end
 		self:SetVisible( visible );
 
-		self:BarSelected();
+		self:CheckSelection();
 	end
 end
