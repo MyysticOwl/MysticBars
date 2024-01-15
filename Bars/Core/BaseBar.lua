@@ -53,8 +53,8 @@ function BaseBar:ClearQuickslots()
 	self.quickslotList:ClearQuickslots();
 end
 
-function BaseBar:Refresh( count )
-	self.Log:Debug("Refresh ");
+function BaseBar:Refresh()
+	self.Log:Error("Refresh ");
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings( self.id );
@@ -64,7 +64,7 @@ function BaseBar:Refresh( count )
 		self.barSettings = barSettings;
 	end
 
---TODO:SE NEED THIS?	self:SetSize( self.quickslotList:GetWidth(), self.quickslotList:GetHeight() );
+	self:SetSize( self.quickslotList:GetWidth(), self.quickslotList:GetHeight() );
 
 	self.quickslotList:Refresh();
 
@@ -88,10 +88,13 @@ function BaseBar:Refresh( count )
 end
 
 function BaseBar:NormalModeRefresh()
+	self.Log:Error("NormalModeRefresh before");
 	self.decorator:NormalModeRefresh();
+	self.Log:Error("NormalModeRefresh after");
 end
 
 function BaseBar:EditModeRefresh()
+	self.Log:Error("EditModeRefresh");
 	self.decorator:EditModeRefresh();
 end
 
@@ -102,12 +105,11 @@ function BaseBar:IsSelected()
 		self:SetOpacity( 1 );
 		self:SetVisible(true);
 		self.quickslotList:Refresh( true, self.barSettings.locked );
-		return
 	end
 end
 
 function BaseBar:DetermineVisiblity()
-	self.Log:Debug("DetermineVisiblity");
+	self.Log:Error("DetermineVisiblity");
 
 	if ( not self.f12HideBar  ) then --or self.inventoryShowBar ) then
 		self:SetVisible( true );
@@ -153,7 +155,13 @@ function BaseBar:GetID()
 end
 
 function BaseBar:SetVisible( visible )
-	-- Turbine.UI.Window.SetVisible(self, visible);
+	if (visible) then
+		self.Log:Error("SetVisible true");
+	else
+		self.Log:Error("SetVisible false");
+	end
+	
+	Turbine.UI.Window.SetVisible(self, visible);
 	if (self.decorator ~= nil) then
 		self.decorator:SetVisible(visible);
 	end

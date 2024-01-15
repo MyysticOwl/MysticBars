@@ -42,11 +42,11 @@ function QuickslotList:Refresh()
 
 	for key, value in pairs (self.quickslots) do
 		local shortcut = value:GetShortcut();
-		if (self.barSettings.barMode ~= NORMAL_MODE and shortcut:GetData() == "" and shortcut:GetType() == 0) then
-			value:SetVisible( false );
-		else
+		--if (self.barSettings.barMode ~= NORMAL_MODE and shortcut:GetData() == "" and shortcut:GetType() == 0) then
+		--	value:SetVisible( false );
+		--else
 			value:SetVisible( true );
-		end
+		--end
 		value:SetAllowDrop( not self.barSettings.locked );
 	end
 

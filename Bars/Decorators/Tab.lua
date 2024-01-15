@@ -27,7 +27,7 @@ function Tab:Constructor( window, barSettings )
 	self.Label:SetParent( self );
 	self.Label:SetForeColor( Turbine.UI.Color( 1, 1, 1, 1 ) );
 	self.Label:SetFontStyle( Turbine.UI.FontStyle.Outline );
-	self.Label:SetOutlineColor( Turbine.UI.Color( 1, 0, 0, 0 ) );
+	--self.Label:SetOutlineColor( Turbine.UI.Color( 1, 0, 0, 0 ) );
 	self.Label:SetFont( Turbine.UI.Lotro.Font.Verdana12 );
 	self.Label:SetTextAlignment( Turbine.UI.ContentAlignment.TopCenter );
 	self.Label:SetMouseVisible(false);
@@ -108,36 +108,12 @@ end
 function Tab:Refresh()
 	self.Log:Debug("Refresh");
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local settings = settingsService:GetSettings();
-	local barSettings = settingsService:GetBarSettings( self.barSettings.id );
-	
-	if ( settings.barMode == NORMAL_MODE or self.hidden == true ) then
-		self:SetVisible( false );
-		self.Label:SetVisible(false);
-	else
-		self:SetVisible( true );
-		self.Label:SetVisible(true);
-	end
-
-	if (barSettings.decorators.tab.titleColor) then
-		self:SetBackColor(Turbine.UI.Color(barSettings.decorators.tab.titleColorA, barSettings.decorators.tab.titleColorR, barSettings.decorators.tab.titleColorG, barSettings.decorators.tab.titleColorB));
-		self.Label:SetBackColor(Turbine.UI.Color(barSettings.decorators.tab.titleColorA, barSettings.decorators.tab.titleColorR, barSettings.decorators.tab.titleColorG, barSettings.decorators.tab.titleColorB));
-    else
-		--self:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
-        --self.Label:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
-    end
-
-    if (barSettings.decorators.tab.backColor == true) then
-		self.targetWindow.quickslotList:SetBackColor(Turbine.UI.Color(barSettings.decorators.tab.backColorA, barSettings.decorators.tab.backColorR, barSettings.decorators.tab.backColorG, barSettings.decorators.tab.backColorB));
-    end
-
 	local title = self.barSettings.barName;
 	if ( self.barSettings.barName == nil or self.barSettings.barName == "" ) then
 		title = "Bar:" .. self.barSettings.id;
 	end
-	self.Label:SetText( title );
+
 	self:SetSize( self.targetWindow:GetWidth() + 2, self.targetWindow:GetHeight() + self.tabSize + 2);
+	self.Label:SetText( title );
 	self.Label:SetSize( self:GetWidth() + 2, self.tabSize );
-	self:SetOpacity( math.max( self.targetWindow:GetOpacity(), 0.4 ) );
 end

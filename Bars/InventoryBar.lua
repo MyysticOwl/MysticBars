@@ -31,16 +31,20 @@ function InventoryBar:Create()
 end
 
 function InventoryBar:Refresh( count )
-	self.Log:Debug("Refresh");
+	self.Log:Error("Refresh");
 
-	MysticBars.Bars.Core.BaseBar.Refresh( self, count );
+	MysticBars.Bars.Core.BaseBar.Refresh( self );
 
 	SERVICE_CONTAINER:GetService(MysticBars.Services.EventService):NotifyClients();
 end
 
-function BaseBar:EditModeRefresh()
+function InventoryBar:EditModeRefresh()
+	self.Log:Error("NormalModeRefresh");
+
 	self:SetBackColor(Turbine.UI.Color(0.8,0.63,0.4));
 	self:SetVisible( true );
+	
+	MysticBars.Bars.Core.BaseBar.EditModeRefresh( self );
 end
 
 function InventoryBar:ClearQuickslots()

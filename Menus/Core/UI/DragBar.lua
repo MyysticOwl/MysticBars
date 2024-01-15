@@ -85,7 +85,7 @@ function DragBar:Constructor( ctlAttachTo, sName, bBarOnTop, tResources )
 	self.Label:SetParent( self );
 	self.Label:SetForeColor( Turbine.UI.Color( 1, 1, 1, 1 ) );
 	self.Label:SetFontStyle( Turbine.UI.FontStyle.Outline );
-	self.Label:SetOutlineColor( Turbine.UI.Color( 1, 0, 0, 0 ) );
+	--self.Label:SetOutlineColor( Turbine.UI.Color( 1, 0, 0, 0 ) );
 	self.Label:SetFont( Turbine.UI.Lotro.Font.Verdana12 );
 	self.Label:SetTextAlignment( Turbine.UI.ContentAlignment.MiddleCenter );
 	self.Label:SetMouseVisible(false);

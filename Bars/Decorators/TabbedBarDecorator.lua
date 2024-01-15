@@ -68,32 +68,57 @@ function TabbedBarDecorator:Create()
 end
 
 function TabbedBarDecorator:NormalModeRefresh()
+	self.Log:Error("NormalModeRefresh");
+
 	if ( self.barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
 		self.DragBar:Refresh();
 	end
 
-	if ( self.barSettings.useBackgroundColor == true ) then
-		local tempColor = Turbine.UI.Color( self.barSettings.opacity, self.barSettings.backgroundColorRed, self.barSettings.backgroundColorGreen, self.barSettings.backgroundColorBlue);
-		self.childWindow:SetBGColor( tempColor );
-		self:SetBackColor(tempColor);
-	else
-		self.childWindow:SetBGColor( Turbine.UI.Color( 0, 0, 0, 0) );
-		self:SetBackColor(Turbine.UI.Color( 0, 0, 0, 0));
-	end
+	-- if ( self.barSettings.useBackgroundColor == true ) then
+	-- 	local tempColor = Turbine.UI.Color( self.barSettings.opacity, self.barSettings.backgroundColorRed, self.barSettings.backgroundColorGreen, self.barSettings.backgroundColorBlue);
+	-- 	self.childWindow:SetBGColor( tempColor );
+	-- 	self.tab:SetBackColor(tempColor);
+	-- else
+	-- 	self.childWindow:SetBGColor( Turbine.UI.Color( 0, 0, 0, 0) );
+	-- 	self.tab:SetBackColor(Turbine.UI.Color( 0, 0, 0, 0));
+	-- end
 	self.tab:Refresh();
+
+	if (self.barSettings.decorators.tab.titleColor) then
+		self.tab:SetBackColor(Turbine.UI.Color(self.barSettings.decorators.tab.titleColorA, self.barSettings.decorators.tab.titleColorR, self.barSettings.decorators.tab.titleColorG, self.barSettings.decorators.tab.titleColorB));
+		self.tab.Label:SetBackColor(Turbine.UI.Color(self.barSettings.decorators.tab.titleColorA, self.barSettings.decorators.tab.titleColorR, self.barSettings.decorators.tab.titleColorG, self.barSettings.decorators.tab.titleColorB));
+    else
+		self:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
+        self.Label:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
+    end
+
+    if (self.barSettings.decorators.tab.backColor == true) then
+		self.childWindow.quickslotList:SetBackColor(Turbine.UI.Color(self.barSettings.decorators.tab.backColorA, self.barSettings.decorators.tab.backColorR, self.barSettings.decorators.tab.backColorG, self.barSettings.decorators.tab.backColorB));
+    end
+	self.tab:SetOpacity( math.max( self.childWindow:GetOpacity(), 0.4 ) );
+
+	self.tab:SetVisible( false );
+	self.tab.Label:SetVisible(false);
 end
 
 function TabbedBarDecorator:EditModeRefresh()
+	self.Log:Error("EditModeRefresh");
+
 	if ( self.barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
 		self.DragBar:Refresh();
 	end
+
 	self.tab:Refresh();
+	self.tab:SetBackColor(Turbine.UI.Color(1, 0.4, 0.6, 0.8));
+	self.tab.Label:SetBackColor(Turbine.UI.Color(1, 0.4, 0.6, 0.8));
+	self.tab:SetVisible( true );
+	self.tab.Label:SetVisible(true);
 end
 
 function TabbedBarDecorator:SetVisible( visible )
 	if (self.tab ~= nil) then
 		self.tab:SetVisible(visible);
-	end
+	end	
 end
 
 function TabbedBarDecorator:PositionChanged( sender, args )
@@ -104,7 +129,9 @@ end
 function TabbedBarDecorator:SetBackColor( color )
 	self.Log:Debug("SetBackColor");
 
-	self.tab:SetBackColor( color );
+	if (self.tab ~= nil) then
+		self.tab:SetBackColor( color );
+	end
 end
 
 function TabbedBarDecorator:SetBGColor(color)

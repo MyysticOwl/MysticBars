@@ -151,7 +151,7 @@ end
 function ExtensionBar:Refresh( sender, drawShortcuts )
 	self.Log:Debug("Refresh");
 
-	MysticBars.Bars.Core.BaseBar.Refresh( self, sender);
+	MysticBars.Bars.Core.BaseBar.Refresh( self);
 	self:SetupPosition();
 
 	if (drawShortcuts) then
@@ -285,7 +285,15 @@ function ExtensionBar:FindNthQuickslot( selection )
 	return nil;
 end
 
-function BaseBar:EditModeRefresh()
+function ExtensionBar:NormalModeRefresh()
+	self.Log:Error("NormalModeRefresh");
+
+	self:SetVisible( false );
+end
+
+function ExtensionBar:EditModeRefresh()
+	self.Log:Error("EditModeRefresh");
+
 	self:SetBackColor(Turbine.UI.Color(1,1,1,0));
 	self:SetVisible( true );
 end
