@@ -28,8 +28,8 @@ function WindowBarDecorator:Create()
 	self.mainWindow:SetVisible(self.barSettings.visible);
 
 	-- self.mainWindow.PositionChanged = self.PositionChanged;
-	self.mainWindow:SetPosition(self.barSettings.x, self.barSettings.y);
-	self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth(), self.childWindow.quickslotList:GetHeight());
+	self.mainWindow:SetPosition(self.barSettings.x, self.barSettings.y - 36);
+	self.mainWindow:SetSize(self.childWindow:GetWidth() + 16, self.childWindow:GetHeight() + 36);
 
 	if (self.barSettings.barType == INVENTORY_BAR) then
 		self.mainWindow.rightGrab.MouseDown = function(sender, args)
@@ -78,9 +78,13 @@ function WindowBarDecorator:Create()
 		self.mainWindow.right.MouseMove = self.mainWindow.rightGrab.MouseMove;
 	end
 
+	self.childWindow.SizeChanged = function (sender, args)
+		self.mainWindow:SetSize(self.childWindow:GetWidth() + 16, self.childWindow:GetHeight() + 36);
+	end
+
 	self.mainWindow.PositionChanged = function(sender, args)
-		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-		local settings = settingsService:GetSettings();
+		-- local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+		-- local settings = settingsService:GetSettings();
 
 		--if ((self.childWindow.DragBar ~= nil and self.childWindow.DragBar:IsHUDVisible() == true)) then
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barSettings.id, function(barSettings)
@@ -90,25 +94,54 @@ function WindowBarDecorator:Create()
 				barSettings.relationalY = y / DISPLAYHEIGHT;
 
 				barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
-				barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
-
+				barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT) + 36;
 				return barSettings;
 			end);
 		--end
 	end
 end
 
-function WindowBarDecorator:NormalModeRefresh()
+function WindowBarDecorator:NormalModeRefresh( barSettings )
+	self.childWindow:SetBGColor( Turbine.UI.Color( 0, 0, 0, 0) );
+
 	if (self.mainWindow ~= nil) then
-		self.mainWindow:SetVisible(self.barSettings.visible);
-		self.mainWindow:Refresh(self.childWindow.barSettings);
+		self.mainWindow:SetVisible(barSettings.visible);
+		self.mainWindow:Refresh(barSettings);
+
+		if (barSettings.decorators.window.titleColor) then
+			self.mainWindow.title:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.titleColorA, barSettings.decorators.window.titleColorR, barSettings.decorators.window.titleColorG, barSettings.decorators.window.titleColorB));
+		else
+			self.mainWindow.title:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
+		end
+	
+		if (barSettings.decorators.window.backColor == true) then
+			self.mainWindow.center:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.backColorA, barSettings.decorators.window.backColorR, barSettings.decorators.window.backColorG, barSettings.decorators.window.backColorB));
+		else
+			self.mainWindow.center:SetBackColor(Turbine.UI.Color(0.7, 0, 0, 0));
+		end
+
+		self.childWindow:SetVisible(barSettings.visible);
 	end
 end
 
-function WindowBarDecorator:EditModeRefresh()
+function WindowBarDecorator:EditModeRefresh( barSettings )
 	if (self.mainWindow ~= nil) then
-		self.mainWindow:SetVisible(self.barSettings.visible);
-		self.mainWindow:Refresh(self.childWindow.barSettings);
+		self.mainWindow:SetVisible(true);
+
+		if (barSettings.decorators.window.titleColor) then
+			self.mainWindow.title:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.titleColorA, barSettings.decorators.window.titleColorR, barSettings.decorators.window.titleColorG, barSettings.decorators.window.titleColorB));
+		else
+			self.mainWindow.title:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
+		end
+	
+		if (barSettings.decorators.window.backColor == true) then
+			self.mainWindow.center:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.backColorA, barSettings.decorators.window.backColorR, barSettings.decorators.window.backColorG, barSettings.decorators.window.backColorB));
+		else
+			self.mainWindow.center:SetBackColor(Turbine.UI.Color(0.7, 0, 0, 0));
+		end
+
+		self.childWindow:SetBackColor(Turbine.UI.Color(1, 0.4, 0.6, 0.8));
+		self.childWindow:SetVisible(true);
 	end
 end
 
@@ -133,7 +166,8 @@ end
 function WindowBarDecorator:Remove()
 	self.Log:Debug("Remove");
 
-	self.mainWindow:SetVisible(false);
+	self.childWindow.SizeChanged = nil;
 	self.childWindow:SetParent(nil);
+	self.mainWindow:SetVisible(false);
 	self.mainWindow = nil;
 end

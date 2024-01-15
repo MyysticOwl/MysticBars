@@ -270,12 +270,11 @@ function SettingsService:NewBar()
 	bar.events.inventory = { };
 	bar.events.inventory.quantity = 50;
 	bar.decorators = {};
-	bar.decorators.window = {titleColor=false, titleColorA=1, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
-	bar.decorators.tab = {titleColor=true, titleColorA=1, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
+	bar.decorators.window = {titleColor=false, titleColorA=1, titleColorR=1, titleColorG=1, titleColorB=1,backColor=false, backColorA=1, backColorR=1, backColorG=1, backColorB=1};
+	bar.decorators.tab = {titleColor=false, titleColorA=1, titleColorR=1, titleColorG=1, titleColorB=1,backColor=false, backColorA=1, backColorR=1, backColorG=1, backColorB=1};
 
 	return bar;
 end
-
 
 function SettingsService:GetBarSettings( barid )
 	self.Log:Debug("GetBarSettings");
@@ -291,6 +290,13 @@ function SettingsService:GetBarSettings( barid )
 		barSettings.decorators = {};
 		barSettings.decorators.window = {titleColor=false, titleColorA=1, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
 		barSettings.decorators.tab = {titleColor=true, titleColorA=0, titleColorR=0, titleColorG=0, titleColorB=0,backColor=false, backColorA=1, backColorR=0, backColorG=0, backColorB=0};
+	end
+
+	if (barSettings.events == nil) then
+		barSettings.events = {};
+	end
+	if (barSettings.events.triggered == nil) then
+		barSettings.events.triggered = {};
 	end
 
 	self:MigrateTriggerParam(barSettings.events, barSettings.events.triggered, "displayInCombat");
@@ -317,6 +323,9 @@ function SettingsService:MigrateTriggerParam(path, newpath, parameter)
 	self.Log:Debug("MigrateTriggerParam");
 
 	if (path[parameter] ~= nil) then
+		if (newpath == nil) then
+			newpath = {};
+		end
 		if (newpath[parameter] == nil) then
 			newpath[parameter] = {};
 		end

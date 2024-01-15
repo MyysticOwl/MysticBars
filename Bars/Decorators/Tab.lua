@@ -19,7 +19,7 @@ function Tab:Constructor( window, barSettings )
 	self.barSettings = barSettings;
 	self.hidden = false;
 
-	self:SetSize( self.targetWindow:GetWidth(), self.tabSize );
+	self:SetSize( self:GetWidth(), self.tabSize );
 	self:SetPosition( math.max( self.targetWindow:GetLeft(), 0 ), math.max( self.targetWindow:GetTop() - self.tabSize, 0 ) );
 	self:SetBackColor( Turbine.UI.Color(1,1,1,1)  );
 
@@ -46,23 +46,18 @@ function Tab:Constructor( window, barSettings )
 		end
 	end
 	self.MouseDown = function(sender, args)
-		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-			local settings = settingsService:GetSettings();
-			if (settings.barMode ~= NORMAL_MODE) then
-				if (args.Button == Turbine.UI.MouseButton.Left) then
-					self.dragStartX = args.X;
-					self.dragStartY = args.Y;
-					self.dragging = true;
-					self.dragged = false;
-				end
-			end
-		--end
+		if (args.Button == Turbine.UI.MouseButton.Left) then
+			self.dragStartX = args.X;
+			self.dragStartY = args.Y;
+			self.dragging = true;
+			self.dragged = false;
+		end
 	end
 	self.MouseMove = function(sender, args)
 		local left, top = self:GetPosition();
 		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 		local settings = settingsService:GetSettings();
-		if (settings.barMode ~= NORMAL_MODE and self.dragging) then
+		if (self.dragging) then
 			self.dragged = true;
 			self:SetPosition(left + (args.X - self.dragStartX), top + (args.Y - self.dragStartY));
 		end
@@ -113,7 +108,6 @@ function Tab:Refresh()
 		title = "Bar:" .. self.barSettings.id;
 	end
 
-	--self:SetSize( self.targetWindow:GetWidth() + 2, self.targetWindow:GetHeight() + self.tabSize + 2);
 	self.Label:SetText( title );
 	self.Label:SetSize( self:GetWidth() + 2, self.tabSize );
 end

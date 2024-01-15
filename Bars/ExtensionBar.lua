@@ -286,13 +286,13 @@ function ExtensionBar:FindNthQuickslot( selection )
 end
 
 function ExtensionBar:NormalModeRefresh()
-	self.Log:Error("NormalModeRefresh");
+	self.Log:Debug("NormalModeRefresh");
 
 	self:SetVisible( false );
 end
 
 function ExtensionBar:EditModeRefresh()
-	self.Log:Error("EditModeRefresh");
+	self.Log:Debug("EditModeRefresh");
 
 	self:SetBackColor(Turbine.UI.Color(1,1,1,0));
 	self:SetVisible( true );

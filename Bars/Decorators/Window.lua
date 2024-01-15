@@ -29,7 +29,6 @@ function Window:Constructor( barSettings )
 	self.title:SetOutlineColor(Turbine.UI.Color(0.71,0.09,0.09,0.09));
 	self.title:SetFontStyle(Turbine.UI.FontStyle.Outline);
 	self.title:SetFont(Turbine.UI.Lotro.Font.Verdana12);
-    self.title:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.titleColorA, barSettings.decorators.window.titleColorR, barSettings.decorators.window.titleColorG, barSettings.decorators.window.titleColorB));
 	self.title:SetForeColor(Window.TitleColor);
 	self.title:SetTextAlignment(Turbine.UI.ContentAlignment.MiddleCenter);
 	self.title:SetMouseVisible(true);
@@ -41,7 +40,6 @@ function Window:Constructor( barSettings )
     self.center:SetZOrder(-5);
     self.center:SetMouseVisible(false);
     self.center:SetBlendMode(Turbine.UI.BlendMode.AlphaBlend);
-    self.center:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.backColorA, barSettings.decorators.window.backColorR, barSettings.decorators.window.backColorG, barSettings.decorators.window.backColorB));
 
   self.title.MouseDown = function(sender, args)
     if (args.Button == Turbine.UI.MouseButton.Left) then
@@ -285,18 +283,6 @@ function Window:SetSize(width, height)
 end
 
 function Window:Refresh(barSettings)
-    if (barSettings.decorators.window.titleColor) then
-        self.title:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.titleColorA, barSettings.decorators.window.titleColorR, barSettings.decorators.window.titleColorG, barSettings.decorators.window.titleColorB));
-    else
-        self.title:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
-    end
-
-    if (barSettings.decorators.window.backColor == true) then
-        self.center:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.backColorA, barSettings.decorators.window.backColorR, barSettings.decorators.window.backColorG, barSettings.decorators.window.backColorB));
-    else
-        self.center:SetBackColor(Turbine.UI.Color(0.7, 0, 0, 0));
-    end
-
     if (barSettings.quickslotColumns < 3) then
         self.titleLeft:SetVisible(false);
         self.titleMid:SetVisible(false);

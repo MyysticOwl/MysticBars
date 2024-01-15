@@ -34,7 +34,7 @@ function QuickslotBar:Create()
 end
 
 function QuickslotBar:Refresh( sender, drawShortcuts )
-	self.Log:Error("Refresh");
+	self.Log:Debug("Refresh");
 	MysticBars.Bars.Core.BaseBar.Refresh( self );
 
 	if (drawShortcuts) then
@@ -97,11 +97,11 @@ function QuickslotBar:RegisterBarExtension(extBar, index, extensionBarID)
 	end
 end
 
-function QuickslotBar:EditModeRefresh()
-	self.Log:Error("EditModeRefresh");
+function QuickslotBar:EditModeRefresh( barSettings )
+	self.Log:Debug("EditModeRefresh");
 
 	self:SetBackColor(Turbine.UI.Color(1, 0.4, 0.6, 0.8));
-	MysticBars.Bars.Core.BaseBar.EditModeRefresh( self );
+	MysticBars.Bars.Core.BaseBar.EditModeRefresh( self, barSettings );
 end
 
 function QuickslotBar:ClearQuickslots(removed)
@@ -142,6 +142,12 @@ function QuickslotBar:DetermineVisiblity(eventValue, force)
 
 		if (self.f12HideBar) then
 			visible = false;
+		end
+
+		if (visible) then
+			self.Log:Error("+++++++++++SetVisible true");
+		else
+			self.Log:Error("+++++++++++SetVisible false");
 		end
 		self:SetBarVisible(visible);
 

@@ -33,7 +33,6 @@ function QuickslotList:Refresh()
 	self.Log:Debug("Refresh " .. self.id);
 
 	self.itemsPerLine = self.barSettings.quickslotColumns;
-	self.countToShow = self.barSettings.quickslotCount;
 
 	self:RefreshQuickslots();
 
@@ -63,6 +62,7 @@ function QuickslotList:Refresh()
 	-- there are size issues, this corrects those problems.
 	local xsize = (self.itemsPerLine * (barSettings.quickslotSize - 4)) + ((self.itemsPerLine - 1) * barSettings.quickslotSpacing) + 4; 
 	self:SetSize(xsize, ysize);
+	self.Log:Debug("Refresh " .. xsize .. " y:" .. ysize);
 end
 
 function QuickslotList:RefreshQuickslots()
