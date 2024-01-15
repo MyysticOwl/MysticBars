@@ -12,7 +12,9 @@ function TabbedBarDecorator:Constructor( childWindow, barSettings )
 	self.Log:Debug("Constructor");
 
 	self.childWindow = childWindow;
+	self.decorator = nil;
 	self.barSettings = barSettings;
+	self.id = barSettings.id;
 
 	if ( barSettings.barType ~= EXTENSIONBAR ) then
 		local title = barSettings.barName;
@@ -65,16 +67,33 @@ function TabbedBarDecorator:Create()
 	end
 end
 
-function TabbedBarDecorator:Refresh()
-	self.Log:Debug("Refresh");
-
+function TabbedBarDecorator:NormalModeRefresh()
 	if ( self.barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
 		self.DragBar:Refresh();
 	end
 
-	self:Decorate();
-
+	if ( self.barSettings.useBackgroundColor == true ) then
+		local tempColor = Turbine.UI.Color( self.barSettings.opacity, self.barSettings.backgroundColorRed, self.barSettings.backgroundColorGreen, self.barSettings.backgroundColorBlue);
+		self.childWindow:SetBGColor( tempColor );
+		self:SetBackColor(tempColor);
+	else
+		self.childWindow:SetBGColor( Turbine.UI.Color( 0, 0, 0, 0) );
+		self:SetBackColor(Turbine.UI.Color( 0, 0, 0, 0));
+	end
 	self.tab:Refresh();
+end
+
+function TabbedBarDecorator:EditModeRefresh()
+	if ( self.barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil ) then
+		self.DragBar:Refresh();
+	end
+	self.tab:Refresh();
+end
+
+function TabbedBarDecorator:SetVisible( visible )
+	if (self.tab ~= nil) then
+		self.tab:SetVisible(visible);
+	end
 end
 
 function TabbedBarDecorator:PositionChanged( sender, args )
@@ -99,60 +118,4 @@ function TabbedBarDecorator:Remove()
 
 	self.tab:SetHidden( true );
 	self.tab = nil;
-end
-
-
-function TabbedBarDecorator:Decorate()
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local settings = settingsService:GetSettings();
-
-	if ( settings.barMode == NORMAL_MODE ) then
-		if ( self.faded ) then
-			self:SetOpacity( self.barSettings.fadeOpacity );
-		else
-			self:SetOpacity( 1 );
-		end
-		if ( self.barSettings.useBackgroundColor == true ) then
-			local tempColor = Turbine.UI.Color( self.barSettings.opacity, self.barSettings.backgroundColorRed, self.barSettings.backgroundColorGreen, self.barSettings.backgroundColorBlue);
-			self:SetBGColor( tempColor );
-			self.decorator:SetBackColor(tempColor);
-		else
-			self:SetBGColor( Turbine.UI.Color( 0, 0, 0, 0) );
-			self.decorator:SetBackColor(Turbine.UI.Color( 0, 0, 0, 0));
-		end
-		if ( self.barSettings.barType == EXTENSIONBAR ) then
-			self:SetVisible( false );
-		end
-	else
-		self:SetMenuBackColor( nil, settings.barMode );
-		self:SetVisible( true );
-	end
-end
-
-function BaseBar:SetMenuBackColor( color, opacity )
-	self.Log:Debug("SetMenuBackColor");
-
-	self:SetBackColor(color);
-	self.decorator:SetBackColor(color);
-	if ( self.selected ) then
-		self:SetOpacity( opacity );
-	end
-end
-
-function BaseBar:DetermineVisiblity()
-	self.Log:Debug("DetermineVisiblity");
-
-	if ( not self.f12HideBar  ) then --or self.inventoryShowBar ) then
-		self:SetVisible( true );
-	else
-		self:SetVisible( false );
-	end
-
-	self:BarSelected();
-end
-
-function TabbedBarDecorator:SetVisible( visible )
-	if (self.tab ~= nil) then
-		self.tab:SetVisible(visible);
-	end
 end

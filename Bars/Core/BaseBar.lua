@@ -14,6 +14,7 @@ function BaseBar:Constructor( barSettings )
 
 	self.id = barSettings.id;
 	self.barSettings = barSettings;
+	self.quickslotList = nil;
 
 	if (barSettings.decorator == WINDOW_BAR_DECORATOR) then
 		self.decorator = MysticBars.Bars.Decorators.WindowBarDecorator( self, barSettings );
@@ -53,10 +54,9 @@ function BaseBar:ClearQuickslots()
 end
 
 function BaseBar:Refresh( count )
-	self.Log:Debug("Refresh ");--" .. sender .. " id:" .. self.id);
+	self.Log:Debug("Refresh ");
 
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	local settings = settingsService:GetSettings();
 	local barSettings = settingsService:GetBarSettings( self.id );
 	if (barSettings == nil) then
 		return; -- This bar is dead;
@@ -64,13 +64,9 @@ function BaseBar:Refresh( count )
 		self.barSettings = barSettings;
 	end
 
-	self:SetBarSize();
+--TODO:SE NEED THIS?	self:SetSize( self.quickslotList:GetWidth(), self.quickslotList:GetHeight() );
 
-	self.quickslotList:SetAllowDrop( not self.barSettings.locked );
-	self.quickslotList:SetMaxItemsPerLine( self.barSettings.quickslotColumns );
-	self.quickslotList:SetCountToShow( count );
-	local showQuickslots = (settings.barMode ~= NORMAL_MODE) or self.barSettings.locked == false;
-	self.quickslotList:Refresh( showQuickslots, self.barSettings.locked );
+	self.quickslotList:Refresh();
 
 	if (self.decorator.tab ~= nil and self.barSettings.decorator == WINDOW_BAR_DECORATOR) then
 		self.decorator:Remove();
@@ -82,12 +78,24 @@ function BaseBar:Refresh( count )
 		self.decorator:Create();
 	end
 
-	self.decorator:Refresh();
+	if ( settingsService:GetSettings().barMode == NORMAL_MODE ) then
+		self:NormalModeRefresh();
+	else
+		self:EditModeRefresh();
+	end
 
-	self:CheckSelection();
+	self:IsSelected();
 end
 
-function BaseBar:CheckSelection()
+function BaseBar:NormalModeRefresh()
+	self.decorator:NormalModeRefresh();
+end
+
+function BaseBar:EditModeRefresh()
+	self.decorator:EditModeRefresh();
+end
+
+function BaseBar:IsSelected()
 	if ( self.selected ) then
 		self:SetBGColor( Turbine.UI.Color(1, 1,.5,0) );
 		self.decorator:SetBGColor(Turbine.UI.Color(1, 1,.5,0));
@@ -96,19 +104,24 @@ function BaseBar:CheckSelection()
 		self.quickslotList:Refresh( true, self.barSettings.locked );
 		return
 	end
-	self:BarSetup();
+end
+
+function BaseBar:DetermineVisiblity()
+	self.Log:Debug("DetermineVisiblity");
+
+	if ( not self.f12HideBar  ) then --or self.inventoryShowBar ) then
+		self:SetVisible( true );
+	else
+		self:SetVisible( false );
+	end
+
+	self:IsSelected();
 end
 
 function BaseBar:SetBGColor(color)
 	self.Log:Debug("SetBGColor");
 
 	self:SetBackColor(color);
-end
-
-function BaseBar:SetBarSize()
-	self.Log:Debug("SetBarSize");
-
-	self:SetSize( self.quickslotList:GetWidth(), self.quickslotList:GetHeight() );
 end
 
 function BaseBar:Remove()

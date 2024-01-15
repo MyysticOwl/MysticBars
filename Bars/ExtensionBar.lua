@@ -10,7 +10,6 @@ ExtensionBar.Log = MysticBars.Utils.Logging.LogManager.GetLogger( "ExtensionBar"
 function ExtensionBar:Constructor( barSettings )
 	self.Log:Debug("Constructor");
 
-	self.faded = false;
 	self.keepVisible = false;
 	self.cycleCount = 0;
 
@@ -286,9 +285,7 @@ function ExtensionBar:FindNthQuickslot( selection )
 	return nil;
 end
 
-function ExtensionBar:SetMenuBackColor( selected, barMode )
-	self.Log:Debug("SetMenuBackColor");
-
-	MysticBars.Bars.Core.BaseBar.SetMenuBackColor( self, selected, EXTENSION_MODE );
-	self:SetBackColor( Turbine.UI.Color(1,1,1,0) );
+function BaseBar:EditModeRefresh()
+	self:SetBackColor(Turbine.UI.Color(1,1,1,0));
+	self:SetVisible( true );
 end

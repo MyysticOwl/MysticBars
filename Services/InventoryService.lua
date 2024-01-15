@@ -13,8 +13,6 @@ function InventoryService:Constructor()
 
 	self.ADD = 1;
 	self.REMOVE = 2;
-
-	self.count = 0;
 	
 	if ( self.registeredEvents == nil ) then
 		self.registeredEvents = { };
@@ -64,8 +62,7 @@ function InventoryService:NotifyClients( type, specificItem )
 		local barSettings = settingsService:GetBarSettings( key );
 		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
-		if ( barService ~= null and value ~= nil and value.registered == true and barService:Alive( key ) == true ) then
-			self.count = barSettings.quickslotCount;
+		if ( barService ~= nil and value ~= nil and value.registered == true and barService:Alive( key ) == true ) then
 			barSettings.quickslotCount = backpack:GetSize();
 
 			local qlist = value.bar:GetQuickslotList();
@@ -81,7 +78,7 @@ function InventoryService:NotifyClients( type, specificItem )
 			else
 				self:Inventory( value, barSettings, type, specificItem );
 			end
-			value.bar:Refresh(self.count);
+			value.bar:Refresh();
 		end
 	end
 end

@@ -42,8 +42,7 @@ function Tab:Constructor( window, barSettings )
 		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
 		if (barService:Alive(self.id) and barSettings.useFading == true) then
-			self.faded = true;
-			self:Refresh("Tab:MouseLeave");
+			self:Refresh();
 		end
 	end
 	self.MouseDown = function(sender, args)

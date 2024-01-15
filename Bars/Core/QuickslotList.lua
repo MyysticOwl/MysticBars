@@ -29,16 +29,11 @@ function QuickslotList:ClearItems()
 	self.Log:Debug("ClearItems");
 end
 
-function QuickslotList:SetMaxItemsPerLine( maxPerLine )
-	self.itemsPerLine = maxPerLine;
-end
-
-function QuickslotList:SetCountToShow( count )
-	self.countToShow = count;
-end
-
-function QuickslotList:Refresh( showAllQuickslots, lockQuickslots )
+function QuickslotList:Refresh()
 	self.Log:Debug("Refresh " .. self.id);
+
+	self.itemsPerLine = self.barSettings.quickslotColumns;
+	self.countToShow = self.barSettings.quickslotCount;
 
 	self:RefreshQuickslots();
 
@@ -47,12 +42,12 @@ function QuickslotList:Refresh( showAllQuickslots, lockQuickslots )
 
 	for key, value in pairs (self.quickslots) do
 		local shortcut = value:GetShortcut();
-		if (showAllQuickslots == false and shortcut:GetData() == "" and shortcut:GetType() == 0) then
+		if (self.barSettings.barMode ~= NORMAL_MODE and shortcut:GetData() == "" and shortcut:GetType() == 0) then
 			value:SetVisible( false );
 		else
 			value:SetVisible( true );
 		end
-		value:SetAllowDrop( not lockQuickslots );
+		value:SetAllowDrop( not self.barSettings.locked );
 	end
 
 	for i = 1, self.count do

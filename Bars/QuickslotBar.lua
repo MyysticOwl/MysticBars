@@ -14,7 +14,6 @@ function QuickslotBar:Constructor( barSettings )
 
 	self:UpdateBarExtensions();
 
-	self.faded = true;
 	self.isVisible = true;
 
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService)
@@ -99,15 +98,11 @@ function QuickslotBar:RegisterBarExtension(extBar, index, extensionBarID)
 	end
 end
 
--- function QuickslotBar:SetMenuBackColor(selected, barMode)
--- 	self.Log:Debug("SetMenuBackColor");
 
--- 	if (barMode == QUICKSLOT_MODE) then
--- 		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0, 1, 0), selected, 0.6);
--- 	else
--- 		MysticBars.Bars.Core.BaseBar.SetMenuBackColor(self, Turbine.UI.Color(1, 0.4, 0.6, 0.8), selected, 0.6);
--- 	end
--- end
+function BaseBar:EditModeRefresh()
+	self:SetBackColor(Turbine.UI.Color(1, 0.4, 0.6, 0.8));
+	self:SetVisible( true );
+end
 
 function QuickslotBar:ClearQuickslots(removed)
 	self.Log:Debug("ClearQuickslots");

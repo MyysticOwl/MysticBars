@@ -21,8 +21,6 @@ end
 function WindowBarDecorator:Create()
 	self.Log:Debug("Create");
 
-	self.counter = 0;
-
 	self.mainWindow = MysticBars.Bars.Decorators.Window(self.barSettings);
 	self.childWindow:SetParent(self.mainWindow);
 	self.childWindow:SetPosition(8, 28);
@@ -67,7 +65,6 @@ function WindowBarDecorator:Create()
 			if (sender.dragging) then
 				self.mainWindow:SetSize(width + (args.X - sender.dragStartX), self.barSettings.quickslotRows * self.barSettings.quickslotSize + 30);
 			end
-			self.counter = self.counter + 1;
 		end
 
 		self.mainWindow.rightGrab.MouseUp = function(sender, args)
@@ -101,41 +98,30 @@ function WindowBarDecorator:Create()
 	end
 end
 
-function WindowBarDecorator:Refresh()
-	self.Log:Debug("Refresh");
-
+function WindowBarDecorator:NormalModeRefresh()
 	if (self.mainWindow ~= nil) then
 		self.mainWindow:SetVisible(self.barSettings.visible);
 		self.mainWindow:Refresh(self.childWindow.barSettings);
-		if (self.counter == 0) then
-			self.mainWindow:SetSize(self.childWindow.quickslotList:GetWidth() + 16, self.childWindow.quickslotList:GetHeight() + 40);
-		end
 	end
 end
 
--- function WindowBarDecorator:PositionChanged(sender, args)
--- 	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barSettings.id, function(barSettings)
--- 		local x, y = self.mainWindow:GetPosition();
-
--- 		barSettings.relationalX = x / DISPLAYWIDTH;
--- 		barSettings.relationalY = y / DISPLAYHEIGHT;
-
--- 		barSettings.x = math.floor(barSettings.relationalX * DISPLAYWIDTH);
--- 		barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT);
--- 		return barSettings;
--- 	end);
--- end
-
-function WindowBarDecorator:SetBackColor(color)
-	self.Log:Debug("SetBackColor");
-
-	self.childWindow:SetBackColor(color);
+function WindowBarDecorator:EditModeRefresh()
+	if (self.mainWindow ~= nil) then
+		self.mainWindow:SetVisible(self.barSettings.visible);
+		self.mainWindow:Refresh(self.childWindow.barSettings);
+	end
 end
 
 function WindowBarDecorator:SetVisible(visible)
 	if (self.mainWindow ~= nil) then
 		self.mainWindow:SetVisible(visible);
 	end
+end
+
+function WindowBarDecorator:SetBackColor(color)
+	self.Log:Debug("SetBackColor");
+
+	self.childWindow:SetBackColor(color);
 end
 
 function WindowBarDecorator:SetBGColor(color)
