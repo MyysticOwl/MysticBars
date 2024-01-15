@@ -43,10 +43,9 @@ end
 function TabbedBarDecorator:Create()
 	self.Log:Debug("Create");
 
-	self.tab = MysticBars.Bars.Decorators.Tab( self.childWindow, self.barSettings );
-	self.childWindow:SetParent( self.tab );
-	self.childWindow:SetPosition( 0, self.tab:GetHeight() );
+	self.childWindow:SetPosition(self.barSettings.x, self.barSettings.y);
 
+	self.tab = MysticBars.Bars.Decorators.Tab( self.childWindow, self.barSettings );
 	self.tab.PositionChanged = self.PositionChanged;
 	self.tab:SetPosition(self.barSettings.x, self.barSettings.y);
 
@@ -74,14 +73,9 @@ function TabbedBarDecorator:NormalModeRefresh()
 		self.DragBar:Refresh();
 	end
 
-	-- if ( self.barSettings.useBackgroundColor == true ) then
-	-- 	local tempColor = Turbine.UI.Color( self.barSettings.opacity, self.barSettings.backgroundColorRed, self.barSettings.backgroundColorGreen, self.barSettings.backgroundColorBlue);
-	-- 	self.childWindow:SetBGColor( tempColor );
-	-- 	self.tab:SetBackColor(tempColor);
-	-- else
-	-- 	self.childWindow:SetBGColor( Turbine.UI.Color( 0, 0, 0, 0) );
-	-- 	self.tab:SetBackColor(Turbine.UI.Color( 0, 0, 0, 0));
-	-- end
+	self.childWindow:SetBGColor( Turbine.UI.Color( 0, 0, 0, 0) );
+	self.tab:SetBackColor(Turbine.UI.Color( 0, 0, 0, 0));
+
 	self.tab:Refresh();
 
 	if (self.barSettings.decorators.tab.titleColor) then
@@ -117,9 +111,14 @@ function TabbedBarDecorator:EditModeRefresh()
 end
 
 function TabbedBarDecorator:SetVisible( visible )
-	if (self.tab ~= nil) then
-		self.tab:SetVisible(visible);
-	end	
+	self.childWindow:SetVisible(visible);
+
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	if ( settingsService:GetSettings().barMode == NORMAL_MODE and self.tab ~= nil) then
+		self.tab:SetVisible(false);
+	else
+		self.tab:SetVisible(true);
+	end
 end
 
 function TabbedBarDecorator:PositionChanged( sender, args )

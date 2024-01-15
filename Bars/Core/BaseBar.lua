@@ -154,14 +154,13 @@ function BaseBar:GetID()
 	return self.id;
 end
 
-function BaseBar:SetVisible( visible )
+function BaseBar:SetBarVisible( visible )
 	if (visible) then
 		self.Log:Error("SetVisible true");
 	else
 		self.Log:Error("SetVisible false");
 	end
-	
-	Turbine.UI.Window.SetVisible(self, visible);
+	-- Turbine.UI.Window.SetVisible(self, visible);
 	if (self.decorator ~= nil) then
 		self.decorator:SetVisible(visible);
 	end

@@ -101,8 +101,6 @@ function QuickslotBar:EditModeRefresh()
 	self.Log:Error("EditModeRefresh");
 
 	self:SetBackColor(Turbine.UI.Color(1, 0.4, 0.6, 0.8));
-	self:SetVisible( true );
-
 	MysticBars.Bars.Core.BaseBar.EditModeRefresh( self );
 end
 
@@ -145,7 +143,7 @@ function QuickslotBar:DetermineVisiblity(eventValue, force)
 		if (self.f12HideBar) then
 			visible = false;
 		end
-		self:SetVisible(visible);
+		self:SetBarVisible(visible);
 
 		self:IsSelected();
 	end

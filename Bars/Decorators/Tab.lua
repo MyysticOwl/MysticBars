@@ -113,7 +113,7 @@ function Tab:Refresh()
 		title = "Bar:" .. self.barSettings.id;
 	end
 
-	self:SetSize( self.targetWindow:GetWidth() + 2, self.targetWindow:GetHeight() + self.tabSize + 2);
+	--self:SetSize( self.targetWindow:GetWidth() + 2, self.targetWindow:GetHeight() + self.tabSize + 2);
 	self.Label:SetText( title );
 	self.Label:SetSize( self:GetWidth() + 2, self.tabSize );
 end
