@@ -88,8 +88,8 @@ function TabbedBarDecorator:NormalModeRefresh()
 		self.tab:SetBackColor(Turbine.UI.Color(self.barSettings.decorators.tab.titleColorA, self.barSettings.decorators.tab.titleColorR, self.barSettings.decorators.tab.titleColorG, self.barSettings.decorators.tab.titleColorB));
 		self.tab.Label:SetBackColor(Turbine.UI.Color(self.barSettings.decorators.tab.titleColorA, self.barSettings.decorators.tab.titleColorR, self.barSettings.decorators.tab.titleColorG, self.barSettings.decorators.tab.titleColorB));
     else
-		self:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
-        self.Label:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
+		self.tab:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
+        self.tab.Label:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
     end
 
     if (self.barSettings.decorators.tab.backColor == true) then
@@ -108,6 +108,7 @@ function TabbedBarDecorator:EditModeRefresh()
 		self.DragBar:Refresh();
 	end
 
+	self.tab:SetOpacity( 1 );
 	self.tab:Refresh();
 	self.tab:SetBackColor(Turbine.UI.Color(1, 0.4, 0.6, 0.8));
 	self.tab.Label:SetBackColor(Turbine.UI.Color(1, 0.4, 0.6, 0.8));
