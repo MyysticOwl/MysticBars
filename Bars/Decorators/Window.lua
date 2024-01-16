@@ -249,8 +249,8 @@ function Window:SetSize(width, height)
 	self.titleRight:SetPosition(width - spacer - 35, -7);
 
     if ( self.barSettings.quickslotColumns >= 3 ) then
-        self.title:SetPosition(spacer + 27, 11);
-	    self.title:SetWidth(titleWidth - 53);
+        self.title:SetPosition(spacer + 28, 12);
+	    self.title:SetWidth(titleWidth - 55);
     else
         self.title:SetPosition(6, 19);
 	    self.title:SetWidth(40);

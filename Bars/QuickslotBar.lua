@@ -12,8 +12,6 @@ function QuickslotBar:Constructor( barSettings )
 	self.Log:Debug("Constructor");
 	MysticBars.Bars.Core.BaseBar.Constructor(self, barSettings);
 
-	self:UpdateBarExtensions();
-
 	self.isVisible = true;
 
 	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService)
@@ -31,6 +29,11 @@ function QuickslotBar:Create()
 	self:Refresh( true);
 
 	self.quickslotList:SetPosition(0, 0);
+end
+
+function QuickslotBar:PositionChanged(sender, args)
+	self.Log:Debug("PositionChanged");
+	self:UpdateBarExtensions();
 end
 
 function QuickslotBar:Refresh( drawShortcuts )
@@ -52,6 +55,7 @@ function QuickslotBar:Refresh( drawShortcuts )
 end
 
 function QuickslotBar:UpdateBarExtensions()
+	self.Log:Debug("UpdateBarExtensions");
 	if (self.extensionBars == nil) then
 		return;
 	end
@@ -65,7 +69,6 @@ end
 function QuickslotBar:RegisterBarExtension(extBar, index, extensionBarID)
 	self.Log:Debug("RegisterBarExtension");
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(extensionBarID,
 		function(barSettings)
 			if (barSettings.connectionQuickslotID ~= index or barSettings.connectionBarID ~= self.id) then
@@ -89,8 +92,9 @@ function QuickslotBar:RegisterBarExtension(extBar, index, extensionBarID)
 		self.extensionBars[self.nextExtension].bar = extBar;
 		self.extensionBars[self.nextExtension].quickslot = index;
 		self.extensionBars[self.nextExtension].cycleCount = 0;
+		self.extensionBars[self.nextExtension].setup = false;
 		self.nextExtension = self.nextExtension + 1;
-
+		self.Log:Debug("RegisterBarExtension setup -------------------------------------");
 		self.quickslotList:SetupExtensionSlot(self.extensionBars, index);
 	else
 		Turbine.Shell.WriteLine("You can not add extensions to an extension slot. Please choose a green bar.");

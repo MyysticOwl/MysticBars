@@ -84,10 +84,7 @@ function WindowBarDecorator:Create()
 	end
 
 	self.mainWindow.PositionChanged = function(sender, args)
-		-- local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-		-- local settings = settingsService:GetSettings();
-
-		--if ((self.childWindow.DragBar ~= nil and self.childWindow.DragBar:IsHUDVisible() == true)) then
+		if (sender.dragging) then
 			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barSettings.id, function(barSettings)
 				local x, y = self.mainWindow:GetPosition();
 
@@ -98,7 +95,7 @@ function WindowBarDecorator:Create()
 				barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT) + 36;
 				return barSettings;
 			end);
-		--end
+		end
 	end
 end
 

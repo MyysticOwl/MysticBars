@@ -17,7 +17,7 @@ function ExtensionBar:Constructor( barSettings )
 
 	self.quickslotList:LoadQuickslots();
 
-	self:Refresh("ExtensionBar:Constructor");
+	self:Refresh();
 	self:SetVisible( false );
 end
 
@@ -25,7 +25,11 @@ function ExtensionBar:Create()
 	self.Log:Debug("Create");
 
 	self.quickslotList = MysticBars.Bars.Core.QuickslotList( self, self.barSettings );
+	self.quickslotList:SetParent(self);
+
 	MysticBars.Bars.Core.BaseBar.Create( self );
+
+	self:Refresh( true);
 end
 
 function ExtensionBar:CheckMakeVisible()
@@ -129,8 +133,9 @@ function ExtensionBar:SetupPosition()
 		end
 	end
 	if (newX ~= nil) then
+		self.Log:Debug("SetupPosition " .. newX .. " " .. newY);
 		self:SetPosition( newX, newY );
-		MysticBars.Bars.Core.BaseBar.Refresh( self, "ExtensionBar:SetupPosition");
+		MysticBars.Bars.Core.BaseBar.Refresh( self);
 	end
 end
 
@@ -144,9 +149,7 @@ function ExtensionBar:Created()
 	end
 end
 
-function ExtensionBar:Refresh( sender, drawShortcuts )
-	self.Log:Debug("Refresh");
-
+function ExtensionBar:Refresh( drawShortcuts )
 	MysticBars.Bars.Core.BaseBar.Refresh( self);
 	self:SetupPosition();
 
@@ -205,7 +208,7 @@ function ExtensionBar:SetOrientation( orientation )
 			self.barSettings.orientation = orientation;
 			settingsService:SetBarSettings( self.barSettings );
 		else
-			self:Refresh("ExtensionBar:SetOrientation");
+			self:Refresh();
 		end
 		self:SetupPosition();
 		return 1;
@@ -279,17 +282,4 @@ function ExtensionBar:FindNthQuickslot( selection )
 		end
 	end
 	return nil;
-end
-
-function ExtensionBar:NormalModeRefresh()
-	self.Log:Debug("NormalModeRefresh");
-
-	self:SetVisible( false );
-end
-
-function ExtensionBar:EditModeRefresh()
-	self.Log:Debug("EditModeRefresh");
-
-	self:SetBackColor(Turbine.UI.Color(1,1,1,0));
-	self:SetVisible( true );
 end

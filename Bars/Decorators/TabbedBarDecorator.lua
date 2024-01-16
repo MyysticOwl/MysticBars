@@ -15,45 +15,59 @@ function TabbedBarDecorator:Constructor(childWindow, barSettings)
 	self.decorator = nil;
 	self.barSettings = barSettings;
 	self.id = barSettings.id;
-
-	if (barSettings.barType ~= EXTENSIONBAR) then
-		local title = barSettings.barName;
-		if (barSettings.barName == nil or barSettings.barName == "") then
-			title = "Bar:" .. self.id;
-		end
-		self.DragBar = MysticBars.Menus.Core.UI.DragBar(self.childWindow, title, true);
-		self.DragBar:SetAllowsHUDHiding(false, true);
-		self.DragBar.PositionChanged = function(sender, args)
-			self.Log:Debug("DragBar:PositionChanged");
-			self:PositionChanged(sender, args);
-		end
-		self.DragEnable = function(sender, args)
-			if (self.tab ~= nil) then
-				self.tab:SetVisible(true);
-				self.tab.Label:SetVisible(true);
-			end
-		end
-		self.DragDisable = function(sender, args)
-			if (self.tab ~= nil) then
-				self.tab:SetVisible(false);
-				self.tab.Label:SetVisible(false);
-			end
-		end
-	end
 end
 
 function TabbedBarDecorator:Create()
 	self.Log:Debug("Create");
 
 	self.tab = MysticBars.Bars.Decorators.Tab(self.childWindow, self.barSettings);
-	self.tab.PositionChanged = self.PositionChanged;
 	self.tab:SetPosition(self.barSettings.x, self.barSettings.y - Tab.tabSize);
 
+	self.tab.MouseDown = function(sender, args)
+		if (args.Button == Turbine.UI.MouseButton.Left) then
+			self.dragStartX = args.X;
+			self.dragStartY = args.Y;
+			self.dragging = true;
+			self.dragged = false;
+		end
+	end
+	self.tab.MouseMove = function(sender, args)
+		local left, top = self.tab:GetPosition();
+		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+		local settings = settingsService:GetSettings();
+		if (self.dragging) then
+			self.dragged = true;
+			self.tab:SetPosition(left + (args.X - self.dragStartX), top + (args.Y - self.dragStartY));
+		end
+	end
+	self.tab.MouseUp = function(sender, args)
+		if (args.Button == Turbine.UI.MouseButton.Left) then
+			self.dragging = false;
+			if (self.dragged) then
+				local x, y = self.tab:GetPosition();
+				local validX = x;
+				local validY = y;
+				if (x < 0) then
+					x = 0;
+				end
+
+				if (y < 0) then
+					y = 0;
+				end
+				if (x + self.tab:GetWidth() > Turbine.UI.Display.GetWidth()) then
+					x = Turbine.UI.Display.GetWidth() - self.tab:GetWidth();
+				end
+				if (y + self.tab:GetHeight() > Turbine.UI.Display.GetHeight()) then
+					y = Turbine.UI.Display.GetHeight() - self.tab:GetHeight();
+				end
+
+				self.tab:SetPosition(x, y);
+			end
+		end
+	end
 	self.tab.PositionChanged = function(sender, args)
-		local settings = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):GetSettings();
-		--if ( settings.barMode ~= NORMAL_MODE or ( self.childWindow.DragBar ~= nil and self.childWindow.DragBar:IsHUDVisible() == true ) ) then
-		SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barSettings.id,
-			function(barSettings)
+		if (self.dragging ) then
+			SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService):UpdateBarSettings(self.barSettings.id, function(barSettings)
 				local x, y = self.tab:GetPosition();
 
 				barSettings.relationalX = x / DISPLAYWIDTH;
@@ -63,8 +77,15 @@ function TabbedBarDecorator:Create()
 				barSettings.y = math.floor(barSettings.relationalY * DISPLAYHEIGHT) + Tab.tabSize;
 				return barSettings;
 			end);
-		--end
+		end
+		self.childWindow:PositionChanged(sender, args);
 	end
+
+	local title = self.barSettings.barName;
+	if (self.barSettings.barName == nil or self.barSettings.barName == "") then
+		title = "Bar:" .. self.id;
+	end
+
 
 	self.back = Turbine.UI.Window();
 	self.back:SetMouseVisible(true);
@@ -81,10 +102,6 @@ end
 
 function TabbedBarDecorator:NormalModeRefresh(barSettings)
 	self.Log:Debug("NormalModeRefresh");
-
-	if (barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil) then
-		self.DragBar:Refresh();
-	end
 
 	self.back:SetPosition(barSettings.x, barSettings.y);
 
@@ -119,10 +136,6 @@ end
 function TabbedBarDecorator:EditModeRefresh(barSettings)
 	self.Log:Debug("EditModeRefresh");
 
-	if (barSettings.barType ~= EXTENSIONBAR and self.DragBar ~= nil) then
-		self.DragBar:Refresh();
-	end
-
 	self.tab:SetOpacity(1);
 	self.tab:Refresh();
 	self.tab:SetBackColor(Turbine.UI.Color(1, 0.4, 0.6, 0.8));
@@ -141,7 +154,7 @@ function TabbedBarDecorator:SetVisible(visible)
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:GetBarSettings(self.id);
 	if (barSettings == nil) then
-		self.Log:Error("SetVisible barSettings are nil");
+		self.Log:Debug("SetVisible barSettings are nil");
 		return; -- This bar is dead;
 	end
 

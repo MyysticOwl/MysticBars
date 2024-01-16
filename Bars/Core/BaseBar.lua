@@ -16,7 +16,9 @@ function BaseBar:Constructor( barSettings )
 	self.barSettings = barSettings;
 	self.quickslotList = nil;
 
-	if (barSettings.decorator == WINDOW_BAR_DECORATOR) then
+	if (barSettings.barType == EXTENSIONBAR) then
+		self.decorator = MysticBars.Bars.Decorators.NoBarDecorator( self, barSettings );
+	elseif (barSettings.decorator == WINDOW_BAR_DECORATOR) then
 		self.decorator = MysticBars.Bars.Decorators.WindowBarDecorator( self, barSettings );
 	else
 		self.decorator = MysticBars.Bars.Decorators.TabbedBarDecorator( self, barSettings );
@@ -115,11 +117,11 @@ end
 function BaseBar:DetermineVisiblity()
 	self.Log:Debug("DetermineVisiblity");
 
-	-- if ( not self.f12HideBar  ) then --or self.inventoryShowBar ) then
-	-- 	self:SetVisible( true );
-	-- else
-	-- 	self:SetVisible( false );
-	-- end
+	if ( not self.f12HideBar  ) then --or self.inventoryShowBar ) then
+		self:SetVisible( true );
+	else
+		self:SetVisible( false );
+	end
 
 	self:IsSelected();
 end
