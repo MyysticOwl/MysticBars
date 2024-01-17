@@ -8,6 +8,7 @@ function BarServiceTest:Setup()
     SERVICE_CONTAINER:AddService(MysticBars.Services.BarService(), MysticBars.Services.BarService);
     self.barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
     self.settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+    self.settingsService.settings.barMode=QUICKSLOT_MODE;
 end
 
 function BarServiceTest:TearDown()
@@ -48,31 +49,31 @@ end
 
 function BarServiceTest:TestAddExtensionbar()
     self.barService:Add(QUICKSLOTBAR);
-   -- self.settingsService:GetBarSettings(1);
+    self.settingsService:GetBarSettings(1);
 
-    -- self.barService:Add(EXTENSIONBAR, 1, 1);
-    -- local bars = self.barService:GetBars();
-    -- bars[1].extensionBars[1].bar:SetOrientation("Right");
-    -- Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
-    -- Assert.IsTrue(bars[1].extensionBars[1].bar ~= nil, "Bar service can't be constructed");
+    self.barService:AddExtensionBar(self.settingsService:NewBar(), 1, 1);
+    local bars = self.barService:GetBars();
+    bars[1].extensionBars[1].bar:SetOrientation("Right");
+    Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
+    Assert.IsTrue(bars[1].extensionBars[1].bar ~= nil, "Bar service can't be constructed");
 
-    -- self.barService:Add(EXTENSIONBAR, 1, 2);
-    -- local bars = self.barService:GetBars();
-    -- bars[1].extensionBars[2].bar:SetOrientation("Left");
-    -- Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
-    -- Assert.IsTrue(bars[1].extensionBars[2].bar ~= nil, "Bar service can't be constructed");
+    self.barService:AddExtensionBar(self.settingsService:NewBar(), 1, 2);
+    local bars = self.barService:GetBars();
+    bars[1].extensionBars[2].bar:SetOrientation("Left");
+    Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
+    Assert.IsTrue(bars[1].extensionBars[2].bar ~= nil, "Bar service can't be constructed");
 
-    -- self.barService:Add(QUICKSLOTBAR);
-    -- self.barService:Add(EXTENSIONBAR, 2, 1);
-    -- local bars = self.barService:GetBars();
-    -- bars[2].extensionBars[1].bar:SetOrientation("Right");
-    -- Assert.IsTrue(bars[2] ~= nil, "Bar service can't be constructed");
-    -- Assert.IsTrue(bars[2].extensionBars[1].bar ~= nil, "Bar service can't be constructed");
+    local settings, bar = self.barService:Add(QUICKSLOTBAR);
+    self.barService:AddExtensionBar(self.settingsService:NewBar(), settings.id, 1);
 
-   -- self.barService:Remove(1);
-    -- self.barService:Remove(2);
-    -- self.barService:Remove(3);
-    -- self.barService:Remove(4);
+    Assert.IsTrue(bar.extensionBars[1].bar ~= nil, "Bar service can't be constructed");
+    bar.extensionBars[1].bar:SetOrientation("Right");
+    Assert.IsTrue(bar ~= nil, "Bar service can't be constructed");
+
+   self.barService:Remove(1);
+    self.barService:Remove(2);
+    self.barService:Remove(3);
+    self.barService:Remove(4);
 end
 
 function BarServiceTest:TestRemoveQuickslot()
@@ -91,7 +92,7 @@ function BarServiceTest:TestRemoveQuickslotAndExtensions()
     local bars = self.barService:GetBars();
     Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
 
-    self.barService:Add(EXTENSIONBAR, 1, 1);
+    self.barService:AddExtensionBar(self.settingsService:NewBar(), 1, 1);
     local bars = self.barService:GetBars();
     bars[1].extensionBars[1].bar:SetOrientation("Right");
     Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
@@ -102,37 +103,39 @@ function BarServiceTest:TestRemoveQuickslotAndExtensions()
     -- Assert.IsTrue(bars[1].extensionBars[1].bar == nil, "Extensions should be removed on Delete");
 end
 
--- TODO:SE with barService and actual SettingsService.
--- function BarServiceTest:TestRemoveQuickslotAndMultiExtensions()
---     self.barService:Add(QUICKSLOTBAR);
---     self.settingsService:GetBarSettings(1);
---     local bars = self.barService:GetBars();
---     Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
 
---     self.barService:Add(EXTENSIONBAR, 1, 1);
---     local bars = self.barService:GetBars();
---     bars[1].extensionBars[1].bar:SetOrientation("Right");
---     Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
---     Assert.IsTrue(bars[1].extensionBars[1].bar ~= nil, "Bar service can't be constructed");
+function BarServiceTest:TestAddThenRemoveQuickslot()
+    self.barService:AddQuickslotBar(self.settingsService:NewBar());
+    self.settingsService:GetBarSettings(1);
+    Assert.IsTrue(self.barService:GetBars()[1] ~= nil, "Bar service can't be constructed");
 
---     self.barService:Add(EXTENSIONBAR, 1, 2);
---     local bars = self.barService:GetBars();
---     bars[1].extensionBars[1].bar:SetOrientation("Right");
---     Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
---     Assert.IsTrue(bars[1].extensionBars[2].bar ~= nil, "Bar service can't be constructed");
+    self.barService:Remove(1);
+    Assert.IsTrue(self.barService:GetBars()[1] == nil, "Quickbars are removed successfully");
+end
 
---     self.barService:Remove(1);
---     Assert.IsTrue(bars[1] == nil, "Bar service can't be constructed");
---     Assert.IsTrue(bars[1].extensionBars[1].bar == nil, "Extensions should be removed on Delete");
---     Assert.IsTrue(bars[1].extensionBars[2].bar == nil, "Extensions should be removed on Delete");
--- end
+function BarServiceTest:TestAddThenRemoveQuickslotAndExtensions()
+    self.barService:AddQuickslotBar(self.settingsService:NewBar());
+    self.settingsService:GetBarSettings(1);
+    local bars = self.barService:GetBars();
+    Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
+
+    self.barService:AddExtensionBar(self.settingsService:NewBar(), 1, 1);
+    local bars = self.barService:GetBars();
+    bars[1].extensionBars[1].bar:SetOrientation("Right");
+    Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
+    Assert.IsTrue(bars[1].extensionBars[1].bar ~= nil, "Bar service can't be constructed");
+
+    self.barService:Remove(1);
+    Assert.IsTrue(bars[1] == nil, "Bar service can't be constructed");
+    -- Assert.IsTrue(bars[1].extensionBars[1].bar == nil, "Extensions should be removed on Delete");
+end
 
 function BarServiceTest:TestAddInventorybar()
-    self.barService:Add(INVENTORY_BAR, 2);
-    local bars = self.barService:GetBars();
-    Assert.IsTrue(bars[2] ~= nil, "Bar service can't be constructed");
-
     self.barService:Add(INVENTORY_BAR);
     local bars = self.barService:GetBars();
     Assert.IsTrue(bars[1] ~= nil, "Bar service can't be constructed");
+
+    self.barService:Add(INVENTORY_BAR);
+    local bars = self.barService:GetBars();
+    Assert.IsTrue(bars[2] ~= nil, "Bar service can't be constructed");
 end

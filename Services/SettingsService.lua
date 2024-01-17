@@ -227,13 +227,13 @@ function SettingsService:FindBar( name )
 	if ( self.settings.autoCreatedBars ~= nil ) then
 		for key, value in pairs (self.settings.autoCreatedBars) do
 			if ( value.barName == name ) then
-				return value;
+				return key, value;
 			end
 		end
 	end
 	for key, value in pairs (self.settings.bars) do
 		if ( value.barName == name ) then
-			return value;
+			return key, value;
 		end
 	end
 	return nil;

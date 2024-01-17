@@ -37,6 +37,8 @@ If you load it and you don't see errors on the console window, look in the upper
 ************************************
 CHANGE HISTORY
 ************************************
+v4.0.0
+
 v3.2.0
 -Another cleanup expidition. Perfromance of the entire Plugin should be greaetly improved.
 -Added Hover options in the menu's to help identify bars.

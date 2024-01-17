@@ -106,10 +106,10 @@ function WindowBarDecorator:NormalModeRefresh( barSettings )
 		self.mainWindow:SetVisible(barSettings.visible);
 		self.mainWindow:Refresh(barSettings);
 
-		if (barSettings.decorators.window.titleColor) then
+		if (barSettings.decorators.window.titleColor == true) then
 			self.mainWindow.title:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.titleColorA, barSettings.decorators.window.titleColorR, barSettings.decorators.window.titleColorG, barSettings.decorators.window.titleColorB));
 		else
-			self.mainWindow.title:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));
+			self.mainWindow.title:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 0));
 		end
 	
 		if (barSettings.decorators.window.backColor == true) then
@@ -126,7 +126,7 @@ function WindowBarDecorator:EditModeRefresh( barSettings )
 	if (self.mainWindow ~= nil) then
 		self.mainWindow:SetVisible(true);
 
-		if (barSettings.decorators.window.titleColor) then
+		if (barSettings.decorators.window.titleColor == true) then
 			self.mainWindow.title:SetBackColor(Turbine.UI.Color(barSettings.decorators.window.titleColorA, barSettings.decorators.window.titleColorR, barSettings.decorators.window.titleColorG, barSettings.decorators.window.titleColorB));
 		else
 			self.mainWindow.title:SetBackColor(Turbine.UI.Color(0.5, 0, 0, 1));

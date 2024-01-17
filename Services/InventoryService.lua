@@ -62,7 +62,7 @@ function InventoryService:NotifyClients( type, specificItem )
 		local barSettings = settingsService:GetBarSettings( key );
 		local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 
-		if ( barService ~= nil and value ~= nil and value.registered == true ) then
+		if ( barService ~= nil and barSettings ~= nil and value ~= nil and value.registered == true ) then
 			barSettings.quickslotCount = backpack:GetSize();
 
 			local qlist = value.bar:GetQuickslotList();
@@ -93,7 +93,6 @@ function InventoryService:Inventory( barObject, barSettings, type, item )
 			end
 			if ( barSettings.events.inventory.categories ~= nil ) then
 								for key, value in pairs (barSettings.events.inventory.categories) do
-					Turbine.Shell.WriteLine( "key:" .. key .. " item:" .. Turbine.Gameplay.ItemCategory[4] );
 					if ( Turbine.Gameplay.ItemCategory[ key ] == item:GetCategory() ) then
 						barObject.bar:GetQuickslotList():AddItem( item );
 					end
@@ -101,7 +100,6 @@ function InventoryService:Inventory( barObject, barSettings, type, item )
 			end
 			if ( barSettings.events.inventory.nameFilters ~= nil ) then
 				for key, value in pairs (barSettings.events.inventory.nameFilters) do
-					Turbine.Shell.WriteLine( "key:" .. key .. " item:" .. Turbine.Gameplay.ItemCategory[4] );
 					if ( string.find( string.lower(item:GetName()), string.lower(key), 1, true ) ~= nil ) then
 						barObject.bar:GetQuickslotList():AddItem( item );
 					end

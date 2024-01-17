@@ -70,10 +70,15 @@ function TemplateService:CreateBar(override, name, rows, columns, x, y, barType,
 	local barService = SERVICE_CONTAINER:GetService(MysticBars.Services.BarService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
-	local barSettings = settingsService:FindBar(name);
+	local key, barSettings = settingsService:FindBar(name);
 	if ( barSettings == nil or override == true ) then
-		
+
 		barSettings = settingsService:NewBar();
+
+		-- User asked to recreate the bar, use previous ID
+		if (override) then
+			barSettings.id = key;
+		end
 
 		self:RegisterAutoBar(name, barSettings.id);
 

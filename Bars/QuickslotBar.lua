@@ -147,6 +147,7 @@ function QuickslotBar:DetermineVisiblity(eventValue, force)
 		if (self.f12HideBar) then
 			visible = false;
 		end
+
 		self:SetBarVisible(visible);
 
 		self:IsSelected();

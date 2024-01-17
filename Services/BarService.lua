@@ -31,20 +31,15 @@ function BarService:Add( barType )
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local barSettings = settingsService:NewBar();
 
-	local bar = nil;
-
 	if (barType == QUICKSLOTBAR) then
 		barSettings.barType = QUICKSLOTBAR;
-		bar = self:AddQuickslotBar(barSettings);
-	elseif (barType == EXTENSIONBAR) then
-		barSettings.barType = EXTENSIONBAR;
-		bar = self:AddExtensionBar(barSettings);
+		return self:AddQuickslotBar(barSettings);
 	elseif (barType == INVENTORY_BAR) then
 		barSettings.barType = INVENTORY_BAR;
-		bar = self:AddInventoryBar(barSettings);
+		return self:AddInventoryBar(barSettings);
 	end
 
-	return barSettings, bar;
+	return nil;
 end
 
 function BarService:AddQuickslotBar( barSettings )
@@ -193,6 +188,7 @@ function BarService:Construct( storedBars, second )
 			if ( thebar ~= nil ) then
 				thebar:RegisterBarExtension( bar, value.connectionQuickslotID, key );
 				RegisteredBars[tonumber(key)] = bar;
+				thebar:UpdateBarExtensions();
 			else
 				settingsService:ClearBarSettings( key);
 				Turbine.Shell.WriteLine( "We found extension bar without a main bar. Deleting. Thank the community for the fix." );
