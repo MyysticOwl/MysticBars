@@ -3,6 +3,7 @@ import "MysticBars.Tests.Services";
 
 import "MysticBars.Tests.BarServiceTest";
 import "MysticBars.Tests.BarTriggersTest";
+import "MysticBars.Tests.ExtensionbarTest";
 import "MysticBars.Tests.LoggingDisabledTest";
 import "MysticBars.Tests.QuickslotbarTest";
 

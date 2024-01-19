@@ -33,8 +33,6 @@ function TabbedBarDecorator:Create()
 	end
 	self.tab.MouseMove = function(sender, args)
 		local left, top = self.tab:GetPosition();
-		local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-		local settings = settingsService:GetSettings();
 		if (self.dragging) then
 			self.dragged = true;
 			self.tab:SetPosition(left + (args.X - self.dragStartX), top + (args.Y - self.dragStartY));

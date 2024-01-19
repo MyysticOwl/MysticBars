@@ -94,7 +94,6 @@ function QuickslotBar:RegisterBarExtension(extBar, index, extensionBarID)
 		self.extensionBars[self.nextExtension].cycleCount = 0;
 		self.extensionBars[self.nextExtension].setup = false;
 		self.nextExtension = self.nextExtension + 1;
-		self.Log:Debug("RegisterBarExtension setup -------------------------------------");
 		self.quickslotList:SetupExtensionSlot(self.extensionBars, index);
 	else
 		Turbine.Shell.WriteLine("You can not add extensions to an extension slot. Please choose a green bar.");
