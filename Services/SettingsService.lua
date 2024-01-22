@@ -18,10 +18,14 @@ function SettingsService:Constructor()
 	self.BAR = 3;
 	self.working = false;
 
+	local migrator = MysticBars.Services.Migrations.Migration326to330();
+	self.settings = migrator:MigrateSettings();
+
+	self:LoadCharacter();
 	self:LoadSettings();
 
 	local DISPLAYWIDTH = Turbine.UI.Display.GetWidth();
-   	local DISPLAYHEIGHT = Turbine.UI.Display.GetHeight();
+	local DISPLAYHEIGHT = Turbine.UI.Display.GetHeight();
 
 	if ( self.settings.bars ~= nil ) then
 		for bKey, bValue in pairs (self.settings.bars) do
@@ -37,38 +41,41 @@ function SettingsService:Constructor()
 	if ( self.settings.barMode ~= NORMAL_MODE ) then
 		self.settings.barMode = NORMAL_MODE;
 	end
-
 end
 
 function SettingsService:GetSettings()
-	self.Log:Debug("GetSettings");
+	if (self.settings.buffs == nil) then
+		self.settings.buffs = {};
+	end
 
 	return self.settings;
 end
 
-function SettingsService:LoadSettings( profile )
+function SettingsService:LoadCharacter()
+	local characters = Turbine.PluginData.Load( Turbine.DataScope.Server, "MysticBars_Characters", function (success, error)end);
+
+	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
+	local playersName = playerService.player:GetName();
+
+	characters[playersName] = true;
+
+	Turbine.PluginData.Save( Turbine.DataScope.Server, "MysticBars_Characters", characters, function (success, error)end);
+end
+
+function SettingsService:LoadSettings()
 	self.Log:Debug("LoadSettings");
 
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 
-	if ( profile == nil ) then
-		self.profiles = Turbine.PluginData.Load( Turbine.DataScope.Server, "TonicBarSettings", function(args) end);
-	else
-		self.profiles = profile;
-	end
-	if ( self.profiles == nil ) then
-		self.profiles = { };
-	end
-
-	local playersName = playerService.player:GetName();
-	local playerSettings = self.profiles[ playersName ];
-	if ( playerSettings == nil ) then
-		self.profiles[ playersName ] = { };
-		playerSettings = self.profiles[ playersName ];
+	if (self.settings == nil) then
+		self.settings = Turbine.PluginData.Load( Turbine.DataScope.Server, "MysticBars_" .. playerService.player:GetName(), function(args) end);
+		if ( self.settings == nil ) then
+			self.settings = { };
+		end
 	end
 
 	local usData = true;
-	for key, value in pairs(playerSettings) do
+	for key, value in pairs(self.settings) do
 		if (type( key ) ~= "number" ) then
 			usData = false;
 			break;
@@ -78,10 +85,9 @@ function SettingsService:LoadSettings( profile )
 	local language = Turbine.Engine.GetLanguage();
 	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
 	if ( locale == "de" or locale == "fr" or not usData ) then
-		self.settings = { };
-		MysticBars.Utils.DeepcopyLoadConvertInts( playerSettings, self.settings );
-	else
-		self.settings = playerSettings;
+		local temp = {};
+		MysticBars.Utils.DeepcopyLoadConvertInts( self.settings, temp );
+		self.settings = temp;
 	end
 
 	self.settings.version = THEVERSION;
@@ -105,7 +111,7 @@ function SettingsService:LoadSettings( profile )
 	return self.settings;
 end
 
-function SettingsService:SaveSettings( profile )
+function SettingsService:SaveSettings()
 	self.Log:Debug("SaveSettings");
 
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
@@ -115,93 +121,33 @@ function SettingsService:SaveSettings( profile )
 
 	if ( locale == "de" or locale == "fr" or locale == "ru" ) then
 		local temp = { };
-		if ( profile == nil ) then
-			MysticBars.Utils.DeepcopySaveConvertInts( self.settings, temp );
-			self.profiles[ playerService.player:GetName() ] = temp;
-		else
-			MysticBars.Utils.DeepcopySaveConvertInts( profile, temp );
-			Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", temp, function (success, error)
-				if (not success) then
-					Turbine.Shell.WriteLine("Error Saving... " .. error);
-				end
-			end);
-		end
-	else
-		if ( profile == nil ) then
-			self.profiles[ playerService.player:GetName() ] = self.settings;
-		else
-			Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", profile, function (success, error)
-				if (not success) then
-					Turbine.Shell.WriteLine("Error Saving... " .. error);
-				end
-			end);
-		end
+		MysticBars.Utils.DeepcopySaveConvertInts( self.settings, temp );
+		self.settings = temp;
 	end
-	if ( profile == nil ) then
-		Turbine.PluginData.Save( Turbine.DataScope.Server, "TonicBarSettings", self.profiles, function (success, error)
-			if (not success) then
-				Turbine.Shell.WriteLine("Error Saving... " .. error);
-			end
-		end);
-	end
+	Turbine.PluginData.Save( Turbine.DataScope.Server, "MysticBars_" .. playerService.player:GetName(), self.settings, function (success, error)
+		if (not success) then
+			Turbine.Shell.WriteLine("Error Saving... " .. error);
+		end
+	end);
 end
 
 function SettingsService:LoadBuffs()
 	self.Log:Debug("LoadBuffs");
 
-	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
+	SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService):GetMenu():Refresh(true);
 
-	self.buffProfiles = Turbine.PluginData.Load( Turbine.DataScope.Server, "MysticBarsBuffs", function(args) end);
-	if ( self.buffProfiles == nil ) then
-		self.buffProfiles = { };
-	end
-
-	local playersName = playerService.player:GetName();
-	local playerBuffs = self.buffProfiles[ playersName ];
-	if ( playerBuffs == nil ) then
-		self.buffProfiles[ playersName ] = { };
-		playerBuffs = self.buffProfiles[ playersName ];
-	end
-
-	local language = Turbine.Engine.GetLanguage();
-	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
-	if ( locale == "de" or locale == "fr" ) then
-		self.buffs = { };
-		MysticBars.Utils.DeepcopyLoadConvertInts( playerBuffs, self.buffs );
-	else
-		self.buffs = playerBuffs;
-	end
-
-	return self.buffs;
+	return self.settings.buffs;
 end
 
 function SettingsService:SaveBuffs(buffs)
 	self.Log:Debug("SaveBuffs");
 
-	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
-	local playersName = playerService.player:GetName();
+	self.settings.buffs = buffs;
+	self:SaveSettings();
 
-	self.buffProfiles[ playersName ] = buffs;
+	SERVICE_CONTAINER:GetService(MysticBars.Services.MenuService):GetMenu():Refresh(true);
 
-	local language = Turbine.Engine.GetLanguage();
-	local locale = (language == Turbine.Language.English and "en" or (language == Turbine.Language.French and "fr" or (language == Turbine.Language.Russian and "ru" or "de" )));
-
-	if ( locale == "de" or locale == "fr" or locale == "ru" ) then
-		local temp = { };
-		MysticBars.Utils.DeepcopySaveConvertInts( self.buffProfiles, temp );
-		Turbine.PluginData.Save( Turbine.DataScope.Server, "MysticBarsBuffs", temp, function (success, error)
-			if (not success) then
-				Turbine.Shell.WriteLine("Error Saving... " .. error);
-			end
-		end);
-		return self.buffProfiles;
-	end
-	Turbine.PluginData.Save( Turbine.DataScope.Server, "MysticBarsBuffs", self.buffProfiles, function (success, error)
-		if (not success) then
-			Turbine.Shell.WriteLine("Error Saving... " .. error);
-		end
-	end);
-	return self.buffProfiles;
+	return self.settings.buffs;
 end
 
 function SettingsService:GetBars( localBarType )

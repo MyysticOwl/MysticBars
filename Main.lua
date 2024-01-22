@@ -13,6 +13,7 @@ import "MysticBars";
 DISPLAYWIDTH = Turbine.UI.Display.GetWidth();
 DISPLAYHEIGHT = Turbine.UI.Display.GetHeight();
 
+
 SERVICE_CONTAINER = MysticBars.Utils.ServiceContainer();
 SERVICE_CONTAINER:AddService(MysticBars.Services.PlayerService(), MysticBars.Services.PlayerService);
 SERVICE_CONTAINER:AddService(MysticBars.Services.SettingsService(), MysticBars.Services.SettingsService);
@@ -31,6 +32,8 @@ SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService):Build();
 SERVICE_CONTAINER:GetService(MysticBars.Services.InventoryService):NotifyClients();
 
 MysticBars.Bars.Templates.BarTemplates():CheckTemplates();
+
+local bag = MysticBars.Bag.ManagedBagBar();
 
 Turbine.Shell.WriteLine( "----------------------------" );
 Turbine.Shell.WriteLine( "MysticBars " .. THEVERSION .. " from MyysticOwl" );

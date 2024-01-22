@@ -6,11 +6,10 @@
 
 ClassBuffPanel = class(MysticBars.Menus.Controls.BasePanel);
 
-function ClassBuffPanel:Constructor( parent, barId, barValue, buffs )
+function ClassBuffPanel:Constructor( parent, barId, barValue )
 	MysticBars.Menus.Controls.BasePanel.Constructor(self, barId, barValue);
 
 	self.parentNode = parent;
-	self.buffs = buffs;
 
 	self:SetHeight(240);
 
@@ -72,7 +71,6 @@ function ClassBuffPanel:Constructor( parent, barId, barValue, buffs )
 				end
 				return barSettings;
 			end);
-			
 		end
 		self.utils:AddLabelBox( self.panelBackground, L["10 = Balanced;Lower numbers = Damage;Higher numbers Healing:"], 500, selectionHeight, nil, 30, 80 );
 
@@ -99,7 +97,7 @@ function ClassBuffPanel:Constructor( parent, barId, barValue, buffs )
 				end
 				return barSettings;
 			end);
-			
+
 		end
 		self.utils:AddLabelBox( self.panelBackground, L["25 = Balanced;Lower numbers = Aft;Higher numbers Fore:"], 500, selectionHeight, nil, 30, 80 );
 
@@ -139,11 +137,8 @@ function ClassBuffPanel:Constructor( parent, barId, barValue, buffs )
 end
 
 function ClassBuffPanel:DisplaySettings()
-	local eventService = SERVICE_CONTAINER:GetService(MysticBars.Services.EventService);
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local localBarSettings = settingsService:GetBarSettings( self.barId );
-	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
-	local playerClass = playerService.playerClass;
 
 	if ( localBarSettings.events == nil ) then
 		localBarSettings.events = { };
@@ -151,8 +146,13 @@ function ClassBuffPanel:DisplaySettings()
 
 	self.buffList:Clear();
 
-	for key, value in opairs( self.buffs ) do
-		self.buffList:AddItem( key, key );
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();
+
+	for key, value in opairs( settings.buffs ) do
+		if (key ~= nil) then
+			self.buffList:AddItem( key, key );
+		end
 	end
 
 	self.buffList:SetSelections( localBarSettings.events.effects );

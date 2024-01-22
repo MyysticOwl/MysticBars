@@ -115,22 +115,24 @@ function GeneralMenuPanel:RefreshComboBox()
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 
 	self.profileList:Clear();
-	for key, value in opairs (settingsService:GetProfiles() ) do
-		local found = false;
-		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
-		if ( playerService:GetName() == key ) then
-			found = true;
-		end
-		for i = 1, self.profileList:GetItemCount() do
-			if ( self.profileList:GetItem(i) == key ) then
-				found = true;
-			end
-		end
-		if ( found == false ) then
-			self.profileList:AddItem( key, key );
-		end
-	end
-	self:RefreshMyProfileBars();
+
+	--TODO:SE FIX THIS
+	-- for key, value in opairs (settingsService:GetProfiles() ) do
+	-- 	local found = false;
+	-- 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
+	-- 	if ( playerService:GetName() == key ) then
+	-- 		found = true;
+	-- 	end
+	-- 	for i = 1, self.profileList:GetItemCount() do
+	-- 		if ( self.profileList:GetItem(i) == key ) then
+	-- 			found = true;
+	-- 		end
+	-- 	end
+	-- 	if ( found == false ) then
+	-- 		self.profileList:AddItem( key, key );
+	-- 	end
+	-- end
+	-- self:RefreshMyProfileBars();
 end
 
 function GeneralMenuPanel:RefreshTheirProfileBars()
@@ -138,6 +140,7 @@ function GeneralMenuPanel:RefreshTheirProfileBars()
 
 	self.theirBarList:Clear();
 	self.theirBarList:AddItem( "", "" );
+	
 	for key, value in opairs (settingsService:GetProfileBars(self.profileList:GetSelection()) ) do
 		local found = false;
 		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
@@ -164,6 +167,7 @@ function GeneralMenuPanel:RefreshMyProfileBars()
 
 	self.myBarList:Clear();
 	self.myBarList:AddItem( "", "" );
+	
 	for key, value in opairs (settingsService:GetBars() ) do
 		local found = false;
 		local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);

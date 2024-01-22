@@ -59,18 +59,13 @@ end
 function EventService:StartManager()
 	self.Log:Debug("StartManager");
 
-	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
-	if (self.buffs == nil) then
-		self.buffs = settingsService:LoadBuffs();
-		if (self.buffs == nil) then
-			self.buffs = {};
-		end
-	end
-
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local playerClass = playerService.playerClass;
 
-	for key, value in pairs(self.buffs) do
+	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
+	local settings = settingsService:GetSettings();
+
+	for key, value in pairs(settings.buffs) do
 		self:RegisterEffect(key, playerClass);
 	end
 
@@ -156,12 +151,13 @@ function EventService:ValidateBuff(buff)
 	local settingsService = SERVICE_CONTAINER:GetService(MysticBars.Services.SettingsService);
 	local playerService = SERVICE_CONTAINER:GetService(MysticBars.Services.PlayerService);
 	local playerClass = playerService.playerClass;
+	local settings = settingsService:GetSettings();
 
 	self:RegisterEffect(buff:GetName(), playerClass);
 
-	if (self.buffs[buff:GetName()] == nil) then
-		self.buffs[buff:GetName()] = true;
-		settingsService:SaveBuffs(self.buffs);
+	if (settings.buffs[buff:GetName()] == nil) then
+		settings.buffs[buff:GetName()] = true;
+		settingsService:SaveBuffs(settings.buffs);
 	end
 end
 

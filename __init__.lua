@@ -10,5 +10,6 @@ import "MysticBars.ShortcutLooksupData"
 import "MysticBars.Utils";
 import "MysticBars.Services";
 import "MysticBars.Bars";
+import "MysticBars.Bag";
 import "MysticBars.Menus";
 import "MysticBars.Tests";

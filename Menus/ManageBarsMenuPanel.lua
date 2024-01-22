@@ -8,7 +8,7 @@ ManageBarsMenuPanel = class();
 
 ManageBarsMenuPanel.utils = MysticBars.Menus.Core.UI.MenuUtils();
 
-function ManageBarsMenuPanel:Draw(parentNode, barId, barValue, buffs)
+function ManageBarsMenuPanel:Draw(parentNode, barId, barValue)
 
 	-- -----------------------   DECORATOR  0000000000000000000000000000
 	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.DecoratorPanel(barId, barValue));
@@ -20,5 +20,5 @@ function ManageBarsMenuPanel:Draw(parentNode, barId, barValue, buffs)
 	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.TriggersPanel(parentNode, barId, barValue));
 
 	-- -----------------------   CLASS BUFF TRIGGERS  0000000000000000000000000000
-	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.ClassBuffPanel(parentNode, barId, barValue, buffs));
+	parentNode:GetChildNodes():Add(MysticBars.Menus.Controls.ClassBuffPanel(parentNode, barId, barValue));
 end
